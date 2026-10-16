@@ -242,3 +242,4 @@ details p { color: var(--muted); margin-top: 10px; }
   background: var(--accent); color: #fff;
 }
 .offer-banner a { color: #fff; text-decoration: underline; }
+.nav-links a.nav-demo { color: var(--accent); font-weight: 600; }

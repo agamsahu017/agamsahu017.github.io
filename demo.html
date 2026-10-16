@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Chatbot Demo | Agam Sahu</title>
+  <meta name="description" content="Try a live demo of an AI customer-support chatbot for coaching institutes, clinics and restaurants — answers in English & Hinglish, captures leads 24x7." />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231d4ed8'/><text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='30' fill='white'>AS</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="demo.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo"><span class="logo-badge">AS</span> Agam Sahu</a>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-outline btn-sm" href="index.html">← Back to site</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section demo-page">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Live Demo</span>
+        <h2>AI Chatbot for your business 🤖</h2>
+        <p>Pick a sample business and chat like a customer would. Ask about fees, timings, location, or try booking. English or Hinglish both work.</p>
+      </div>
+
+      <div class="biz-tabs" role="tablist">
+        <button class="biz-tab active" data-biz="coaching">🎓 Coaching Institute</button>
+        <button class="biz-tab" data-biz="clinic">🩺 Clinic</button>
+        <button class="biz-tab" data-biz="restaurant">🍽️ Restaurant / Café</button>
+      </div>
+
+      <div class="demo-grid">
+        <!-- CHAT -->
+        <div class="chat">
+          <div class="chat-head">
+            <div class="chat-avatar" id="bizAvatar">🎓</div>
+            <div>
+              <div class="chat-name" id="bizName">Sample Business</div>
+              <div class="chat-status"><span class="dot"></span> AI Assistant · online 24×7</div>
+            </div>
+          </div>
+          <div class="chat-body" id="chatBody" aria-live="polite"></div>
+          <div class="chips-row" id="quickReplies"></div>
+          <form class="chat-input" id="chatForm" autocomplete="off">
+            <input id="chatInput" type="text" placeholder="Type a message… e.g. fees kitni hai?" aria-label="Message" />
+            <button type="submit" class="send-btn" aria-label="Send">➤</button>
+          </form>
+        </div>
+
+        <!-- OWNER VIEW -->
+        <aside class="owner">
+          <div class="card">
+            <h3>📋 What the owner sees</h3>
+            <p class="muted">Every enquiry the bot captures lands here (and on the owner's WhatsApp / email in the real version).</p>
+            <div id="leadList" class="lead-list"><div class="lead-empty">No leads yet. Try booking in the chat →</div></div>
+          </div>
+          <div class="card">
+            <h3>✨ In the real version</h3>
+            <ul class="ticks">
+              <li>Trained on <b>your</b> fees, timings, FAQs &amp; documents</li>
+              <li>Works on your website <b>and WhatsApp</b></li>
+              <li>Understands any question, not just keywords</li>
+              <li>Sends leads to WhatsApp / Google Sheet / CRM</li>
+              <li>Automatic reminders &amp; follow-ups</li>
+            </ul>
+            <a class="btn btn-wa btn-block" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20tried%20the%20chatbot%20demo.%20I%20want%20one%20for%20my%20business." target="_blank" rel="noopener">💬 Get this for my business</a>
+          </div>
+          <p class="demo-note">This is a demo with sample businesses and pre-set answers. No data is stored or sent anywhere.</p>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">© <span id="year"></span> Agam Sahu · Full Stack &amp; AI Developer · Delhi NCR &amp; Lucknow</div>
+  </footer>
+
+  <script src="demo.js"></script>
+</body>
+</html>
