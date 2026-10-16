@@ -243,3 +243,11 @@ details p { color: var(--muted); margin-top: 10px; }
 }
 .offer-banner a { color: #fff; text-decoration: underline; }
 .nav-links a.nav-demo { color: var(--accent); font-weight: 600; }
+
+/* BRAND */
+.logo-accent { color: var(--accent); }
+.founder-tag {
+  position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+  background: var(--text); color: var(--bg); padding: 6px 16px; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 600; white-space: nowrap; box-shadow: var(--shadow);
+}
