@@ -1,9 +1,12 @@
-# Agam Sahu – Portfolio Website
+# Kodivo – Company Website
 
 Static site (HTML/CSS/JS, no build step). Open `index.html` in a browser to preview.
 
 ## Edit
-- Prices, services, syllabus, projects → `index.html`
+- Services, industries, founder → `index.html`
+- Mentoring / batches → `academy.html`
+- AI chatbot demo → `demo.html` + `demo.js`
+- Privacy policy → `privacy.html`
 - Colors → top of `style.css` (`:root` variables)
 - Photo → replace `assets/agam.jpg` (square photo, plain background works best)
 

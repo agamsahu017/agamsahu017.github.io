@@ -251,3 +251,35 @@ details p { color: var(--muted); margin-top: 10px; }
   background: var(--text); color: var(--bg); padding: 6px 16px; border-radius: 999px;
   font-size: 0.85rem; font-weight: 600; white-space: nowrap; box-shadow: var(--shadow);
 }
+
+/* KODIVO */
+.logo-sub { font-weight: 500; color: var(--muted); font-size: 0.9rem; }
+.muted { color: var(--muted); }
+.mini-services { margin-top: 24px; }
+.mini {
+  display: flex; flex-direction: column; gap: 4px; padding: 16px 20px; border-radius: 14px;
+  background: var(--bg-alt); border: 1px solid var(--border);
+}
+.mini span { color: var(--muted); font-size: 0.88rem; }
+.process { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+.process li { display: flex; flex-direction: column; gap: 2px; color: var(--muted); font-size: 0.9rem; }
+.process li b { color: var(--text); font-size: 1rem; }
+.process span {
+  width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: #fff; font-weight: 700;
+}
+.academy-inner {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  padding: 36px; border-radius: var(--radius); border: 2px solid var(--primary); background: var(--surface);
+}
+.academy-inner p { color: var(--muted); max-width: 620px; }
+.socials-inline { display: flex; gap: 18px; margin-top: 6px; font-weight: 600; }
+.footer a { color: var(--muted); text-decoration: underline; }
+.legal h1 { font-size: 2rem; margin-bottom: 4px; }
+.legal h2 { font-size: 1.25rem; margin: 28px 0 8px; }
+.legal p, .legal li { color: var(--muted); }
+.legal ul { padding-left: 20px; display: grid; gap: 6px; }
+@media (max-width: 720px) {
+  .process { grid-template-columns: 1fr 1fr; }
+  .academy-inner { padding: 24px; }
+}
