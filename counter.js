@@ -3,7 +3,7 @@
 // To stop counting your own visits, open any page once with ?notrack
 // (and ?track to undo).
 (function () {
-  const COUNTER_URL = ""; // set after deploying the Worker, e.g. "https://kodivo-counter.<you>.workers.dev"
+  const COUNTER_URL = "https://kodivo-counter.agamsahu017.workers.dev";
   if (!COUNTER_URL) return;
 
   try {
