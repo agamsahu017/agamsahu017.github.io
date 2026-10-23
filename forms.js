@@ -50,6 +50,7 @@
       data.kind = kind;
       data.consent = form.querySelector('[name="consent"]').checked;
       data.page = location.pathname;
+      try { data.ref = sessionStorage.getItem("kodivo-ref") || undefined; } catch (e) {}
 
       if (!data.name || data.name.trim().length < 2) return show(t("name"), true);
       if (!normalizePhone(data.phone)) return show(t("phone"), true);
