@@ -53,7 +53,7 @@
           <p class="session-sub">📅 Date and joining link are shared on WhatsApp after you register.</p>
         </div>
 
-        <form class="lead-form" data-lead="session" novalidate>
+        <form class="lead-form" data-lead="session" novalidate onsubmit="event.preventDefault()">
           <h3 class="form-title">🎓 Register for free</h3>
           <div class="form-grid">
             <div class="field"><label for="s-name">Your name</label><input id="s-name" name="name" type="text" maxlength="80" autocomplete="name" required /></div>
