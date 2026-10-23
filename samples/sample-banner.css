@@ -1,0 +1,6 @@
+/* Banner shown on every sample website so nobody mistakes it for a real business. */
+.sample-banner {
+  position: relative; z-index: 50; text-align: center; padding: 10px 16px;
+  background: #111827; color: #f9fafb; font: 500 14px/1.5 "Poppins", system-ui, sans-serif;
+}
+.sample-banner a { color: #fbbf24; font-weight: 700; text-decoration: underline; margin-left: 6px; }

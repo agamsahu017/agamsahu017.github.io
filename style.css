@@ -292,3 +292,10 @@ details p { color: var(--muted); margin-top: 10px; }
 }
 .lang-btn:hover { background: var(--primary); color: #fff; }
 :root[lang="hi"] body { line-height: 1.75; }
+
+/* OUR WORK */
+.work-card { padding: 0; overflow: hidden; color: var(--text); }
+.work-card img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-bottom: 1px solid var(--border); }
+.work-card h3, .work-card p, .work-card .work-link { padding: 0 22px; }
+.work-card h3 { margin-top: 18px; }
+.work-card .work-link { display: block; margin: 12px 0 20px; color: var(--primary); font-weight: 600; }

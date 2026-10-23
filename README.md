@@ -6,6 +6,7 @@ Static site (HTML/CSS/JS, no build step). Open `index.html` in a browser to prev
 - Services, industries, founder → `index.html`
 - Mentoring / batches → `academy.html`
 - AI chatbot demo → `demo.html` + `demo.js`
+- Sample client websites → `samples/<name>/index.html` (thumbnails in `assets/samples/`)
 - Privacy policy → `privacy.html`
 - Hindi translations + language button → `i18n.js` (if you change English text, update the matching key there)
 - Colors → top of `style.css` (`:root` variables)

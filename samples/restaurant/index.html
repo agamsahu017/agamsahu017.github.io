@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zaika House Café (Sample Website by Kodivo)</title>
+  <meta name="description" content="Sample restaurant website designed by Kodivo. Fictional business for demonstration." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../sample-banner.css" />
+  <style>
+    :root { --bg: #1a0f0d; --panel: #261512; --gold: #e9b44c; --gold-2: #c98a1e; --cream: #f8ead1; --muted: #c8b39a; --line: #3d2520; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Poppins", system-ui, sans-serif; background: var(--bg); color: var(--cream); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1100px, 100% - 32px); margin-inline: auto; }
+    .serif { font-family: "Playfair Display", Georgia, serif; }
+    header { position: sticky; top: 0; z-index: 20; background: rgba(26,15,13,.9); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+    .bar { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 12px; }
+    .logo { font-size: 1.5rem; font-weight: 800; color: var(--gold); }
+    nav { display: flex; gap: 24px; color: var(--muted); font-weight: 500; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border-radius: 999px; font-weight: 600; }
+    .btn.gold { background: linear-gradient(135deg, var(--gold), var(--gold-2)); color: var(--bg); }
+    .btn.line { border: 1px solid var(--gold); color: var(--gold); }
+    .hero { min-height: 560px; display: grid; place-items: center; text-align: center; padding: 70px 0;
+      background: radial-gradient(circle at 50% 35%, rgba(233,180,76,.22), transparent 55%), radial-gradient(circle at 15% 85%, rgba(176,48,36,.35), transparent 45%), var(--bg); }
+    .hero .em { font-size: 4.5rem; }
+    .hero small { color: var(--gold); letter-spacing: .3em; text-transform: uppercase; font-weight: 600; }
+    h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 1.1; margin: 12px 0; }
+    .hero p { color: var(--muted); max-width: 560px; margin: 0 auto; }
+    .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+    section { padding: 70px 0; }
+    .head { text-align: center; margin-bottom: 36px; }
+    .head small { color: var(--gold); letter-spacing: .25em; text-transform: uppercase; font-weight: 600; font-size: .8rem; }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin-top: 4px; }
+    .specials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .dish { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
+    .dish .pic { height: 170px; display: grid; place-items: center; font-size: 5rem; }
+    .p1 { background: radial-gradient(circle, #8a3b12, #3b160b); } .p2 { background: radial-gradient(circle, #6b4a12, #2e1e08); } .p3 { background: radial-gradient(circle, #7a1f2b, #2d0b10); }
+    .dish .body { padding: 20px; }
+    .dish h3 { font-size: 1.3rem; }
+    .dish p { color: var(--muted); font-size: .9rem; }
+    .dish .price { color: var(--gold); font-weight: 600; margin-top: 8px; }
+    .menu { display: grid; grid-template-columns: 1fr 1fr; gap: 30px 48px; }
+    .menu h3 { color: var(--gold); border-bottom: 1px solid var(--line); padding-bottom: 8px; margin-bottom: 8px; font-size: 1.3rem; }
+    .item { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px dotted var(--line); }
+    .item span:last-child { color: var(--gold); font-weight: 600; white-space: nowrap; }
+    .panel { background: var(--panel); }
+    .info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center; }
+    .info div { border: 1px solid var(--line); border-radius: 20px; padding: 26px; }
+    .info b { display: block; color: var(--gold); font-size: 1.1rem; margin-bottom: 4px; }
+    .info span { color: var(--muted); }
+    .reserve { border: 1px solid var(--gold); border-radius: 28px; padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center;
+      background: linear-gradient(135deg, rgba(233,180,76,.12), transparent); }
+    form { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+    input, select { font: inherit; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--cream); width: 100%; }
+    form .btn { grid-column: 1 / -1; }
+    .quote { text-align: center; max-width: 700px; margin: 0 auto; }
+    .quote p { font-size: 1.3rem; font-style: italic; }
+    .quote span { color: var(--muted); display: block; margin-top: 10px; }
+    footer { border-top: 1px solid var(--line); padding: 28px 0; text-align: center; color: var(--muted); font-size: .9rem; }
+    @media (max-width: 860px) {
+      nav { display: none; }
+      .specials, .info, .menu, .reserve { grid-template-columns: 1fr; }
+      form { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sample-banner">🛠️ <b>Sample website by Kodivo.</b> Fictional café for demo. <a href="https://wa.me/919235266579?text=Hi%20Kodivo%2C%20I%20want%20a%20restaurant%20website%20like%20your%20sample." target="_blank" rel="noopener">Get a website like this →</a></div>
+
+  <header>
+    <div class="wrap bar">
+      <a href="#" class="logo serif">Zaika House</a>
+      <nav><a href="#specials">Specials</a><a href="#menu">Menu</a><a href="#visit">Visit</a><a href="#reserve">Reserve</a></nav>
+      <a class="btn gold" href="#reserve">Reserve a Table</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="em">🍛</div>
+      <small>Awadhi · North Indian · Café</small>
+      <h1 class="serif">Royal Awadhi flavours,<br />served with love.</h1>
+      <p>Slow-cooked biryani, melt-in-the-mouth kebabs and kulhad chai, in a warm space for family dinners and evenings with friends.</p>
+      <div class="cta">
+        <a class="btn gold" href="#reserve">🍽️ Reserve a Table</a>
+        <a class="btn line" href="#menu">View Menu</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="specials">
+    <div class="wrap">
+      <div class="head"><small>Chef's Specials</small><h2 class="serif">Most loved dishes</h2></div>
+      <div class="specials">
+        <div class="dish"><div class="pic p1">🍛</div><div class="body"><h3 class="serif">Awadhi Dum Biryani</h3><p>Fragrant rice and tender meat, slow-cooked in a sealed pot.</p><div class="price">₹299</div></div></div>
+        <div class="dish"><div class="pic p2">🍢</div><div class="body"><h3 class="serif">Galouti Kebab Platter</h3><p>Six melt-in-the-mouth kebabs with ulte tawe ka paratha.</p><div class="price">₹249</div></div></div>
+        <div class="dish"><div class="pic p3">☕</div><div class="body"><h3 class="serif">Kulhad Chai &amp; Bun Maska</h3><p>Our evening favourite, best enjoyed on a rainy day.</p><div class="price">₹89</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="panel">
+    <div class="wrap">
+      <div class="head"><small>Menu</small><h2 class="serif">Something for everyone</h2></div>
+      <div class="menu">
+        <div>
+          <h3 class="serif">Starters</h3>
+          <div class="item"><span>Paneer Tikka</span><span>₹229</span></div>
+          <div class="item"><span>Galouti Kebab (6 pcs)</span><span>₹249</span></div>
+          <div class="item"><span>Crispy Corn</span><span>₹179</span></div>
+        </div>
+        <div>
+          <h3 class="serif">Main Course</h3>
+          <div class="item"><span>Awadhi Dum Biryani</span><span>₹299</span></div>
+          <div class="item"><span>Dal Makhani</span><span>₹219</span></div>
+          <div class="item"><span>Butter Naan</span><span>₹49</span></div>
+        </div>
+        <div>
+          <h3 class="serif">Desserts</h3>
+          <div class="item"><span>Shahi Tukda</span><span>₹149</span></div>
+          <div class="item"><span>Kulfi Falooda</span><span>₹129</span></div>
+        </div>
+        <div>
+          <h3 class="serif">Beverages</h3>
+          <div class="item"><span>Kulhad Chai</span><span>₹49</span></div>
+          <div class="item"><span>Cold Coffee</span><span>₹129</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap quote">
+      <p class="serif">"The biryani tastes just like home, and the staff makes you feel like family."</p>
+      <span>★★★★★ · Sample review for demonstration</span>
+    </div>
+  </section>
+
+  <section id="visit" class="panel">
+    <div class="wrap info">
+      <div><b>🕛 Open daily</b><span>12:00 PM – 11:30 PM</span></div>
+      <div><b>📍 Location</b><span>Food Street, Block C (sample address)</span></div>
+      <div><b>🚗 Parking</b><span>Valet on weekends</span></div>
+    </div>
+  </section>
+
+  <section id="reserve">
+    <div class="wrap">
+      <div class="reserve">
+        <div>
+          <h2 class="serif">Reserve your table</h2>
+          <p style="color:var(--muted)">Weekends fill up fast after 8 PM. Book in advance and we'll confirm on WhatsApp.</p>
+        </div>
+        <form onsubmit="event.preventDefault(); window.open('https://wa.me/919235266579?text=' + encodeURIComponent('Hi Kodivo, I tried the reservation form on your restaurant sample website. I want a website like this.'), '_blank');">
+          <input placeholder="Name" />
+          <input placeholder="Mobile number" />
+          <select><option>2 guests</option><option>4 guests</option><option>6+ guests</option></select>
+          <select><option>Tonight</option><option>Tomorrow</option><option>This weekend</option></select>
+          <button class="btn gold" type="submit">Reserve on WhatsApp</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>© Zaika House Café · Sample website designed by <a href="../../" style="color:var(--gold);font-weight:600">Kodivo</a></footer>
+  <script src="../../counter.js" defer></script>
+</body>
+</html>

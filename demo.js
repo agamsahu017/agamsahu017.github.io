@@ -52,9 +52,9 @@ const BIZ = {
     },
   },
   restaurant: {
-    name: "Spice Route Café (Sample)",
+    name: "Zaika House Café (Sample)",
     icon: "🍽️",
-    welcome: "Hey there! 😋 Welcome to Spice Route Café.\nAsk me about the menu, prices, opening hours, or reserve a table.",
+    welcome: "Hey there! 😋 Welcome to Zaika House Café.\nAsk me about the menu, prices, opening hours, or reserve a table.",
     quick: ["Specials", "Menu prices", "Opening hours", "Location", "Reserve a table"],
     bookWhat: "table reservation",
     answers: {

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BrightPath Classes (Sample Website by Kodivo)</title>
+  <meta name="description" content="Sample coaching institute website designed by Kodivo. Fictional business for demonstration." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../sample-banner.css" />
+  <style>
+    :root { --navy: #172554; --blue: #1e40af; --sun: #facc15; --sun-2: #f59e0b; --ink: #0f172a; --muted: #475569; --line: #e2e8f0; --soft: #f8fafc; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Poppins", system-ui, sans-serif; color: var(--ink); background: #fff; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1100px, 100% - 32px); margin-inline: auto; }
+    header { background: var(--navy); color: #fff; position: sticky; top: 0; z-index: 20; }
+    .bar { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 12px; }
+    .logo { font-weight: 800; font-size: 1.25rem; display: flex; align-items: center; gap: 10px; }
+    .logo i { width: 40px; height: 40px; border-radius: 12px; background: var(--sun); color: var(--navy); display: grid; place-items: center; font-style: normal; }
+    nav { display: flex; gap: 22px; opacity: .9; font-weight: 500; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 12px; font-weight: 700; }
+    .btn.sun { background: var(--sun); color: var(--navy); }
+    .btn.line { border: 2px solid #fff; color: #fff; }
+    .hero { background: radial-gradient(circle at 85% 30%, #1d4ed8, transparent 50%), var(--navy); color: #fff; padding: 70px 0 90px; position: relative; overflow: hidden; }
+    .hero .wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center; }
+    .tag { display: inline-block; background: rgba(250,204,21,.15); color: var(--sun); border: 1px solid rgba(250,204,21,.4); padding: 6px 14px; border-radius: 999px; font-weight: 600; font-size: .85rem; }
+    h1 { font-size: clamp(2.1rem, 4.8vw, 3.3rem); line-height: 1.12; margin: 16px 0; font-weight: 800; }
+    h1 span { color: var(--sun); }
+    .lead { color: #cbd5e1; font-size: 1.05rem; }
+    .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+    .result { background: #fff; color: var(--ink); border-radius: 26px; padding: 26px; box-shadow: 0 30px 60px rgba(0,0,0,.3); }
+    .result h3 { font-size: 1rem; color: var(--muted); font-weight: 600; }
+    .result .row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+    .result .row:last-child { border: 0; }
+    .result b { font-size: 1.6rem; color: var(--blue); }
+    .stats { margin-top: -46px; position: relative; z-index: 2; }
+    .stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .stat { background: #fff; border-radius: 18px; padding: 20px; text-align: center; box-shadow: 0 14px 30px rgba(15,23,42,.1); }
+    .stat b { display: block; font-size: 1.8rem; color: var(--blue); font-weight: 800; }
+    .stat span { color: var(--muted); font-size: .88rem; }
+    section { padding: 70px 0; }
+    .head { text-align: center; max-width: 640px; margin: 0 auto 36px; }
+    .head small { color: var(--sun-2); font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 6px 0; }
+    .head p { color: var(--muted); }
+    .grid { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); }
+    .course { border: 1px solid var(--line); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; }
+    .course .ic { font-size: 2rem; }
+    .course h3 { margin: 6px 0; }
+    .course ul { list-style: none; color: var(--muted); font-size: .92rem; margin: 10px 0 16px; display: grid; gap: 6px; }
+    .course li::before { content: "✓ "; color: var(--blue); font-weight: 700; }
+    .course .fee { margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--line); font-weight: 700; color: var(--blue); }
+    .course .fee span { color: var(--muted); font-weight: 500; font-size: .85rem; }
+    .soft { background: var(--soft); }
+    .topper { text-align: center; background: #fff; border-radius: 20px; padding: 24px; border: 1px solid var(--line); }
+    .topper .av { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; display: grid; place-items: center; font-weight: 800; font-size: 1.6rem; color: var(--navy); background: linear-gradient(135deg, var(--sun), var(--sun-2)); }
+    .topper b { display: block; font-size: 1.5rem; color: var(--blue); }
+    .batches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .batch { border-radius: 18px; padding: 22px; background: var(--navy); color: #fff; }
+    .batch b { display: block; color: var(--sun); font-size: 1.1rem; }
+    .demo { background: linear-gradient(135deg, var(--sun), var(--sun-2)); border-radius: 28px; padding: 40px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: center; color: var(--navy); }
+    .demo h2 { font-weight: 800; }
+    form { display: grid; gap: 10px; }
+    input, select { font: inherit; padding: 12px 14px; border-radius: 12px; border: 0; width: 100%; }
+    form .btn { background: var(--navy); color: #fff; }
+    footer { background: var(--navy); color: #cbd5e1; text-align: center; padding: 28px 0; font-size: .9rem; }
+    @media (max-width: 860px) {
+      nav { display: none; }
+      .hero .wrap, .demo { grid-template-columns: 1fr; }
+      .stats .wrap { grid-template-columns: 1fr 1fr; }
+      .grid, .batches { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sample-banner">🛠️ <b>Sample website by Kodivo.</b> Fictional coaching institute for demo. <a href="https://wa.me/919235266579?text=Hi%20Kodivo%2C%20I%20want%20a%20coaching%20website%20like%20your%20sample." target="_blank" rel="noopener">Get a website like this →</a></div>
+
+  <header>
+    <div class="wrap bar">
+      <a href="#" class="logo"><i>B</i> BrightPath Classes</a>
+      <nav><a href="#courses">Courses</a><a href="#results">Results</a><a href="#batches">Batches</a><a href="#demo">Free Demo</a></nav>
+      <a class="btn sun" href="#demo">Book Free Demo</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="tag">🏆 Admissions open · 2026–27 session</span>
+        <h1>Score higher with <span>expert teachers</span> and small batches.</h1>
+        <p class="lead">Class 9–12 (CBSE), JEE / NEET foundation and coding for school students. Weekly tests, doubt sessions and progress updates for parents on WhatsApp.</p>
+        <div class="cta">
+          <a class="btn sun" href="#demo">🎓 Book a Free Demo Class</a>
+          <a class="btn line" href="#courses">View Courses &amp; Fees</a>
+        </div>
+      </div>
+      <div class="result">
+        <h3>📊 Last year's results (sample)</h3>
+        <div class="row"><span>Students scoring 90%+</span><b>48</b></div>
+        <div class="row"><span>Average improvement</span><b>+23%</b></div>
+        <div class="row"><span>JEE / NEET qualifiers</span><b>17</b></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="wrap">
+      <div class="stat"><b>10+</b><span>Years of teaching</span></div>
+      <div class="stat"><b>25</b><span>Students per batch</span></div>
+      <div class="stat"><b>Weekly</b><span>Tests &amp; reports</span></div>
+      <div class="stat"><b>1st class</b><span>Free demo</span></div>
+    </div>
+  </div>
+
+  <section id="courses">
+    <div class="wrap">
+      <div class="head"><small>Courses</small><h2>Choose your course</h2><p>Monthly fees, no hidden charges. Sibling discount available.</p></div>
+      <div class="grid">
+        <div class="course"><div class="ic">📘</div><h3>Class 9–10 (CBSE)</h3><ul><li>Maths &amp; Science</li><li>Weekly chapter tests</li><li>Board exam practice papers</li></ul><div class="fee">₹2,500 <span>/ month</span></div></div>
+        <div class="course"><div class="ic">📗</div><h3>Class 11–12 (PCM / PCB)</h3><ul><li>Physics, Chemistry, Maths / Bio</li><li>NCERT + competitive level</li><li>Doubt-clearing every Sunday</li></ul><div class="fee">₹3,500 <span>/ month</span></div></div>
+        <div class="course"><div class="ic">💻</div><h3>Coding for Students</h3><ul><li>Python &amp; web basics</li><li>Build real mini projects</li><li>Certificate on completion</li></ul><div class="fee">₹1,800 <span>/ month</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="results" class="soft">
+    <div class="wrap">
+      <div class="head"><small>Our Toppers</small><h2>Proud of our students</h2><p>(Sample results for demonstration)</p></div>
+      <div class="grid">
+        <div class="topper"><div class="av">RS</div><b>96.4%</b>Class 12 · PCM</div>
+        <div class="topper"><div class="av">AK</div><b>95.8%</b>Class 10 · CBSE</div>
+        <div class="topper"><div class="av">PM</div><b>NEET</b>Qualified · 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="batches">
+    <div class="wrap">
+      <div class="head"><small>Batch Timings</small><h2>Pick a time that suits you</h2></div>
+      <div class="batches">
+        <div class="batch"><b>🌅 Morning</b>7:00 – 9:00 AM</div>
+        <div class="batch"><b>🌇 Evening 1</b>4:00 – 6:00 PM</div>
+        <div class="batch"><b>🌆 Evening 2</b>6:00 – 8:00 PM</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="wrap">
+      <div class="demo">
+        <div>
+          <h2>🎓 Book your FREE demo class</h2>
+          <p>Attend one class free, meet the teachers, then decide. Parents are welcome too.</p>
+        </div>
+        <form onsubmit="event.preventDefault(); window.open('https://wa.me/919235266579?text=' + encodeURIComponent('Hi Kodivo, I tried the demo form on your coaching sample website. I want a website like this.'), '_blank');">
+          <input placeholder="Student name" />
+          <input placeholder="Parent's mobile number" />
+          <select><option>Class 9–10</option><option>Class 11–12</option><option>Coding</option></select>
+          <button class="btn" type="submit">Book on WhatsApp</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>© BrightPath Classes · Sample website designed by <a href="../../" style="color:#facc15;font-weight:700">Kodivo</a></footer>
+  <script src="../../counter.js" defer></script>
+</body>
+</html>

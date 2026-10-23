@@ -10,7 +10,7 @@
     "h1, h2, h3, p, li, summary, .offer-banner, .nav-links a, .nav-actions a.btn, .pill, .float-card, " +
     ".founder-tag, .strip-inner > span, .strip-inner > b, .eyebrow, .tag, .price, .mini b, .mini span, " +
     "a.btn, .socials span, .socials-inline a, .footer .container, .logo-sub, .biz-tab, .chat-status, " +
-    ".lead-empty, .demo-note";
+    ".lead-empty, .demo-note, .work-link";
   const STORAGE_KEY = "kodivo-lang";
 
   const HI = new Map([
@@ -21,6 +21,7 @@
     [`Founder`, `फ़ाउंडर`],
     [`Academy`, `अकादमी`],
     [`Contact`, `संपर्क`],
+    [`Our Work`, `हमारा काम`],
     [`Delhi`, `दिल्ली`],
     [`Noida`, `नोएडा`],
     [`Gurugram`, `गुरुग्राम`],
@@ -83,6 +84,18 @@
     [`Read invoices, forms &amp; PDFs automatically`, `बिल, फ़ॉर्म और PDF अपने आप पढ़ें`],
     [`📱 Mobile Apps`, `📱 मोबाइल ऐप्स`],
     [`Android &amp; iOS apps with React Native`, `React Native से Android और iOS ऐप्स`],
+    [`See what your website could look like`, `देखिए, आपकी वेबसाइट कैसी दिख सकती है`],
+    [`Live sample websites we designed for common local businesses. Open them on your phone and try the booking buttons.`,
+     `लोकल बिज़नेस के लिए हमारी बनाई सैंपल वेबसाइट्स। इन्हें अपने फ़ोन पर खोलिए और बुकिंग बटन दबाकर देखिए।`],
+    [`🩺 Clinic Website`, `🩺 क्लिनिक वेबसाइट`],
+    [`Doctors, timings, fees and WhatsApp appointment booking.`, `डॉक्टर, टाइमिंग, फ़ीस और WhatsApp पर अपॉइंटमेंट बुकिंग।`],
+    [`🎓 Coaching Institute Website`, `🎓 कोचिंग इंस्टीट्यूट वेबसाइट`],
+    [`Courses, fees, results, batch timings and free demo class booking.`, `कोर्स, फ़ीस, रिज़ल्ट, बैच टाइमिंग और फ़्री डेमो क्लास बुकिंग।`],
+    [`🍽️ Restaurant &amp; Café Website`, `🍽️ रेस्टोरेंट और कैफ़े वेबसाइट`],
+    [`Menu with prices, chef's specials and table reservation.`, `दाम के साथ मेन्यू, शेफ़ की ख़ास डिशेज़ और टेबल रिज़र्वेशन।`],
+    [`View live sample →`, `लाइव सैंपल देखें →`],
+    [`Every website comes with mobile design, Google SEO and WhatsApp integration. An AI chatbot can be added on top.`,
+     `हर वेबसाइट में मोबाइल डिज़ाइन, Google SEO और WhatsApp इंटीग्रेशन शामिल है। चाहें तो साथ में AI चैटबॉट भी जुड़ सकता है।`],
     [`Built for businesses like yours`, `आप जैसे बिज़नेस के लिए बना`],
     [`Coaching &amp; Education`, `कोचिंग और शिक्षा`],
     [`Admission enquiries on WhatsApp, fee reminders, student portals, online tests.`, `WhatsApp पर एडमिशन पूछताछ, फ़ीस रिमाइंडर, स्टूडेंट पोर्टल, ऑनलाइन टेस्ट।`],

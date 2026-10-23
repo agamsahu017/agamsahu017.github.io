@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CareWell Family Clinic (Sample Website by Kodivo)</title>
+  <meta name="description" content="Sample clinic website designed by Kodivo. Fictional business for demonstration." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../sample-banner.css" />
+  <style>
+    :root { --teal: #0f766e; --teal-2: #14b8a6; --mint: #ecfdf5; --ink: #0f2a2a; --muted: #4b6363; --line: #d6ece7; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Poppins", system-ui, sans-serif; color: var(--ink); background: #fff; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1100px, 100% - 32px); margin-inline: auto; }
+    header { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+    .bar { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 12px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.15rem; color: var(--teal); }
+    .logo i { width: 38px; height: 38px; border-radius: 10px; background: var(--teal); color: #fff; display: grid; place-items: center; font-style: normal; font-size: 1.3rem; }
+    nav { display: flex; gap: 22px; font-weight: 500; color: var(--muted); }
+    nav a:hover { color: var(--teal); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 12px; font-weight: 600; border: 2px solid var(--teal); }
+    .btn.solid { background: var(--teal); color: #fff; }
+    .btn.ghost { color: var(--teal); background: #fff; }
+    .hero { background: linear-gradient(135deg, var(--mint), #fff 60%); padding: 64px 0; }
+    .hero .wrap { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; }
+    .pill { display: inline-block; background: #ccfbf1; color: var(--teal); padding: 6px 14px; border-radius: 999px; font-size: .85rem; font-weight: 600; }
+    h1 { font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.15; margin: 16px 0; }
+    h1 span { color: var(--teal-2); }
+    .lead { color: var(--muted); font-size: 1.05rem; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0; }
+    .facts { display: flex; gap: 28px; flex-wrap: wrap; }
+    .facts b { display: block; font-size: 1.4rem; color: var(--teal); }
+    .facts span { font-size: .85rem; color: var(--muted); }
+    .art { aspect-ratio: 1; border-radius: 32px; background: linear-gradient(160deg, var(--teal-2), var(--teal)); display: grid; place-items: center; position: relative; box-shadow: 0 30px 60px rgba(15,118,110,.25); }
+    .art .big { font-size: 9rem; filter: drop-shadow(0 10px 20px rgba(0,0,0,.2)); }
+    .art .chip { position: absolute; background: #fff; padding: 10px 14px; border-radius: 14px; font-weight: 600; font-size: .88rem; box-shadow: 0 10px 24px rgba(0,0,0,.12); }
+    .art .c1 { top: 10%; left: -6%; } .art .c2 { bottom: 12%; right: -6%; }
+    section { padding: 70px 0; }
+    .head { text-align: center; max-width: 640px; margin: 0 auto 36px; }
+    .head small { color: var(--teal-2); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 6px 0; }
+    .head p { color: var(--muted); }
+    .grid { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); }
+    .card { border: 1px solid var(--line); border-radius: 18px; padding: 24px; background: #fff; }
+    .card .ic { font-size: 2rem; }
+    .card h3 { margin: 8px 0 4px; }
+    .card p { color: var(--muted); font-size: .94rem; }
+    .alt { background: var(--mint); }
+    .doc { text-align: center; }
+    .doc .av { width: 92px; height: 92px; border-radius: 50%; margin: 0 auto 12px; display: grid; place-items: center; font-size: 2rem; font-weight: 700; color: #fff; background: linear-gradient(135deg, var(--teal-2), var(--teal)); }
+    .doc .days { display: inline-block; margin-top: 8px; font-size: .82rem; background: #ccfbf1; color: var(--teal); padding: 4px 12px; border-radius: 999px; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 12px 6px; border-bottom: 1px solid var(--line); }
+    td:last-child { text-align: right; font-weight: 600; }
+    .quote { font-style: italic; color: var(--muted); }
+    .quote b { display: block; font-style: normal; color: var(--ink); margin-top: 10px; }
+    .stars { color: #f59e0b; letter-spacing: 2px; }
+    form { display: grid; gap: 12px; }
+    input, select { font: inherit; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; width: 100%; }
+    .book { background: linear-gradient(135deg, var(--teal), #0b5d57); color: #fff; border-radius: 26px; padding: 36px; }
+    .book p { opacity: .9; }
+    .book .btn { background: #fff; color: var(--teal); border-color: #fff; justify-content: center; }
+    .map { border-radius: 18px; min-height: 220px; background: repeating-linear-gradient(45deg, #e6f4f1 0 14px, #f3faf8 14px 28px); display: grid; place-items: center; color: var(--muted); font-weight: 600; text-align: center; padding: 20px; }
+    footer { background: var(--ink); color: #cfe3df; padding: 30px 0; text-align: center; font-size: .9rem; }
+    @media (max-width: 860px) {
+      nav { display: none; }
+      .hero .wrap, .split { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+      .art { max-width: 340px; margin: 0 auto; }
+      .art .c1 { left: 0; } .art .c2 { right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sample-banner">🛠️ <b>Sample website by Kodivo.</b> Fictional clinic for demo. <a href="https://wa.me/919235266579?text=Hi%20Kodivo%2C%20I%20want%20a%20clinic%20website%20like%20your%20sample." target="_blank" rel="noopener">Get a website like this →</a></div>
+
+  <header>
+    <div class="wrap bar">
+      <a href="#" class="logo"><i>✚</i> CareWell</a>
+      <nav><a href="#services">Services</a><a href="#doctors">Doctors</a><a href="#fees">Timings &amp; Fees</a><a href="#book">Contact</a></nav>
+      <a class="btn solid" href="#book">Book Appointment</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="pill">🩺 Family Clinic · Open all 7 days</span>
+        <h1>Caring for your family's <span>health</span>, every day.</h1>
+        <p class="lead">Experienced doctors, short waiting times and home sample collection. Book your appointment on WhatsApp in under a minute.</p>
+        <div class="cta">
+          <a class="btn solid" href="#book">📅 Book Appointment</a>
+          <a class="btn ghost" href="#fees">View Fees</a>
+        </div>
+        <div class="facts">
+          <div><b>12+ yrs</b><span>Doctor experience</span></div>
+          <div><b>3</b><span>Specialists</span></div>
+          <div><b>24 hrs</b><span>Reports on WhatsApp</span></div>
+        </div>
+      </div>
+      <div class="art">
+        <div class="big">🩺</div>
+        <div class="chip c1">✅ Appointment confirmed</div>
+        <div class="chip c2">🧪 Home sample collection</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="head"><small>Our Services</small><h2>Everything your family needs</h2><p>From routine check-ups to dental care and children's health.</p></div>
+      <div class="grid">
+        <div class="card"><div class="ic">👨‍⚕️</div><h3>General Physician</h3><p>Fever, infections, BP, diabetes and everyday health concerns.</p></div>
+        <div class="card"><div class="ic">🦷</div><h3>Dental Care</h3><p>Check-ups, cleaning, root canal and braces consultation.</p></div>
+        <div class="card"><div class="ic">🧒</div><h3>Child Specialist</h3><p>Vaccinations, growth check-ups and children's illnesses.</p></div>
+        <div class="card"><div class="ic">🧪</div><h3>Lab Tests</h3><p>60+ tests with home sample collection and reports on WhatsApp.</p></div>
+        <div class="card"><div class="ic">❤️</div><h3>Health Packages</h3><p>Full body check-ups for adults and senior citizens.</p></div>
+        <div class="card"><div class="ic">📱</div><h3>Online Follow-up</h3><p>Free follow-up within 7 days, in person or on video call.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="doctors" class="alt">
+    <div class="wrap">
+      <div class="head"><small>Our Doctors</small><h2>Meet the team</h2></div>
+      <div class="grid">
+        <div class="card doc"><div class="av">MK</div><h3>Dr. Meera Kapoor</h3><p>General Physician · 12 yrs</p><span class="days">Mon – Sat</span></div>
+        <div class="card doc"><div class="av">AV</div><h3>Dr. Arjun Verma</h3><p>Dentist · 9 yrs</p><span class="days">Mon · Wed · Fri</span></div>
+        <div class="card doc"><div class="av">NS</div><h3>Dr. Neha Singh</h3><p>Paediatrician · 8 yrs</p><span class="days">Tue · Thu · Sat</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fees">
+    <div class="wrap split">
+      <div class="card">
+        <h2>🕘 Timings</h2>
+        <table>
+          <tr><td>Monday – Saturday</td><td>9 AM – 1 PM, 5 – 9 PM</td></tr>
+          <tr><td>Sunday</td><td>10 AM – 1 PM</td></tr>
+          <tr><td>National holidays</td><td>Closed</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h2>💳 Fees</h2>
+        <table>
+          <tr><td>General Physician</td><td>₹400</td></tr>
+          <tr><td>Child Specialist</td><td>₹500</td></tr>
+          <tr><td>Dental check-up</td><td>₹300</td></tr>
+          <tr><td>Full body check-up</td><td>₹1,499</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="head"><small>Patient Reviews</small><h2>What patients say</h2><p>(Sample reviews for demonstration)</p></div>
+      <div class="grid">
+        <div class="card quote"><div class="stars">★★★★★</div>"Booked on WhatsApp in a minute and didn't have to wait at all."<b>— Sample Patient</b></div>
+        <div class="card quote"><div class="stars">★★★★★</div>"Home sample collection saved us a trip with my parents."<b>— Sample Patient</b></div>
+        <div class="card quote"><div class="stars">★★★★★</div>"The doctor explained everything patiently. Highly recommended."<b>— Sample Patient</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="book">
+    <div class="wrap split">
+      <div class="book">
+        <h2>📅 Book an appointment</h2>
+        <p>Pick a doctor and time. We'll confirm on WhatsApp.</p>
+        <form onsubmit="event.preventDefault(); window.open('https://wa.me/919235266579?text=' + encodeURIComponent('Hi Kodivo, I tried the booking form on your clinic sample website. I want a website like this.'), '_blank');" style="margin-top:18px">
+          <input placeholder="Your name" />
+          <input placeholder="Mobile number" />
+          <select><option>General Physician</option><option>Dentist</option><option>Child Specialist</option></select>
+          <button class="btn" type="submit">Confirm on WhatsApp</button>
+        </form>
+      </div>
+      <div class="map">📍 Main Market Road, opposite City Mall<br />(Google Maps location appears here)</div>
+    </div>
+  </section>
+
+  <footer>© CareWell Family Clinic · Sample website designed by <a href="../../" style="color:#5eead4;font-weight:600">Kodivo</a></footer>
+  <script src="../../counter.js" defer></script>
+</body>
+</html>
