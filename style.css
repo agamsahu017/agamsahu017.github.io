@@ -332,3 +332,14 @@ details p { color: var(--muted); margin-top: 10px; }
   .form-grid, .session-wrap { grid-template-columns: 1fr; }
   .lead-form { padding: 20px; }
 }
+
+/* SEO LANDING PAGES */
+.page-hero { padding: 56px 0 48px; text-align: center; }
+.page-hero .hero-cta { justify-content: center; }
+.breadcrumb { font-size: .85rem; color: var(--muted); margin-bottom: 14px; }
+.breadcrumb a { color: var(--muted); text-decoration: underline; }
+.seo-ticks { max-width: 720px; margin: 0 auto; font-size: 1.02rem; gap: 12px; }
+.card p a { font-weight: 600; }
+.section-head h1 { font-size: clamp(1.6rem, 3.2vw, 2.3rem); line-height: 1.2; margin: 8px 0 12px; }
+.footer-links { margin-bottom: 10px; line-height: 2; }
+.footer-links a { color: var(--muted); }

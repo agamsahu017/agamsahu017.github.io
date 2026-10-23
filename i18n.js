@@ -31,6 +31,12 @@
     [`Ayodhya`, `अयोध्या`],
     [`Prayagraj`, `प्रयागराज`],
 
+    // ---------- footer links (all main pages) ----------
+    ["<a href=\"website-development.html\">Website Development</a> · <a href=\"ai-chatbot-whatsapp-automation.html\">AI Chatbot &amp; WhatsApp Automation</a> · <a href=\"delhi-ncr.html\">Delhi NCR</a> · <a href=\"lucknow.html\">Lucknow</a> · <a href=\"academy.html\">Academy</a>", "<a href=\"website-development.html\">वेबसाइट डेवलपमेंट</a> · <a href=\"ai-chatbot-whatsapp-automation.html\">AI चैटबॉट और WhatsApp ऑटोमेशन</a> · <a href=\"delhi-ncr.html\">दिल्ली NCR</a> · <a href=\"lucknow.html\">लखनऊ</a> · <a href=\"academy.html\">अकादमी</a>"],
+
+    ["Reviews", "रिव्यू"],
+    ["What our clients say", "हमारे क्लाइंट्स क्या कहते हैं"],
+
     // ---------- forms (index + academy) ----------
     ["📝 Get a free consultation", "📝 फ़्री सलाह पाएँ"],
     ["Share a few details and we'll call you back.", "थोड़ी जानकारी दीजिए, हम आपको वापस कॉल करेंगे।"],
