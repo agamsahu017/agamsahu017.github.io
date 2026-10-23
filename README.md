@@ -7,6 +7,7 @@ Static site (HTML/CSS/JS, no build step). Open `index.html` in a browser to prev
 - Mentoring / batches → `academy.html`
 - AI chatbot demo → `demo.html` + `demo.js`
 - Privacy policy → `privacy.html`
+- Hindi translations + language button → `i18n.js` (if you change English text, update the matching key there)
 - Colors → top of `style.css` (`:root` variables)
 - Photo → replace `assets/agam.jpg` (square photo, plain background works best)
 

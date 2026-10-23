@@ -283,3 +283,12 @@ details p { color: var(--muted); margin-top: 10px; }
   .process { grid-template-columns: 1fr 1fr; }
   .academy-inner { padding: 24px; }
 }
+
+/* LANGUAGE SWITCH */
+.lang-btn {
+  height: 40px; padding: 0 14px; border-radius: 10px; cursor: pointer;
+  border: 1px solid var(--primary); background: transparent; color: var(--primary);
+  font-family: inherit; font-weight: 600; font-size: 0.92rem;
+}
+.lang-btn:hover { background: var(--primary); color: #fff; }
+:root[lang="hi"] body { line-height: 1.75; }
