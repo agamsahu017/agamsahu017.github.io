@@ -10,7 +10,7 @@
     "h1, h2, h3, p, li, summary, .offer-banner, .nav-links a, .nav-actions a.btn, .pill, .float-card, " +
     ".founder-tag, .strip-inner > span, .strip-inner > b, .eyebrow, .tag, .price, .mini b, .mini span, " +
     "a.btn, .socials span, .socials-inline a, .footer .container, .logo-sub, .biz-tab, .chat-status, " +
-    ".lead-empty, .demo-note, .work-link";
+    ".lead-empty, .demo-note, .work-link, label, option, button.btn";
   const STORAGE_KEY = "kodivo-lang";
 
   const HI = new Map([
@@ -30,6 +30,55 @@
     [`Kanpur`, `कानपुर`],
     [`Ayodhya`, `अयोध्या`],
     [`Prayagraj`, `प्रयागराज`],
+
+    // ---------- forms (index + academy) ----------
+    ["📝 Get a free consultation", "📝 फ़्री सलाह पाएँ"],
+    ["Share a few details and we'll call you back.", "थोड़ी जानकारी दीजिए, हम आपको वापस कॉल करेंगे।"],
+    ["Your name", "आपका नाम"],
+    ["Mobile number", "मोबाइल नंबर"],
+    ["City", "शहर"],
+    ["Delhi NCR", "दिल्ली NCR"],
+    ["Other city in UP", "UP का कोई और शहर"],
+    ["Other", "अन्य"],
+    ["What do you need?", "आपको क्या चाहिए?"],
+    ["Website", "वेबसाइट"],
+    ["AI chatbot / WhatsApp automation", "AI चैटबॉट / WhatsApp ऑटोमेशन"],
+    ["Custom software", "कस्टम सॉफ्टवेयर"],
+    ["Mobile app", "मोबाइल ऐप"],
+    ["Not sure yet", "अभी तय नहीं"],
+    ["Budget", "बजट"],
+    ["Not sure", "पता नहीं"],
+    ["Under ₹10,000", "₹10,000 से कम"],
+    ["Above ₹2,00,000", "₹2,00,000 से ज़्यादा"],
+    ["Tell us about your business (optional)", "अपने बिज़नेस के बारे में बताइए (वैकल्पिक)"],
+    ["I agree to be contacted on WhatsApp or phone about my enquiry.", "मैं अपनी पूछताछ के बारे में WhatsApp या फ़ोन पर संपर्क किए जाने के लिए सहमत हूँ।"],
+    ["Get Free Consultation", "फ़्री सलाह लें"],
+    ["🎁 Join the Free Live Session", "🎁 फ़्री लाइव सेशन से जुड़ें"],
+    ["🎁 Free Live Session", "🎁 फ़्री लाइव सेशन"],
+    ["How to become a developer in the AI era (2026 roadmap)", "AI के दौर में डेवलपर कैसे बनें (2026 रोडमैप)"],
+    ["A free 1-hour online session for students and developers with 0–3 years of experience.", "स्टूडेंट्स और 0–3 साल के अनुभव वाले डेवलपर्स के लिए 1 घंटे का फ़्री ऑनलाइन सेशन।"],
+    ["What skills companies actually hire for now", "कंपनियाँ अभी असल में किन स्किल्स पर हायर कर रही हैं"],
+    ["React + Node + AI: what to learn, in what order", "React + Node + AI: क्या सीखें, किस क्रम में"],
+    ["RAG and AI agents, explained simply", "RAG और AI एजेंट्स, आसान भाषा में"],
+    ["Resume and projects that get shortlisted", "ऐसा रिज़्यूमे और प्रोजेक्ट्स जो शॉर्टलिस्ट करवाएँ"],
+    ["Live Q&amp;A with a working senior engineer", "वर्किंग सीनियर इंजीनियर के साथ लाइव सवाल-जवाब"],
+    ["📅 Date and joining link are shared on WhatsApp after you register.", "📅 रजिस्ट्रेशन के बाद तारीख़ और जुड़ने का लिंक WhatsApp पर भेजा जाता है।"],
+    ["🎓 Register for free", "🎓 फ़्री रजिस्टर करें"],
+    ["WhatsApp number", "WhatsApp नंबर"],
+    ["You are", "आप हैं"],
+    ["Student", "स्टूडेंट"],
+    ["Fresher (0–1 yr)", "फ़्रेशर (0–1 साल)"],
+    ["Developer (1–3 yrs)", "डेवलपर (1–3 साल)"],
+    ["Developer (3+ yrs)", "डेवलपर (3+ साल)"],
+    ["College / Company (optional)", "कॉलेज / कंपनी (वैकल्पिक)"],
+    ["Most interested in", "सबसे ज़्यादा रुचि"],
+    ["AI for developers", "डेवलपर्स के लिए AI"],
+    ["Full Stack (React, Node)", "फुल स्टैक (React, Node)"],
+    ["Interview preparation", "इंटरव्यू की तैयारी"],
+    ["Career guidance", "करियर गाइडेंस"],
+    ["I agree to receive session details and updates on WhatsApp.", "मैं WhatsApp पर सेशन की जानकारी और अपडेट पाने के लिए सहमत हूँ।"],
+    ["Register for Free", "फ़्री रजिस्टर करें"],
+    ["<b>Website forms:</b> when you fill the consultation or free session form, we save your name, mobile number, city and the details you choose to share in our database, only to contact you about your request. Ask us any time and we'll delete it.", "<b>वेबसाइट फ़ॉर्म:</b> जब आप सलाह या फ़्री सेशन का फ़ॉर्म भरते हैं, तो हम आपका नाम, मोबाइल नंबर, शहर और आपकी दी हुई जानकारी अपने डेटाबेस में सेव करते हैं, सिर्फ़ आपकी रिक्वेस्ट के बारे में आपसे संपर्क करने के लिए। आप कभी भी कहें, हम इसे हटा देंगे।"],
 
     // ---------- index.html ----------
     [`Kodivo | AI-First Software Studio · Delhi NCR & Lucknow`, `Kodivo | AI-First सॉफ्टवेयर स्टूडियो · दिल्ली NCR और लखनऊ`],
@@ -250,8 +299,8 @@
     [`Information we collect`, `हम कौन-सी जानकारी लेते हैं`],
     [`<b>Information you give us:</b> your name, phone number, email and project details when you contact us by WhatsApp, phone or email.`,
      `<b>आप जो जानकारी देते हैं:</b> जब आप WhatsApp, फ़ोन या ईमेल से संपर्क करते हैं, तब आपका नाम, फ़ोन नंबर, ईमेल और प्रोजेक्ट की जानकारी।`],
-    [`<b>Website:</b> this website does not use cookies and has no contact forms that store data. Your theme (light/dark) and language choices are saved only in your own browser.`,
-     `<b>वेबसाइट:</b> यह वेबसाइट कुकीज़ का इस्तेमाल नहीं करती और इसमें डेटा सेव करने वाला कोई कॉन्टैक्ट फ़ॉर्म नहीं है। आपकी थीम (लाइट/डार्क) और भाषा की पसंद सिर्फ़ आपके अपने ब्राउज़र में सेव होती है।`],
+    [`<b>Website:</b> this website does not use cookies. Your theme (light/dark) and language choices are saved only in your own browser.`,
+     `<b>वेबसाइट:</b> यह वेबसाइट कुकीज़ का इस्तेमाल नहीं करती। आपकी थीम (लाइट/डार्क) और भाषा की पसंद सिर्फ़ आपके अपने ब्राउज़र में सेव होती है।`],
     [`<b>Visitor statistics:</b> to count daily visitors, we record the page you open, your country, and whether you use a mobile or desktop. Your IP address is turned into a one-way code that changes every day, and the IP itself is never stored, so we can't identify you or follow you across days. These statistics are private and are never shared or sold.`,
      `<b>विज़िटर आँकड़े:</b> रोज़ के विज़िटर गिनने के लिए हम दर्ज करते हैं कि आपने कौन-सा पेज खोला, आप किस देश से हैं, और आप मोबाइल इस्तेमाल कर रहे हैं या डेस्कटॉप। आपका IP एड्रेस एक ऐसे कोड में बदला जाता है जिसे वापस IP में नहीं बदला जा सकता और जो हर दिन बदल जाता है। असली IP कभी सेव नहीं होता, इसलिए हम न आपको पहचान सकते हैं, न अलग-अलग दिनों में आपको ट्रैक कर सकते हैं। ये आँकड़े निजी हैं और कभी शेयर या बेचे नहीं जाते।`],
     [`<b>AI chatbot demo:</b> the demo runs entirely in your browser. Nothing you type is stored or sent to us.`,

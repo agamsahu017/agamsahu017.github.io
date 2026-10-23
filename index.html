@@ -275,6 +275,27 @@
           <a class="btn btn-light btn-lg" href="tel:+919235266579">📞 Call Now</a>
           <a class="btn btn-light btn-lg" href="mailto:agamsahu015@gmail.com?subject=Enquiry%20for%20Kodivo">✉️ Email</a>
         </div>
+
+        <form class="lead-form" data-lead="business" novalidate>
+          <h3 class="form-title">📝 Get a free consultation</h3>
+          <p class="form-sub">Share a few details and we'll call you back.</p>
+          <div class="form-grid">
+            <div class="field"><label for="b-name">Your name</label><input id="b-name" name="name" type="text" maxlength="80" autocomplete="name" required /></div>
+            <div class="field"><label for="b-phone">Mobile number</label><input id="b-phone" name="phone" type="tel" inputmode="numeric" maxlength="16" autocomplete="tel" placeholder="98765 43210" required /></div>
+            <div class="field"><label for="b-city">City</label>
+              <select id="b-city" name="city"><option value="Delhi NCR">Delhi NCR</option><option value="Lucknow">Lucknow</option><option value="Other city in UP">Other city in UP</option><option value="Other">Other</option></select></div>
+            <div class="field"><label for="b-need">What do you need?</label>
+              <select id="b-need" name="need"><option value="Website">Website</option><option value="AI chatbot / WhatsApp automation">AI chatbot / WhatsApp automation</option><option value="Custom software">Custom software</option><option value="Mobile app">Mobile app</option><option value="Not sure yet">Not sure yet</option></select></div>
+            <div class="field"><label for="b-budget">Budget</label>
+              <select id="b-budget" name="budget"><option value="Not sure">Not sure</option><option value="Under ₹10,000">Under ₹10,000</option><option value="₹10,000 – ₹50,000">₹10,000 – ₹50,000</option><option value="₹50,000 – ₹2,00,000">₹50,000 – ₹2,00,000</option><option value="Above ₹2,00,000">Above ₹2,00,000</option></select></div>
+            <div class="field full"><label for="b-message">Tell us about your business (optional)</label><textarea id="b-message" name="message" rows="3" maxlength="1000"></textarea></div>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="b-website">Leave this empty</label><input id="b-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+          <div class="consent-row"><input id="b-consent" name="consent" type="checkbox" required /><label for="b-consent">I agree to be contacted on WhatsApp or phone about my enquiry.</label></div>
+          <button class="btn btn-primary btn-block" type="submit">Get Free Consultation</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+
         <div class="socials">
           <span>📍 Delhi NCR &amp; Lucknow, India</span>
         </div>
@@ -292,6 +313,7 @@
 
   <script src="script.js"></script>
   <script src="i18n.js"></script>
+  <script src="forms.js"></script>
   <script src="counter.js" defer></script>
 </body>
 </html>

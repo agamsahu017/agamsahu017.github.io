@@ -32,7 +32,45 @@
         <p class="lead">Learn React, Node.js, Next.js, SQL and AI from <strong>Agam Sahu</strong>, a working Senior Full Stack Engineer with 8+ years of industry experience. Real projects, not just theory.</p>
         <div class="hero-cta" style="justify-content:center">
           <a class="btn btn-wa" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%27m%20interested%20in%20Kodivo%20Academy." target="_blank" rel="noopener">💬 Book a Free 20-min Call</a>
+          <a class="btn btn-outline" href="#free-session">🎁 Join the Free Live Session</a>
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="free-session">
+      <div class="container session-wrap">
+        <div>
+          <span class="eyebrow">🎁 Free Live Session</span>
+          <h2>How to become a developer in the AI era (2026 roadmap)</h2>
+          <p class="session-sub">A free 1-hour online session for students and developers with 0–3 years of experience.</p>
+          <ul class="ticks">
+            <li>What skills companies actually hire for now</li>
+            <li>React + Node + AI: what to learn, in what order</li>
+            <li>RAG and AI agents, explained simply</li>
+            <li>Resume and projects that get shortlisted</li>
+            <li>Live Q&amp;A with a working senior engineer</li>
+          </ul>
+          <p class="session-sub">📅 Date and joining link are shared on WhatsApp after you register.</p>
+        </div>
+
+        <form class="lead-form" data-lead="session" novalidate>
+          <h3 class="form-title">🎓 Register for free</h3>
+          <div class="form-grid">
+            <div class="field"><label for="s-name">Your name</label><input id="s-name" name="name" type="text" maxlength="80" autocomplete="name" required /></div>
+            <div class="field"><label for="s-phone">WhatsApp number</label><input id="s-phone" name="phone" type="tel" inputmode="numeric" maxlength="16" autocomplete="tel" placeholder="98765 43210" required /></div>
+            <div class="field"><label for="s-profile">You are</label>
+              <select id="s-profile" name="profile"><option value="Student">Student</option><option value="Fresher (0–1 yr)">Fresher (0–1 yr)</option><option value="Developer (1–3 yrs)">Developer (1–3 yrs)</option><option value="Developer (3+ yrs)">Developer (3+ yrs)</option><option value="Other">Other</option></select></div>
+            <div class="field"><label for="s-city">City</label>
+              <select id="s-city" name="city"><option value="Lucknow">Lucknow</option><option value="Delhi NCR">Delhi NCR</option><option value="Other city in UP">Other city in UP</option><option value="Other">Other</option></select></div>
+            <div class="field"><label for="s-org">College / Company (optional)</label><input id="s-org" name="org" type="text" maxlength="120" /></div>
+            <div class="field"><label for="s-interest">Most interested in</label>
+              <select id="s-interest" name="interest"><option value="AI for developers">AI for developers</option><option value="Full Stack (React, Node)">Full Stack (React, Node)</option><option value="Interview preparation">Interview preparation</option><option value="Career guidance">Career guidance</option></select></div>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="s-website">Leave this empty</label><input id="s-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+          <div class="consent-row"><input id="s-consent" name="consent" type="checkbox" required /><label for="s-consent">I agree to receive session details and updates on WhatsApp.</label></div>
+          <button class="btn btn-primary btn-block" type="submit">Register for Free</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </section>
 
@@ -88,6 +126,7 @@
 
   <script src="script.js"></script>
   <script src="i18n.js"></script>
+  <script src="forms.js"></script>
   <script src="counter.js" defer></script>
 </body>
 </html>

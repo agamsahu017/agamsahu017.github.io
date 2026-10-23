@@ -299,3 +299,36 @@ details p { color: var(--muted); margin-top: 10px; }
 .work-card h3, .work-card p, .work-card .work-link { padding: 0 22px; }
 .work-card h3 { margin-top: 18px; }
 .work-card .work-link { display: block; margin: 12px 0 20px; color: var(--primary); font-weight: 600; }
+
+/* LEAD FORMS */
+.lead-form, .form-done {
+  background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 28px; box-shadow: var(--shadow); text-align: left;
+}
+.contact .lead-form, .contact .form-done { max-width: 720px; margin: 36px auto 28px; }
+.form-title { font-size: 1.25rem; margin-bottom: 4px; }
+.form-sub { color: var(--muted); margin-bottom: 16px; font-size: .95rem; }
+.contact .form-sub { color: var(--muted); opacity: 1; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field.full { grid-column: 1 / -1; }
+.field label { font-size: .88rem; font-weight: 600; }
+.field input, .field select, .field textarea {
+  font: inherit; font-size: .95rem; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--bg); color: var(--text); width: 100%;
+}
+.field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--primary); outline-offset: 1px; border-color: transparent; }
+.consent-row { display: flex; gap: 10px; align-items: flex-start; font-size: .9rem; color: var(--muted); margin: 6px 0 4px; }
+.consent-row input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--primary); flex: none; }
+.lead-form button[disabled] { opacity: .6; cursor: wait; }
+.form-status { min-height: 1.4em; margin-top: 10px; font-size: .92rem; color: var(--muted); }
+.form-status.error { color: #dc2626; }
+.form-done h3 { margin-bottom: 6px; }
+.form-done p { color: var(--muted); margin-bottom: 16px; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.session-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.session-sub { color: var(--muted); margin: 10px 0; }
+@media (max-width: 720px) {
+  .form-grid, .session-wrap { grid-template-columns: 1fr; }
+  .lead-form { padding: 20px; }
+}
