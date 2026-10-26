@@ -8,7 +8,7 @@ Static site (HTML/CSS/JS, no build step). Open `index.html` in a browser to prev
 - AI chatbot demo → `demo.html` + `demo.js`
 - SEO landing pages → `lucknow.html`, `delhi-ncr.html`, `website-development.html`, `ai-chatbot-whatsapp-automation.html` (English only)
 - Custom domain → run `node tools/set-domain.mjs yourdomain.com` (see the notes inside the script)
-- Lead forms (consultation + free session) → `forms.js`, saved by the Worker in D:personalkodivo-visitor-counter
+- Lead forms (consultation + free session) → `forms.js`, saved by the Worker in `D:\personal\kodivo-visitor-counter`
 - Sample client websites → `samples/<name>/index.html` (thumbnails in `assets/samples/`)
 - Privacy policy → `privacy.html`
 - Hindi translations + language button → `i18n.js` (if you change English text, update the matching key there)
