@@ -70,7 +70,7 @@
     ["RAG and AI agents, explained simply", "RAG और AI एजेंट्स, आसान भाषा में"],
     ["Resume and projects that get shortlisted", "ऐसा रिज़्यूमे और प्रोजेक्ट्स जो शॉर्टलिस्ट करवाएँ"],
     ["Live Q&amp;A with a working senior engineer", "वर्किंग सीनियर इंजीनियर के साथ लाइव सवाल-जवाब"],
-    ["📅 Date and joining link are shared on WhatsApp after you register.", "📅 रजिस्ट्रेशन के बाद तारीख़ और जुड़ने का लिंक WhatsApp पर भेजा जाता है।"],
+    ["📅 <b>Saturday, 31 October · 7–8 PM IST</b> · Online on Google Meet. The joining link is shared on WhatsApp after you register.", "📅 <b>शनिवार, 31 अक्टूबर · शाम 7–8 बजे</b> · Google Meet पर ऑनलाइन। रजिस्ट्रेशन के बाद जुड़ने का लिंक WhatsApp पर भेजा जाता है।"],
     ["🎓 Register for free", "🎓 फ़्री रजिस्टर करें"],
     ["WhatsApp number", "WhatsApp नंबर"],
     ["You are", "आप हैं"],
