@@ -16,6 +16,8 @@
   const HI = new Map([
     // ---------- shared: nav, footer, cities ----------
     [`Services`, `सर्विसेज़`],
+    [`Pricing`, `कीमतें`],
+    [`💰 See all packages &amp; prices`, `💰 सभी पैकेज और कीमतें देखें`],
     [`AI Demo`, `AI डेमो`],
     [`Industries`, `इंडस्ट्रीज़`],
     [`Founder`, `फ़ाउंडर`],
@@ -32,7 +34,7 @@
     [`Prayagraj`, `प्रयागराज`],
 
     // ---------- footer links (all main pages) ----------
-    ["<a href=\"website-development.html\">Website Development</a> · <a href=\"ai-chatbot-whatsapp-automation.html\">AI Chatbot &amp; WhatsApp Automation</a> · <a href=\"delhi-ncr.html\">Delhi NCR</a> · <a href=\"lucknow.html\">Lucknow</a> · <a href=\"academy.html\">Academy</a>", "<a href=\"website-development.html\">वेबसाइट डेवलपमेंट</a> · <a href=\"ai-chatbot-whatsapp-automation.html\">AI चैटबॉट और WhatsApp ऑटोमेशन</a> · <a href=\"delhi-ncr.html\">दिल्ली NCR</a> · <a href=\"lucknow.html\">लखनऊ</a> · <a href=\"academy.html\">अकादमी</a>"],
+    ["<a href=\"pricing.html\">Pricing</a> · <a href=\"website-development.html\">Website Development</a> · <a href=\"ai-chatbot-whatsapp-automation.html\">AI Chatbot &amp; WhatsApp Automation</a> · <a href=\"delhi-ncr.html\">Delhi NCR</a> · <a href=\"lucknow.html\">Lucknow</a> · <a href=\"academy.html\">Academy</a>", "<a href=\"pricing.html\">कीमतें</a> · <a href=\"website-development.html\">वेबसाइट डेवलपमेंट</a> · <a href=\"ai-chatbot-whatsapp-automation.html\">AI चैटबॉट और WhatsApp ऑटोमेशन</a> · <a href=\"delhi-ncr.html\">दिल्ली NCR</a> · <a href=\"lucknow.html\">लखनऊ</a> · <a href=\"academy.html\">अकादमी</a>"],
 
     ["Reviews", "रिव्यू"],
     ["What our clients say", "हमारे क्लाइंट्स क्या कहते हैं"],
