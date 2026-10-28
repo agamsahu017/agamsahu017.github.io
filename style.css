@@ -362,3 +362,6 @@ details p { color: var(--muted); margin-top: 10px; }
 .quick .mini em s { color: var(--muted); font-weight: 500; margin-right: 4px; }
 .note a { color: var(--primary); font-weight: 600; }
 .services-more { text-align: center; margin-top: 28px; }
+.process-6 { grid-template-columns: repeat(3, 1fr); row-gap: 28px; }
+@media (max-width: 720px) { .process-6 { grid-template-columns: 1fr; } }
+.services-more .btn { margin: 4px; }
