@@ -387,3 +387,14 @@ details p { color: var(--muted); margin-top: 10px; }
 .guide-card .work-link { margin-top: auto; padding-top: 12px; color: var(--primary); font-weight: 600; }
 .guide ul + p, .guide ol + p, .guide .table-wrap + p { margin-top: 12px; }
 .mini span a { color: var(--primary); font-weight: 600; }
+
+/* REVIEWS */
+.reviews { max-width: 980px; margin: 0 auto; }
+.review { margin: 0; gap: 10px; }
+.review .review-tag { position: static; align-self: flex-start; }
+.review .stars { color: #f59e0b; letter-spacing: 2px; font-size: 1.05rem; }
+.review blockquote { margin: 0; flex: 1; }
+.review blockquote p { color: var(--text); font-size: .98rem; line-height: 1.6; }
+.review figcaption { display: flex; flex-direction: column; font-size: .9rem; }
+.review figcaption span { color: var(--muted); }
+.review .review-tag { background: var(--bg-alt); color: var(--text); border: 1px solid var(--border); font-weight: 600; }

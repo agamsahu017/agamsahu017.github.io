@@ -38,7 +38,11 @@
     ["<a href=\"pricing.html\">Pricing</a> · <a href=\"ai-for-business.html\">AI for Business</a> · <a href=\"guides.html\">Guides</a> · <a href=\"website-development.html\">Website Development</a> · <a href=\"ecommerce-website-development.html\">E-commerce Websites</a> · <a href=\"custom-software-development.html\">Custom Software</a> · <a href=\"ai-chatbot-whatsapp-automation.html\">AI Chatbot &amp; WhatsApp Automation</a> · <a href=\"delhi-ncr.html\">Delhi NCR</a> · <a href=\"lucknow.html\">Lucknow</a> · <a href=\"academy.html\">Academy</a>", "<a href=\"pricing.html\">कीमतें</a> · <a href=\"ai-for-business.html\">बिज़नेस के लिए AI</a> · <a href=\"guides.html\">गाइड</a> · <a href=\"website-development.html\">वेबसाइट डेवलपमेंट</a> · <a href=\"ecommerce-website-development.html\">ई-कॉमर्स वेबसाइट</a> · <a href=\"custom-software-development.html\">कस्टम सॉफ्टवेयर</a> · <a href=\"ai-chatbot-whatsapp-automation.html\">AI चैटबॉट और WhatsApp ऑटोमेशन</a> · <a href=\"delhi-ncr.html\">दिल्ली NCR</a> · <a href=\"lucknow.html\">लखनऊ</a> · <a href=\"academy.html\">अकादमी</a>"],
 
     ["Reviews", "रिव्यू"],
-    ["What our clients say", "हमारे क्लाइंट्स क्या कहते हैं"],
+    ["What our clients and learners say", "हमारे क्लाइंट्स और स्टूडेंट्स क्या कहते हैं"],
+    ["🤝 AI Solutions for Business", "🤝 बिज़नेस के लिए AI सॉल्यूशंस"],
+    ["⚙️ Workflow Automation", "⚙️ वर्कफ़्लो ऑटोमेशन"],
+    ["🎓 Practical AI Training", "🎓 प्रैक्टिकल AI ट्रेनिंग"],
+    ["💡 AI Skills for Students", "💡 स्टूडेंट्स के लिए AI स्किल्स"],
 
     // ---------- forms (index + academy) ----------
     ["📝 Get a free consultation", "📝 फ़्री सलाह पाएँ"],
