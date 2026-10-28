@@ -386,3 +386,4 @@ details p { color: var(--muted); margin-top: 10px; }
 .guide-card { color: inherit; text-decoration: none; }
 .guide-card .work-link { margin-top: auto; padding-top: 12px; color: var(--primary); font-weight: 600; }
 .guide ul + p, .guide ol + p, .guide .table-wrap + p { margin-top: 12px; }
+.mini span a { color: var(--primary); font-weight: 600; }
