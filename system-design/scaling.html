@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scaling and Load Balancers Explained Simply | Kodivo</title>
+  <meta name="description" content="How websites handle more users: DNS, vertical vs horizontal scaling, load balancers, health checks and stateless servers, with an animation." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/scaling.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/scaling.html" />
+  <meta property="og:title" content="Scaling and Load Balancers Explained Simply | Kodivo" />
+  <meta property="og:description" content="How websites handle more users: DNS, vertical vs horizontal scaling, load balancers, health checks and stateless servers, with an animation." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Scaling and load balancers",
+          "item": "https://agamsahu017.github.io/system-design/scaling.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Scaling and Load Balancers Explained Simply",
+      "description": "How websites handle more users: DNS, vertical vs horizontal scaling, load balancers, health checks and stateless servers, with an animation.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(Scaling%20and%20load%20balancers)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>Scaling and load balancers</span></nav>
+        <span class="pill"><span class="en">Module 3 of 17</span><span class="hi">मॉड्यूल 3 / 17</span></span>
+        <h1><span class="en">Scaling and load balancers</span><span class="hi">Scaling और load balancers</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">What happens when you open a website</span><span class="hi">Website खोलने पर क्या होता है</span></li><li><span class="en">Vertical vs horizontal scaling, and when to use each</span><span class="hi">Vertical vs horizontal scaling, और कब कौन-सा</span></li><li><span class="en">How a load balancer spreads traffic and handles failures</span><span class="hi">Load balancer traffic कैसे बाँटता है और failures कैसे संभालता है</span></li><li><span class="en">Why servers should be stateless</span><span class="hi">Servers stateless क्यों होने चाहिए</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#flow"><span class="en">Request flow</span><span class="hi">Request flow</span></a><a href="#scale"><span class="en">Vertical vs horizontal</span><span class="hi">Vertical vs horizontal</span></a><a href="#lb"><span class="en">Load balancer</span><span class="hi">Load balancer</span></a><a href="#stateless"><span class="en">Stateless servers</span><span class="hi">Stateless servers</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+      </div>
+      <section id="flow">
+        <h2 id="flow-h"><span class="en">What happens when you open a website?</span><span class="hi">Website खोलने पर क्या होता है?</span></h2>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">Browser</span><span class="hi">Browser</span></div><div class="arrow" aria-hidden="true">→</div><div class="node">DNS</div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Load balancer</span><span class="hi">Load balancer</span></div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node"><span class="en">Server 1</span><span class="hi">Server 1</span></div><div class="node"><span class="en">Server 2</span><span class="hi">Server 2</span></div></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Database</span><span class="hi">Database</span></div></div><figcaption><span class="en">A typical request path</span><span class="hi">एक आम request का रास्ता</span></figcaption></figure>
+        <ol><li><span class="en"><b>DNS</b> is the phonebook of the internet. It turns <code>kodivo.com</code> into an IP address.</span><span class="hi"><b>DNS</b> internet की phonebook है। यह <code>kodivo.com</code> को IP address में बदलता है।</span></li><li><span class="en">The browser sends the request to that address, which is usually a <b>load balancer</b>.</span><span class="hi">Browser उस address पर request भेजता है, जो आमतौर पर एक <b>load balancer</b> होता है।</span></li><li><span class="en">The load balancer forwards it to one of many <b>application servers</b> (your Node.js app).</span><span class="hi">Load balancer उसे कई <b>application servers</b> (आपकी Node.js app) में से किसी एक को भेजता है।</span></li><li><span class="en">The server reads or writes the <b>database</b> and sends back the response.</span><span class="hi">Server <b>database</b> से पढ़ता या लिखता है और response वापस भेजता है।</span></li></ol>
+      </section>
+      <section id="scale">
+        <h2 id="scale-h"><span class="en">Vertical vs horizontal scaling</span><span class="hi">Vertical vs horizontal scaling</span></h2>
+        <p class="en">Your app is slow because too many people use it. You have two options:</p><p class="hi">बहुत सारे लोग इस्तेमाल कर रहे हैं, इसलिए आपकी app धीमी हो गई है। आपके पास दो रास्ते हैं:</p>
+        <div class="table-wrap"><table><thead><tr><th></th><th><span class="en">Vertical (scale up)</span><span class="hi">Vertical (scale up)</span></th><th><span class="en">Horizontal (scale out)</span><span class="hi">Horizontal (scale out)</span></th></tr></thead><tbody><tr><td><span class="en">Idea</span><span class="hi">Idea</span></td><td><span class="en">Buy a <b>bigger machine</b>: more CPU and RAM</span><span class="hi"><b>बड़ी machine</b> लो: ज़्यादा CPU और RAM</span></td><td><span class="en">Add <b>more machines</b> behind a load balancer</span><span class="hi">Load balancer के पीछे <b>और machines</b> जोड़ो</span></td></tr><tr><td><span class="en">Analogy</span><span class="hi">मिसाल</span></td><td><span class="en">One bigger, faster cook</span><span class="hi">एक बड़ा, तेज़ cook</span></td><td><span class="en">More cooks in the kitchen</span><span class="hi">किचन में और cooks</span></td></tr><tr><td><span class="en">Pros</span><span class="hi">फ़ायदे</span></td><td><span class="en">Simple, no code change</span><span class="hi">आसान, code नहीं बदलता</span></td><td><span class="en">Almost no limit, survives one machine failing</span><span class="hi">लगभग कोई limit नहीं, एक machine बंद हो तो भी चलता है</span></td></tr><tr><td><span class="en">Cons</span><span class="hi">नुक़सान</span></td><td><span class="en">Has a ceiling, expensive, single point of failure</span><span class="hi">एक हद है, महँगा, single point of failure</span></td><td><span class="en">Needs stateless servers and a load balancer</span><span class="hi">Stateless servers और load balancer चाहिए</span></td></tr></tbody></table></div>
+        <div class="say"><p class="en">🎤 "I'd start with a couple of servers behind a load balancer, and scale horizontally as traffic grows. Vertical scaling is a quick fix, but it has a ceiling and no redundancy."</p><p class="hi">🎤 "I'd start with a couple of servers behind a load balancer, and scale horizontally as traffic grows. Vertical scaling is a quick fix, but it has a ceiling and no redundancy."</p></div>
+      </section>
+      <section id="lb">
+        <h2 id="lb-h"><span class="en">Load balancer: the traffic police</span><span class="hi">Load balancer: traffic police</span></h2>
+        <p class="en">A load balancer sits in front of your servers and decides which server gets each request. Think of the token counter in a hospital sending each patient to a free doctor.</p><p class="hi">Load balancer आपके servers के आगे बैठता है और तय करता है कि हर request किस server को मिले। Hospital के token counter की तरह सोचिए जो हर मरीज़ को ख़ाली doctor के पास भेजता है।</p>
+        <div class="viz" id="lb-viz">
+          <div class="viz-title"><span class="en">Try it: send requests, then click a server to switch it off</span><span class="hi">ख़ुद देखें: requests भेजिए, फिर किसी server पर क्लिक करके उसे बंद कीजिए</span></div>
+          <div class="viz-controls">
+            <select aria-label="Algorithm"><option value="rr">Round robin</option><option value="least">Least connections</option></select>
+            <button type="button" class="btn btn-primary" data-act="send"><span class="en">Send 1 request</span><span class="hi">1 request भेजें</span></button>
+            <button type="button" class="btn btn-outline" data-act="burst"><span class="en">Send 6</span><span class="hi">6 भेजें</span></button>
+            <button type="button" class="btn btn-outline" data-act="reset"><span class="en">Reset</span><span class="hi">Reset</span></button>
+          </div>
+          <div class="servers"></div>
+          <div class="viz-msg"><span class="en">Click "Send 1 request".</span><span class="hi">"1 request भेजें" पर क्लिक कीजिए।</span></div>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Algorithm</span><span class="hi">Algorithm</span></th><th><span class="en">How it picks</span><span class="hi">कैसे चुनता है</span></th><th><span class="en">Good for</span><span class="hi">किसके लिए अच्छा</span></th></tr></thead><tbody><tr><td>Round robin</td><td><span class="en">Each server in turn: 1, 2, 3, 1, 2, 3…</span><span class="hi">बारी-बारी: 1, 2, 3, 1, 2, 3…</span></td><td><span class="en">Similar servers and similar requests</span><span class="hi">एक जैसे servers और requests</span></td></tr><tr><td>Least connections</td><td><span class="en">The server with the fewest active requests</span><span class="hi">जिस server पर सबसे कम active requests हों</span></td><td><span class="en">Requests that take different amounts of time</span><span class="hi">अलग-अलग समय लेने वाली requests</span></td></tr><tr><td>IP hash</td><td><span class="en">The same user always goes to the same server</span><span class="hi">एक ही user हमेशा उसी server पर</span></td><td><span class="en">When a server must remember the user (try to avoid)</span><span class="hi">जब server को user याद रखना हो (बचने की कोशिश करें)</span></td></tr></tbody></table></div>
+        <p class="en"><b>Health checks:</b> the load balancer pings each server every few seconds. If a server stops answering, traffic goes only to healthy servers. Users don't notice.</p><p class="hi"><b>Health checks:</b> Load balancer हर कुछ seconds में हर server को ping करता है। कोई server जवाब देना बंद करे, तो traffic सिर्फ़ ठीक servers पर जाता है। Users को पता भी नहीं चलता।</p>
+      </section>
+      <section id="stateless">
+        <h2 id="stateless-h"><span class="en">Stateless servers</span><span class="hi">Stateless servers</span></h2><span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">If Server 1 stores a user's login session in its own memory, the next request may go to Server 2, which doesn't know the user. The user gets logged out.</p><p class="hi">अगर Server 1 user का login session अपनी memory में रखे, तो अगली request Server 2 पर जा सकती है, जो user को नहीं जानता। User logout हो जाता है।</p>
+        <div class="idea"><p class="en"><b>Fix:</b> keep servers <b>stateless</b>. Store sessions in a shared place like <b>Redis</b>, or use a signed token like a <b>JWT</b> that the client sends every time. Then any server can handle any request, and you can add or remove servers freely.</p><p class="hi"><b>हल:</b> Servers को <b>stateless</b> रखिए। Sessions किसी shared जगह जैसे <b>Redis</b> में रखिए, या <b>JWT</b> जैसा signed token इस्तेमाल कीजिए जो client हर बार भेजे। फिर कोई भी server कोई भी request संभाल सकता है, और आप servers आराम से जोड़-घटा सकते हैं।</p></div>
+        <h3><span class="en">Single point of failure (SPOF)</span><span class="hi">Single point of failure (SPOF)</span></h3>
+        <p class="en">Any part with only one copy can take the whole system down: one load balancer, one database. Seniors are expected to spot these and add redundancy: two load balancers, database replicas, servers in more than one data centre (availability zone).</p><p class="hi">जिस हिस्से की सिर्फ़ एक copy हो, वो पूरा system गिरा सकता है: एक load balancer, एक database। Seniors से उम्मीद होती है कि वो इन्हें पहचानें और redundancy जोड़ें: दो load balancers, database replicas, एक से ज़्यादा data centre (availability zone) में servers।</p>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Storing sessions or uploaded files on the app server's disk.</span><span class="hi">Sessions या uploaded files को app server की disk पर रखना।</span></li><li><span class="en">Adding servers but keeping a single database that becomes the bottleneck.</span><span class="hi">Servers बढ़ाना पर एक ही database रखना जो bottleneck बन जाए।</span></li><li><span class="en">Forgetting that the load balancer itself can fail.</span><span class="hi">यह भूल जाना कि load balancer ख़ुद भी fail हो सकता है।</span></li><li><span class="en">Saying "microservices" when scaling one well-built service would be enough.</span><span class="hi">जब एक अच्छी service को scale करना काफ़ी हो, तब "microservices" बोलना।</span></li></ul></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: A coaching institute's result website crashes every year on result day (50× normal traffic for a few hours). How would you fix it cheaply?</span><span class="hi">Exercise 1: एक coaching institute की result website हर साल result वाले दिन crash हो जाती है (कुछ घंटों के लिए 50 गुना traffic)। इसे सस्ते में कैसे ठीक करेंगे?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><ul><li><span class="en">Results don't change once published, so <b>cache</b> them heavily, or even generate static result pages and serve them from a <b>CDN</b>.</span><span class="hi">Results publish होने के बाद बदलते नहीं, इसलिए उन्हें ज़ोरदार तरीक़े से <b>cache</b> कीजिए, या static result pages बनाकर <b>CDN</b> से serve कीजिए।</span></li><li><span class="en">Put the app behind a <b>load balancer</b> with <b>auto-scaling</b>: add servers for the result day, remove them after.</span><span class="hi">App को <b>load balancer</b> और <b>auto-scaling</b> के पीछे रखिए: result वाले दिन servers जोड़िए, बाद में हटा दीजिए।</span></li><li><span class="en">Keep servers <b>stateless</b> so new servers can help immediately.</span><span class="hi">Servers <b>stateless</b> रखिए ताकि नए servers तुरंत मदद कर सकें।</span></li><li><span class="en">Use a <b>read replica</b> so result lookups don't overload the main database.</span><span class="hi"><b>Read replica</b> रखिए ताकि result ढूँढने से main database पर बोझ न पड़े।</span></li></ul></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"What does DNS do?","hi":"DNS क्या करता है?"},"options":[{"en":"Stores your data","hi":"आपका data रखता है"},{"en":"Turns a domain name into an IP address","hi":"Domain name को IP address में बदलता है"},{"en":"Balances load","hi":"Load बाँटता है"},{"en":"Caches images","hi":"Images cache करता है"}],"answer":1,"why":{"en":"DNS is the internet's phonebook: name → address.","hi":"DNS internet की phonebook है: नाम → address।"}},{"q":{"en":"Adding more servers behind a load balancer is…","hi":"Load balancer के पीछे और servers जोड़ना है…"},"options":[{"en":"Vertical scaling","hi":"Vertical scaling"},{"en":"Horizontal scaling","hi":"Horizontal scaling"},{"en":"Sharding","hi":"Sharding"},{"en":"Caching","hi":"Caching"}],"answer":1,"why":{"en":"Scaling out = more machines. Scaling up = a bigger machine.","hi":"Scale out = ज़्यादा machines। Scale up = बड़ी machine।"}},{"q":{"en":"Why should app servers be stateless?","hi":"App servers stateless क्यों होने चाहिए?"},"options":[{"en":"To save disk space","hi":"Disk space बचाने के लिए"},{"en":"So any server can handle any request","hi":"ताकि कोई भी server कोई भी request संभाल सके"},{"en":"Because databases are slow","hi":"क्योंकि databases धीमे हैं"},{"en":"It's required by Node.js","hi":"Node.js में ज़रूरी है"}],"answer":1,"why":{"en":"With state in Redis or a JWT, the load balancer can send a user to any server.","hi":"State Redis या JWT में हो, तो load balancer user को किसी भी server पर भेज सकता है।"}},{"q":{"en":"A server stops responding. What does the load balancer do?","hi":"एक server जवाब देना बंद कर देता है। Load balancer क्या करता है?"},"options":[{"en":"Keeps sending traffic to it","hi":"उसे traffic भेजता रहता है"},{"en":"Its health check fails, so it stops sending traffic there","hi":"Health check fail होता है, इसलिए उसे traffic भेजना बंद कर देता है"},{"en":"Restarts the database","hi":"Database restart करता है"},{"en":"Shuts down all servers","hi":"सारे servers बंद कर देता है"}],"answer":1,"why":{"en":"Health checks remove unhealthy servers from rotation automatically.","hi":"Health checks बीमार servers को अपने आप rotation से हटा देते हैं।"}},{"q":{"en":"Which is a single point of failure?","hi":"कौन-सा single point of failure है?"},"options":[{"en":"3 app servers behind a load balancer","hi":"Load balancer के पीछे 3 app servers"},{"en":"One database with no replica","hi":"बिना replica वाला एक database"},{"en":"A CDN","hi":"एक CDN"},{"en":"Two load balancers","hi":"दो load balancers"}],"answer":1,"why":{"en":"If that only database fails, everything fails.","hi":"अगर वो अकेला database fail हुआ, तो सब fail।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:scaling"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="estimation.html">← <span class="en">Back-of-envelope estimation</span><span class="hi">Back-of-envelope estimation</span></a><a class="btn btn-outline" href="databases.html">→ <span class="en">Databases: SQL, NoSQL, replication, sharding</span><span class="hi">Databases: SQL, NoSQL, replication, sharding</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Scaling%20and%20load%20balancers" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Scaling%20and%20load%20balancers" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

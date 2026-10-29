@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LLD Basics: OOP and SOLID Principles in JavaScript | Kodivo</title>
+  <meta name="description" content="LLD for interviews: classes, the 4 OOP pillars and SOLID principles with simple JavaScript code, plus how to approach a machine coding round." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/lld-basics.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/lld-basics.html" />
+  <meta property="og:title" content="LLD Basics: OOP and SOLID Principles in JavaScript | Kodivo" />
+  <meta property="og:description" content="LLD for interviews: classes, the 4 OOP pillars and SOLID principles with simple JavaScript code, plus how to approach a machine coding round." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "LLD basics: OOP and SOLID in JavaScript",
+          "item": "https://agamsahu017.github.io/system-design/lld-basics.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "LLD Basics: OOP and SOLID Principles in JavaScript",
+      "description": "LLD for interviews: classes, the 4 OOP pillars and SOLID principles with simple JavaScript code, plus how to approach a machine coding round.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(LLD%20basics%3A%20OOP%20and%20SOLID%20in%20JavaScript)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>LLD basics: OOP and SOLID in JavaScript</span></nav>
+        <span class="pill"><span class="en">Module 14 of 17</span><span class="hi">मॉड्यूल 14 / 17</span></span>
+        <h1><span class="en">LLD basics: OOP and SOLID in JavaScript</span><span class="hi">LLD basics: JavaScript में OOP और SOLID</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">35 min read + practice</span><span class="hi">35 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">How an LLD / machine coding round works, and a 5-step approach</span><span class="hi">LLD / machine coding round कैसे होता है, और 5-step तरीक़ा</span></li><li><span class="en">Classes and the 4 pillars of OOP in JavaScript</span><span class="hi">JavaScript में classes और OOP के 4 pillars</span></li><li><span class="en">All 5 SOLID principles, each with a bad and a good example</span><span class="hi">पाँचों SOLID principles, हर एक का ग़लत और सही उदाहरण</span></li><li><span class="en">Composition over inheritance</span><span class="hi">Inheritance की जगह composition</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#round"><span class="en">The LLD round</span><span class="hi">LLD round</span></a><a href="#oop"><span class="en">OOP pillars</span><span class="hi">OOP pillars</span></a><a href="#solid"><span class="en">SOLID</span><span class="hi">SOLID</span></a><a href="#composition"><span class="en">Composition</span><span class="hi">Composition</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+      </div>
+      <section id="round">
+        <h2 id="round-h"><span class="en">What happens in an LLD round</span><span class="hi">LLD round में क्या होता है</span></h2>
+        <p class="en">You get a problem like "Design a parking lot" or "Design Splitwise". You must find the classes, connect them, and often write working code in 60–90 minutes. Freshers are asked this a lot.</p><p class="hi">आपको "Parking lot design करो" या "Splitwise design करो" जैसा सवाल मिलता है। आपको classes ढूँढनी हैं, उन्हें जोड़ना है, और अक्सर 60–90 मिनट में चलने वाला code लिखना है। Freshers से यह बहुत पूछा जाता है।</p>
+        <ol class="how-steps">
+          <li><span class="en"><b>Clarify scope:</b> which features are in, which are out.</span><span class="hi"><b>Scope साफ़ करो:</b> कौन-से features अंदर, कौन-से बाहर।</span></li>
+          <li><span class="en"><b>Find entities:</b> the nouns become classes (ParkingLot, Floor, Spot, Vehicle, Ticket).</span><span class="hi"><b>Entities ढूँढो:</b> nouns classes बनते हैं (ParkingLot, Floor, Spot, Vehicle, Ticket)।</span></li>
+          <li><span class="en"><b>Relationships:</b> has-a (a Floor has Spots) and is-a (a Car is a Vehicle).</span><span class="hi"><b>Relationships:</b> has-a (Floor के पास Spots हैं) और is-a (Car एक Vehicle है)।</span></li>
+          <li><span class="en"><b>Methods:</b> the verbs become methods (park, unpark, calculateFee).</span><span class="hi"><b>Methods:</b> verbs methods बनते हैं (park, unpark, calculateFee)।</span></li>
+          <li><span class="en"><b>Code the core flow first</b>, then add extras and patterns where they fit naturally.</span><span class="hi"><b>पहले मुख्य flow code करो</b>, फिर extras और patterns जहाँ सही बैठें।</span></li>
+        </ol>
+      </section>
+      <section id="oop">
+        <h2 id="oop-h"><span class="en">Classes and the 4 pillars of OOP</span><span class="hi">Classes और OOP के 4 pillars</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <h3><span class="en">1. Encapsulation: hide the details</span><span class="hi">1. Encapsulation: अंदर की बातें छिपाओ</span></h3>
+        <p class="en">Keep data private and allow changes only through methods. In JavaScript, <code>#</code> makes a field private.</p><p class="hi">Data को private रखो और बदलाव सिर्फ़ methods से होने दो। JavaScript में <code>#</code> किसी field को private बनाता है।</p>
+        <pre class="code" data-copy><span class="kw">class</span> BankAccount {
+  #balance = 0;                       <span class="cm">// private: can't be changed from outside</span>
+
+  deposit(amount) {
+    <span class="kw">if</span> (amount &lt;= 0) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">"Amount must be positive"</span>);
+    <span class="kw">this</span>.#balance += amount;
+  }
+
+  getBalance() {
+    <span class="kw">return</span> <span class="kw">this</span>.#balance;
+  }
+}
+
+<span class="kw">const</span> acc = <span class="kw">new</span> BankAccount();
+acc.deposit(500);
+console.log(acc.getBalance()); <span class="cm">// 500</span>
+<span class="cm">// acc.#balance = 1000000;     // SyntaxError: private field</span></pre>
+        <h3><span class="en">2. Abstraction: show only what matters</span><span class="hi">2. Abstraction: सिर्फ़ ज़रूरी चीज़ दिखाओ</span></h3>
+        <p class="en">A driver uses the steering wheel and pedals, not the engine's internals. Your class should offer simple methods like <code>sendEmail(to, text)</code> and hide the complex parts.</p><p class="hi">Driver steering और pedals इस्तेमाल करता है, engine के अंदर के पुर्ज़े नहीं। आपकी class को <code>sendEmail(to, text)</code> जैसे आसान methods देने चाहिए और मुश्किल हिस्से छिपाने चाहिए।</p>
+        <h3><span class="en">3. Inheritance: reuse with "is-a"</span><span class="hi">3. Inheritance: "is-a" से दोबारा इस्तेमाल</span></h3>
+        <pre class="code" data-copy><span class="kw">class</span> Vehicle {
+  <span class="kw">constructor</span>(number) { <span class="kw">this</span>.number = number; }
+  describe() { <span class="kw">return</span> <span class="st">`Vehicle ${this.number}`</span>; }
+}
+
+<span class="kw">class</span> Car <span class="kw">extends</span> Vehicle {            <span class="cm">// a Car IS A Vehicle</span>
+  wheels() { <span class="kw">return</span> 4; }
+}
+
+<span class="kw">const</span> car = <span class="kw">new</span> Car(<span class="st">"UP32 AB 1234"</span>);
+console.log(car.describe(), car.wheels()); <span class="cm">// Vehicle UP32 AB 1234 4</span></pre>
+        <h3><span class="en">4. Polymorphism: same method, different behaviour</span><span class="hi">4. Polymorphism: एक method, अलग व्यवहार</span></h3>
+        <pre class="code" data-copy><span class="kw">class</span> Shape { area() { <span class="kw">return</span> 0; } }
+<span class="kw">class</span> Circle <span class="kw">extends</span> Shape {
+  <span class="kw">constructor</span>(r) { <span class="kw">super</span>(); <span class="kw">this</span>.r = r; }
+  area() { <span class="kw">return</span> Math.PI * <span class="kw">this</span>.r ** 2; }
+}
+<span class="kw">class</span> Square <span class="kw">extends</span> Shape {
+  <span class="kw">constructor</span>(s) { <span class="kw">super</span>(); <span class="kw">this</span>.s = s; }
+  area() { <span class="kw">return</span> <span class="kw">this</span>.s * <span class="kw">this</span>.s; }
+}
+
+<span class="kw">for</span> (<span class="kw">const</span> shape <span class="kw">of</span> [<span class="kw">new</span> Circle(1), <span class="kw">new</span> Square(2)]) {
+  console.log(shape.area()); <span class="cm">// each shape answers in its own way</span>
+}</pre>
+      </section>
+      <section id="solid">
+        <h2 id="solid-h"><span class="en">SOLID principles, simply</span><span class="hi">SOLID principles, आसान भाषा में</span></h2>
+        <h3><span class="en">S: Single Responsibility</span><span class="hi">S: Single Responsibility</span></h3>
+        <p class="en">A class should have one job, so it has one reason to change.</p><p class="hi">एक class का एक ही काम होना चाहिए, ताकि उसे बदलने की एक ही वजह हो।</p>
+        <pre class="code" data-copy><span class="cm">// Bad: creating invoices AND sending emails AND saving files</span>
+<span class="kw">class</span> InvoiceService { create() {} sendEmail() {} saveToDisk() {} }
+
+<span class="cm">// Good: each class has one job</span>
+<span class="kw">class</span> InvoiceService { create(order) { /* build the invoice */ } }
+<span class="kw">class</span> EmailService   { send(to, body) { /* send email */ } }
+<span class="kw">class</span> InvoiceStorage { save(invoice) { /* save it */ } }</pre>
+        <h3><span class="en">O: Open/Closed</span><span class="hi">O: Open/Closed</span></h3>
+        <p class="en">Open to add new behaviour, closed to editing old, tested code. Add a new class instead of another <code>if</code>.</p><p class="hi">नया व्यवहार जोड़ने के लिए खुला, पुराने tested code को बदलने के लिए बंद। एक और <code>if</code> की जगह नई class जोड़िए।</p>
+        <pre class="code" data-copy><span class="cm">// Bad: every new payment method means editing this function</span>
+<span class="kw">function</span> pay(method, amount) {
+  <span class="kw">if</span> (method === <span class="st">"upi"</span>) { /* ... */ }
+  <span class="kw">else</span> <span class="kw">if</span> (method === <span class="st">"card"</span>) { /* ... */ }
+}
+
+<span class="cm">// Good: add a new class; existing code doesn't change</span>
+<span class="kw">class</span> UpiPayment  { pay(amount) { console.log(<span class="st">"UPI"</span>, amount); } }
+<span class="kw">class</span> CardPayment { pay(amount) { console.log(<span class="st">"Card"</span>, amount); } }
+<span class="kw">function</span> checkout(paymentMethod, amount) { paymentMethod.pay(amount); }
+
+checkout(<span class="kw">new</span> UpiPayment(), 499);</pre>
+        <h3><span class="en">L: Liskov Substitution</span><span class="hi">L: Liskov Substitution</span></h3>
+        <p class="en">A child class must work anywhere the parent works, without surprises. If <code>Penguin extends Bird</code> but <code>fly()</code> throws an error, code that expects any Bird to fly breaks. Fix: don't put <code>fly()</code> in <code>Bird</code>; use a separate <code>FlyingBird</code>.</p><p class="hi">Child class को हर उस जगह बिना गड़बड़ के चलना चाहिए जहाँ parent चलता है। अगर <code>Penguin extends Bird</code> पर <code>fly()</code> error दे, तो हर Bird से उड़ने की उम्मीद करने वाला code टूट जाता है। हल: <code>fly()</code> को <code>Bird</code> में मत रखिए; अलग <code>FlyingBird</code> बनाइए।</p>
+        <h3><span class="en">I: Interface Segregation</span><span class="hi">I: Interface Segregation</span></h3>
+        <p class="en">Don't force a class to have methods it doesn't need. A simple printer shouldn't be forced to implement <code>scan()</code> and <code>fax()</code>. Keep contracts small and focused.</p><p class="hi">किसी class पर ऐसे methods मत थोपिए जिनकी उसे ज़रूरत नहीं। एक आसान printer से <code>scan()</code> और <code>fax()</code> बनवाना ग़लत है। Contracts छोटे और focused रखिए।</p>
+        <h3><span class="en">D: Dependency Inversion</span><span class="hi">D: Dependency Inversion</span></h3>
+        <p class="en">Depend on an abstraction passed in from outside, not on a concrete class created inside. This makes code easy to test and swap. NestJS does this with dependency injection.</p><p class="hi">अंदर बनाई गई concrete class पर नहीं, बाहर से दी गई abstraction पर निर्भर रहिए। इससे code test करना और बदलना आसान होता है। NestJS यही dependency injection से करता है।</p>
+        <pre class="code" data-copy><span class="cm">// Bad: OrderService is stuck with one email provider</span>
+<span class="kw">class</span> OrderService {
+  <span class="kw">constructor</span>() { <span class="kw">this</span>.mailer = <span class="kw">new</span> GmailMailer(); }
+}
+
+<span class="cm">// Good: any mailer with a send() method can be passed in</span>
+<span class="kw">class</span> OrderService {
+  <span class="kw">constructor</span>(mailer) { <span class="kw">this</span>.mailer = mailer; }
+  placeOrder(order) {
+    <span class="cm">// ...save the order...</span>
+    <span class="kw">this</span>.mailer.send(order.email, <span class="st">"Order placed!"</span>);
+  }
+}
+
+<span class="kw">const</span> service = <span class="kw">new</span> OrderService(<span class="kw">new</span> FakeMailer()); <span class="cm">// easy to test</span></pre>
+        <div class="say"><p class="en">🎤 "I'll inject the payment gateway through the constructor, so switching providers or mocking it in tests needs no change to OrderService. That's dependency inversion."</p><p class="hi">🎤 "I'll inject the payment gateway through the constructor, so switching providers or mocking it in tests needs no change to OrderService. That's dependency inversion."</p></div>
+      </section>
+      <section id="composition">
+        <h2 id="composition-h"><span class="en">Composition over inheritance</span><span class="hi">Inheritance की जगह composition</span></h2><span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">Inheritance chains get messy (<code>FlyingSwimmingRobotDuck</code>?). Often it's better for a class to <b>have</b> helpers than to <b>be</b> a subclass.</p><p class="hi">Inheritance की लंबी chains उलझ जाती हैं (<code>FlyingSwimmingRobotDuck</code>?)। अक्सर class का helpers <b>रखना</b>, subclass <b>होने</b> से बेहतर है।</p>
+        <pre class="code" data-copy><span class="kw">class</span> Engine { start() { <span class="kw">return</span> <span class="st">"engine on"</span>; } }
+<span class="kw">class</span> MusicSystem { play() { <span class="kw">return</span> <span class="st">"music on"</span>; } }
+
+<span class="kw">class</span> Car {
+  <span class="kw">constructor</span>() {
+    <span class="kw">this</span>.engine = <span class="kw">new</span> Engine();       <span class="cm">// Car HAS an engine</span>
+    <span class="kw">this</span>.music = <span class="kw">new</span> MusicSystem();   <span class="cm">// Car HAS a music system</span>
+  }
+  drive() { <span class="kw">return</span> <span class="st">`${this.engine.start()}, ${this.music.play()}`</span>; }
+}</pre>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Starting to code before listing the entities and their relationships.</span><span class="hi">Entities और उनके relationships लिखे बिना code शुरू कर देना।</span></li><li><span class="en">One giant class that does everything (a "God class").</span><span class="hi">एक बड़ी class जो सब कुछ करे ("God class")।</span></li><li><span class="en">Long <code>if / else</code> chains on type, instead of polymorphism.</span><span class="hi">Polymorphism की जगह type पर लंबी <code>if / else</code> chains।</span></li><li><span class="en">Forcing patterns in where they don't fit, just to show them off.</span><span class="hi">दिखाने के लिए patterns ज़बरदस्ती वहाँ लगाना जहाँ वो फ़िट नहीं बैठते।</span></li><li><span class="en">Public fields that anyone can change, like <code>account.balance = -500</code>.</span><span class="hi">Public fields जिन्हें कोई भी बदल दे, जैसे <code>account.balance = -500</code>।</span></li></ul></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Design the classes for a simple library system: members borrow and return books, with a fine for late returns. List the classes, their fields and their methods.</span><span class="hi">Exercise 1: एक आसान library system की classes design कीजिए: members books लेते और लौटाते हैं, देर से लौटाने पर fine लगता है। Classes, उनके fields और methods लिखिए।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><pre class="code" data-copy><span class="kw">class</span> Book    { <span class="kw">constructor</span>(id, title, author) { <span class="kw">this</span>.id = id; <span class="kw">this</span>.title = title; <span class="kw">this</span>.author = author; <span class="kw">this</span>.available = <span class="kw">true</span>; } }
+<span class="kw">class</span> Member  { <span class="kw">constructor</span>(id, name) { <span class="kw">this</span>.id = id; <span class="kw">this</span>.name = name; <span class="kw">this</span>.loans = []; } }
+<span class="kw">class</span> Loan    { <span class="kw">constructor</span>(book, member, dueDate) { <span class="kw">this</span>.book = book; <span class="kw">this</span>.member = member; <span class="kw">this</span>.dueDate = dueDate; <span class="kw">this</span>.returnedAt = <span class="kw">null</span>; } }
+
+<span class="kw">class</span> FinePolicy {                     <span class="cm">// separate class: easy to change the rule later</span>
+  <span class="kw">constructor</span>(perDay = 10) { <span class="kw">this</span>.perDay = perDay; }
+  calculate(loan) {
+    <span class="kw">const</span> lateDays = Math.max(0, Math.ceil((loan.returnedAt - loan.dueDate) / 86400000));
+    <span class="kw">return</span> lateDays * <span class="kw">this</span>.perDay;
+  }
+}
+
+<span class="kw">class</span> Library {
+  <span class="kw">constructor</span>(finePolicy) { <span class="kw">this</span>.books = <span class="kw">new</span> Map(); <span class="kw">this</span>.finePolicy = finePolicy; }
+  addBook(book) { <span class="kw">this</span>.books.set(book.id, book); }
+  borrow(bookId, member, days = 14) {
+    <span class="kw">const</span> book = <span class="kw">this</span>.books.get(bookId);
+    <span class="kw">if</span> (!book || !book.available) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">"Book not available"</span>);
+    book.available = <span class="kw">false</span>;
+    <span class="kw">const</span> loan = <span class="kw">new</span> Loan(book, member, <span class="kw">new</span> Date(Date.now() + days * 86400000));
+    member.loans.push(loan);
+    <span class="kw">return</span> loan;
+  }
+  returnBook(loan) {
+    loan.returnedAt = <span class="kw">new</span> Date();
+    loan.book.available = <span class="kw">true</span>;
+    <span class="kw">return</span> <span class="kw">this</span>.finePolicy.calculate(loan); <span class="cm">// fine in rupees</span>
+  }
+}</pre></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Making a field private with <code>#</code> is an example of…","hi":"<code>#</code> से field को private बनाना किसका उदाहरण है…"},"options":[{"en":"Inheritance","hi":"Inheritance"},{"en":"Encapsulation","hi":"Encapsulation"},{"en":"Polymorphism","hi":"Polymorphism"},{"en":"Sharding","hi":"Sharding"}],"answer":1,"why":{"en":"Encapsulation hides data and allows changes only through methods.","hi":"Encapsulation data छिपाता है और बदलाव सिर्फ़ methods से होने देता है।"}},{"q":{"en":"Adding a new payment type by adding a new class, without editing old code, follows…","hi":"पुराना code बदले बिना नई class जोड़कर नया payment type जोड़ना, किसका पालन है…"},"options":["Single Responsibility","Open/Closed","Liskov Substitution","Interface Segregation"],"answer":1,"why":{"en":"Open for extension, closed for modification.","hi":"Extension के लिए खुला, modification के लिए बंद।"}},{"q":{"en":"A class that creates invoices, sends emails and writes files breaks…","hi":"जो class invoices बनाए, emails भेजे और files लिखे, वो किसे तोड़ती है…"},"options":["Single Responsibility","Dependency Inversion","Liskov Substitution",{"en":"Nothing","hi":"किसी को नहीं"}],"answer":0,"why":{"en":"It has three jobs, so three reasons to change.","hi":"उसके तीन काम हैं, यानी बदलने की तीन वजहें।"}},{"q":{"en":"Passing a mailer into the constructor instead of creating it inside is…","hi":"Mailer को अंदर बनाने की जगह constructor में देना है…"},"options":["Encapsulation","Dependency Inversion","Inheritance","Open/Closed"],"answer":1,"why":{"en":"The class depends on an abstraction given from outside: easy to swap and test.","hi":"Class बाहर से दी गई abstraction पर निर्भर है: बदलना और test करना आसान।"}},{"q":{"en":"\"A Car has an Engine\" describes…","hi":"\"Car के पास Engine है\" किसे दिखाता है…"},"options":[{"en":"Inheritance (is-a)","hi":"Inheritance (is-a)"},{"en":"Composition (has-a)","hi":"Composition (has-a)"},{"en":"Polymorphism","hi":"Polymorphism"},{"en":"Abstraction only","hi":"सिर्फ़ Abstraction"}],"answer":1,"why":{"en":"Has-a = composition. Is-a = inheritance.","hi":"Has-a = composition। Is-a = inheritance।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:lld-basics"></button>
+        </div>
+        <div class="lesson-nav"><span class="btn btn-outline" style="opacity:.55;cursor:default">← <span class="en">Design an AI (RAG) chatbot (soon)</span><span class="hi">AI (RAG) chatbot design करें (जल्द)</span></span><span class="btn btn-outline" style="opacity:.55;cursor:default">→ <span class="en">Design patterns for interviews (soon)</span><span class="hi">Interview के लिए design patterns (जल्द)</span></span></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20LLD%20basics%3A%20OOP%20and%20SOLID%20in%20JavaScript" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20LLD%20basics%3A%20OOP%20and%20SOLID%20in%20JavaScript" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

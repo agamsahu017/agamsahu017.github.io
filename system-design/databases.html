@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SQL vs NoSQL, Indexing, Replication and Sharding | Kodivo</title>
+  <meta name="description" content="Databases for system design interviews: SQL vs NoSQL, ACID, indexes, read replicas and sharding, explained simply with examples and diagrams." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/databases.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/databases.html" />
+  <meta property="og:title" content="SQL vs NoSQL, Indexing, Replication and Sharding | Kodivo" />
+  <meta property="og:description" content="Databases for system design interviews: SQL vs NoSQL, ACID, indexes, read replicas and sharding, explained simply with examples and diagrams." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Databases: SQL, NoSQL, replication, sharding",
+          "item": "https://agamsahu017.github.io/system-design/databases.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "SQL vs NoSQL, Indexing, Replication and Sharding",
+      "description": "Databases for system design interviews: SQL vs NoSQL, ACID, indexes, read replicas and sharding, explained simply with examples and diagrams.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(Databases%3A%20SQL%2C%20NoSQL%2C%20replication%2C%20sharding)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>Databases: SQL, NoSQL, replication, sharding</span></nav>
+        <span class="pill"><span class="en">Module 4 of 17</span><span class="hi">मॉड्यूल 4 / 17</span></span>
+        <h1><span class="en">Databases: SQL, NoSQL, replication, sharding</span><span class="hi">Databases: SQL, NoSQL, replication, sharding</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">30 min read + practice</span><span class="hi">30 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">How to choose between SQL and NoSQL, and how to explain it</span><span class="hi">SQL और NoSQL में कैसे चुनें, और कैसे समझाएँ</span></li><li><span class="en">What indexes do, and their hidden cost</span><span class="hi">Indexes क्या करते हैं, और उनकी छिपी cost</span></li><li><span class="en">Replication: copies of your database for reads and safety</span><span class="hi">Replication: reads और safety के लिए database की copies</span></li><li><span class="en">Sharding: splitting data across many databases</span><span class="hi">Sharding: data को कई databases में बाँटना</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#choose"><span class="en">SQL vs NoSQL</span><span class="hi">SQL vs NoSQL</span></a><a href="#index"><span class="en">Indexes</span><span class="hi">Indexes</span></a><a href="#replication"><span class="en">Replication</span><span class="hi">Replication</span></a><a href="#sharding"><span class="en">Sharding</span><span class="hi">Sharding</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+      </div>
+      <section id="choose">
+        <h2 id="choose-h"><span class="en">SQL vs NoSQL</span><span class="hi">SQL vs NoSQL</span></h2>
+        <div class="table-wrap"><table><thead><tr><th></th><th>SQL (PostgreSQL, MySQL)</th><th>NoSQL (DynamoDB, MongoDB, Cassandra)</th></tr></thead><tbody><tr><td><span class="en">Data shape</span><span class="hi">Data का रूप</span></td><td><span class="en">Tables with fixed columns and relations</span><span class="hi">Fixed columns और relations वाली tables</span></td><td><span class="en">Documents or key-value, flexible shape</span><span class="hi">Documents या key-value, flexible रूप</span></td></tr><tr><td><span class="en">Strength</span><span class="hi">ताक़त</span></td><td><span class="en">Transactions (ACID), joins, complex queries</span><span class="hi">Transactions (ACID), joins, complex queries</span></td><td><span class="en">Huge scale and fast simple lookups</span><span class="hi">बहुत बड़ा scale और तेज़ आसान lookups</span></td></tr><tr><td><span class="en">Scaling</span><span class="hi">Scaling</span></td><td><span class="en">Mostly vertical + read replicas; sharding is harder</span><span class="hi">ज़्यादातर vertical + read replicas; sharding मुश्किल</span></td><td><span class="en">Built to spread across many machines</span><span class="hi">कई machines पर फैलने के लिए बना</span></td></tr><tr><td><span class="en">Good for</span><span class="hi">किसके लिए</span></td><td><span class="en">Users, orders, payments, bookings</span><span class="hi">Users, orders, payments, bookings</span></td><td><span class="en">Chats, logs, sessions, carts, activity feeds</span><span class="hi">Chats, logs, sessions, carts, activity feeds</span></td></tr></tbody></table></div>
+        <div class="idea"><p class="en"><b>ACID</b> in one line: a transaction happens <b>fully or not at all</b>, data stays valid, parallel transactions don't mix, and saved data isn't lost. That's why money goes in SQL.</p><p class="hi"><b>ACID</b> एक लाइन में: transaction या तो <b>पूरा होता है या बिल्कुल नहीं</b>, data सही रहता है, साथ चल रहे transactions आपस में नहीं मिलते, और save हुआ data खोता नहीं। इसीलिए पैसे का data SQL में जाता है।</p></div>
+        <div class="say"><p class="en">🎤 "Orders and payments need transactions, so I'll use PostgreSQL. Chat messages are huge in volume and read by conversation ID, so a NoSQL store like Cassandra or DynamoDB fits better."</p><p class="hi">🎤 "Orders and payments need transactions, so I'll use PostgreSQL. Chat messages are huge in volume and read by conversation ID, so a NoSQL store like Cassandra or DynamoDB fits better."</p></div>
+      </section>
+      <section id="index">
+        <h2 id="index-h"><span class="en">Indexes: the book index</span><span class="hi">Indexes: किताब का index</span></h2>
+        <p class="en">Without an index, finding a user by email means checking every row: O(n). An index works like the index at the back of a book: it jumps almost straight to the right rows, roughly O(log n).</p><p class="hi">Index के बिना email से user ढूँढने का मतलब है हर row देखना: O(n)। Index किताब के पीछे वाले index की तरह काम करता है: लगभग सीधे सही rows पर पहुँचता है, लगभग O(log n)।</p>
+        <pre class="code" data-copy>-- Find a user by email quickly
+CREATE INDEX idx_users_email ON users (email);
+
+-- A composite index helps queries that filter by both columns, <span class="kw">in</span> <span class="kw">this</span> order
+CREATE INDEX idx_orders_user_date ON orders (user_id, created_at);</pre>
+        <ul><li><span class="en">Index the columns you <b>filter, join or sort</b> by often.</span><span class="hi">उन columns पर index लगाइए जिनसे आप अक्सर <b>filter, join या sort</b> करते हैं।</span></li><li><span class="en"><b>Hidden cost:</b> every insert and update must also update each index, so writes get slower and storage grows. Don't index everything.</span><span class="hi"><b>छिपी cost:</b> हर insert और update में हर index भी बदलता है, इसलिए writes धीमे होते हैं और storage बढ़ता है। हर चीज़ पर index मत लगाइए।</span></li></ul>
+      </section>
+      <section id="replication">
+        <h2 id="replication-h"><span class="en">Replication: copies for reads and safety</span><span class="hi">Replication: reads और safety के लिए copies</span></h2>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">App servers</span><span class="hi">App servers</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Primary (writes)</span><span class="hi">Primary (writes)</span></div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node"><span class="en">Replica 1 (reads)</span><span class="hi">Replica 1 (reads)</span></div><div class="node"><span class="en">Replica 2 (reads)</span><span class="hi">Replica 2 (reads)</span></div></div></div><figcaption><span class="en">Writes go to the primary, which copies changes to read replicas</span><span class="hi">Writes primary पर जाते हैं, जो बदलाव read replicas पर copy करता है</span></figcaption></figure>
+        <ul><li><span class="en"><b>Primary</b> handles all writes. <b>Replicas</b> copy it and serve reads.</span><span class="hi"><b>Primary</b> सारे writes संभालता है। <b>Replicas</b> उसकी copy रखते हैं और reads देते हैं।</span></li><li><span class="en">Great for read-heavy apps: add replicas to handle more reads.</span><span class="hi">Read-heavy apps के लिए बढ़िया: ज़्यादा reads के लिए replicas जोड़िए।</span></li><li><span class="en">If the primary fails, a replica can be promoted to primary (failover).</span><span class="hi">Primary fail हो, तो किसी replica को primary बनाया जा सकता है (failover)।</span></li><li><span class="en"><b>Replication lag:</b> replicas may be a little behind. A user who just updated their profile might see the old one. Fix: read your own recent writes from the primary.</span><span class="hi"><b>Replication lag:</b> replicas थोड़ा पीछे हो सकते हैं। जिस user ने अभी profile बदली, उसे पुरानी दिख सकती है। हल: अपने ताज़ा writes primary से पढ़िए।</span></li></ul>
+      </section>
+      <section id="sharding">
+        <h2 id="sharding-h"><span class="en">Sharding: splitting the data</span><span class="hi">Sharding: data को बाँटना</span></h2><span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">When one database can't hold all the data or handle all the writes, split the data across several databases called <b>shards</b>. Each shard holds a part of the data.</p><p class="hi">जब एक database सारा data नहीं रख पाता या सारे writes नहीं संभाल पाता, तो data को कई databases में बाँटिए जिन्हें <b>shards</b> कहते हैं। हर shard में data का एक हिस्सा होता है।</p>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">App</span><span class="hi">App</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Shard router (user_id % 3)</span><span class="hi">Shard router (user_id % 3)</span></div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node"><span class="en">Shard 0: users 0, 3, 6…</span><span class="hi">Shard 0: users 0, 3, 6…</span></div><div class="node"><span class="en">Shard 1: users 1, 4, 7…</span><span class="hi">Shard 1: users 1, 4, 7…</span></div><div class="node"><span class="en">Shard 2: users 2, 5, 8…</span><span class="hi">Shard 2: users 2, 5, 8…</span></div></div></div></figure>
+        <ul><li><span class="en"><b>Shard key</b> decides where each row goes, for example <code>user_id</code>. Choose one that spreads data <b>evenly</b>.</span><span class="hi"><b>Shard key</b> तय करती है कि हर row कहाँ जाएगी, जैसे <code>user_id</code>। ऐसी key चुनिए जो data को <b>बराबर</b> बाँटे।</span></li><li><span class="en"><b>Hot shard:</b> a bad key (like "country") can put most traffic on one shard.</span><span class="hi"><b>Hot shard:</b> ग़लत key (जैसे "country") से ज़्यादातर traffic एक ही shard पर आ सकता है।</span></li><li><span class="en"><b>Cross-shard queries</b> and joins become slow and complex. Design so most queries hit one shard.</span><span class="hi"><b>Cross-shard queries</b> और joins धीमे और मुश्किल हो जाते हैं। ऐसा design कीजिए कि ज़्यादातर queries एक ही shard पर जाएँ।</span></li><li><span class="en">Simple <code>% N</code> makes adding shards painful, because most data must move. <b>Consistent hashing</b> reduces that movement.</span><span class="hi">सीधा <code>% N</code> नए shards जोड़ना मुश्किल बनाता है, क्योंकि ज़्यादातर data खिसकाना पड़ता है। <b>Consistent hashing</b> यह खिसकाव कम करता है।</span></li></ul>
+        <div class="warn"><p class="en">Sharding is a last step. First try indexes, caching and read replicas. Say this in interviews: it shows maturity.</p><p class="hi">Sharding आख़िरी क़दम है। पहले indexes, caching और read replicas आज़माइए। Interview में यह बोलिए: इससे maturity दिखती है।</p></div>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Choosing NoSQL "because it scales" for data that needs transactions, like payments.</span><span class="hi">Payments जैसे transactions वाले data के लिए "scale होता है" कहकर NoSQL चुनना।</span></li><li><span class="en">Jumping to sharding before indexes, caching and replicas.</span><span class="hi">Indexes, caching और replicas से पहले sharding पर कूदना।</span></li><li><span class="en">Forgetting replication lag when a user reads right after writing.</span><span class="hi">Write के तुरंत बाद read करने पर replication lag भूल जाना।</span></li><li><span class="en">Adding an index on every column.</span><span class="hi">हर column पर index लगा देना।</span></li></ul></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: An e-commerce site has: products (lakhs, read a lot), orders and payments, shopping carts, and user sessions. Which database for each, and why?</span><span class="hi">Exercise 1: एक e-commerce site में हैं: products (लाखों, बहुत पढ़े जाते हैं), orders और payments, shopping carts, और user sessions। हर एक के लिए कौन-सा database, और क्यों?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><div class="table-wrap"><table><thead><tr><th><span class="en">Data</span><span class="hi">Data</span></th><th><span class="en">Choice</span><span class="hi">चुनाव</span></th><th><span class="en">Why</span><span class="hi">क्यों</span></th></tr></thead><tbody><tr><td><span class="en">Orders and payments</span><span class="hi">Orders और payments</span></td><td>PostgreSQL</td><td><span class="en">Needs transactions: money must never be half-saved</span><span class="hi">Transactions चाहिए: पैसा कभी आधा save न हो</span></td></tr><tr><td><span class="en">Product catalogue</span><span class="hi">Product catalogue</span></td><td><span class="en">PostgreSQL + cache (+ search engine)</span><span class="hi">PostgreSQL + cache (+ search engine)</span></td><td><span class="en">Read-heavy: cache popular products; a search engine for text search</span><span class="hi">Read-heavy: popular products cache करें; text search के लिए search engine</span></td></tr><tr><td><span class="en">Shopping cart</span><span class="hi">Shopping cart</span></td><td><span class="en">Redis or a key-value store</span><span class="hi">Redis या key-value store</span></td><td><span class="en">Fast, simple, lookup by user ID</span><span class="hi">तेज़, आसान, user ID से lookup</span></td></tr><tr><td><span class="en">Sessions</span><span class="hi">Sessions</span></td><td>Redis</td><td><span class="en">Tiny, short-lived, needs to be very fast</span><span class="hi">छोटे, कम समय के, बहुत तेज़ चाहिए</span></td></tr></tbody></table></div></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Which data most needs ACID transactions?","hi":"किस data को ACID transactions की सबसे ज़्यादा ज़रूरत है?"},"options":[{"en":"Page view logs","hi":"Page view logs"},{"en":"Bank transfers","hi":"Bank transfers"},{"en":"Like counts","hi":"Like counts"},{"en":"Cached images","hi":"Cached images"}],"answer":1,"why":{"en":"Money must move fully or not at all.","hi":"पैसा या तो पूरा जाए या बिल्कुल नहीं।"}},{"q":{"en":"What is the hidden cost of an index?","hi":"Index की छिपी cost क्या है?"},"options":[{"en":"Slower reads","hi":"धीमे reads"},{"en":"Slower writes and more storage","hi":"धीमे writes और ज़्यादा storage"},{"en":"Data loss","hi":"Data loss"},{"en":"No cost","hi":"कोई cost नहीं"}],"answer":1,"why":{"en":"Every write must also update the index.","hi":"हर write में index भी बदलना पड़ता है।"}},{"q":{"en":"Read replicas mainly help with…","hi":"Read replicas मुख्य रूप से किसमें मदद करते हैं…"},"options":[{"en":"More writes","hi":"ज़्यादा writes"},{"en":"More reads and failover","hi":"ज़्यादा reads और failover"},{"en":"Smaller storage","hi":"कम storage"},{"en":"Faster indexes","hi":"तेज़ indexes"}],"answer":1,"why":{"en":"Replicas serve reads, and one can take over if the primary fails.","hi":"Replicas reads देते हैं, और primary fail हो तो कोई replica काम सँभाल सकता है।"}},{"q":{"en":"A user updates their name but sees the old one. Likely cause?","hi":"User नाम बदलता है पर पुराना दिखता है। संभावित कारण?"},"options":[{"en":"Sharding","hi":"Sharding"},{"en":"Replication lag","hi":"Replication lag"},{"en":"Indexing","hi":"Indexing"},{"en":"DNS","hi":"DNS"}],"answer":1,"why":{"en":"The read went to a replica that hasn't caught up yet.","hi":"Read ऐसे replica पर गया जो अभी तक अपडेट नहीं हुआ।"}},{"q":{"en":"A good shard key…","hi":"अच्छी shard key…"},"options":[{"en":"Puts most data on one shard","hi":"ज़्यादातर data एक shard पर डालती है"},{"en":"Spreads data and traffic evenly","hi":"Data और traffic को बराबर बाँटती है"},{"en":"Is always the country","hi":"हमेशा country होती है"},{"en":"Changes every day","hi":"रोज़ बदलती है"}],"answer":1,"why":{"en":"Even spread avoids hot shards.","hi":"बराबर बँटवारे से hot shards नहीं बनते।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:databases"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="scaling.html">← <span class="en">Scaling and load balancers</span><span class="hi">Scaling और load balancers</span></a><a class="btn btn-outline" href="caching.html">→ <span class="en">Caching and CDN</span><span class="hi">Caching और CDN</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Databases%3A%20SQL%2C%20NoSQL%2C%20replication%2C%20sharding" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Databases%3A%20SQL%2C%20NoSQL%2C%20replication%2C%20sharding" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

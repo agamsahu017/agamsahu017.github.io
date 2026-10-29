@@ -364,4 +364,130 @@
     b.addEventListener("input", update);
     update();
   }
+
+  // ---------- System design: back-of-envelope calculator ----------
+  const est = document.getElementById("estimate-viz");
+  if (est) {
+    const field = (name) => est.querySelector(`[data-in=${name}]`);
+    const out = (name) => est.querySelector(`[data-out=${name}]`);
+    const fmt = (n) => (n >= 100 ? Math.round(n) : Math.round(n * 10) / 10).toLocaleString("en-IN");
+    const size = (bytes) => {
+      const units = ["B", "KB", "MB", "GB", "TB", "PB"];
+      let i = 0;
+      while (bytes >= 1000 && i < units.length - 1) { bytes /= 1000; i++; }
+      return `${fmt(bytes)} ${units[i]}`;
+    };
+    const update = () => {
+      const users = Math.max(0, Number(field("users").value) || 0);
+      const perUser = Math.max(0, Number(field("per-user").value) || 0);
+      const writePct = Math.min(100, Math.max(0, Number(field("write-pct").value) || 0));
+      const kb = Math.max(0, Number(field("kb").value) || 0);
+      const peak = Math.max(1, Number(field("peak").value) || 1);
+      const perDay = users * perUser;
+      const qps = perDay / 86400;
+      const writesPerDay = perDay * (writePct / 100);
+      const storagePerDay = writesPerDay * kb * 1000;
+      out("per-day").textContent = fmt(perDay);
+      out("qps").textContent = fmt(qps);
+      out("peak").textContent = fmt(qps * peak);
+      out("write-qps").textContent = fmt(writesPerDay / 86400);
+      out("day").textContent = size(storagePerDay);
+      out("year").textContent = size(storagePerDay * 365);
+      out("five").textContent = size(storagePerDay * 365 * 5);
+    };
+    est.querySelectorAll("input").forEach((x) => x.addEventListener("input", update));
+    update();
+  }
+
+  // ---------- System design: load balancer (round robin vs least connections) ----------
+  const lb = document.getElementById("lb-viz");
+  if (lb) {
+    const serversEl = lb.querySelector(".servers");
+    const msg = lb.querySelector(".viz-msg");
+    const mode = lb.querySelector("select");
+    let load, next, down, reqNo;
+    const reset = () => { load = [0, 0, 0]; next = 0; down = [false, false, false]; reqNo = 0; draw(); };
+    function draw(hit = -1) {
+      serversEl.innerHTML = load.map((n, i) => `<button type="button" class="server${down[i] ? " down" : ""}${i === hit ? " hit" : ""}" data-i="${i}" title="Click to switch this server on/off"><b>Server ${i + 1}</b><span>${down[i] ? "❌ down" : `${n} ${n === 1 ? "request" : "requests"}`}</span><div class="meter"><i style="width:${Math.min(100, n * 10)}%"></i></div></button>`).join("");
+    }
+    serversEl.addEventListener("click", (e) => {
+      const btn = e.target.closest(".server");
+      if (!btn) return;
+      const i = Number(btn.dataset.i);
+      down[i] = !down[i];
+      draw();
+      setMsg(msg, down[i] ? `Server ${i + 1} is down. The health check notices, and the load balancer stops sending traffic to it.` : `Server ${i + 1} is back. It starts getting requests again.`,
+        down[i] ? `Server ${i + 1} बंद है। Health check इसे पकड़ लेता है, और load balancer इसे traffic भेजना बंद कर देता है।` : `Server ${i + 1} वापस आ गया। इसे फिर से requests मिलने लगीं।`);
+    });
+    lb.querySelector("[data-act=send]").addEventListener("click", () => {
+      const alive = [0, 1, 2].filter((i) => !down[i]);
+      if (!alive.length) { setMsg(msg, "All servers are down! This is why we need enough servers and alerts.", "सारे servers बंद हैं! इसीलिए पर्याप्त servers और alerts ज़रूरी हैं।"); return; }
+      let pick;
+      if (mode.value === "least") {
+        pick = alive.reduce((best, i) => (load[i] < load[best] ? i : best), alive[0]);
+      } else {
+        for (let k = 0; k < 3; k++) { const c = (next + k) % 3; if (!down[c]) { pick = c; break; } }
+        next = (pick + 1) % 3;
+      }
+      load[pick]++;
+      reqNo++;
+      draw(pick);
+      const why = mode.value === "least" ? both("it has the fewest requests", "इस पर सबसे कम requests हैं") : both("it's next in turn", "अब इसकी बारी है");
+      msg.innerHTML = both(`Request #${reqNo} → Server ${pick + 1}, because `, `Request #${reqNo} → Server ${pick + 1}, क्योंकि `) + why + ".";
+    });
+    lb.querySelector("[data-act=burst]").addEventListener("click", async () => {
+      for (let k = 0; k < 6; k++) { lb.querySelector("[data-act=send]").click(); await sleep(220); }
+    });
+    lb.querySelector("[data-act=reset]").addEventListener("click", () => { reset(); setMsg(msg, "Reset. Send some requests.", "Reset हो गया। कुछ requests भेजिए।"); });
+    reset();
+  }
+
+  // ---------- System design: LRU cache simulator ----------
+  const lru = document.getElementById("cache-viz");
+  if (lru) {
+    const input = lru.querySelector("input");
+    const cellsEl = lru.querySelector(".cells");
+    const msg = lru.querySelector(".viz-msg");
+    const stats = lru.querySelector(".cache-stats");
+    const CAP = 3;
+    let cache, hits, misses, busy = false;
+    const reset = () => { cache = []; hits = 0; misses = 0; renderCells(cellsEl, ["·", "·", "·"], false); stats.textContent = ""; };
+    reset();
+    lru.querySelector("[data-act=run]").addEventListener("click", async () => {
+      if (busy) return;
+      busy = true;
+      try {
+        reset();
+        const keys = input.value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 16).split("");
+        if (!keys.length) { setMsg(msg, "Type some letters, like A B C A D.", "कुछ अक्षर लिखिए, जैसे A B C A D।"); return; }
+        for (const k of keys) {
+          const idx = cache.indexOf(k);
+          let en, hi;
+          if (idx !== -1) {
+            hits++;
+            cache.splice(idx, 1);
+            cache.push(k);
+            en = `Get ${k}: <b>HIT</b> ✅ found in cache (fast). Moved to "most recent".`;
+            hi = `${k} माँगा: <b>HIT</b> ✅ cache में मिल गया (तेज़)। "सबसे नया" में खिसकाया।`;
+          } else {
+            misses++;
+            let evicted = "";
+            if (cache.length === CAP) evicted = cache.shift();
+            cache.push(k);
+            en = `Get ${k}: <b>MISS</b> ❌ read from database (slow), then saved in cache.` + (evicted ? ` Cache full, so <b>${evicted}</b> (least recently used) was removed.` : "");
+            hi = `${k} माँगा: <b>MISS</b> ❌ database से पढ़ा (धीमा), फिर cache में रखा।` + (evicted ? ` Cache भरा था, इसलिए <b>${evicted}</b> (सबसे पुराना इस्तेमाल) हटाया गया।` : "");
+          }
+          const shown = [...cache, ...Array(CAP - cache.length).fill("·")];
+          const cells = renderCells(cellsEl, shown, false);
+          const pos = cache.indexOf(k);
+          cells[pos].classList.add(idx !== -1 ? "found" : "moved");
+          setMsg(msg, en, hi);
+          stats.innerHTML = both(`Hits: ${hits} · Misses: ${misses} · Hit rate: ${Math.round((hits / (hits + misses)) * 100)}%`, `Hits: ${hits} · Misses: ${misses} · Hit rate: ${Math.round((hits / (hits + misses)) * 100)}%`);
+          await sleep(1100);
+        }
+      } finally {
+        busy = false;
+      }
+    });
+  }
 })();

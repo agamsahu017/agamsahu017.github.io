@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Caching and CDN for System Design Interviews | Kodivo</title>
+  <meta name="description" content="Caching made simple: Redis, cache-aside, write-through, TTL, LRU eviction, invalidation, stampedes and CDNs, with an LRU cache simulator." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/caching.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/caching.html" />
+  <meta property="og:title" content="Caching and CDN for System Design Interviews | Kodivo" />
+  <meta property="og:description" content="Caching made simple: Redis, cache-aside, write-through, TTL, LRU eviction, invalidation, stampedes and CDNs, with an LRU cache simulator." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Caching and CDN",
+          "item": "https://agamsahu017.github.io/system-design/caching.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Caching and CDN for System Design Interviews",
+      "description": "Caching made simple: Redis, cache-aside, write-through, TTL, LRU eviction, invalidation, stampedes and CDNs, with an LRU cache simulator.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(Caching%20and%20CDN)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>Caching and CDN</span></nav>
+        <span class="pill"><span class="en">Module 5 of 17</span><span class="hi">मॉड्यूल 5 / 17</span></span>
+        <h1><span class="en">Caching and CDN</span><span class="hi">Caching और CDN</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Why caching makes apps fast, and where caches live</span><span class="hi">Caching से apps तेज़ क्यों होते हैं, और cache कहाँ-कहाँ होते हैं</span></li><li><span class="en">Cache-aside and other strategies, with code</span><span class="hi">Cache-aside और दूसरी strategies, code के साथ</span></li><li><span class="en">TTL, LRU eviction and the hard part: invalidation</span><span class="hi">TTL, LRU eviction और सबसे मुश्किल हिस्सा: invalidation</span></li><li><span class="en">What a CDN does and when to use it</span><span class="hi">CDN क्या करता है और कब इस्तेमाल करें</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#why"><span class="en">Why cache</span><span class="hi">Cache क्यों</span></a><a href="#aside"><span class="en">Cache-aside</span><span class="hi">Cache-aside</span></a><a href="#evict"><span class="en">TTL and LRU</span><span class="hi">TTL और LRU</span></a><a href="#hard"><span class="en">Hard problems</span><span class="hi">मुश्किल हिस्से</span></a><a href="#cdn"><span class="en">CDN</span><span class="hi">CDN</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+      </div>
+      <section id="why">
+        <h2 id="why-h"><span class="en">Why cache?</span><span class="hi">Cache क्यों?</span></h2>
+        <p class="en">Reading from memory is many times faster than reading from a database on disk, and it saves the database from repeated work. A cache keeps <b>frequently used data in memory</b>.</p><p class="hi">Memory से पढ़ना, disk वाले database से पढ़ने से कई गुना तेज़ है, और इससे database बार-बार एक ही काम करने से बचता है। Cache <b>बार-बार इस्तेमाल होने वाला data memory में</b> रखता है।</p>
+        <p class="en"><b>Analogy:</b> a shopkeeper keeps the fast-selling items on the counter (cache) and everything else in the godown (database).</p><p class="hi"><b>मिसाल:</b> दुकानदार जल्दी बिकने वाला सामान counter पर (cache) रखता है और बाक़ी सब godown में (database)।</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Where</span><span class="hi">कहाँ</span></th><th><span class="en">Example</span><span class="hi">उदाहरण</span></th></tr></thead><tbody><tr><td><span class="en">Browser cache</span><span class="hi">Browser cache</span></td><td><span class="en">Images and CSS saved on the user's device</span><span class="hi">User के device पर saved images और CSS</span></td></tr><tr><td>CDN</td><td><span class="en">Static files on servers near the user</span><span class="hi">User के पास वाले servers पर static files</span></td></tr><tr><td><span class="en">Application cache</span><span class="hi">Application cache</span></td><td><span class="en"><b>Redis</b> or Memcached in front of the database</span><span class="hi">Database के आगे <b>Redis</b> या Memcached</span></td></tr><tr><td><span class="en">Database cache</span><span class="hi">Database cache</span></td><td><span class="en">The database's own memory buffer</span><span class="hi">Database का अपना memory buffer</span></td></tr></tbody></table></div>
+      </section>
+      <section id="aside">
+        <h2 id="aside-h"><span class="en">Cache-aside: the most common strategy</span><span class="hi">Cache-aside: सबसे common strategy</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">App</span><span class="hi">App</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">1. Check Redis</span><span class="hi">1. Redis देखो</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">2. Miss? Read DB</span><span class="hi">2. नहीं मिला? DB पढ़ो</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">3. Save in Redis with TTL</span><span class="hi">3. TTL के साथ Redis में रखो</span></div></div></figure>
+        <pre class="code" data-copy><span class="kw">async</span> <span class="kw">function</span> getProduct(id) {
+  <span class="kw">const</span> key = <span class="st">`product:${id}`</span>;
+
+  <span class="kw">const</span> cached = <span class="kw">await</span> redis.get(key);          <span class="cm">// 1. try the cache</span>
+  <span class="kw">if</span> (cached) <span class="kw">return</span> JSON.parse(cached);        <span class="cm">// hit: fast</span>
+
+  <span class="kw">const</span> product = <span class="kw">await</span> db.products.findById(id); <span class="cm">// 2. miss: read the database</span>
+  <span class="kw">await</span> redis.set(key, JSON.stringify(product), <span class="st">"EX"</span>, 300); <span class="cm">// 3. keep for 5 minutes</span>
+  <span class="kw">return</span> product;
+}
+
+<span class="kw">async</span> <span class="kw">function</span> updateProduct(id, data) {
+  <span class="kw">await</span> db.products.update(id, data);
+  <span class="kw">await</span> redis.del(<span class="st">`product:${id}`</span>);           <span class="cm">// invalidate, so nobody sees old data</span>
+}</pre>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Strategy</span><span class="hi">Strategy</span></th><th><span class="en">How</span><span class="hi">कैसे</span></th><th><span class="en">Trade-off</span><span class="hi">Trade-off</span></th></tr></thead><tbody><tr><td>Cache-aside</td><td><span class="en">App reads cache, falls back to DB, fills cache</span><span class="hi">App cache पढ़ता है, न मिले तो DB, फिर cache भरता है</span></td><td><span class="en">Simple; first read is slow</span><span class="hi">आसान; पहला read धीमा</span></td></tr><tr><td>Write-through</td><td><span class="en">Write to cache and DB together</span><span class="hi">Cache और DB में साथ-साथ लिखो</span></td><td><span class="en">Cache always fresh; writes slower</span><span class="hi">Cache हमेशा ताज़ा; writes धीमे</span></td></tr><tr><td>Write-back</td><td><span class="en">Write to cache, save to DB later</span><span class="hi">Cache में लिखो, DB में बाद में</span></td><td><span class="en">Very fast writes; risk of losing data</span><span class="hi">बहुत तेज़ writes; data खोने का ख़तरा</span></td></tr></tbody></table></div>
+      </section>
+      <section id="evict">
+        <h2 id="evict-h"><span class="en">TTL and eviction: what leaves the cache</span><span class="hi">TTL और eviction: cache से क्या हटता है</span></h2>
+        <ul><li><span class="en"><b>TTL (time to live):</b> each item expires after a set time, like 5 minutes. Old data can't stay forever.</span><span class="hi"><b>TTL (time to live):</b> हर item एक तय समय बाद expire होता है, जैसे 5 मिनट। पुराना data हमेशा नहीं रह सकता।</span></li><li><span class="en"><b>Eviction:</b> memory is limited. When the cache is full, something must go. <b>LRU (Least Recently Used)</b> removes the item that hasn't been used for the longest time.</span><span class="hi"><b>Eviction:</b> memory सीमित है। Cache भर जाए तो कुछ हटाना पड़ता है। <b>LRU (Least Recently Used)</b> वो item हटाता है जो सबसे लंबे समय से इस्तेमाल नहीं हुआ।</span></li></ul>
+        <div class="viz" id="cache-viz">
+          <div class="viz-title"><span class="en">Try it: an LRU cache with space for 3 items</span><span class="hi">ख़ुद देखें: 3 items की जगह वाला LRU cache</span></div>
+          <div class="viz-controls"><input type="text" class="wide" value="A B C A D B E A" maxlength="40" aria-label="Requests" /><button type="button" class="btn btn-primary" data-act="run"><span class="en">Run requests</span><span class="hi">Requests चलाएँ</span></button></div>
+          <div class="cells"></div>
+          <div class="lru-label"><span><span class="en">← oldest</span><span class="hi">← सबसे पुराना</span></span><span><span class="en">newest →</span><span class="hi">सबसे नया →</span></span></div>
+          <div class="viz-msg"><span class="en">Each letter is a request for that item. Press Run.</span><span class="hi">हर अक्षर उस item की request है। Run दबाइए।</span></div>
+          <div class="cache-stats"></div>
+        </div>
+      </section>
+      <section id="hard">
+        <h2 id="hard-h"><span class="en">The hard parts of caching</span><span class="hi">Caching के मुश्किल हिस्से</span></h2><span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <ul><li><span class="en"><b>Invalidation:</b> when data changes, the cached copy is stale. Delete or update the key on every write, and use a TTL as a safety net.</span><span class="hi"><b>Invalidation:</b> Data बदलने पर cached copy पुरानी हो जाती है। हर write पर key delete या update कीजिए, और safety के लिए TTL रखिए।</span></li><li><span class="en"><b>Cache stampede:</b> a popular key expires and thousands of requests hit the database at once. Fix: let only one request rebuild it (a lock), or refresh before expiry, or add random jitter to TTLs.</span><span class="hi"><b>Cache stampede:</b> एक popular key expire होती है और हज़ारों requests एक साथ database पर पहुँचती हैं। हल: सिर्फ़ एक request को rebuild करने दो (lock), या expiry से पहले refresh करो, या TTL में थोड़ा random फ़र्क़ डालो।</span></li><li><span class="en"><b>Hot key:</b> one key (a celebrity's profile, a live match score) gets enormous traffic. Fix: keep copies on several cache nodes or a small in-app cache.</span><span class="hi"><b>Hot key:</b> एक key (किसी celebrity की profile, live match score) पर भारी traffic आता है। हल: कई cache nodes पर copies रखो, या app के अंदर छोटा cache।</span></li><li><span class="en"><b>What not to cache:</b> data that must always be exact at that moment, like a bank balance during a transfer.</span><span class="hi"><b>क्या cache न करें:</b> वो data जो उसी पल बिल्कुल सही होना चाहिए, जैसे transfer के दौरान bank balance।</span></li></ul>
+      </section>
+      <section id="cdn">
+        <h2 id="cdn-h"><span class="en">CDN: content near the user</span><span class="hi">CDN: user के पास content</span></h2>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">User in Lucknow</span><span class="hi">लखनऊ में user</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">CDN server in India</span><span class="hi">India में CDN server</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Origin server (only on a miss)</span><span class="hi">Origin server (सिर्फ़ miss पर)</span></div></div></figure>
+        <p class="en">A <b>CDN</b> (Content Delivery Network) keeps copies of static files (images, videos, CSS, JS) on servers around the world. Users download from the nearest one: faster pages and much less load on your servers.</p><p class="hi"><b>CDN</b> (Content Delivery Network) static files (images, videos, CSS, JS) की copies दुनिया भर के servers पर रखता है। Users सबसे पास वाले से download करते हैं: तेज़ pages और आपके servers पर बहुत कम बोझ।</p>
+        <div class="say"><p class="en">🎤 "Images and videos go to object storage like S3, served through a CDN. The database only stores the file URL, never the file itself."</p><p class="hi">🎤 "Images and videos go to object storage like S3, served through a CDN. The database only stores the file URL, never the file itself."</p></div>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Adding a cache without saying how it is invalidated.</span><span class="hi">Cache लगाना पर यह न बताना कि invalidate कैसे होगा।</span></li><li><span class="en">Caching everything, including data that must always be exact.</span><span class="hi">सब कुछ cache करना, उस data को भी जो हमेशा सटीक होना चाहिए।</span></li><li><span class="en">No TTL, so stale data stays forever after a missed invalidation.</span><span class="hi">TTL न रखना, जिससे invalidation छूटने पर पुराना data हमेशा रहता है।</span></li><li><span class="en">Serving images from the app server instead of a CDN.</span><span class="hi">Images को CDN की जगह app server से serve करना।</span></li></ul></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: A news website's homepage is opened 50 lakh times a day, and editors update it about every 10 minutes. Design the caching.</span><span class="hi">Exercise 1: एक news website का homepage रोज़ 50 लाख बार खुलता है, और editors इसे लगभग हर 10 मिनट में अपडेट करते हैं। Caching design कीजिए।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><ul><li><span class="en">Cache the rendered homepage (or its API response) in Redis with a <b>TTL of about 1 minute</b>. Most visitors never touch the database.</span><span class="hi">Rendered homepage (या उसका API response) Redis में <b>लगभग 1 मिनट के TTL</b> के साथ cache कीजिए। ज़्यादातर visitors database तक पहुँचते ही नहीं।</span></li><li><span class="en">When an editor publishes, <b>delete the key</b> so the next request rebuilds it with fresh news.</span><span class="hi">Editor publish करे, तो <b>key delete</b> कीजिए ताकि अगली request ताज़ा ख़बरों के साथ उसे दोबारा बनाए।</span></li><li><span class="en">Prevent a <b>stampede</b>: only one request rebuilds the page while others get the old copy for a moment.</span><span class="hi"><b>Stampede</b> रोकिए: सिर्फ़ एक request page दोबारा बनाए, बाक़ी को एक पल के लिए पुरानी copy मिले।</span></li><li><span class="en">Serve all images, CSS and JS through a <b>CDN</b>.</span><span class="hi">सारी images, CSS और JS <b>CDN</b> से serve कीजिए।</span></li></ul></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"In cache-aside, what happens on a cache miss?","hi":"Cache-aside में cache miss पर क्या होता है?"},"options":[{"en":"Return an error","hi":"Error लौटाओ"},{"en":"Read the database, then store the result in the cache","hi":"Database पढ़ो, फिर नतीजा cache में रखो"},{"en":"Restart Redis","hi":"Redis restart करो"},{"en":"Wait for the TTL","hi":"TTL का इंतज़ार करो"}],"answer":1,"why":{"en":"The app falls back to the database and fills the cache for next time.","hi":"App database से पढ़ता है और अगली बार के लिए cache भर देता है।"}},{"q":{"en":"An LRU cache is full. Which item is removed?","hi":"LRU cache भरा है। कौन-सा item हटेगा?"},"options":[{"en":"The newest","hi":"सबसे नया"},{"en":"The least recently used","hi":"जो सबसे लंबे समय से इस्तेमाल नहीं हुआ"},{"en":"The biggest","hi":"सबसे बड़ा"},{"en":"A random one","hi":"कोई भी random"}],"answer":1,"why":{"en":"LRU = Least Recently Used.","hi":"LRU = Least Recently Used।"}},{"q":{"en":"A product's price changes. What should happen to its cache entry?","hi":"किसी product की price बदलती है। उसकी cache entry का क्या होना चाहिए?"},"options":[{"en":"Nothing","hi":"कुछ नहीं"},{"en":"Delete or update it","hi":"Delete या update करें"},{"en":"Double the TTL","hi":"TTL दोगुना करें"},{"en":"Restart the server","hi":"Server restart करें"}],"answer":1,"why":{"en":"Invalidate on write, so users don't see the old price.","hi":"Write पर invalidate कीजिए, ताकि users को पुरानी price न दिखे।"}},{"q":{"en":"What does a CDN mainly serve?","hi":"CDN मुख्य रूप से क्या serve करता है?"},"options":[{"en":"Database transactions","hi":"Database transactions"},{"en":"Static files like images, video, CSS and JS","hi":"Images, video, CSS और JS जैसी static files"},{"en":"Login sessions","hi":"Login sessions"},{"en":"Payments","hi":"Payments"}],"answer":1,"why":{"en":"CDNs cache static content close to users.","hi":"CDN static content को users के पास cache करता है।"}},{"q":{"en":"A popular cache key expires and the database gets flooded. This is a…","hi":"एक popular cache key expire होती है और database पर भीड़ आ जाती है। इसे कहते हैं…"},"options":[{"en":"Hot shard","hi":"Hot shard"},{"en":"Cache stampede","hi":"Cache stampede"},{"en":"Replication lag","hi":"Replication lag"},{"en":"Deadlock","hi":"Deadlock"}],"answer":1,"why":{"en":"Many simultaneous misses on one key = stampede. Use a lock, early refresh or TTL jitter.","hi":"एक key पर एक साथ बहुत सारे miss = stampede। Lock, पहले refresh या TTL jitter इस्तेमाल करें।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:caching"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="databases.html">← <span class="en">Databases: SQL, NoSQL, replication, sharding</span><span class="hi">Databases: SQL, NoSQL, replication, sharding</span></a><span class="btn btn-outline" style="opacity:.55;cursor:default">→ <span class="en">Message queues and async work (soon)</span><span class="hi">Message queues और async काम (जल्द)</span></span></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Caching%20and%20CDN" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Caching%20and%20CDN" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

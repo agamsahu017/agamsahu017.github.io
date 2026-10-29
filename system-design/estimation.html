@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Back-of-Envelope Estimation for System Design | Kodivo</title>
+  <meta name="description" content="Learn quick system design maths: daily users to requests per second, peak traffic and storage, with an interactive calculator and worked examples." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/estimation.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/estimation.html" />
+  <meta property="og:title" content="Back-of-Envelope Estimation for System Design | Kodivo" />
+  <meta property="og:description" content="Learn quick system design maths: daily users to requests per second, peak traffic and storage, with an interactive calculator and worked examples." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Back-of-envelope estimation",
+          "item": "https://agamsahu017.github.io/system-design/estimation.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Back-of-Envelope Estimation for System Design",
+      "description": "Learn quick system design maths: daily users to requests per second, peak traffic and storage, with an interactive calculator and worked examples.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(Back-of-envelope%20estimation)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>Back-of-envelope estimation</span></nav>
+        <span class="pill"><span class="en">Module 2 of 17</span><span class="hi">मॉड्यूल 2 / 17</span></span>
+        <h1><span class="en">Back-of-envelope estimation</span><span class="hi">Back-of-envelope estimation</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">20 min read + practice</span><span class="hi">20 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">The few numbers you should remember</span><span class="hi">कुछ numbers जो याद रखने चाहिए</span></li><li><span class="en">How to turn daily users into requests per second (QPS)</span><span class="hi">रोज़ के users को requests per second (QPS) में कैसे बदलें</span></li><li><span class="en">How to estimate storage for a year</span><span class="hi">एक साल के storage का अंदाज़ा कैसे लगाएँ</span></li><li><span class="en">Why rough numbers are enough in interviews</span><span class="hi">Interview में मोटा हिसाब काफ़ी क्यों है</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#why"><span class="en">Why estimate</span><span class="hi">अंदाज़ा क्यों</span></a><a href="#numbers"><span class="en">Numbers to remember</span><span class="hi">याद रखने वाले numbers</span></a><a href="#calc"><span class="en">Calculator</span><span class="hi">Calculator</span></a><a href="#example"><span class="en">Worked example</span><span class="hi">हल किया उदाहरण</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+      </div>
+      <section id="why">
+        <h2 id="why-h"><span class="en">Why estimate at all?</span><span class="hi">अंदाज़ा लगाना ही क्यों?</span></h2>
+        <p class="en">A design for 100 requests per second is very different from one for 1 lakh requests per second. Estimation tells you whether you need one server or hundreds, one database or many.</p><p class="hi">100 requests per second का design, 1 लाख requests per second वाले design से बिल्कुल अलग होता है। Estimation बताता है कि एक server चाहिए या सैकड़ों, एक database या कई।</p>
+        <div class="idea"><p class="en"><b>Rough is fine.</b> Round numbers aggressively. Interviewers want the right <b>order of magnitude</b> (hundreds vs thousands vs millions), not exact maths.</p><p class="hi"><b>मोटा हिसाब चलेगा।</b> Numbers को खुलकर round कीजिए। Interviewer सही <b>order of magnitude</b> (सैकड़ों vs हज़ारों vs लाखों) चाहते हैं, सटीक गणित नहीं।</p></div>
+      </section>
+      <section id="numbers">
+        <h2 id="numbers-h"><span class="en">Numbers to remember</span><span class="hi">याद रखने वाले numbers</span></h2>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Fact</span><span class="hi">Fact</span></th><th><span class="en">Value</span><span class="hi">Value</span></th><th><span class="en">Shortcut</span><span class="hi">Shortcut</span></th></tr></thead><tbody><tr><td><span class="en">Seconds in a day</span><span class="hi">एक दिन में seconds</span></td><td>86,400</td><td><span class="en">≈ <b>1 lakh</b> (10⁵)</span><span class="hi">≈ <b>1 लाख</b> (10⁵)</span></td></tr><tr><td><span class="en">10 lakh (1 million) requests a day</span><span class="hi">रोज़ 10 लाख (1 million) requests</span></td><td>≈ 12 / sec</td><td><span class="en">1M/day ≈ 12 QPS</span><span class="hi">1M/day ≈ 12 QPS</span></td></tr><tr><td><span class="en">1 crore (10 million) requests a day</span><span class="hi">रोज़ 1 करोड़ (10 million) requests</span></td><td>≈ 116 / sec</td><td><span class="en">≈ 100+ QPS</span><span class="hi">≈ 100+ QPS</span></td></tr><tr><td><span class="en">Peak traffic</span><span class="hi">Peak traffic</span></td><td>2–3× <span class="en">average</span><span class="hi">average</span></td><td><span class="en">Plan for peak, not average</span><span class="hi">Average नहीं, peak के लिए plan करें</span></td></tr><tr><td><span class="en">A text row / tweet</span><span class="hi">एक text row / tweet</span></td><td>≈ 1 KB</td><td></td></tr><tr><td><span class="en">A photo</span><span class="hi">एक photo</span></td><td>≈ 200 KB – 2 MB</td><td></td></tr><tr><td><span class="en">A minute of HD video</span><span class="hi">HD video का एक मिनट</span></td><td>≈ 50–100 MB</td><td></td></tr><tr><td>1 KB → 1 MB → 1 GB → 1 TB</td><td><span class="en">each step ×1,000</span><span class="hi">हर step ×1,000</span></td><td></td></tr></tbody></table></div>
+        <p class="en"><b>Reads vs writes:</b> most apps are read-heavy. People view far more than they post, often 10 to 100 times more. That's why caching helps so much.</p><p class="hi"><b>Reads vs writes:</b> ज़्यादातर apps read-heavy होते हैं। लोग post करने से कहीं ज़्यादा देखते हैं, अक्सर 10 से 100 गुना। इसीलिए caching इतनी काम आती है।</p>
+      </section>
+      <section id="calc">
+        <h2 id="calc-h"><span class="en">Try it: the estimation calculator</span><span class="hi">ख़ुद करें: estimation calculator</span></h2>
+        <div class="viz" id="estimate-viz">
+          <div class="est-grid">
+            <label><span class="en">Daily active users</span><span class="hi">रोज़ के active users</span><input type="number" data-in="users" value="10000000" min="0" /></label>
+            <label><span class="en">Requests per user per day</span><span class="hi">हर user की रोज़ की requests</span><input type="number" data-in="per-user" value="20" min="0" /></label>
+            <label><span class="en">% of requests that write data</span><span class="hi">कितने % requests data लिखती हैं</span><input type="number" data-in="write-pct" value="5" min="0" max="100" /></label>
+            <label><span class="en">Size of each write (KB)</span><span class="hi">हर write का size (KB)</span><input type="number" data-in="kb" value="2" min="0" /></label>
+            <label><span class="en">Peak multiplier</span><span class="hi">Peak multiplier</span><input type="number" data-in="peak" value="3" min="1" /></label>
+          </div>
+          <div class="est-out">
+            <div><span class="en">Requests per day</span><span class="hi">रोज़ की requests</span><b data-out="per-day"></b></div>
+            <div><span class="en">Average QPS</span><span class="hi">Average QPS</span><b data-out="qps"></b></div>
+            <div><span class="en">Peak QPS</span><span class="hi">Peak QPS</span><b data-out="peak"></b></div>
+            <div><span class="en">Write QPS</span><span class="hi">Write QPS</span><b data-out="write-qps"></b></div>
+            <div><span class="en">New storage per day</span><span class="hi">रोज़ का नया storage</span><b data-out="day"></b></div>
+            <div><span class="en">Storage per year</span><span class="hi">एक साल का storage</span><b data-out="year"></b></div>
+            <div><span class="en">Storage for 5 years</span><span class="hi">5 साल का storage</span><b data-out="five"></b></div>
+          </div>
+        </div>
+        <p class="en">Change the numbers and watch how the design pressure changes. Below about a thousand QPS, a few well-tuned servers and one database can often cope. Many thousands of QPS means caching, replicas and more servers.</p><p class="hi">Numbers बदलिए और देखिए design पर दबाव कैसे बदलता है। लगभग हज़ार QPS से कम पर कुछ अच्छे servers और एक database अक्सर काफ़ी होते हैं। कई हज़ार QPS का मतलब है caching, replicas और ज़्यादा servers।</p>
+      </section>
+      <section id="example">
+        <h2 id="example-h"><span class="en">Worked example: a URL shortener</span><span class="hi">हल किया उदाहरण: URL shortener</span></h2>
+        <ol><li><span class="en"><b>Assume</b> 10 lakh new short links a day, and each link is opened 100 times on average.</span><span class="hi"><b>मान लीजिए</b> रोज़ 10 लाख नए short links बनते हैं, और हर link औसतन 100 बार खुलता है।</span></li><li><span class="en"><b>Writes:</b> 10 lakh / 1 lakh seconds ≈ <b>10 per second</b>.</span><span class="hi"><b>Writes:</b> 10 लाख / 1 लाख seconds ≈ <b>10 per second</b>।</span></li><li><span class="en"><b>Reads:</b> 100 × 10 lakh = 10 crore a day ≈ <b>1,000 per second</b>, peak ≈ 3,000.</span><span class="hi"><b>Reads:</b> 100 × 10 लाख = रोज़ 10 करोड़ ≈ <b>1,000 per second</b>, peak ≈ 3,000।</span></li><li><span class="en"><b>Storage:</b> each link ≈ 500 bytes → 10 lakh × 500 B = 500 MB a day ≈ <b>180 GB a year</b>.</span><span class="hi"><b>Storage:</b> हर link ≈ 500 bytes → 10 लाख × 500 B = रोज़ 500 MB ≈ <b>साल में 180 GB</b>।</span></li><li><span class="en"><b>Conclusion:</b> reads are 100× writes, so add a cache for popular links. Storage is small enough for one database for years.</span><span class="hi"><b>नतीजा:</b> Reads, writes से 100 गुना हैं, इसलिए popular links के लिए cache लगाओ। Storage इतना कम है कि सालों तक एक database काफ़ी है।</span></li></ol>
+        <div class="say"><p class="en">🎤 <b>Say it like this:</b> "Roughly 1,000 reads per second with peaks of 3,000, and only about 10 writes per second. So this is read-heavy, and caching popular links will remove most of the database load."</p><p class="hi">🎤 <b>ऐसे बोलिए:</b> "Roughly 1,000 reads per second with peaks of 3,000, and only about 10 writes per second. So this is read-heavy, and caching popular links will remove most of the database load."</p></div>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Spending 10 minutes on exact maths. Round, say the result, and move on.</span><span class="hi">सटीक गणित पर 10 मिनट लगाना। Round कीजिए, नतीजा बोलिए, आगे बढ़िए।</span></li><li><span class="en">Mixing up bits and bytes, or MB and GB.</span><span class="hi">Bits और bytes, या MB और GB में गड़बड़।</span></li><li><span class="en">Planning for the average and forgetting peak traffic.</span><span class="hi">Average के लिए plan करना और peak traffic भूल जाना।</span></li><li><span class="en">Calculating numbers but not saying what they mean for the design.</span><span class="hi">Numbers निकालना पर यह न बताना कि design पर उनका क्या असर है।</span></li></ul></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: A chat app has 5 crore daily users. Each sends 40 messages a day, about 100 bytes each. Estimate messages per second and storage per year.</span><span class="hi">Exercise 1: एक chat app के रोज़ 5 करोड़ users हैं। हर user रोज़ 40 messages भेजता है, हर message लगभग 100 bytes। Messages per second और साल का storage निकालिए।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><ul><li><span class="en">Messages per day: 5 crore × 40 = <b>200 crore</b> (2 billion).</span><span class="hi">रोज़ के messages: 5 करोड़ × 40 = <b>200 करोड़</b> (2 billion)।</span></li><li><span class="en">Per second: 2 billion / 1 lakh ≈ <b>20,000 messages/sec</b>, peak ≈ 60,000.</span><span class="hi">Per second: 2 billion / 1 लाख ≈ <b>20,000 messages/sec</b>, peak ≈ 60,000।</span></li><li><span class="en">Storage: 2 billion × 100 B = 200 GB a day ≈ <b>73 TB a year</b> (before replicas).</span><span class="hi">Storage: 2 billion × 100 B = रोज़ 200 GB ≈ <b>साल में 73 TB</b> (replicas से पहले)।</span></li><li><span class="en">Meaning: this needs many servers, a database that spreads data across machines, and a plan to archive old messages.</span><span class="hi">मतलब: इसके लिए बहुत सारे servers, ऐसा database जो data को कई machines पर बाँटे, और पुराने messages archive करने का plan चाहिए।</span></li></ul></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"About how many seconds are in a day, for quick maths?","hi":"जल्दी हिसाब के लिए एक दिन में लगभग कितने seconds हैं?"},"options":["10,000",{"en":"1 lakh (100,000)","hi":"1 लाख (100,000)"},{"en":"10 lakh","hi":"10 लाख"},"3,600"],"answer":1,"why":{"en":"86,400 rounds to 1 lakh, which makes division easy.","hi":"86,400 को 1 लाख मान लेते हैं, जिससे भाग देना आसान होता है।"}},{"q":{"en":"10 lakh requests per day is roughly…","hi":"रोज़ 10 लाख requests लगभग कितनी हैं…"},"options":["1 QPS","12 QPS","1,000 QPS","100 QPS"],"answer":1,"why":{"en":"10 lakh / 86,400 ≈ 11.6, so about 12 per second.","hi":"10 लाख / 86,400 ≈ 11.6, यानी लगभग 12 per second।"}},{"q":{"en":"Why do we calculate peak QPS?","hi":"Peak QPS क्यों निकालते हैं?"},"options":[{"en":"Interviewers like big numbers","hi":"Interviewers को बड़े numbers पसंद हैं"},{"en":"Systems must survive the busiest time, not the average","hi":"System को average नहीं, सबसे busy समय झेलना होता है"},{"en":"For billing","hi":"Billing के लिए"},{"en":"It is always 10× average","hi":"यह हमेशा average का 10 गुना होता है"}],"answer":1,"why":{"en":"Traffic is uneven: lunch time, sales and match days create spikes.","hi":"Traffic बराबर नहीं होता: lunch time, sale और match के दिन spike आते हैं।"}},{"q":{"en":"Reads are 100× writes. What is the first idea?","hi":"Reads, writes से 100 गुना हैं। पहला idea क्या है?"},"options":[{"en":"Add a cache","hi":"Cache लगाओ"},{"en":"Add more writes","hi":"और writes जोड़ो"},{"en":"Remove the database","hi":"Database हटा दो"},{"en":"Use only one server","hi":"सिर्फ़ एक server रखो"}],"answer":0,"why":{"en":"Read-heavy systems benefit most from caching popular data.","hi":"Read-heavy systems को popular data cache करने से सबसे ज़्यादा फ़ायदा होता है।"}},{"q":{"en":"1 GB is about…","hi":"1 GB लगभग कितना है…"},"options":["1,000 KB","1,000 MB","1,000 TB","100 MB"],"answer":1,"why":{"en":"KB → MB → GB → TB, each step is ×1,000 (roughly).","hi":"KB → MB → GB → TB, हर step ×1,000 (लगभग)।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:estimation"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="sd-interview.html">← <span class="en">How system design interviews work</span><span class="hi">System design interview कैसे होते हैं</span></a><a class="btn btn-outline" href="scaling.html">→ <span class="en">Scaling and load balancers</span><span class="hi">Scaling और load balancers</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Back-of-envelope%20estimation" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Back-of-envelope%20estimation" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

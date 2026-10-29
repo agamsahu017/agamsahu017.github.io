@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>System Design Interview: HLD vs LLD and How to Answer | Kodivo</title>
+  <meta name="description" content="How system design interviews work for freshers and seniors: HLD vs LLD, what each level is asked, and a simple 7-step framework to answer any question." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/sd-interview.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/sd-interview.html" />
+  <meta property="og:title" content="System Design Interview: HLD vs LLD and How to Answer | Kodivo" />
+  <meta property="og:description" content="How system design interviews work for freshers and seniors: HLD vs LLD, what each level is asked, and a simple 7-step framework to answer any question." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How system design interviews work",
+          "item": "https://agamsahu017.github.io/system-design/sd-interview.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "System Design Interview: HLD vs LLD and How to Answer",
+      "description": "How system design interviews work for freshers and seniors: HLD vs LLD, what each level is asked, and a simple 7-step framework to answer any question.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(How%20system%20design%20interviews%20work)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>How system design interviews work</span></nav>
+        <span class="pill"><span class="en">Module 1 of 17</span><span class="hi">मॉड्यूल 1 / 17</span></span>
+        <h1><span class="en">How system design interviews work</span><span class="hi">System design interview कैसे होते हैं</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">20 min read + practice</span><span class="hi">20 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">The difference between HLD and LLD, in simple words</span><span class="hi">HLD और LLD का फ़र्क़, आसान शब्दों में</span></li><li><span class="en">What freshers, mid-level and senior developers are asked</span><span class="hi">Freshers, mid-level और senior developers से क्या पूछा जाता है</span></li><li><span class="en">A 7-step framework that works for any design question</span><span class="hi">एक 7-step framework जो हर design सवाल पर काम करता है</span></li><li><span class="en">How the interviewer actually scores you</span><span class="hi">Interviewer असल में आपको कैसे score करता है</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#what"><span class="en">HLD vs LLD</span><span class="hi">HLD vs LLD</span></a><a href="#levels"><span class="en">Who gets asked what</span><span class="hi">किससे क्या पूछा जाता है</span></a><a href="#framework"><span class="en">7-step framework</span><span class="hi">7-step framework</span></a><a href="#scoring"><span class="en">How you are scored</span><span class="hi">Score कैसे होता है</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+      </div>
+      <section id="what">
+        <h2 id="what-h"><span class="en">HLD vs LLD: the big picture and the small picture</span><span class="hi">HLD vs LLD: बड़ी तस्वीर और छोटी तस्वीर</span></h2>
+        <p class="en">Imagine building a hospital. The <b>architect's plan</b> shows the buildings, roads, parking and emergency gate. That's <b>HLD</b>. The <b>plan of one room</b> shows where the bed, oxygen line and switches go. That's <b>LLD</b>.</p><p class="hi">एक hospital बनाने की सोचिए। <b>Architect का plan</b> buildings, सड़कें, parking और emergency gate दिखाता है। यह <b>HLD</b> है। <b>एक कमरे का plan</b> दिखाता है कि bed, oxygen line और switches कहाँ लगेंगे। यह <b>LLD</b> है।</p>
+        <div class="table-wrap"><table><thead><tr><th></th><th>HLD (High Level Design)</th><th>LLD (Low Level Design)</th></tr></thead><tbody><tr><td><span class="en">Question</span><span class="hi">सवाल</span></td><td><span class="en">"Design WhatsApp"</span><span class="hi">"WhatsApp design करो"</span></td><td><span class="en">"Design a parking lot" (classes + code)</span><span class="hi">"Parking lot design करो" (classes + code)</span></td></tr><tr><td><span class="en">You draw</span><span class="hi">आप बनाते हैं</span></td><td><span class="en">Boxes: servers, databases, cache, queues</span><span class="hi">Boxes: servers, databases, cache, queues</span></td><td><span class="en">Classes, methods and relationships</span><span class="hi">Classes, methods और relationships</span></td></tr><tr><td><span class="en">Focus</span><span class="hi">ध्यान</span></td><td><span class="en">Scale, speed, reliability, trade-offs</span><span class="hi">Scale, speed, reliability, trade-offs</span></td><td><span class="en">Clean code, OOP, SOLID, design patterns</span><span class="hi">Clean code, OOP, SOLID, design patterns</span></td></tr><tr><td><span class="en">Output</span><span class="hi">नतीजा</span></td><td><span class="en">An architecture diagram</span><span class="hi">एक architecture diagram</span></td><td><span class="en">Working code (often in 60–90 min)</span><span class="hi">चलने वाला code (अक्सर 60–90 मिनट में)</span></td></tr></tbody></table></div>
+      </section>
+      <section id="levels">
+        <h2 id="levels-h"><span class="en">What each experience level is asked</span><span class="hi">हर experience level से क्या पूछा जाता है</span></h2>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Level</span><span class="hi">Level</span></th><th><span class="en">Usually asked</span><span class="hi">आमतौर पर पूछा जाता है</span></th><th><span class="en">They expect</span><span class="hi">वो उम्मीद करते हैं</span></th></tr></thead><tbody><tr><td><span class="en">Students and freshers</span><span class="hi">Students और freshers</span></td><td><span class="en">OOP, simple LLD (library system, parking lot), basic HLD concepts</span><span class="hi">OOP, आसान LLD (library system, parking lot), HLD के basic concepts</span></td><td><span class="en">Clear classes and the basics: client-server, database, cache</span><span class="hi">साफ़ classes और basics: client-server, database, cache</span></td></tr><tr><td><span class="en">2–5 years</span><span class="hi">2–5 साल</span></td><td><span class="en">LLD with patterns, and full HLD of common systems</span><span class="hi">Patterns के साथ LLD, और common systems का पूरा HLD</span></td><td><span class="en">A working design with sensible choices</span><span class="hi">समझदारी वाले फ़ैसलों के साथ चलने वाला design</span></td></tr><tr><td><span class="en">5+ years (senior)</span><span class="hi">5+ साल (senior)</span></td><td><span class="en">Deep HLD, scaling, failures, trade-offs, your own past systems</span><span class="hi">गहरा HLD, scaling, failures, trade-offs, आपके अपने बनाए systems</span></td><td><span class="en">Leading the discussion and explaining <b>why</b></span><span class="hi">Discussion को lead करना और <b>क्यों</b> समझाना</span></td></tr></tbody></table></div>
+        <div class="idea"><p class="en"><b>Good news:</b> nobody expects one perfect answer. There is no single correct design. Interviewers check <b>how you think</b>, ask questions and explain trade-offs.</p><p class="hi"><b>अच्छी ख़बर:</b> कोई एक perfect जवाब की उम्मीद नहीं करता। कोई एक सही design होता ही नहीं। Interviewer देखते हैं कि आप <b>कैसे सोचते</b> हैं, सवाल पूछते हैं और trade-offs समझाते हैं।</p></div>
+      </section>
+      <section id="framework">
+        <h2 id="framework-h"><span class="en">The 7-step framework for any HLD question</span><span class="hi">किसी भी HLD सवाल के लिए 7-step framework</span></h2>
+        <p class="en">Don't jump straight to drawing boxes. Follow these steps out loud, in a 45–60 minute interview:</p><p class="hi">सीधे boxes बनाना शुरू मत कीजिए। 45–60 मिनट के interview में ये steps बोलकर follow कीजिए:</p>
+        <ol class="how-steps">
+          <li><span class="en"><b>Requirements (5 min).</b> What must it do (functional)? How many users, how fast, how reliable (non-functional)?</span><span class="hi"><b>Requirements (5 मिनट)।</b> इसे क्या करना है (functional)? कितने users, कितना तेज़, कितना भरोसेमंद (non-functional)?</span></li>
+          <li><span class="en"><b>Estimation (3 min).</b> Users per day → requests per second → storage.</span><span class="hi"><b>Estimation (3 मिनट)।</b> रोज़ के users → requests per second → storage।</span></li>
+          <li><span class="en"><b>APIs (3 min).</b> The 3–5 main endpoints.</span><span class="hi"><b>APIs (3 मिनट)।</b> 3–5 मुख्य endpoints।</span></li>
+          <li><span class="en"><b>Data model (5 min).</b> Main tables and which database.</span><span class="hi"><b>Data model (5 मिनट)।</b> मुख्य tables और कौन-सा database।</span></li>
+          <li><span class="en"><b>High-level diagram (10 min).</b> Client → load balancer → services → cache, database, queue.</span><span class="hi"><b>High-level diagram (10 मिनट)।</b> Client → load balancer → services → cache, database, queue।</span></li>
+          <li><span class="en"><b>Deep dive (15 min).</b> Go deep into the 1–2 hardest parts.</span><span class="hi"><b>Deep dive (15 मिनट)।</b> 1–2 सबसे मुश्किल हिस्सों में गहराई से जाओ।</span></li>
+          <li><span class="en"><b>Trade-offs (5 min).</b> What breaks at 10x scale? What would you change?</span><span class="hi"><b>Trade-offs (5 मिनट)।</b> 10 गुना scale पर क्या टूटेगा? आप क्या बदलेंगे?</span></li>
+        </ol>
+        <div class="say"><p class="en">🎤 <b>Start like this:</b> "Before I design, let me confirm the requirements and the scale, because the design changes a lot between 1,000 users and 10 million users."</p><p class="hi">🎤 <b>ऐसे शुरू कीजिए:</b> "Before I design, let me confirm the requirements and the scale, because the design changes a lot between 1,000 users and 10 million users."</p></div>
+        <h3><span class="en">Example: requirements for "Design Instagram"</span><span class="hi">उदाहरण: "Instagram design करो" के requirements</span></h3>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Functional (what it does)</span><span class="hi">Functional (क्या करता है)</span></th><th><span class="en">Non-functional (how well)</span><span class="hi">Non-functional (कितना अच्छा)</span></th></tr></thead><tbody><tr><td><span class="en">Upload photos with a caption</span><span class="hi">Caption के साथ photo upload</span></td><td><span class="en">Feed loads in under 1 second</span><span class="hi">Feed 1 second से कम में खुले</span></td></tr><tr><td><span class="en">Follow other users</span><span class="hi">दूसरे users को follow करना</span></td><td><span class="en">Highly available: always up</span><span class="hi">Highly available: हमेशा चालू</span></td></tr><tr><td><span class="en">See a feed of people you follow</span><span class="hi">Follow किए लोगों की feed देखना</span></td><td><span class="en">Photos are never lost</span><span class="hi">Photos कभी न खोएँ</span></td></tr><tr><td><span class="en">Like and comment</span><span class="hi">Like और comment</span></td><td><span class="en">A like count can be a few seconds late</span><span class="hi">Like count कुछ seconds देर से अपडेट हो तो चलेगा</span></td></tr></tbody></table></div>
+        <p class="en">Write 3–5 functional requirements and say "I'll leave out stories and reels for now". Keeping scope small is a skill, not a weakness.</p><p class="hi">3–5 functional requirements लिखिए और बोलिए "stories और reels अभी छोड़ रहा हूँ"। Scope छोटा रखना एक skill है, कमज़ोरी नहीं।</p>
+      </section>
+      <section id="scoring">
+        <h2 id="scoring-h"><span class="en">What the interviewer is scoring</span><span class="hi">Interviewer क्या score करता है</span></h2>
+        <ul><li><span class="en"><b>Clarifying:</b> did you ask questions before designing?</span><span class="hi"><b>साफ़ करना:</b> क्या आपने design से पहले सवाल पूछे?</span></li><li><span class="en"><b>Structure:</b> did you follow a clear order, or jump around?</span><span class="hi"><b>Structure:</b> क्या आप एक साफ़ क्रम में चले, या इधर-उधर कूदते रहे?</span></li><li><span class="en"><b>Trade-offs:</b> can you say why you chose X over Y?</span><span class="hi"><b>Trade-offs:</b> क्या आप बता सकते हैं कि Y की जगह X क्यों चुना?</span></li><li><span class="en"><b>Depth:</b> can you go deep on one part when asked?</span><span class="hi"><b>गहराई:</b> पूछने पर क्या आप एक हिस्से में गहराई तक जा सकते हैं?</span></li><li><span class="en"><b>Communication:</b> do you think out loud and take hints well?</span><span class="hi"><b>Communication:</b> क्या आप बोलकर सोचते हैं और hints अच्छे से लेते हैं?</span></li></ul>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Drawing boxes in the first minute, without asking any questions.</span><span class="hi">बिना सवाल पूछे पहले ही मिनट में boxes बनाना।</span></li><li><span class="en">Using buzzwords ("Kafka", "microservices") without saying why they are needed.</span><span class="hi">बिना वजह बताए buzzwords ("Kafka", "microservices") बोलना।</span></li><li><span class="en">Going silent while thinking. Say what you are considering.</span><span class="hi">सोचते हुए चुप हो जाना। आप क्या सोच रहे हैं, बोलते रहिए।</span></li><li><span class="en">Designing for Google scale when the question needs 10,000 users.</span><span class="hi">10,000 users वाले सवाल के लिए Google जितना scale design करना।</span></li><li><span class="en">Defending a choice stubbornly when the interviewer hints at a problem.</span><span class="hi">Interviewer के hint देने पर भी ज़िद से अपनी बात पर अड़े रहना।</span></li></ul></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p class="en">Practise writing requirements. This one habit improves every system design answer.</p><p class="hi">Requirements लिखने की प्रैक्टिस कीजिए। यह एक आदत हर system design जवाब को बेहतर बना देती है।</p>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Write 4 functional and 4 non-functional requirements for a food delivery app like Zomato.</span><span class="hi">Exercise 1: Zomato जैसे food delivery app के 4 functional और 4 non-functional requirements लिखिए।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><div class="table-wrap"><table><thead><tr><th><span class="en">Functional</span><span class="hi">Functional</span></th><th><span class="en">Non-functional</span><span class="hi">Non-functional</span></th></tr></thead><tbody><tr><td><span class="en">Search restaurants near me</span><span class="hi">पास के restaurants ढूँढना</span></td><td><span class="en">Search results in under 300 ms</span><span class="hi">300 ms से कम में search results</span></td></tr><tr><td><span class="en">Place an order and pay</span><span class="hi">Order देना और payment करना</span></td><td><span class="en">Payments are never charged twice</span><span class="hi">Payment कभी दो बार न कटे</span></td></tr><tr><td><span class="en">Track the delivery partner live</span><span class="hi">Delivery partner को live track करना</span></td><td><span class="en">Location updates every few seconds</span><span class="hi">हर कुछ seconds में location अपडेट</span></td></tr><tr><td><span class="en">Rate the restaurant</span><span class="hi">Restaurant को rating देना</span></td><td><span class="en">Highly available at lunch and dinner peaks</span><span class="hi">Lunch और dinner के peak पर हमेशा चालू</span></td></tr></tbody></table></div></div></details></div>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 2: For "Design YouTube", what would you say is out of scope to keep the interview focused?</span><span class="hi">Exercise 2: "YouTube design करो" में interview को focused रखने के लिए आप क्या scope से बाहर रखेंगे?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">A good answer: "I'll focus on upload, video processing and watching. I'll leave out comments, recommendations, live streaming, ads and monetisation for now, and come back to them if we have time."</p><p class="hi">अच्छा जवाब: "I'll focus on upload, video processing and watching. I'll leave out comments, recommendations, live streaming, ads and monetisation for now, and come back to them if we have time."</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"\"Design a parking lot with classes\" is usually…","hi":"\"Classes के साथ parking lot design करो\" आमतौर पर होता है…"},"options":["HLD","LLD","DSA",{"en":"A database question","hi":"Database का सवाल"}],"answer":1,"why":{"en":"It's about classes, methods and clean code: that's LLD.","hi":"यह classes, methods और clean code के बारे में है: यह LLD है।"}},{"q":{"en":"What should you do first in an HLD interview?","hi":"HLD interview में सबसे पहले क्या करना चाहिए?"},"options":[{"en":"Draw the architecture","hi":"Architecture बनाना"},{"en":"Clarify requirements and scale","hi":"Requirements और scale साफ़ करना"},{"en":"Choose Kafka","hi":"Kafka चुनना"},{"en":"Write code","hi":"Code लिखना"}],"answer":1,"why":{"en":"Requirements and scale decide the whole design. Always clarify first.","hi":"Requirements और scale से पूरा design तय होता है। हमेशा पहले बात साफ़ कीजिए।"}},{"q":{"en":"\"The feed should load in under 1 second\" is a…","hi":"\"Feed 1 second से कम में खुले\" एक… है"},"options":[{"en":"Functional requirement","hi":"Functional requirement"},{"en":"Non-functional requirement","hi":"Non-functional requirement"},{"en":"API","hi":"API"},{"en":"Data model","hi":"Data model"}],"answer":1,"why":{"en":"It describes how well the system works (speed), not what it does.","hi":"यह बताता है system कितना अच्छा काम करे (speed), यह नहीं कि वो क्या करता है।"}},{"q":{"en":"Is there one correct answer in a system design interview?","hi":"क्या system design interview में एक ही सही जवाब होता है?"},"options":[{"en":"Yes, always","hi":"हाँ, हमेशा"},{"en":"No, they judge your thinking and trade-offs","hi":"नहीं, वो आपकी सोच और trade-offs देखते हैं"},{"en":"Only for seniors","hi":"सिर्फ़ seniors के लिए"},{"en":"Only for LLD","hi":"सिर्फ़ LLD में"}],"answer":1,"why":{"en":"Many designs can work. Clear reasoning about trade-offs is what scores.","hi":"कई designs चल सकते हैं। Trade-offs पर साफ़ सोच से ही score मिलता है।"}},{"q":{"en":"Senior candidates are especially expected to…","hi":"Senior candidates से ख़ास तौर पर उम्मीद होती है कि वो…"},"options":[{"en":"Memorise diagrams","hi":"Diagrams रट लें"},{"en":"Lead the discussion and explain why","hi":"Discussion lead करें और क्यों समझाएँ"},{"en":"Avoid questions","hi":"सवाल न पूछें"},{"en":"Use microservices everywhere","hi":"हर जगह microservices लगाएँ"}],"answer":1,"why":{"en":"Seniors drive the conversation, handle failures and justify each choice.","hi":"Seniors बातचीत को आगे बढ़ाते हैं, failures संभालते हैं और हर फ़ैसले की वजह बताते हैं।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:sd-interview"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="./"><span class="en">← Roadmap</span><span class="hi">← रोडमैप</span></a><a class="btn btn-outline" href="estimation.html">→ <span class="en">Back-of-envelope estimation</span><span class="hi">Back-of-envelope estimation</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20How%20system%20design%20interviews%20work" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20How%20system%20design%20interviews%20work" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>
