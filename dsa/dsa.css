@@ -209,3 +209,26 @@ h2 + .badge { margin: -4px 0 10px; }
 .result-label { margin: 8px 0 -6px; font-size: .85rem; font-weight: 600; color: var(--muted); }
 .sql-tables { align-items: start; gap: 14px; }
 .sql-tables .table-wrap table { min-width: 0; }
+
+/* Project ideas page */
+.idea-filters { max-width: 980px; margin: 0 auto 18px; display: grid; gap: 10px; }
+.chips-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.fchip { font: inherit; font-size: .85rem; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+.fchip:hover { border-color: var(--primary); }
+.fchip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.idea-count { font-size: .88rem; color: var(--muted); margin: 0; }
+.idea-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; max-width: 1180px; margin: 0 auto; align-items: start; }
+.idea-card { padding: 18px 20px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); scroll-margin-top: 90px; }
+.idea-card:target { border-color: var(--primary); }
+.idea-card h3 { font-size: 1.08rem; margin: 10px 0 6px; color: var(--text); }
+.idea-card p { color: var(--muted); font-size: .93rem; line-height: 1.6; }
+.idea-top { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.lvl { font-size: .74rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; color: #fff; }
+.lvl-fresher { background: #16a34a; } .lvl-junior { background: #2563eb; } .lvl-mid { background: #9333ea; } .lvl-senior { background: #c2410c; }
+.chip-sm { font-size: .74rem; padding: 3px 9px; border-radius: 999px; background: var(--bg-alt); border: 1px solid var(--border); color: var(--text); }
+.idea-why { margin-top: 8px; color: var(--text) !important; }
+.idea-card details { margin-top: 10px; box-shadow: none; }
+.idea-body h4 { font-size: .9rem; margin: 12px 0 4px; color: var(--text); }
+.idea-body ul { padding-left: 20px; display: grid; gap: 4px; color: var(--muted); font-size: .9rem; }
+.idea-body .skills { display: flex; flex-wrap: wrap; gap: 6px; }
+.idea-body .bullet { font-style: italic; color: var(--text) !important; background: var(--bg-alt); border-left: 3px solid var(--primary); padding: 8px 12px; border-radius: 8px; }
