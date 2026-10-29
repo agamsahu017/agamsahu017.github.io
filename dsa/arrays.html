@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arrays in JavaScript for DSA Interviews | Kodivo DSA</title>
+  <meta name="description" content="Arrays for coding interviews in JavaScript: Big-O of every operation, two pointers, hash map, prefix sum and Kadane's algorithm, with practice." />
+  <link rel="canonical" href="https://agamsahu017.github.io/dsa/arrays.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/dsa/arrays.html" />
+  <meta property="og:title" content="Arrays in JavaScript for DSA Interviews | Kodivo DSA" />
+  <meta property="og:description" content="Arrays for coding interviews in JavaScript: Big-O of every operation, two pointers, hash map, prefix sum and Kadane's algorithm, with practice." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "DSA in JavaScript",
+          "item": "https://agamsahu017.github.io/dsa/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Arrays",
+          "item": "https://agamsahu017.github.io/dsa/arrays.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Arrays in JavaScript for DSA Interviews",
+      "description": "Arrays for coding interviews in JavaScript: Big-O of every operation, two pointers, hash map, prefix sum and Kadane's algorithm, with practice.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "DSA in JavaScript",
+        "url": "https://agamsahu017.github.io/dsa/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">DSA Roadmap</span><span class="hi">DSA रोडमैप</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../guides.html"><span class="en">Guides</span><span class="hi">गाइड</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20DSA%20on%20your%20website%20(Arrays)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">DSA</a> › <span>Arrays</span></nav>
+        <span class="pill"><span class="en">Module 2 of 14</span><span class="hi">मॉड्यूल 2 / 14</span></span>
+        <h1><span class="en">Arrays</span><span class="hi">Arrays</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">40 min read + practice</span><span class="hi">40 मिनट पढ़ाई + प्रैक्टिस</span></span><span>💻 JavaScript</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">How arrays work, and why <code>arr[i]</code> is O(1)</span><span class="hi">Array कैसे काम करता है, और <code>arr[i]</code> O(1) क्यों है</span></li><li><span class="en">The Big-O of every common array operation in JS</span><span class="hi">JS में हर common array operation का Big-O</span></li><li><span class="en">5 patterns that solve most array interview questions</span><span class="hi">5 patterns जिनसे ज़्यादातर array interview सवाल हल होते हैं</span></li><li><span class="en">8 hand-picked practice problems, from easy to medium</span><span class="hi">8 चुने हुए practice problems, easy से medium तक</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#idea"><span class="en">The idea</span><span class="hi">आइडिया</span></a><a href="#ops"><span class="en">Operations</span><span class="hi">Operations</span></a><a href="#patterns"><span class="en">5 patterns</span><span class="hi">5 patterns</span></a><a href="#interview"><span class="en">Interview tips</span><span class="hi">Interview tips</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+      </div>
+      <section id="idea">
+        <h2 id="idea-h"><span class="en">What is an array?</span><span class="hi">Array क्या है?</span></h2>
+        <p class="en">Think of a train. Every coach has a number: 0, 1, 2, 3… If someone says "coach 3", you walk straight to it. You don't check coaches 0, 1 and 2 first.</p><p class="hi">एक train सोचिए। हर coach का एक नंबर है: 0, 1, 2, 3… कोई कहे "coach 3", तो आप सीधे वहाँ जाते हैं। पहले 0, 1 और 2 नहीं देखते।</p>
+        <div class="idea"><p class="en">An <b>array</b> stores items in order, and each item has an <b>index</b> starting from <b>0</b>. Because the computer knows exactly where index i is, reading <code>arr[i]</code> takes <b>O(1)</b> time.</p><p class="hi"><b>Array</b> items को क्रम से रखता है, और हर item का एक <b>index</b> होता है जो <b>0</b> से शुरू होता है। Computer को पता होता है कि index i कहाँ है, इसलिए <code>arr[i]</code> पढ़ने में <b>O(1)</b> time लगता है।</p></div>
+        <pre class="code" data-copy><span class="kw">const</span> marks = [72, 85, 90, 64];
+console.log(marks[0]);           <span class="cm">// 72  (first item)</span>
+console.log(marks.length);       <span class="cm">// 4</span>
+console.log(marks[marks.length - 1]); <span class="cm">// 64 (last item)</span>
+marks[1] = 88;                   <span class="cm">// update: O(1)</span></pre>
+      </section>
+      <section id="ops">
+        <h2 id="ops-h"><span class="en">Array operations and their cost</span><span class="hi">Array operations और उनकी cost</span></h2>
+        <div class="viz" id="array-viz">
+          <div class="viz-title"><span class="en">Try it: watch what moves</span><span class="hi">ख़ुद देखें: क्या-क्या खिसकता है</span></div>
+          <div class="viz-controls">
+            <label><span class="en">Value</span><span class="hi">Value</span> <input type="number" data-value placeholder="e.g. 9" /></label>
+            <label><span class="en">Index</span><span class="hi">Index</span> <input type="number" data-index placeholder="e.g. 2" /></label>
+          </div>
+          <div class="viz-controls">
+            <button type="button" class="btn btn-outline" data-act="access">arr[index]</button>
+            <button type="button" class="btn btn-outline" data-act="push">push(value)</button>
+            <button type="button" class="btn btn-outline" data-act="pop">pop()</button>
+            <button type="button" class="btn btn-outline" data-act="unshift">unshift(value)</button>
+            <button type="button" class="btn btn-outline" data-act="shift">shift()</button>
+            <button type="button" class="btn btn-outline" data-act="search"><span class="en">search(value)</span><span class="hi">search(value)</span></button>
+            <button type="button" class="btn btn-outline" data-act="reset"><span class="en">Reset</span><span class="hi">Reset</span></button>
+          </div>
+          <div class="cells"></div>
+          <div class="viz-msg"><span class="en">Click a button to see how many steps it takes.</span><span class="hi">किसी button पर क्लिक करें और देखें कितने steps लगते हैं।</span></div>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Operation</span><span class="hi">Operation</span></th><th>JavaScript</th><th><span class="en">Time</span><span class="hi">Time</span></th><th><span class="en">Why</span><span class="hi">क्यों</span></th></tr></thead><tbody><tr><td><span class="en">Read / update by index</span><span class="hi">Index से पढ़ना / बदलना</span></td><td><code>arr[i]</code></td><td><b>O(1)</b></td><td><span class="en">Direct jump to the index</span><span class="hi">सीधे index पर पहुँचना</span></td></tr><tr><td><span class="en">Add / remove at the end</span><span class="hi">आख़िर में जोड़ना / हटाना</span></td><td><code>push</code>, <code>pop</code></td><td><b>O(1)</b></td><td><span class="en">Nothing else moves</span><span class="hi">और कुछ नहीं खिसकता</span></td></tr><tr><td><span class="en">Add / remove at the start</span><span class="hi">शुरुआत में जोड़ना / हटाना</span></td><td><code>unshift</code>, <code>shift</code></td><td><b>O(n)</b></td><td><span class="en">Every item shifts by one</span><span class="hi">हर item एक जगह खिसकता है</span></td></tr><tr><td><span class="en">Insert / delete in the middle</span><span class="hi">बीच में डालना / हटाना</span></td><td><code>splice</code></td><td><b>O(n)</b></td><td><span class="en">Items after it shift</span><span class="hi">उसके बाद वाले items खिसकते हैं</span></td></tr><tr><td><span class="en">Search for a value</span><span class="hi">कोई value ढूँढना</span></td><td><code>includes</code>, <code>indexOf</code></td><td><b>O(n)</b></td><td><span class="en">May check every item</span><span class="hi">हर item देखना पड़ सकता है</span></td></tr><tr><td><span class="en">Copy</span><span class="hi">Copy करना</span></td><td><code>slice</code>, <code>[...arr]</code></td><td><b>O(n)</b></td><td><span class="en">Copies every item</span><span class="hi">हर item copy होता है</span></td></tr><tr><td><span class="en">Sort</span><span class="hi">Sort करना</span></td><td><code>sort</code></td><td><b>O(n log n)</b></td><td><span class="en">Efficient sorting algorithm</span><span class="hi">तेज़ sorting algorithm</span></td></tr></tbody></table></div>
+        <div class="warn"><p class="en"><b>JS trap:</b> <code>[10, 9, 1].sort()</code> gives <code>[1, 10, 9]</code>, because it sorts as text. For numbers, always write <code>arr.sort((a, b) => a - b)</code>.</p><p class="hi"><b>JS की गड़बड़:</b> <code>[10, 9, 1].sort()</code> देता है <code>[1, 10, 9]</code>, क्योंकि यह text की तरह sort करता है। Numbers के लिए हमेशा <code>arr.sort((a, b) => a - b)</code> लिखें।</p></div>
+      </section>
+      <section id="patterns">
+        <h2 id="patterns-h"><span class="en">5 patterns for array interview questions</span><span class="hi">Array interview सवालों के 5 patterns</span></h2>
+        <p class="en">Most array questions are one of these patterns in disguise. Learn to spot them, and you won't need to memorise hundreds of answers.</p><p class="hi">ज़्यादातर array सवाल इन्हीं patterns में से किसी एक का रूप होते हैं। इन्हें पहचानना सीख लिया, तो सैकड़ों जवाब रटने की ज़रूरत नहीं।</p>
+
+        <h3><span class="en">Pattern 1: Hash map to remember what you've seen</span><span class="hi">Pattern 1: जो देखा उसे hash map में याद रखो</span></h3>
+        <p class="en"><b>Two Sum:</b> find two numbers that add up to a target. The brute force checks every pair: O(n²). Instead, for each number, ask "have I already seen the number I need?"</p><p class="hi"><b>Two Sum:</b> ऐसे दो numbers ढूँढो जिनका जोड़ target हो। Brute force हर जोड़ी check करता है: O(n²)। इसके बजाय, हर number पर पूछो "जिस number की मुझे ज़रूरत है, क्या वो पहले देख चुका हूँ?"</p>
+        <pre class="code" data-copy><span class="cm">// Brute force: O(n²) time, O(1) space</span>
+<span class="kw">function</span> twoSumSlow(nums, target) {
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; nums.length; i++) {
+    <span class="kw">for</span> (<span class="kw">let</span> j = i + 1; j &lt; nums.length; j++) {
+      <span class="kw">if</span> (nums[i] + nums[j] === target) <span class="kw">return</span> [i, j];
+    }
+  }
+  <span class="kw">return</span> [];
+}
+
+<span class="cm">// Better: O(n) time, O(n) space</span>
+<span class="kw">function</span> twoSum(nums, target) {
+  <span class="kw">const</span> seen = <span class="kw">new</span> Map(); <span class="cm">// value -&gt; index</span>
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; nums.length; i++) {
+    <span class="kw">const</span> need = target - nums[i];
+    <span class="kw">if</span> (seen.has(need)) <span class="kw">return</span> [seen.get(need), i];
+    seen.set(nums[i], i);
+  }
+  <span class="kw">return</span> [];
+}
+
+twoSum([2, 7, 11, 15], 9); <span class="cm">// [0, 1]</span></pre>
+
+        <h3><span class="en">Pattern 2: Two pointers</span><span class="hi">Pattern 2: Two pointers</span></h3>
+        <p class="en">Use two indexes that move towards each other, or one slow and one fast. <b>Move Zeroes:</b> push all zeros to the end, keeping the order of other numbers, without a new array.</p><p class="hi">दो indexes इस्तेमाल करो जो एक-दूसरे की ओर बढ़ें, या एक धीमा और एक तेज़। <b>Move Zeroes:</b> सारे zero आख़िर में भेजो, बाक़ी numbers का क्रम वही रखो, और नया array मत बनाओ।</p>
+        <pre class="code" data-copy><span class="cm">// O(n) time, O(1) extra space</span>
+<span class="kw">function</span> moveZeroes(nums) {
+  <span class="kw">let</span> slow = 0; <span class="cm">// where the next non-zero should go</span>
+  <span class="kw">for</span> (<span class="kw">let</span> fast = 0; fast &lt; nums.length; fast++) {
+    <span class="kw">if</span> (nums[fast] !== 0) {
+      [nums[slow], nums[fast]] = [nums[fast], nums[slow]]; <span class="cm">// swap</span>
+      slow++;
+    }
+  }
+  <span class="kw">return</span> nums;
+}
+
+moveZeroes([0, 1, 0, 3, 12]); <span class="cm">// [1, 3, 12, 0, 0]</span></pre>
+
+        <h3><span class="en">Pattern 3: Track the best so far</span><span class="hi">Pattern 3: अब तक का सबसे अच्छा याद रखो</span></h3>
+        <p class="en"><b>Best Time to Buy and Sell Stock:</b> walk through the prices once, remember the lowest price so far, and check the profit if you sold today.</p><p class="hi"><b>Best Time to Buy and Sell Stock:</b> prices पर एक बार चलो, अब तक की सबसे कम price याद रखो, और देखो आज बेचते तो कितना profit होता।</p>
+        <pre class="code" data-copy><span class="cm">// O(n) time, O(1) space</span>
+<span class="kw">function</span> maxProfit(prices) {
+  <span class="kw">let</span> minPrice = Infinity;
+  <span class="kw">let</span> best = 0;
+  <span class="kw">for</span> (<span class="kw">const</span> price <span class="kw">of</span> prices) {
+    minPrice = Math.min(minPrice, price);
+    best = Math.max(best, price - minPrice);
+  }
+  <span class="kw">return</span> best;
+}
+
+maxProfit([7, 1, 5, 3, 6, 4]); <span class="cm">// 5 (buy at 1, sell at 6)</span></pre>
+
+        <h3><span class="en">Pattern 4: Prefix sum</span><span class="hi">Pattern 4: Prefix sum</span></h3>
+        <p class="en">If you need the sum of many ranges, pre-compute running totals once. Then any range sum is just one subtraction.</p><p class="hi">अगर बहुत सारी ranges का sum चाहिए, तो पहले एक बार running total बना लो। फिर किसी भी range का sum बस एक घटाव है।</p>
+        <pre class="code" data-copy><span class="kw">function</span> buildPrefix(nums) {
+  <span class="kw">const</span> prefix = [0];
+  <span class="kw">for</span> (<span class="kw">const</span> x <span class="kw">of</span> nums) prefix.push(prefix[prefix.length - 1] + x);
+  <span class="kw">return</span> prefix; <span class="cm">// prefix[i] = sum of first i items</span>
+}
+
+<span class="kw">const</span> nums = [3, 1, 4, 1, 5];
+<span class="kw">const</span> prefix = buildPrefix(nums);        <span class="cm">// [0, 3, 4, 8, 9, 14]</span>
+<span class="cm">// Sum from index 1 to 3 (1 + 4 + 1):</span>
+<span class="kw">const</span> rangeSum = prefix[4] - prefix[1];  <span class="cm">// 9 - 3 = 6, in O(1)</span></pre>
+
+        <h3><span class="en">Pattern 5: Kadane's algorithm (maximum subarray)</span><span class="hi">Pattern 5: Kadane's algorithm (maximum subarray)</span></h3>
+        <p class="en">Find the contiguous part of the array with the largest sum. At each number, decide: "is it better to continue the current subarray, or start fresh from here?"</p><p class="hi">Array का वो लगातार हिस्सा ढूँढो जिसका sum सबसे बड़ा हो। हर number पर तय करो: "मौजूदा subarray को आगे बढ़ाना बेहतर है, या यहीं से नया शुरू करना?"</p>
+        <pre class="code" data-copy><span class="cm">// O(n) time, O(1) space</span>
+<span class="kw">function</span> maxSubArray(nums) {
+  <span class="kw">let</span> current = nums[0];
+  <span class="kw">let</span> best = nums[0];
+  <span class="kw">for</span> (<span class="kw">let</span> i = 1; i &lt; nums.length; i++) {
+    current = Math.max(nums[i], current + nums[i]); <span class="cm">// continue or restart</span>
+    best = Math.max(best, current);
+  }
+  <span class="kw">return</span> best;
+}
+
+maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]); <span class="cm">// 6 ([4, -1, 2, 1])</span></pre>
+      </section>
+      <section id="interview">
+        <h2 id="interview-h"><span class="en">Interview checklist for array questions</span><span class="hi">Array सवालों के लिए interview checklist</span></h2>
+        <p class="en">Before writing code, ask these questions. Interviewers like candidates who clarify first.</p><p class="hi">Code लिखने से पहले ये सवाल पूछिए। Interviewers को ऐसे candidates पसंद आते हैं जो पहले बात साफ़ करते हैं।</p>
+        <ul><li><span class="en">Is the array <b>sorted</b>? (Sorted often means two pointers or binary search.)</span><span class="hi">क्या array <b>sorted</b> है? (Sorted का मतलब अक्सर two pointers या binary search होता है।)</span></li><li><span class="en">Can there be <b>negative numbers</b>, <b>duplicates</b> or an <b>empty array</b>?</span><span class="hi">क्या <b>negative numbers</b>, <b>duplicates</b> या <b>ख़ाली array</b> हो सकता है?</span></li><li><span class="en">Can I <b>change the input</b> array, or must I return a new one?</span><span class="hi">क्या मैं <b>input array बदल</b> सकता हूँ, या नया array लौटाना है?</span></li><li><span class="en">What should I return if there is <b>no answer</b>?</span><span class="hi"><b>कोई जवाब न हो</b> तो क्या return करूँ?</span></li></ul>
+        <div class="say"><p class="en">🎤 <b>Say it like this:</b> "I'll use a hash map to store each number's index as I go. For every number, I check if target minus that number is already in the map. That's one pass, so O(n) time and O(n) space."</p><p class="hi">🎤 <b>ऐसे बोलिए:</b> "I'll use a hash map to store each number's index as I go. For every number, I check if target minus that number is already in the map. That's one pass, so O(n) time and O(n) space."</p></div>
+        <p class="en"><b>Edge cases to test out loud:</b> empty array, one item, all same values, all negative values, and very large input.</p><p class="hi"><b>ये edge cases बोलकर test कीजिए:</b> ख़ाली array, एक item, सारी values एक जैसी, सारी values negative, और बहुत बड़ा input।</p>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice problems</span><span class="hi">प्रैक्टिस प्रॉब्लम</span></h2>
+        <p class="en">Solve these on LeetCode, in order. Try each one for 20–30 minutes before looking at hints. Tick it here when solved: your progress is saved in this browser.</p><p class="hi">इन्हें LeetCode पर क्रम से हल कीजिए। Hint देखने से पहले हर एक पर 20–30 मिनट कोशिश कीजिए। हल होने पर यहाँ tick कीजिए: आपकी progress इस browser में सेव रहती है।</p>
+        <div class="problems"><div class="table-wrap"><table><thead><tr><th>✓</th><th><span class="en">Problem</span><span class="hi">प्रॉब्लम</span></th><th><span class="en">Level</span><span class="hi">लेवल</span></th><th><span class="en">Pattern</span><span class="hi">पैटर्न</span></th></tr></thead><tbody><tr><td><input type="checkbox" data-problem="two-sum" aria-label="Mark Two Sum as solved" /></td><td><a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener">Two Sum</a></td><td><span class="diff easy">Easy</span></td><td><span class="en">Hash map</span><span class="hi">Hash map</span></td></tr><tr><td><input type="checkbox" data-problem="contains-duplicate" aria-label="Mark Contains Duplicate as solved" /></td><td><a href="https://leetcode.com/problems/contains-duplicate/" target="_blank" rel="noopener">Contains Duplicate</a></td><td><span class="diff easy">Easy</span></td><td><span class="en">Hash set</span><span class="hi">Hash set</span></td></tr><tr><td><input type="checkbox" data-problem="best-time-to-buy-and-sell-stock" aria-label="Mark Best Time to Buy and Sell Stock as solved" /></td><td><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">Best Time to Buy and Sell Stock</a></td><td><span class="diff easy">Easy</span></td><td><span class="en">Best so far</span><span class="hi">अब तक का सबसे अच्छा</span></td></tr><tr><td><input type="checkbox" data-problem="move-zeroes" aria-label="Mark Move Zeroes as solved" /></td><td><a href="https://leetcode.com/problems/move-zeroes/" target="_blank" rel="noopener">Move Zeroes</a></td><td><span class="diff easy">Easy</span></td><td><span class="en">Two pointers</span><span class="hi">Two pointers</span></td></tr><tr><td><input type="checkbox" data-problem="remove-duplicates-from-sorted-array" aria-label="Mark Remove Duplicates from Sorted Array as solved" /></td><td><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank" rel="noopener">Remove Duplicates from Sorted Array</a></td><td><span class="diff easy">Easy</span></td><td><span class="en">Two pointers</span><span class="hi">Two pointers</span></td></tr><tr><td><input type="checkbox" data-problem="maximum-subarray" aria-label="Mark Maximum Subarray as solved" /></td><td><a href="https://leetcode.com/problems/maximum-subarray/" target="_blank" rel="noopener">Maximum Subarray</a></td><td><span class="diff medium">Medium</span></td><td><span class="en">Kadane's algorithm</span><span class="hi">Kadane's algorithm</span></td></tr><tr><td><input type="checkbox" data-problem="product-of-array-except-self" aria-label="Mark Product of Array Except Self as solved" /></td><td><a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank" rel="noopener">Product of Array Except Self</a></td><td><span class="diff medium">Medium</span></td><td><span class="en">Prefix / suffix</span><span class="hi">Prefix / suffix</span></td></tr><tr><td><input type="checkbox" data-problem="rotate-array" aria-label="Mark Rotate Array as solved" /></td><td><a href="https://leetcode.com/problems/rotate-array/" target="_blank" rel="noopener">Rotate Array</a></td><td><span class="diff medium">Medium</span></td><td><span class="en">Reverse trick</span><span class="hi">Reverse trick</span></td></tr></tbody></table></div></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"What is the time complexity of <code>arr[500]</code> in an array of 1 lakh items?","hi":"1 लाख items वाले array में <code>arr[500]</code> का time complexity क्या है?"},"options":["O(1)","O(500)","O(n)","O(log n)"],"answer":0,"why":{"en":"Access by index is a direct jump, so it is O(1) no matter how big the array is.","hi":"Index से access सीधे वहाँ पहुँचता है, इसलिए array कितना भी बड़ा हो, O(1) है।"}},{"q":{"en":"Which operation is O(n)?","hi":"कौन-सा operation O(n) है?"},"options":["arr.push(5)","arr.pop()","arr.unshift(5)","arr[0] = 5"],"answer":2,"why":{"en":"unshift adds at the start, so every existing item must move one place.","hi":"unshift शुरुआत में जोड़ता है, इसलिए हर मौजूदा item को एक जगह खिसकना पड़ता है।"}},{"q":{"en":"What does this return?","hi":"यह क्या return करेगा?"},"options":["[1, 2, 10]","[1, 10, 2]","[10, 2, 1]","An error"],"answer":1,"why":{"en":"Without a compare function, sort() compares items as text, and \"10\" comes before \"2\". Use sort((a, b) => a - b) for numbers.","hi":"Compare function के बिना sort() items को text की तरह compare करता है, और \"10\" पहले आता है \"2\" से। Numbers के लिए sort((a, b) => a - b) लिखें।"},"code":"[2, 10, 1].sort();"},{"q":{"en":"In Two Sum with a hash map, what do we store in the map?","hi":"Hash map वाले Two Sum में map में क्या रखते हैं?"},"options":[{"en":"Each value and its index","hi":"हर value और उसका index"},{"en":"Only the target","hi":"सिर्फ़ target"},{"en":"All pairs of numbers","hi":"Numbers की सारी जोड़ियाँ"},{"en":"The sorted array","hi":"Sorted array"}],"answer":0,"why":{"en":"We store value → index, so for each new number we can check in O(1) whether target − number was seen before.","hi":"हम value → index रखते हैं, ताकि हर नए number पर O(1) में देख सकें कि target − number पहले आया या नहीं।"}},{"q":{"en":"Kadane's algorithm finds…","hi":"Kadane's algorithm ढूँढता है…"},"options":[{"en":"The largest single number","hi":"सबसे बड़ा एक number"},{"en":"The largest sum of a contiguous subarray","hi":"लगातार subarray का सबसे बड़ा sum"},{"en":"The sorted order","hi":"Sorted क्रम"},{"en":"Duplicate values","hi":"Duplicate values"}],"answer":1,"why":{"en":"At each step it decides whether to extend the current subarray or start a new one, keeping the best sum seen.","hi":"हर step पर यह तय करता है कि मौजूदा subarray बढ़ाए या नया शुरू करे, और अब तक का सबसे अच्छा sum याद रखता है।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="arrays"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="big-o.html">← <span class="en">Big-O: how fast is my code?</span><span class="hi">Big-O: मेरा code कितना तेज़ है?</span></a><a class="btn btn-outline" href="strings.html">→ <span class="en">Strings</span><span class="hi">Strings</span></a></div>
+        <div class="say"><p class="en">Stuck on a problem? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20DSA%20module%3A%20Arrays" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">किसी सवाल पर अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20DSA%20module%3A%20Arrays" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../pricing.html">Pricing</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">DSA course by Agam Sahu</span><span class="hi">DSA कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

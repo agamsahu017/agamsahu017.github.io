@@ -18,6 +18,7 @@
     [`Services`, `सर्विसेज़`],
     [`Pricing`, `कीमतें`],
     [`💰 See all packages &amp; prices`, `💰 सभी पैकेज और कीमतें देखें`],
+    [`💻 Free DSA Course (JavaScript)`, `💻 फ़्री DSA कोर्स (JavaScript)`],
     [`🏢 AI for your business`, `🏢 आपके बिज़नेस के लिए AI`],
     [`AI Demo`, `AI डेमो`],
     [`Industries`, `इंडस्ट्रीज़`],

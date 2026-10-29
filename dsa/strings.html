@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Strings in JavaScript for DSA Interviews | Kodivo DSA</title>
+  <meta name="description" content="String problems for coding interviews in JavaScript: two pointers, palindromes, anagrams with frequency counts and sliding window, with practice." />
+  <link rel="canonical" href="https://agamsahu017.github.io/dsa/strings.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/dsa/strings.html" />
+  <meta property="og:title" content="Strings in JavaScript for DSA Interviews | Kodivo DSA" />
+  <meta property="og:description" content="String problems for coding interviews in JavaScript: two pointers, palindromes, anagrams with frequency counts and sliding window, with practice." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "DSA in JavaScript",
+          "item": "https://agamsahu017.github.io/dsa/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Strings",
+          "item": "https://agamsahu017.github.io/dsa/strings.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Strings in JavaScript for DSA Interviews",
+      "description": "String problems for coding interviews in JavaScript: two pointers, palindromes, anagrams with frequency counts and sliding window, with practice.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "DSA in JavaScript",
+        "url": "https://agamsahu017.github.io/dsa/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">DSA Roadmap</span><span class="hi">DSA रोडमैप</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../guides.html"><span class="en">Guides</span><span class="hi">गाइड</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20DSA%20on%20your%20website%20(Strings)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">DSA</a> › <span>Strings</span></nav>
+        <span class="pill"><span class="en">Module 3 of 14</span><span class="hi">मॉड्यूल 3 / 14</span></span>
+        <h1><span class="en">Strings</span><span class="hi">Strings</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">40 min read + practice</span><span class="hi">40 मिनट पढ़ाई + प्रैक्टिस</span></span><span>💻 JavaScript</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">How strings work in JavaScript, and why they can't be changed in place</span><span class="hi">JavaScript में string कैसे काम करती है, और उसे सीधे क्यों नहीं बदल सकते</span></li><li><span class="en">Useful string methods and their Big-O</span><span class="hi">काम के string methods और उनका Big-O</span></li><li><span class="en">Two pointers for palindromes, and frequency counts for anagrams</span><span class="hi">Palindrome के लिए two pointers, और anagram के लिए frequency count</span></li><li><span class="en">A first look at the sliding window pattern</span><span class="hi">Sliding window pattern की पहली झलक</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#idea"><span class="en">The idea</span><span class="hi">आइडिया</span></a><a href="#methods"><span class="en">Useful methods</span><span class="hi">काम के methods</span></a><a href="#palindrome"><span class="en">Two pointers</span><span class="hi">Two pointers</span></a><a href="#anagram"><span class="en">Frequency count</span><span class="hi">Frequency count</span></a><a href="#window"><span class="en">Sliding window</span><span class="hi">Sliding window</span></a><a href="#interview"><span class="en">Interview tips</span><span class="hi">Interview tips</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+      </div>
+      <section id="idea">
+        <h2 id="idea-h"><span class="en">A string is an array of characters</span><span class="hi">String, characters का एक array है</span></h2>
+        <p class="en">The word <code>"hello"</code> is like an array: <code>h e l l o</code>, with indexes 0 to 4. You can read <code>s[0]</code> and <code>s.length</code>, just like an array.</p><p class="hi">शब्द <code>"hello"</code> एक array जैसा है: <code>h e l l o</code>, index 0 से 4 तक। आप <code>s[0]</code> और <code>s.length</code> पढ़ सकते हैं, बिल्कुल array की तरह।</p>
+        <div class="idea"><p class="en"><b>Big difference:</b> in JavaScript, strings are <b>immutable</b>. You can't change one letter in place. Every change creates a <b>new</b> string.</p><p class="hi"><b>बड़ा फ़र्क़:</b> JavaScript में strings <b>immutable</b> होती हैं। आप एक अक्षर सीधे नहीं बदल सकते। हर बदलाव से एक <b>नई</b> string बनती है।</p></div>
+        <pre class="code" data-copy><span class="kw">let</span> s = <span class="st">"hello"</span>;
+s[0] = <span class="st">"j"</span>;           <span class="cm">// no change (in strict mode: TypeError)</span>
+console.log(s);       <span class="cm">// "hello"</span>
+
+s = <span class="st">"j"</span> + s.slice(1); <span class="cm">// build a new string instead</span>
+console.log(s);       <span class="cm">// "jello"</span>
+
+<span class="cm">// Need many changes? Turn it into an array, change it, then join.</span>
+<span class="kw">const</span> chars = s.split(<span class="st">""</span>);  <span class="cm">// ["j", "e", "l", "l", "o"]</span>
+chars[0] = <span class="st">"y"</span>;
+console.log(chars.join(<span class="st">""</span>)); <span class="cm">// "yello"</span></pre>
+      </section>
+      <section id="methods">
+        <h2 id="methods-h"><span class="en">String methods you will use in interviews</span><span class="hi">Interview में काम आने वाले string methods</span></h2>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Method</span><span class="hi">Method</span></th><th><span class="en">What it does</span><span class="hi">क्या करता है</span></th><th><span class="en">Time</span><span class="hi">Time</span></th></tr></thead><tbody><tr><td><code>s[i]</code>, <code>s.charAt(i)</code></td><td><span class="en">Read one character</span><span class="hi">एक character पढ़ना</span></td><td>O(1)</td></tr><tr><td><code>s.length</code></td><td><span class="en">Number of characters</span><span class="hi">Characters की गिनती</span></td><td>O(1)</td></tr><tr><td><code>s.slice(a, b)</code></td><td><span class="en">Part of the string from a to b − 1</span><span class="hi">a से b − 1 तक का हिस्सा</span></td><td>O(k)</td></tr><tr><td><code>s.split("")</code></td><td><span class="en">String to array of characters</span><span class="hi">String से characters का array</span></td><td>O(n)</td></tr><tr><td><code>arr.join("")</code></td><td><span class="en">Array back to a string</span><span class="hi">Array से वापस string</span></td><td>O(n)</td></tr><tr><td><code>s.includes(x)</code>, <code>s.indexOf(x)</code></td><td><span class="en">Search inside the string</span><span class="hi">String के अंदर ढूँढना</span></td><td>O(n·m)</td></tr><tr><td><code>s.toLowerCase()</code></td><td><span class="en">Make all letters small</span><span class="hi">सारे अक्षर छोटे करना</span></td><td>O(n)</td></tr><tr><td><code>s.charCodeAt(i)</code></td><td><span class="en">Character's number code (a = 97)</span><span class="hi">Character का number code (a = 97)</span></td><td>O(1)</td></tr></tbody></table></div>
+        <p class="en"><b>Tip:</b> to reverse a string, use <code>s.split("").reverse().join("")</code>. That is O(n). In interviews, also be ready to do it with two pointers, without built-in methods.</p><p class="hi"><b>Tip:</b> String उलटने के लिए <code>s.split("").reverse().join("")</code> लिखें। यह O(n) है। Interview में built-in methods के बिना two pointers से करने के लिए भी तैयार रहें।</p>
+      </section>
+      <section id="palindrome">
+        <h2 id="palindrome-h"><span class="en">Pattern 1: Two pointers (palindrome)</span><span class="hi">Pattern 1: Two pointers (palindrome)</span></h2>
+        <p class="en">A <b>palindrome</b> reads the same forwards and backwards, like <code>level</code> or <code>madam</code>. Put one pointer at the start and one at the end, compare, and move them towards the middle.</p><p class="hi"><b>Palindrome</b> आगे से और पीछे से एक जैसा पढ़ा जाता है, जैसे <code>level</code> या <code>madam</code>। एक pointer शुरुआत में और एक आख़िर में रखो, compare करो, और दोनों को बीच की ओर बढ़ाओ।</p>
+        <div class="viz" id="pal-viz">
+          <div class="viz-title"><span class="en">Try it: is it a palindrome?</span><span class="hi">ख़ुद देखें: क्या यह palindrome है?</span></div>
+          <div class="viz-controls"><input type="text" class="wide" value="racecar" maxlength="30" aria-label="Word to check" /><button type="button" class="btn btn-primary" data-act="check"><span class="en">Check</span><span class="hi">Check करें</span></button></div>
+          <div class="cells"></div>
+          <div class="viz-msg"><span class="en">Type a word and press Check. Try <code>racecar</code>, <code>level</code> or <code>hello</code>.</span><span class="hi">कोई शब्द लिखें और Check दबाएँ। <code>racecar</code>, <code>level</code> या <code>hello</code> आज़माएँ।</span></div>
+        </div>
+        <pre class="code" data-copy><span class="cm">// Valid Palindrome: ignore spaces, symbols and capital letters</span>
+<span class="cm">// O(n) time, O(1) extra space</span>
+<span class="kw">function</span> isPalindrome(s) {
+  <span class="kw">const</span> isAlnum = (c) =&gt; /[a-z0-9]/i.test(c);
+  <span class="kw">let</span> left = 0;
+  <span class="kw">let</span> right = s.length - 1;
+  <span class="kw">while</span> (left &lt; right) {
+    <span class="kw">while</span> (left &lt; right &amp;&amp; !isAlnum(s[left])) left++;   <span class="cm">// skip symbols</span>
+    <span class="kw">while</span> (left &lt; right &amp;&amp; !isAlnum(s[right])) right--;
+    <span class="kw">if</span> (s[left].toLowerCase() !== s[right].toLowerCase()) <span class="kw">return</span> <span class="kw">false</span>;
+    left++;
+    right--;
+  }
+  <span class="kw">return</span> <span class="kw">true</span>;
+}
+
+isPalindrome(<span class="st">"A man, a plan, a canal: Panama"</span>); <span class="cm">// true</span></pre>
+      </section>
+      <section id="anagram">
+        <h2 id="anagram-h"><span class="en">Pattern 2: Frequency count (anagram)</span><span class="hi">Pattern 2: Frequency count (anagram)</span></h2>
+        <p class="en">Two words are <b>anagrams</b> if they use the same letters the same number of times, like <code>listen</code> and <code>silent</code>. Count letters in the first word (+1), subtract letters of the second (−1). If every count ends at 0, they are anagrams.</p><p class="hi">दो शब्द <b>anagram</b> हैं अगर उनमें वही अक्षर उतनी ही बार आएँ, जैसे <code>listen</code> और <code>silent</code>। पहले शब्द के अक्षर गिनो (+1), दूसरे के घटाओ (−1)। अगर हर count आख़िर में 0 हो, तो वो anagram हैं।</p>
+        <div class="viz" id="anagram-viz">
+          <div class="viz-title"><span class="en">Try it: letter counts</span><span class="hi">ख़ुद देखें: अक्षरों की गिनती</span></div>
+          <div class="viz-controls"><input type="text" class="wide" value="listen" maxlength="30" aria-label="First word" /><input type="text" class="wide" value="silent" maxlength="30" aria-label="Second word" /></div>
+          <div class="freq"></div>
+          <div class="viz-msg"></div>
+        </div>
+        <pre class="code" data-copy><span class="cm">// Valid Anagram: O(n) time, O(1) space (only 26 letters)</span>
+<span class="kw">function</span> isAnagram(s, t) {
+  <span class="kw">if</span> (s.length !== t.length) <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="kw">const</span> count = <span class="kw">new</span> Array(26).fill(0);
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; s.length; i++) {
+    count[s.charCodeAt(i) - 97]++; <span class="cm">// 'a' is 97</span>
+    count[t.charCodeAt(i) - 97]--;
+  }
+  <span class="kw">return</span> count.every((c) =&gt; c === 0);
+}
+
+isAnagram(<span class="st">"listen"</span>, <span class="st">"silent"</span>); <span class="cm">// true</span>
+isAnagram(<span class="st">"rat"</span>, <span class="st">"car"</span>);       <span class="cm">// false</span></pre>
+        <p class="en">The same idea solves <b>First Unique Character</b>: count every letter first, then find the first letter whose count is 1.</p><p class="hi">यही idea <b>First Unique Character</b> भी हल करता है: पहले हर अक्षर गिनो, फिर वो पहला अक्षर ढूँढो जिसका count 1 हो।</p>
+        <pre class="code" data-copy><span class="kw">function</span> firstUniqChar(s) {
+  <span class="kw">const</span> count = <span class="kw">new</span> Map();
+  <span class="kw">for</span> (<span class="kw">const</span> c <span class="kw">of</span> s) count.set(c, (count.get(c) || 0) + 1);
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; s.length; i++) {
+    <span class="kw">if</span> (count.get(s[i]) === 1) <span class="kw">return</span> i;
+  }
+  <span class="kw">return</span> -1;
+}
+
+firstUniqChar(<span class="st">"leetcode"</span>); <span class="cm">// 0 ("l")</span></pre>
+      </section>
+      <section id="window">
+        <h2 id="window-h"><span class="en">Pattern 3: Sliding window (preview)</span><span class="hi">Pattern 3: Sliding window (झलक)</span></h2>
+        <p class="en"><b>Longest Substring Without Repeating Characters</b> is one of the most asked string questions. Keep a "window" of characters with no repeats. Grow it from the right; when a repeat appears, shrink it from the left.</p><p class="hi"><b>Longest Substring Without Repeating Characters</b> सबसे ज़्यादा पूछे जाने वाले string सवालों में से है। बिना repeat वाले characters की एक "window" रखो। उसे दाईं ओर से बढ़ाओ; repeat आए तो बाईं ओर से छोटा करो।</p>
+        <pre class="code" data-copy><span class="cm">// O(n) time, O(k) space (k = different characters)</span>
+<span class="kw">function</span> lengthOfLongestSubstring(s) {
+  <span class="kw">const</span> lastSeen = <span class="kw">new</span> Map(); <span class="cm">// character -&gt; last index</span>
+  <span class="kw">let</span> left = 0;
+  <span class="kw">let</span> best = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> right = 0; right &lt; s.length; right++) {
+    <span class="kw">const</span> c = s[right];
+    <span class="kw">if</span> (lastSeen.has(c) &amp;&amp; lastSeen.get(c) &gt;= left) {
+      left = lastSeen.get(c) + 1; <span class="cm">// jump past the repeat</span>
+    }
+    lastSeen.set(c, right);
+    best = Math.max(best, right - left + 1);
+  }
+  <span class="kw">return</span> best;
+}
+
+lengthOfLongestSubstring(<span class="st">"abcabcbb"</span>); <span class="cm">// 3 ("abc")</span></pre>
+        <p class="en">Don't worry if this feels hard. Sliding window gets its own full module later. For now, just notice the idea: <b>two pointers that form a window</b>.</p><p class="hi">अगर यह मुश्किल लगे तो चिंता मत कीजिए। Sliding window का बाद में पूरा अलग मॉड्यूल है। अभी बस idea पर ध्यान दीजिए: <b>दो pointers जो एक window बनाते हैं</b>।</p>
+      </section>
+      <section id="interview">
+        <h2 id="interview-h"><span class="en">Interview checklist for string questions</span><span class="hi">String सवालों के लिए interview checklist</span></h2>
+        <ul><li><span class="en">Only lowercase letters, or also <b>capitals, spaces, digits and symbols</b>?</span><span class="hi">सिर्फ़ छोटे अक्षर, या <b>capital, space, digit और symbols</b> भी?</span></li><li><span class="en">Does <b>case</b> matter? Is "A" the same as "a"?</span><span class="hi">क्या <b>case</b> मायने रखता है? क्या "A" और "a" एक हैं?</span></li><li><span class="en">Can the string be <b>empty</b>?</span><span class="hi">क्या string <b>ख़ाली</b> हो सकती है?</span></li><li><span class="en">Only 26 letters? Then a fixed array of 26 counts is O(1) space. For any characters, use a Map.</span><span class="hi">सिर्फ़ 26 अक्षर? तो 26 counts वाला fixed array O(1) space है। किसी भी character के लिए Map लें।</span></li></ul>
+        <div class="say"><p class="en">🎤 <b>Say it like this:</b> "Since strings are immutable in JavaScript, building a string with += in a loop creates new strings. I'll collect characters in an array and join them once at the end."</p><p class="hi">🎤 <b>ऐसे बोलिए:</b> "Since strings are immutable in JavaScript, building a string with += in a loop creates new strings. I'll collect characters in an array and join them once at the end."</p></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice problems</span><span class="hi">प्रैक्टिस प्रॉब्लम</span></h2>
+        <p class="en">Solve these on LeetCode, in order. The first four use the patterns from this module directly. Tick each one when solved.</p><p class="hi">इन्हें LeetCode पर क्रम से हल कीजिए। पहले चार में इस मॉड्यूल के patterns सीधे लगते हैं। हल होने पर हर एक पर tick कीजिए।</p>
+        <div class="problems"><div class="table-wrap"><table><thead><tr><th>✓</th><th><span class="en">Problem</span><span class="hi">प्रॉब्लम</span></th><th><span class="en">Level</span><span class="hi">लेवल</span></th><th><span class="en">Pattern</span><span class="hi">पैटर्न</span></th></tr></thead><tbody><tr><td><input type="checkbox" data-problem="reverse-string" aria-label="Mark Reverse String as solved" /></td><td><a href="https://leetcode.com/problems/reverse-string/" target="_blank" rel="noopener">Reverse String</a></td><td><span class="diff easy">Easy</span></td><td><span class="en">Two pointers</span><span class="hi">Two pointers</span></td></tr><tr><td><input type="checkbox" data-problem="valid-palindrome" aria-label="Mark Valid Palindrome as solved" /></td><td><a href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener">Valid Palindrome</a></td><td><span class="diff easy">Easy</span></td><td><span class="en">Two pointers</span><span class="hi">Two pointers</span></td></tr><tr><td><input type="checkbox" data-problem="valid-anagram" aria-label="Mark Valid Anagram as solved" /></td><td><a href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener">Valid Anagram</a></td><td><span class="diff easy">Easy</span></td><td><span class="en">Frequency count</span><span class="hi">Frequency count</span></td></tr><tr><td><input type="checkbox" data-problem="first-unique-character-in-a-string" aria-label="Mark First Unique Character in a String as solved" /></td><td><a href="https://leetcode.com/problems/first-unique-character-in-a-string/" target="_blank" rel="noopener">First Unique Character in a String</a></td><td><span class="diff easy">Easy</span></td><td><span class="en">Frequency count</span><span class="hi">Frequency count</span></td></tr><tr><td><input type="checkbox" data-problem="longest-common-prefix" aria-label="Mark Longest Common Prefix as solved" /></td><td><a href="https://leetcode.com/problems/longest-common-prefix/" target="_blank" rel="noopener">Longest Common Prefix</a></td><td><span class="diff easy">Easy</span></td><td><span class="en">Compare column by column</span><span class="hi">Column-by-column compare</span></td></tr><tr><td><input type="checkbox" data-problem="reverse-words-in-a-string" aria-label="Mark Reverse Words in a String as solved" /></td><td><a href="https://leetcode.com/problems/reverse-words-in-a-string/" target="_blank" rel="noopener">Reverse Words in a String</a></td><td><span class="diff medium">Medium</span></td><td><span class="en">Split and join</span><span class="hi">Split और join</span></td></tr><tr><td><input type="checkbox" data-problem="group-anagrams" aria-label="Mark Group Anagrams as solved" /></td><td><a href="https://leetcode.com/problems/group-anagrams/" target="_blank" rel="noopener">Group Anagrams</a></td><td><span class="diff medium">Medium</span></td><td><span class="en">Hash map + sorted key</span><span class="hi">Hash map + sorted key</span></td></tr><tr><td><input type="checkbox" data-problem="longest-substring-without-repeating-characters" aria-label="Mark Longest Substring Without Repeating Characters as solved" /></td><td><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener">Longest Substring Without Repeating Characters</a></td><td><span class="diff medium">Medium</span></td><td><span class="en">Sliding window</span><span class="hi">Sliding window</span></td></tr></tbody></table></div></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"In a normal (non-strict) script, what is printed?","hi":"Normal (non-strict) script में क्या print होगा?"},"options":["\"cat\"","\"bat\"","An error","undefined"],"answer":0,"why":{"en":"Strings are immutable in JavaScript. In a normal script, assigning to s[0] silently does nothing. (In strict mode it throws a TypeError instead.)","hi":"JavaScript में strings immutable हैं। Normal script में s[0] में assign करने से चुपचाप कुछ नहीं होता। (Strict mode में TypeError आता है।)"},"code":"<span class=\"kw\">let</span> s = <span class=\"st\">\"cat\"</span>;\ns[0] = <span class=\"st\">\"b\"</span>;\nconsole.log(s);"},{"q":{"en":"Which pattern checks a palindrome in O(1) extra space?","hi":"कौन-सा pattern O(1) extra space में palindrome check करता है?"},"options":[{"en":"Two pointers from both ends","hi":"दोनों सिरों से two pointers"},{"en":"Sorting the string","hi":"String को sort करना"},{"en":"Nested loops","hi":"Nested loops"},{"en":"Binary search","hi":"Binary search"}],"answer":0,"why":{"en":"Compare s[left] and s[right] and move inwards. No extra array is needed.","hi":"s[left] और s[right] compare करो और अंदर की ओर बढ़ो। कोई extra array नहीं चाहिए।"}},{"q":{"en":"Two words are anagrams if…","hi":"दो शब्द anagram हैं अगर…"},"options":[{"en":"They have the same first letter","hi":"उनका पहला अक्षर एक हो"},{"en":"They have the same letters with the same counts","hi":"उनमें वही अक्षर उतनी ही बार हों"},{"en":"One is the reverse of the other","hi":"एक दूसरे का उल्टा हो"},{"en":"They have the same length only","hi":"सिर्फ़ length एक हो"}],"answer":1,"why":{"en":"Same letters, same counts. Order doesn't matter: listen / silent.","hi":"वही अक्षर, उतनी ही बार। क्रम मायने नहीं रखता: listen / silent।"}},{"q":{"en":"What is the time complexity of this code for a string of length n?","hi":"n length की string के लिए इस code का time complexity क्या है?"},"options":["O(1)","O(n)","O(n²)","O(log n)"],"answer":1,"why":{"en":"split, reverse and join each walk through the string once: O(n) + O(n) + O(n) = O(n).","hi":"split, reverse और join हर एक string पर एक बार चलता है: O(n) + O(n) + O(n) = O(n)।"},"code":"<span class=\"kw\">const</span> reversed = s.split(<span class=\"st\">\"\"</span>).reverse().join(<span class=\"st\">\"\"</span>);"},{"q":{"en":"For lowercase letters only, an array of 26 counts uses how much space?","hi":"सिर्फ़ छोटे अक्षरों के लिए, 26 counts वाला array कितना space लेता है?"},"options":["O(1)","O(n)","O(26n)","O(n²)"],"answer":0,"why":{"en":"26 is a fixed number that doesn't grow with the input, so it is O(1) space.","hi":"26 एक fixed number है जो input के साथ नहीं बढ़ता, इसलिए O(1) space।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="strings"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="arrays.html">← <span class="en">Arrays</span><span class="hi">Arrays</span></a><span class="btn btn-outline" style="opacity:.55;cursor:default">→ <span class="en">Hashing: Map and Set (soon)</span><span class="hi">Hashing: Map और Set (जल्द)</span></span></div>
+        <div class="say"><p class="en">Stuck on a problem? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20DSA%20module%3A%20Strings" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">किसी सवाल पर अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20DSA%20module%3A%20Strings" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../pricing.html">Pricing</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">DSA course by Agam Sahu</span><span class="hi">DSA कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Big-O Notation Explained Simply (with JavaScript) | Kodivo DSA</title>
+  <meta name="description" content="Learn Big-O, time and space complexity from zero with simple examples, an interactive chart and JavaScript code. Interview-focused, in English and Hindi." />
+  <link rel="canonical" href="https://agamsahu017.github.io/dsa/big-o.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/dsa/big-o.html" />
+  <meta property="og:title" content="Big-O Notation Explained Simply (with JavaScript) | Kodivo DSA" />
+  <meta property="og:description" content="Learn Big-O, time and space complexity from zero with simple examples, an interactive chart and JavaScript code. Interview-focused, in English and Hindi." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "DSA in JavaScript",
+          "item": "https://agamsahu017.github.io/dsa/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Big-O: how fast is my code?",
+          "item": "https://agamsahu017.github.io/dsa/big-o.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Big-O Notation Explained Simply (with JavaScript)",
+      "description": "Learn Big-O, time and space complexity from zero with simple examples, an interactive chart and JavaScript code. Interview-focused, in English and Hindi.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "DSA in JavaScript",
+        "url": "https://agamsahu017.github.io/dsa/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">DSA Roadmap</span><span class="hi">DSA रोडमैप</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../guides.html"><span class="en">Guides</span><span class="hi">गाइड</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20DSA%20on%20your%20website%20(Big-O%3A%20how%20fast%20is%20my%20code%3F)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">DSA</a> › <span>Big-O: how fast is my code?</span></nav>
+        <span class="pill"><span class="en">Module 1 of 14</span><span class="hi">मॉड्यूल 1 / 14</span></span>
+        <h1><span class="en">Big-O: how fast is my code?</span><span class="hi">Big-O: मेरा code कितना तेज़ है?</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>💻 JavaScript</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">What Big-O means, in plain words</span><span class="hi">Big-O का मतलब, आसान शब्दों में</span></li><li><span class="en">The 6 complexities you will see in every interview</span><span class="hi">6 complexities जो हर interview में आती हैं</span></li><li><span class="en">How to find the Big-O of any code, step by step</span><span class="hi">किसी भी code का Big-O step by step कैसे निकालें</span></li><li><span class="en">Space complexity, and how to talk about it in interviews</span><span class="hi">Space complexity, और interview में इसके बारे में कैसे बोलें</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#idea"><span class="en">The idea</span><span class="hi">आइडिया</span></a><a href="#common"><span class="en">Common complexities</span><span class="hi">Common complexities</span></a><a href="#rules"><span class="en">How to calculate</span><span class="hi">कैसे निकालें</span></a><a href="#space"><span class="en">Space complexity</span><span class="hi">Space complexity</span></a><a href="#interview"><span class="en">Interview tips</span><span class="hi">Interview tips</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+      </div>
+      <section id="idea">
+        <h2 id="idea-h"><span class="en">First, a real-life example</span><span class="hi">पहले, एक असली ज़िंदगी का उदाहरण</span></h2>
+        <p class="en">Imagine you want to find a friend's number in your phone. There are three ways:</p><p class="hi">मान लीजिए आपको फ़ोन में किसी दोस्त का नंबर ढूँढना है। तीन तरीक़े हैं:</p>
+        <ul><li><span class="en"><b>Favourites:</b> the number is pinned at the top. You find it in 1 step, however many contacts you have.</span><span class="hi"><b>Favourites:</b> नंबर सबसे ऊपर pinned है। Contacts चाहे कितने भी हों, 1 step में मिल जाता है।</span></li><li><span class="en"><b>Search by name:</b> contacts are sorted, so you jump to the right letter and keep cutting the list in half. Very few steps.</span><span class="hi"><b>नाम से search:</b> contacts sorted हैं, तो आप सही अक्षर पर पहुँचते हैं और list को आधा-आधा करते जाते हैं। बहुत कम steps।</span></li><li><span class="en"><b>Scroll one by one:</b> with 1,000 contacts, you may need 1,000 steps.</span><span class="hi"><b>एक-एक करके scroll:</b> 1,000 contacts हों तो 1,000 steps भी लग सकते हैं।</span></li></ul>
+        <div class="idea"><p class="en"><b>Big-O</b> tells us how the number of steps <b>grows</b> when the input grows. It does not measure seconds. It measures the <b>growth</b>.</p><p class="hi"><b>Big-O</b> बताता है कि input बढ़ने पर steps की गिनती <b>कैसे बढ़ती</b> है। यह seconds नहीं नापता। यह <b>बढ़ने की रफ़्तार</b> नापता है।</p></div>
+        <p class="en">Interviewers ask about Big-O in almost every coding round, because it shows whether your solution will still work when there are millions of users.</p><p class="hi">लगभग हर coding round में Big-O पूछा जाता है, क्योंकि इससे पता चलता है कि करोड़ों users होने पर भी आपका solution चलेगा या नहीं।</p>
+      </section>
+      <section id="common">
+        <h2 id="common-h"><span class="en">The 6 complexities you must know</span><span class="hi">6 complexities जो आपको पता होनी चाहिए</span></h2>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Big-O</span><span class="hi">Big-O</span></th><th><span class="en">Name</span><span class="hi">नाम</span></th><th><span class="en">Example</span><span class="hi">उदाहरण</span></th><th><span class="en">Speed</span><span class="hi">रफ़्तार</span></th></tr></thead><tbody><tr><td><b>O(1)</b></td><td><span class="en">Constant</span><span class="hi">Constant</span></td><td><span class="en"><code>arr[5]</code>, adding to the end of an array</span><span class="hi"><code>arr[5]</code>, array के आख़िर में जोड़ना</span></td><td>🟢 <span class="en">Best</span><span class="hi">सबसे अच्छा</span></td></tr><tr><td><b>O(log n)</b></td><td><span class="en">Logarithmic</span><span class="hi">Logarithmic</span></td><td><span class="en">Binary search</span><span class="hi">Binary search</span></td><td>🟢 <span class="en">Excellent</span><span class="hi">बहुत अच्छा</span></td></tr><tr><td><b>O(n)</b></td><td><span class="en">Linear</span><span class="hi">Linear</span></td><td><span class="en">One loop over the array</span><span class="hi">Array पर एक loop</span></td><td>🟢 <span class="en">Good</span><span class="hi">अच्छा</span></td></tr><tr><td><b>O(n log n)</b></td><td><span class="en">Linearithmic</span><span class="hi">Linearithmic</span></td><td><span class="en">Good sorting (merge sort)</span><span class="hi">अच्छा sorting (merge sort)</span></td><td>🟡 <span class="en">Fine</span><span class="hi">ठीक</span></td></tr><tr><td><b>O(n²)</b></td><td><span class="en">Quadratic</span><span class="hi">Quadratic</span></td><td><span class="en">Two nested loops</span><span class="hi">दो nested loops</span></td><td>🟠 <span class="en">Slow for big input</span><span class="hi">बड़े input पर धीमा</span></td></tr><tr><td><b>O(2ⁿ)</b></td><td><span class="en">Exponential</span><span class="hi">Exponential</span></td><td><span class="en">Trying every subset</span><span class="hi">हर subset try करना</span></td><td>🔴 <span class="en">Very slow</span><span class="hi">बहुत धीमा</span></td></tr></tbody></table></div>
+        <div class="viz" id="bigo-viz">
+          <div class="viz-title"><span class="en">Try it: how many steps for n items?</span><span class="hi">ख़ुद देखें: n items के लिए कितने steps?</span></div>
+          <div class="viz-controls"><label for="bigo-n">n = <b data-n>10</b></label><input id="bigo-n" type="range" min="1" max="1000" value="10" /></div>
+          <div class="bars"></div>
+          <div class="viz-msg"><span class="en">Move the slider. Notice how O(n²) explodes while O(log n) barely moves.</span><span class="hi">Slider खिसकाएँ। देखिए O(n²) कितनी तेज़ी से बढ़ता है, जबकि O(log n) मुश्किल से हिलता है।</span></div>
+        </div>
+        <p class="en">At n = 1,000: O(log n) is about 10 steps, O(n) is 1,000 steps, and O(n²) is 10,00,000 steps. That is why interviewers push you from O(n²) to O(n).</p><p class="hi">n = 1,000 पर: O(log n) लगभग 10 steps है, O(n) 1,000 steps, और O(n²) 10,00,000 steps। इसीलिए interviewer आपसे O(n²) को O(n) बनाने को कहते हैं।</p>
+      </section>
+      <section id="rules">
+        <h2 id="rules-h"><span class="en">How to find the Big-O of any code</span><span class="hi">किसी भी code का Big-O कैसे निकालें</span></h2>
+        <h3><span class="en">Rule 1: One loop over n items = O(n)</span><span class="hi">Rule 1: n items पर एक loop = O(n)</span></h3>
+        <pre class="code" data-copy><span class="kw">function</span> printAll(arr) {
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; arr.length; i++) {
+    console.log(arr[i]); <span class="cm">// runs n times</span>
+  }
+}
+<span class="cm">// Time: O(n)</span></pre>
+        <h3><span class="en">Rule 2: Nested loops multiply</span><span class="hi">Rule 2: Nested loops गुणा होते हैं</span></h3>
+        <pre class="code" data-copy><span class="kw">function</span> printPairs(arr) {
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; arr.length; i++) {      <span class="cm">// n times</span>
+    <span class="kw">for</span> (<span class="kw">let</span> j = 0; j &lt; arr.length; j++) {    <span class="cm">// n times for each i</span>
+      console.log(arr[i], arr[j]);
+    }
+  }
+}
+<span class="cm">// Time: O(n * n) = O(n²)</span></pre>
+        <h3><span class="en">Rule 3: Loops one after another add up</span><span class="hi">Rule 3: एक के बाद एक loops जुड़ते हैं</span></h3>
+        <pre class="code" data-copy><span class="kw">function</span> twoLoops(arr) {
+  <span class="kw">for</span> (<span class="kw">const</span> x <span class="kw">of</span> arr) console.log(x);  <span class="cm">// O(n)</span>
+  <span class="kw">for</span> (<span class="kw">const</span> x <span class="kw">of</span> arr) console.log(x);  <span class="cm">// O(n)</span>
+}
+<span class="cm">// Time: O(n + n) = O(2n) = O(n)</span></pre>
+        <h3><span class="en">Rule 4: Drop constants and smaller terms</span><span class="hi">Rule 4: Constants और छोटे terms हटा दो</span></h3>
+        <ul><li><span class="en">O(2n) becomes <b>O(n)</b>. O(500) becomes <b>O(1)</b>.</span><span class="hi">O(2n) बन जाता है <b>O(n)</b>। O(500) बन जाता है <b>O(1)</b>।</span></li><li><span class="en">O(n² + n) becomes <b>O(n²)</b>, because n² grows much faster than n.</span><span class="hi">O(n² + n) बन जाता है <b>O(n²)</b>, क्योंकि n² बहुत तेज़ी से बढ़ता है।</span></li></ul>
+        <h3><span class="en">Rule 5: Halving each step = O(log n)</span><span class="hi">Rule 5: हर step में आधा = O(log n)</span></h3>
+        <pre class="code" data-copy><span class="kw">function</span> countHalvings(n) {
+  <span class="kw">let</span> steps = 0;
+  <span class="kw">while</span> (n &gt; 1) {
+    n = Math.floor(n / 2); <span class="cm">// cut in half</span>
+    steps++;
+  }
+  <span class="kw">return</span> steps;
+}
+<span class="cm">// n = 1,000 needs only about 10 steps. Time: O(log n)</span></pre>
+        <h3><span class="en">Rule 6: Different inputs get different letters</span><span class="hi">Rule 6: अलग inputs के लिए अलग अक्षर</span></h3>
+        <pre class="code" data-copy><span class="kw">function</span> printBoth(a, b) {
+  <span class="kw">for</span> (<span class="kw">const</span> x <span class="kw">of</span> a) {
+    <span class="kw">for</span> (<span class="kw">const</span> y <span class="kw">of</span> b) console.log(x, y);
+  }
+}
+<span class="cm">// Time: O(a * b), not O(n²)</span></pre>
+        <div class="warn"><p class="en"><b>Hidden loops in JavaScript:</b> <code>includes()</code>, <code>indexOf()</code>, <code>slice()</code>, <code>splice()</code>, <code>shift()</code> and the spread <code>[...arr]</code> are all O(n). A loop that calls <code>arr.includes()</code> inside is O(n²).</p><p class="hi"><b>JavaScript के छिपे हुए loops:</b> <code>includes()</code>, <code>indexOf()</code>, <code>slice()</code>, <code>splice()</code>, <code>shift()</code> और spread <code>[...arr]</code> सब O(n) हैं। अगर loop के अंदर <code>arr.includes()</code> चलाया, तो वो O(n²) हो गया।</p></div>
+      </section>
+      <section id="space">
+        <h2 id="space-h"><span class="en">Space complexity: how much extra memory?</span><span class="hi">Space complexity: कितनी extra memory?</span></h2>
+        <p class="en">Space complexity counts the <b>extra</b> memory your code creates, not the input itself.</p><p class="hi">Space complexity उस <b>extra</b> memory को गिनती है जो आपका code बनाता है, input को नहीं।</p>
+        <pre class="code" data-copy><span class="cm">// O(1) extra space: only a few variables</span>
+<span class="kw">function</span> sum(arr) {
+  <span class="kw">let</span> total = 0;
+  <span class="kw">for</span> (<span class="kw">const</span> x <span class="kw">of</span> arr) total += x;
+  <span class="kw">return</span> total;
+}
+
+<span class="cm">// O(n) extra space: a new array as big as the input</span>
+<span class="kw">function</span> doubled(arr) {
+  <span class="kw">const</span> result = [];
+  <span class="kw">for</span> (<span class="kw">const</span> x <span class="kw">of</span> arr) result.push(x * 2);
+  <span class="kw">return</span> result;
+}</pre>
+        <p class="en">Recursion also uses space: each call waits on the <b>call stack</b>. A recursion that goes n levels deep uses O(n) space.</p><p class="hi">Recursion भी space लेता है: हर call <b>call stack</b> पर इंतज़ार करता है। n levels गहरी recursion O(n) space लेती है।</p>
+      </section>
+      <section id="interview">
+        <h2 id="interview-h"><span class="en">How to talk about Big-O in an interview</span><span class="hi">Interview में Big-O के बारे में कैसे बोलें</span></h2>
+        <ul><li><span class="en">Always give <b>both</b> time and space complexity, without being asked.</span><span class="hi">बिना पूछे, हमेशा time और space <b>दोनों</b> बताइए।</span></li><li><span class="en">Start with the brute force solution and its Big-O, then improve it.</span><span class="hi">पहले brute force solution और उसका Big-O बताइए, फिर उसे बेहतर कीजिए।</span></li><li><span class="en">Explain <b>why</b>: "we visit each element once" is better than just saying "O(n)".</span><span class="hi"><b>क्यों</b> बताइए: सिर्फ़ "O(n)" कहने से बेहतर है "हम हर element को एक बार देखते हैं"।</span></li><li><span class="en">Big-O usually means the <b>worst case</b>. Mention best or average case only if it matters.</span><span class="hi">Big-O आमतौर पर <b>worst case</b> होता है। Best या average case तभी बताइए जब ज़रूरी हो।</span></li></ul>
+        <div class="say"><p class="en">🎤 <b>Say it like this:</b> "My first idea is two nested loops, which is O(n²) time. I can improve it with a hash map, so I visit each element only once. That makes it O(n) time and O(n) extra space."</p><p class="hi">🎤 <b>ऐसे बोलिए:</b> "My first idea is two nested loops, which is O(n²) time. I can improve it with a hash map, so I visit each element only once. That makes it O(n) time and O(n) extra space." (Interview अंग्रेज़ी में हो तो यही लाइन बोलें।)</p></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice problems</span><span class="hi">प्रैक्टिस प्रॉब्लम</span></h2>
+        <p class="en">This module has no LeetCode problems. Instead, the quiz below is your practice: find the Big-O of each piece of code before you click an answer. Then move on to Arrays, where every problem will ask for Big-O.</p><p class="hi">इस मॉड्यूल में LeetCode problems नहीं हैं। नीचे दिया क्विज़ ही आपकी प्रैक्टिस है: answer पर क्लिक करने से पहले हर code का Big-O ख़ुद निकालिए। फिर Arrays पर जाइए, जहाँ हर problem में Big-O पूछा जाएगा।</p>
+        
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"What is the time complexity?","hi":"Time complexity क्या है?"},"options":["O(1)","O(n)","O(n²)","O(log n)"],"answer":1,"why":{"en":"One loop that visits each of the n items once is O(n).","hi":"एक loop जो n items में से हर एक को एक बार देखता है, O(n) है।"},"code":"<span class=\"kw\">function</span> findMax(arr) {\n  <span class=\"kw\">let</span> max = arr[0];\n  <span class=\"kw\">for</span> (<span class=\"kw\">const</span> x <span class=\"kw\">of</span> arr) <span class=\"kw\">if</span> (x &gt; max) max = x;\n  <span class=\"kw\">return</span> max;\n}"},{"q":{"en":"What is the time complexity?","hi":"Time complexity क्या है?"},"options":["O(n)","O(2n)","O(n²)","O(1)"],"answer":2,"why":{"en":"The inner loop runs about n times for each of the n outer steps, so it is O(n²). Starting j at i + 1 halves the work, but constants are dropped.","hi":"बाहरी loop के हर step पर अंदर वाला loop लगभग n बार चलता है, इसलिए O(n²)। j को i + 1 से शुरू करने पर काम आधा होता है, पर constants हटा दिए जाते हैं।"},"code":"<span class=\"kw\">for</span> (<span class=\"kw\">let</span> i = 0; i &lt; n; i++) {\n  <span class=\"kw\">for</span> (<span class=\"kw\">let</span> j = i + 1; j &lt; n; j++) {\n    <span class=\"kw\">if</span> (arr[i] === arr[j]) <span class=\"kw\">return</span> <span class=\"kw\">true</span>;\n  }\n}"},{"q":{"en":"What is the time complexity?","hi":"Time complexity क्या है?"},"options":["O(n)","O(log n)","O(n log n)","O(1)"],"answer":1,"why":{"en":"i doubles every step, so the loop runs about log₂(n) times.","hi":"हर step में i दोगुना होता है, इसलिए loop लगभग log₂(n) बार चलता है।"},"code":"<span class=\"kw\">for</span> (<span class=\"kw\">let</span> i = 1; i &lt; n; i = i * 2) {\n  console.log(i);\n}"},{"q":{"en":"What is the time complexity?","hi":"Time complexity क्या है?"},"options":["O(n)","O(n²)","O(1)","O(log n)"],"answer":1,"why":{"en":"includes() is a hidden loop over the array, and it runs inside another loop: O(n²).","hi":"includes() array पर एक छिपा हुआ loop है, और यह दूसरे loop के अंदर चल रहा है: O(n²)।"},"code":"<span class=\"kw\">const</span> result = [];\n<span class=\"kw\">for</span> (<span class=\"kw\">const</span> x <span class=\"kw\">of</span> arr) {\n  <span class=\"kw\">if</span> (!result.includes(x)) result.push(x);\n}"},{"q":{"en":"Which one grows the slowest as n gets bigger?","hi":"n बढ़ने पर कौन सबसे धीरे बढ़ता है?"},"options":["O(n)","O(n log n)","O(log n)","O(n²)"],"answer":2,"why":{"en":"O(log n) grows very slowly: for 10 lakh items it is only about 20 steps.","hi":"O(log n) बहुत धीरे बढ़ता है: 10 लाख items के लिए भी सिर्फ़ लगभग 20 steps।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="big-o"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="./"><span class="en">← Roadmap</span><span class="hi">← रोडमैप</span></a><a class="btn btn-outline" href="arrays.html">→ <span class="en">Arrays</span><span class="hi">Arrays</span></a></div>
+        <div class="say"><p class="en">Stuck on a problem? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20DSA%20module%3A%20Big-O%3A%20how%20fast%20is%20my%20code%3F" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">किसी सवाल पर अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20DSA%20module%3A%20Big-O%3A%20how%20fast%20is%20my%20code%3F" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../pricing.html">Pricing</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">DSA course by Agam Sahu</span><span class="hi">DSA कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>
