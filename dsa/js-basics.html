@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JavaScript Basics for DSA: Loops, Functions, Map | Kodivo</title>
+  <meta name="description" content="Start DSA from zero: how to run JavaScript, variables, if/else, loops, functions, arrays, objects, Map and Set, explained simply with exercises." />
+  <link rel="canonical" href="https://agamsahu017.github.io/dsa/js-basics.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/dsa/js-basics.html" />
+  <meta property="og:title" content="JavaScript Basics for DSA: Loops, Functions, Map | Kodivo" />
+  <meta property="og:description" content="Start DSA from zero: how to run JavaScript, variables, if/else, loops, functions, arrays, objects, Map and Set, explained simply with exercises." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "DSA in JavaScript",
+          "item": "https://agamsahu017.github.io/dsa/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "JavaScript basics for DSA",
+          "item": "https://agamsahu017.github.io/dsa/js-basics.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "JavaScript Basics for DSA: Loops, Functions, Map",
+      "description": "Start DSA from zero: how to run JavaScript, variables, if/else, loops, functions, arrays, objects, Map and Set, explained simply with exercises.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "DSA in JavaScript",
+        "url": "https://agamsahu017.github.io/dsa/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">DSA Roadmap</span><span class="hi">DSA रोडमैप</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../guides.html"><span class="en">Guides</span><span class="hi">गाइड</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20DSA%20on%20your%20website%20(JavaScript%20basics%20for%20DSA)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">DSA</a> › <span>JavaScript basics for DSA</span></nav>
+        <span class="pill"><span class="en">Module 1 of 15</span><span class="hi">मॉड्यूल 1 / 15</span></span>
+        <h1><span class="en">JavaScript basics for DSA</span><span class="hi">DSA के लिए JavaScript basics</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">45 min read + practice</span><span class="hi">45 मिनट पढ़ाई + प्रैक्टिस</span></span><span>💻 JavaScript</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">How to write and run JavaScript code on your computer</span><span class="hi">अपने computer पर JavaScript code कैसे लिखें और चलाएँ</span></li><li><span class="en">Variables, if/else, loops and functions, the building blocks of every solution</span><span class="hi">Variables, if/else, loops और functions, हर solution की नींव</span></li><li><span class="en">Arrays, objects, Map and Set, the tools you'll use in every module</span><span class="hi">Arrays, objects, Map और Set, जो हर मॉड्यूल में काम आएँगे</span></li><li><span class="en">A 5-step method to solve any coding problem</span><span class="hi">किसी भी coding सवाल को हल करने का 5-step तरीक़ा</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#run"><span class="en">Run your code</span><span class="hi">Code चलाएँ</span></a><a href="#vars"><span class="en">Variables & if/else</span><span class="hi">Variables और if/else</span></a><a href="#loops"><span class="en">Loops</span><span class="hi">Loops</span></a><a href="#functions"><span class="en">Functions</span><span class="hi">Functions</span></a><a href="#collections"><span class="en">Arrays, objects, Map, Set</span><span class="hi">Arrays, objects, Map, Set</span></a><a href="#solve"><span class="en">How to solve</span><span class="hi">कैसे हल करें</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+      </div>
+      <section id="run">
+        <h2 id="run-h"><span class="en">Step 1: Where to write and run code</span><span class="hi">Step 1: Code कहाँ लिखें और कैसे चलाएँ</span></h2>
+        <p class="en">Already comfortable with JavaScript? You can skip to <a href="big-o.html">Big-O</a>. Otherwise, start here. Don't just read: type every example and run it.</p><p class="hi">JavaScript पहले से आती है? तो सीधे <a href="big-o.html">Big-O</a> पर जाइए। नहीं तो यहीं से शुरू कीजिए। सिर्फ़ पढ़िए मत: हर example type करके चलाइए।</p>
+        <h3><span class="en">Option A: the browser console (no setup)</span><span class="hi">Option A: Browser console (कोई setup नहीं)</span> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span></h3>
+        <ol><li><span class="en">Open Chrome or Edge on a computer and press <b>F12</b> (or right-click → Inspect).</span><span class="hi">Computer पर Chrome या Edge खोलिए और <b>F12</b> दबाइए (या right-click → Inspect)।</span></li><li><span class="en">Click the <b>Console</b> tab.</span><span class="hi"><b>Console</b> tab पर क्लिक कीजिए।</span></li><li><span class="en">Type <code>console.log("Hello")</code> and press Enter. You'll see <code>Hello</code>.</span><span class="hi"><code>console.log("Hello")</code> लिखिए और Enter दबाइए। आपको <code>Hello</code> दिखेगा।</span></li></ol>
+        <h3><span class="en">Option B: VS Code + Node.js (best for practice)</span><span class="hi">Option B: VS Code + Node.js (प्रैक्टिस के लिए सबसे अच्छा)</span> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span></h3>
+        <ol><li><span class="en">Install <b>VS Code</b> and <b>Node.js</b> (LTS version) from their official websites.</span><span class="hi"><b>VS Code</b> और <b>Node.js</b> (LTS version) उनकी official websites से install कीजिए।</span></li><li><span class="en">Create a file called <code>practice.js</code> and write your code in it.</span><span class="hi"><code>practice.js</code> नाम की file बनाइए और उसमें code लिखिए।</span></li><li><span class="en">Open the terminal in VS Code (<b>Ctrl + `</b>) and run <code>node practice.js</code>.</span><span class="hi">VS Code में terminal खोलिए (<b>Ctrl + `</b>) और <code>node practice.js</code> चलाइए।</span></li></ol>
+        <div class="idea"><p class="en"><b>console.log()</b> is your best friend. Whenever you are confused, print the value and look at it.</p><p class="hi"><b>console.log()</b> आपका सबसे अच्छा दोस्त है। जब भी उलझन हो, value print कीजिए और देखिए।</p></div>
+      </section>
+      <section id="vars">
+        <h2 id="vars-h"><span class="en">Variables, values and decisions</span><span class="hi">Variables, values और फ़ैसले</span></h2>
+        <p class="en">A <b>variable</b> is a named box that holds a value. Use <code>const</code> when the value won't change, and <code>let</code> when it will.</p><p class="hi"><b>Variable</b> एक नाम वाला डिब्बा है जिसमें value रखी जाती है। Value नहीं बदलेगी तो <code>const</code>, बदलेगी तो <code>let</code> इस्तेमाल कीजिए।</p>
+        <pre class="code" data-copy><span class="kw">const</span> name = <span class="st">"Riya"</span>;   <span class="cm">// text (string)</span>
+<span class="kw">let</span> score = 40;        <span class="cm">// number</span>
+score = score + 10;    <span class="cm">// now 50</span>
+<span class="kw">const</span> passed = <span class="kw">true</span>;   <span class="cm">// boolean: true or false</span>
+
+console.log(name, score, passed); <span class="cm">// Riya 50 true</span></pre>
+        <h3><span class="en">Making decisions with if / else</span><span class="hi">if / else से फ़ैसले</span></h3>
+        <pre class="code" data-copy><span class="kw">const</span> marks = 72;
+
+<span class="kw">if</span> (marks &gt;= 90) {
+  console.log(<span class="st">"Grade A"</span>);
+} <span class="kw">else</span> <span class="kw">if</span> (marks &gt;= 60) {
+  console.log(<span class="st">"Grade B"</span>); <span class="cm">// this runs</span>
+} <span class="kw">else</span> {
+  console.log(<span class="st">"Try again"</span>);
+}</pre>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Operator</span><span class="hi">Operator</span></th><th><span class="en">Meaning</span><span class="hi">मतलब</span></th><th><span class="en">Example</span><span class="hi">उदाहरण</span></th></tr></thead><tbody><tr><td><code>===</code></td><td><span class="en">equal (value and type)</span><span class="hi">बराबर (value और type दोनों)</span></td><td><code>5 === 5</code> → true</td></tr><tr><td><code>!==</code></td><td><span class="en">not equal</span><span class="hi">बराबर नहीं</span></td><td><code>5 !== 3</code> → true</td></tr><tr><td><code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td><td><span class="en">greater / less</span><span class="hi">बड़ा / छोटा</span></td><td><code>7 &gt; 3</code> → true</td></tr><tr><td><code>&amp;&amp;</code></td><td><span class="en">and: both must be true</span><span class="hi">और: दोनों true हों</span></td><td><code>a &gt; 0 &amp;&amp; a &lt; 10</code></td></tr><tr><td><code>||</code></td><td><span class="en">or: at least one true</span><span class="hi">या: कम से कम एक true</span></td><td><code>x === 0 || y === 0</code></td></tr><tr><td><code>%</code></td><td><span class="en">remainder</span><span class="hi">शेषफल (remainder)</span></td><td><code>7 % 2</code> → 1 <span class="en">(odd)</span><span class="hi">(odd)</span></td></tr></tbody></table></div>
+        <div class="warn"><p class="en">Always use <code>===</code>, not <code>==</code>. The double <code>==</code> converts types and gives surprises: <code>"5" == 5</code> is <code>true</code>.</p><p class="hi">हमेशा <code>===</code> लिखिए, <code>==</code> नहीं। <code>==</code> type बदल देता है और चौंकाता है: <code>"5" == 5</code> भी <code>true</code> है।</p></div>
+      </section>
+      <section id="loops">
+        <h2 id="loops-h"><span class="en">Loops: repeat work</span><span class="hi">Loops: काम दोहराना</span></h2>
+        <p class="en">Almost every DSA solution has a loop. Learn these three well.</p><p class="hi">लगभग हर DSA solution में loop होता है। ये तीन अच्छे से सीख लीजिए।</p>
+        <h3><span class="en">1. The for loop (when you need the index)</span><span class="hi">1. for loop (जब index चाहिए)</span> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span></h3>
+        <pre class="code" data-copy><span class="kw">const</span> nums = [4, 8, 15];
+<span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; nums.length; i++) {
+  console.log(<span class="st">"index"</span>, i, <span class="st">"value"</span>, nums[i]);
+}</pre>
+        <div class="dry"><div class="dry-title">🔍 <span class="en">Dry run: the for loop</span><span class="hi">Dry run: for loop का</span></div><div class="table-wrap"><table><thead><tr><th><span class="en">Step</span><span class="hi">Step</span></th><th>i</th><th>i &lt; nums.length?</th><th>nums[i]</th><th><span class="en">Printed</span><span class="hi">Print हुआ</span></th></tr></thead><tbody><tr><td>1</td><td>0</td><td>0 &lt; 3 ✔</td><td>4</td><td>index 0 value 4</td></tr><tr><td>2</td><td>1</td><td>1 &lt; 3 ✔</td><td>8</td><td>index 1 value 8</td></tr><tr><td>3</td><td>2</td><td>2 &lt; 3 ✔</td><td>15</td><td>index 2 value 15</td></tr><tr><td>4</td><td>3</td><td>3 &lt; 3 ✘</td><td>-</td><td><span class="en">loop stops</span><span class="hi">loop रुक गया</span></td></tr></tbody></table></div><p class="en">Notice: indexes go from 0 to length − 1. That's why the condition is <code>i &lt; nums.length</code>, not <code>&lt;=</code>.</p><p class="hi">ध्यान दीजिए: index 0 से length − 1 तक जाते हैं। इसीलिए condition <code>i &lt; nums.length</code> है, <code>&lt;=</code> नहीं।</p></div>
+        <h3><span class="en">2. for...of (when you only need the values)</span><span class="hi">2. for...of (जब सिर्फ़ values चाहिए)</span> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span></h3>
+        <pre class="code" data-copy><span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> nums) {
+  console.log(n); <span class="cm">// 4, then 8, then 15</span>
+}</pre>
+        <h3><span class="en">3. while (when you don't know how many times)</span><span class="hi">3. while (जब पता न हो कितनी बार)</span> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span></h3>
+        <pre class="code" data-copy><span class="kw">let</span> n = 20;
+<span class="kw">while</span> (n &gt; 1) {
+  n = Math.floor(n / 2); <span class="cm">// 10, 5, 2, 1</span>
+}
+console.log(n); <span class="cm">// 1</span></pre>
+        <p class="en"><code>break</code> stops a loop early. <code>continue</code> skips to the next round.</p><p class="hi"><code>break</code> loop को जल्दी रोक देता है। <code>continue</code> सीधे अगले round पर भेजता है।</p>
+      </section>
+      <section id="functions">
+        <h2 id="functions-h"><span class="en">Functions: reusable steps</span><span class="hi">Functions: बार-बार काम आने वाले steps</span></h2>
+        <p class="en">In DSA, every answer is a <b>function</b>: it takes input (parameters) and <b>returns</b> output. LeetCode gives you the function name, and you fill in the body.</p><p class="hi">DSA में हर जवाब एक <b>function</b> होता है: वो input (parameters) लेता है और output <b>return</b> करता है। LeetCode आपको function का नाम देता है, और आप उसके अंदर code लिखते हैं।</p>
+        <pre class="code" data-copy><span class="cm">// Normal function</span>
+<span class="kw">function</span> add(a, b) {
+  <span class="kw">return</span> a + b;
+}
+
+<span class="cm">// Arrow function: a shorter way to write the same thing</span>
+<span class="kw">const</span> multiply = (a, b) =&gt; a * b;
+
+console.log(add(2, 3));      <span class="cm">// 5</span>
+console.log(multiply(2, 3)); <span class="cm">// 6</span></pre>
+        <div class="warn"><p class="en"><b>return</b> ends the function immediately. Code written after <code>return</code> never runs. If you forget <code>return</code>, the function gives <code>undefined</code>.</p><p class="hi"><b>return</b> function को तुरंत ख़त्म कर देता है। <code>return</code> के बाद लिखा code कभी नहीं चलता। <code>return</code> भूल गए, तो function <code>undefined</code> देता है।</p></div>
+        <h3><span class="en">Useful built-in helpers</span><span class="hi">काम के built-in helpers</span></h3>
+        <pre class="code" data-copy>Math.max(3, 9, 4);    <span class="cm">// 9</span>
+Math.min(3, 9, 4);    <span class="cm">// 3</span>
+Math.floor(7 / 2);    <span class="cm">// 3 (removes the decimal)</span>
+Math.abs(-5);         <span class="cm">// 5</span>
+Infinity;             <span class="cm">// bigger than any number: handy as a starting minimum</span></pre>
+      </section>
+      <section id="collections">
+        <h2 id="collections-h"><span class="en">Arrays, objects, Map and Set</span><span class="hi">Arrays, objects, Map और Set</span></h2>
+        <h3><span class="en">Array: a list in order</span><span class="hi">Array: क्रम वाली list</span> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span></h3>
+        <pre class="code" data-copy><span class="kw">const</span> fruits = [<span class="st">"apple"</span>, <span class="st">"mango"</span>];
+fruits.push(<span class="st">"banana"</span>);        <span class="cm">// add at end</span>
+console.log(fruits[0]);       <span class="cm">// "apple"</span>
+console.log(fruits.length);   <span class="cm">// 3</span></pre>
+        <h3><span class="en">Object: named fields</span><span class="hi">Object: नाम वाले fields</span> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span></h3>
+        <pre class="code" data-copy><span class="kw">const</span> student = { name: <span class="st">"Aman"</span>, age: 20 };
+console.log(student.name);    <span class="cm">// "Aman"</span>
+student.city = <span class="st">"Lucknow"</span>;     <span class="cm">// add a new field</span></pre>
+        <h3><span class="en">Map: a fast lookup table</span><span class="hi">Map: तेज़ lookup table</span> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span></h3>
+        <p class="en">A <b>Map</b> stores key → value pairs. Checking and reading a key is <b>O(1)</b>, very fast. You'll use it in almost every module.</p><p class="hi"><b>Map</b> key → value जोड़े रखता है। Key check करना और पढ़ना <b>O(1)</b> है, बहुत तेज़। आप इसे लगभग हर मॉड्यूल में इस्तेमाल करेंगे।</p>
+        <pre class="code" data-copy><span class="kw">const</span> age = <span class="kw">new</span> Map();
+age.set(<span class="st">"Aman"</span>, 20);          <span class="cm">// add</span>
+age.set(<span class="st">"Riya"</span>, 22);
+console.log(age.get(<span class="st">"Riya"</span>)); <span class="cm">// 22</span>
+console.log(age.has(<span class="st">"Ravi"</span>)); <span class="cm">// false</span>
+console.log(age.size);        <span class="cm">// 2</span>
+
+<span class="cm">// Counting things: a very common pattern</span>
+<span class="kw">const</span> count = <span class="kw">new</span> Map();
+<span class="kw">for</span> (<span class="kw">const</span> ch <span class="kw">of</span> <span class="st">"hello"</span>) {
+  count.set(ch, (count.get(ch) || 0) + 1);
+}
+console.log(count.get(<span class="st">"l"</span>));  <span class="cm">// 2</span></pre>
+        <h3><span class="en">Set: unique values only</span><span class="hi">Set: सिर्फ़ unique values</span> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span></h3>
+        <pre class="code" data-copy><span class="kw">const</span> seen = <span class="kw">new</span> Set([1, 2, 2, 3]);
+console.log(seen.size);       <span class="cm">// 3 (duplicate 2 removed)</span>
+seen.add(4);
+console.log(seen.has(2));     <span class="cm">// true, in O(1)</span></pre>
+        <h3><span class="en">Two handy tricks you'll see in solutions</span><span class="hi">Solutions में दिखने वाली दो काम की tricks</span></h3>
+        <pre class="code" data-copy><span class="cm">// 1. Swap two values without a temp variable</span>
+<span class="kw">let</span> a = 1, b = 2;
+[a, b] = [b, a];              <span class="cm">// now a = 2, b = 1</span>
+
+<span class="cm">// 2. Sort numbers correctly</span>
+<span class="kw">const</span> marks = [40, 100, 9];
+marks.sort((x, y) =&gt; x - y);  <span class="cm">// [9, 40, 100]</span></pre>
+      </section>
+      <section id="solve">
+        <h2 id="solve-h"><span class="en">How to solve any coding problem: 5 steps</span><span class="hi">किसी भी coding सवाल को हल करने के 5 steps</span></h2>
+        <p class="en">Staring at an empty screen is normal. Follow these steps every time, and you'll always know what to do next.</p><p class="hi">ख़ाली screen देखकर अटकना normal है। हर बार ये steps follow कीजिए, तो हमेशा पता रहेगा कि आगे क्या करना है।</p>
+        <ol class="how-steps">
+          <li><span class="en"><b>Understand.</b> Read the problem twice. Say in your own words what goes in and what must come out.</span><span class="hi"><b>समझो।</b> सवाल दो बार पढ़ो। अपने शब्दों में बोलो कि input क्या है और output क्या चाहिए।</span></li>
+          <li><span class="en"><b>Example by hand.</b> Take a small example and solve it on paper, without code. Notice what steps you did.</span><span class="hi"><b>हाथ से example।</b> एक छोटा example लो और बिना code के काग़ज़ पर हल करो। देखो तुमने कौन-से steps किए।</span></li>
+          <li><span class="en"><b>Brute force first.</b> Write the simplest solution that works, even if it is slow. A working slow answer beats a broken fast one.</span><span class="hi"><b>पहले brute force।</b> सबसे आसान solution लिखो जो चले, भले धीमा हो। चलने वाला धीमा जवाब, टूटे हुए तेज़ जवाब से बेहतर है।</span></li>
+          <li><span class="en"><b>Improve.</b> Ask: "am I repeating work?" A hash map, two pointers or sorting often removes a loop.</span><span class="hi"><b>बेहतर करो।</b> पूछो: "क्या मैं काम दोहरा रहा हूँ?" Hash map, two pointers या sorting से अक्सर एक loop हट जाता है।</span></li>
+          <li><span class="en"><b>Test.</b> Dry run your code on the example, then on edge cases: empty input, one item, duplicates, negatives.</span><span class="hi"><b>Test करो।</b> Example पर code का dry run करो, फिर edge cases पर: ख़ाली input, एक item, duplicates, negatives।</span></li>
+        </ol>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Using <code>&lt;=</code> instead of <code>&lt;</code> in a loop, and reading <code>arr[arr.length]</code>, which is <code>undefined</code>.</span><span class="hi">Loop में <code>&lt;</code> की जगह <code>&lt;=</code> लिखना, और <code>arr[arr.length]</code> पढ़ना, जो <code>undefined</code> है।</span></li><li><span class="en">Forgetting <code>return</code> at the end of a function.</span><span class="hi">Function के आख़िर में <code>return</code> भूल जाना।</span></li><li><span class="en">Using <code>==</code> instead of <code>===</code>.</span><span class="hi"><code>===</code> की जगह <code>==</code> लिखना।</span></li><li><span class="en">Using <code>const</code> for a value you later change, which gives an error.</span><span class="hi">बाद में बदलने वाली value के लिए <code>const</code> लिखना, जिससे error आता है।</span></li><li><span class="en">Copying solutions without typing and running them yourself.</span><span class="hi">Solution ख़ुद type करके चलाए बिना copy कर लेना।</span></li></ul></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice problems</span><span class="hi">प्रैक्टिस प्रॉब्लम</span></h2>
+        <p class="en">Try each exercise in your editor first. Open the answer only after you have tried.</p><p class="hi">हर exercise पहले अपने editor में ख़ुद कीजिए। कोशिश करने के बाद ही जवाब खोलिए।</p>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Write a function <code>sumArray(nums)</code> that returns the sum of all numbers.</span><span class="hi">Exercise 1: एक function <code>sumArray(nums)</code> लिखिए जो सारे numbers का जोड़ लौटाए।</span></p><details><summary><span class="en">Show answer</span><span class="hi">जवाब देखें</span></summary><pre class="code" data-copy><span class="kw">function</span> sumArray(nums) {
+  <span class="kw">let</span> total = 0;
+  <span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> nums) total += n;
+  <span class="kw">return</span> total;
+}
+console.log(sumArray([1, 2, 3])); <span class="cm">// 6</span></pre></details></div>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 2: Write <code>countEven(nums)</code> that returns how many numbers are even.</span><span class="hi">Exercise 2: <code>countEven(nums)</code> लिखिए जो बताए कितने numbers even हैं।</span></p><details><summary><span class="en">Show answer</span><span class="hi">जवाब देखें</span></summary><pre class="code" data-copy><span class="kw">function</span> countEven(nums) {
+  <span class="kw">let</span> count = 0;
+  <span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> nums) {
+    <span class="kw">if</span> (n % 2 === 0) count++;
+  }
+  <span class="kw">return</span> count;
+}
+console.log(countEven([1, 2, 4, 7])); <span class="cm">// 2</span></pre></details></div>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 3: Write <code>findMax(nums)</code> without using <code>Math.max</code>.</span><span class="hi">Exercise 3: <code>Math.max</code> इस्तेमाल किए बिना <code>findMax(nums)</code> लिखिए।</span></p><details><summary><span class="en">Show answer</span><span class="hi">जवाब देखें</span></summary><pre class="code" data-copy><span class="kw">function</span> findMax(nums) {
+  <span class="kw">let</span> max = -Infinity;
+  <span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> nums) {
+    <span class="kw">if</span> (n &gt; max) max = n;
+  }
+  <span class="kw">return</span> max;
+}
+console.log(findMax([3, 9, 2])); <span class="cm">// 9</span></pre></details></div>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 4: Write <code>hasDuplicate(nums)</code> that returns true if any number appears twice. Use a Set.</span><span class="hi">Exercise 4: <code>hasDuplicate(nums)</code> लिखिए जो true लौटाए अगर कोई number दो बार आए। Set इस्तेमाल कीजिए।</span></p><details><summary><span class="en">Show answer</span><span class="hi">जवाब देखें</span></summary><pre class="code" data-copy><span class="kw">function</span> hasDuplicate(nums) {
+  <span class="kw">const</span> seen = <span class="kw">new</span> Set();
+  <span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> nums) {
+    <span class="kw">if</span> (seen.has(n)) <span class="kw">return</span> <span class="kw">true</span>;
+    seen.add(n);
+  }
+  <span class="kw">return</span> <span class="kw">false</span>;
+}
+console.log(hasDuplicate([1, 2, 3, 1])); <span class="cm">// true</span></pre></details></div>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 5: Write <code>countWords(words)</code> that returns a Map of each word and how many times it appears.</span><span class="hi">Exercise 5: <code>countWords(words)</code> लिखिए जो हर शब्द और उसकी गिनती का Map लौटाए।</span></p><details><summary><span class="en">Show answer</span><span class="hi">जवाब देखें</span></summary><pre class="code" data-copy><span class="kw">function</span> countWords(words) {
+  <span class="kw">const</span> count = <span class="kw">new</span> Map();
+  <span class="kw">for</span> (<span class="kw">const</span> w <span class="kw">of</span> words) {
+    count.set(w, (count.get(w) || 0) + 1);
+  }
+  <span class="kw">return</span> count;
+}
+console.log(countWords([<span class="st">"hi"</span>, <span class="st">"ok"</span>, <span class="st">"hi"</span>])); <span class="cm">// Map { "hi" =&gt; 2, "ok" =&gt; 1 }</span></pre></details></div>
+        
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"What does this print?","hi":"यह क्या print करेगा?"},"options":["0 1 2","1 2 3","0 1 2 3","3"],"answer":0,"why":{"en":"i starts at 0 and the loop runs while i < 3, so it prints 0, 1 and 2.","hi":"i 0 से शुरू होता है और loop तब तक चलता है जब तक i < 3, इसलिए 0, 1 और 2 print होते हैं।"},"code":"<span class=\"kw\">for</span> (<span class=\"kw\">let</span> i = 0; i &lt; 3; i++) {\n  console.log(i);\n}"},{"q":{"en":"What is <code>arr[arr.length]</code> for <code>arr = [5, 6, 7]</code>?","hi":"<code>arr = [5, 6, 7]</code> के लिए <code>arr[arr.length]</code> क्या है?"},"options":["7","3","undefined","An error"],"answer":2,"why":{"en":"length is 3, but the last index is 2. arr[3] does not exist, so JS gives undefined.","hi":"length 3 है, पर आख़िरी index 2 है। arr[3] मौजूद नहीं, इसलिए JS undefined देता है।"}},{"q":{"en":"Which is the fastest way to check if a value was already seen?","hi":"कोई value पहले देखी या नहीं, यह check करने का सबसे तेज़ तरीक़ा कौन-सा है?"},"options":[{"en":"arr.includes(x)","hi":"arr.includes(x)"},{"en":"set.has(x)","hi":"set.has(x)"},{"en":"A loop over the array","hi":"Array पर loop"},{"en":"arr.indexOf(x)","hi":"arr.indexOf(x)"}],"answer":1,"why":{"en":"set.has() is O(1). includes, indexOf and a loop all check items one by one: O(n).","hi":"set.has() O(1) है। includes, indexOf और loop सब एक-एक item देखते हैं: O(n)।"}},{"q":{"en":"What does this function return?","hi":"यह function क्या return करेगा?"},"options":["5","undefined","An error","0"],"answer":1,"why":{"en":"The function calculates a + b but never returns it, so the result is undefined.","hi":"Function a + b निकालता है पर return नहीं करता, इसलिए नतीजा undefined है।"},"code":"<span class=\"kw\">function</span> add(a, b) {\n  <span class=\"kw\">const</span> sum = a + b;\n}\nadd(2, 3);"},{"q":{"en":"What is <code>7 % 3</code>?","hi":"<code>7 % 3</code> क्या है?"},"options":["2","1","2.33","0"],"answer":1,"why":{"en":"% gives the remainder: 7 = 3 × 2 + 1, so the answer is 1.","hi":"% शेषफल देता है: 7 = 3 × 2 + 1, इसलिए जवाब 1 है।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="js-basics"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="./"><span class="en">← Roadmap</span><span class="hi">← रोडमैप</span></a><a class="btn btn-outline" href="big-o.html">→ <span class="en">Big-O: how fast is my code?</span><span class="hi">Big-O: मेरा code कितना तेज़ है?</span></a></div>
+        <div class="say"><p class="en">Stuck on a problem? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20DSA%20module%3A%20JavaScript%20basics%20for%20DSA" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">किसी सवाल पर अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20DSA%20module%3A%20JavaScript%20basics%20for%20DSA" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../pricing.html">Pricing</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">DSA course by Agam Sahu</span><span class="hi">DSA कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>
