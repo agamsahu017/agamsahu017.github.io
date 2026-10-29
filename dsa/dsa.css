@@ -263,3 +263,19 @@ h2 + .badge { margin: -4px 0 10px; }
 .qa .simple p { color: var(--text); margin: 0; }
 .qa .pic-title { margin: 12px 0 0; color: var(--text); }
 .qa .flow { margin-top: 6px; }
+
+/* Step-by-step diagram player */
+.flow .step, .flow .arrow { transition: opacity .35s, transform .35s, border-color .35s, box-shadow .35s; }
+.flow.playing .step { opacity: .3; }
+.flow.playing .arrow { opacity: .25; }
+.flow.playing .step.done, .flow.playing .arrow.done { opacity: 1; }
+.flow.playing .step.active { opacity: 1; transform: scale(1.06); }
+.flow.playing .step.active .node, .flow.playing .node.step.active { border-color: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, .25); }
+.flow-player { margin-top: 12px; }
+.flow-say { min-height: 3.2em; padding: 10px 14px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: .95rem; line-height: 1.6; }
+.flow-ctrl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+.flow-ctrl button { font: inherit; font-size: .88rem; font-weight: 600; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+.flow-ctrl button.play { background: var(--primary); border-color: var(--primary); color: #fff; }
+.flow-ctrl button:hover { border-color: var(--primary); }
+.flow-count { font-size: .82rem; color: var(--muted); margin-left: auto; }
+@media (prefers-reduced-motion: reduce) { .flow .step, .flow .arrow { transition: none; } .flow.playing .step.active { transform: none; } }

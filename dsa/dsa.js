@@ -194,6 +194,54 @@
     });
   }
 
+  // ---------- step-by-step diagrams: Play / Back / Next with one narration line per step ----------
+  document.querySelectorAll(".flow[data-steps]").forEach((fig) => {
+    let lines;
+    try { lines = JSON.parse(fig.dataset.steps); } catch (e) { return; }
+    const row = fig.querySelector(".flow-row");
+    const steps = [...row.children].filter((c) => !c.classList.contains("arrow"));
+    const arrows = [...row.children].filter((c) => c.classList.contains("arrow"));
+    if (steps.length !== lines.length) return;
+    steps.forEach((s) => s.classList.add("step"));
+    const bar = document.createElement("div");
+    bar.className = "flow-player";
+    bar.innerHTML = '<div class="flow-say" aria-live="polite"></div><div class="flow-ctrl">' +
+      '<button type="button" data-a="back" aria-label="Previous step">◀ Back</button>' +
+      '<button type="button" data-a="play" class="play">▶ Play</button>' +
+      '<button type="button" data-a="next" aria-label="Next step">Next ▶</button>' +
+      '<span class="flow-count"></span></div>';
+    fig.insertBefore(bar, row.nextSibling);
+    const say = bar.querySelector(".flow-say");
+    const count = bar.querySelector(".flow-count");
+    const playBtn = bar.querySelector(".play");
+    let i = -1, timer = null;
+    say.textContent = "Press ▶ Play to see it step by step, or use Next to go at your own pace.";
+    function show(k) {
+      i = Math.max(0, Math.min(k, steps.length - 1));
+      fig.classList.add("playing");
+      steps.forEach((s, j) => { s.classList.toggle("active", j === i); s.classList.toggle("done", j < i); });
+      arrows.forEach((a, j) => a.classList.toggle("done", j < i));
+      say.textContent = lines[i];
+      count.textContent = `Step ${i + 1} of ${steps.length}`;
+    }
+    function stop(label) { clearTimeout(timer); timer = null; playBtn.textContent = label || "▶ Play"; }
+    function tick() {
+      if (i >= steps.length - 1) { stop("↺ Replay"); return; }
+      show(i + 1);
+      timer = setTimeout(tick, 1800 + lines[i].length * 45); // longer lines stay longer
+    }
+    bar.addEventListener("click", (ev) => {
+      const a = ev.target.closest("button")?.dataset.a;
+      if (!a) return;
+      if (a === "play") {
+        if (timer) { stop("▶ Resume"); return; }
+        if (i >= steps.length - 1) i = -1;
+        playBtn.textContent = "❚❚ Pause";
+        if (i < 0) { show(0); timer = setTimeout(tick, 1800 + lines[0].length * 45); } else tick();
+      } else { stop(i >= 0 && i < steps.length - 1 ? "▶ Resume" : undefined); show(a === "next" ? i + 1 : i - 1); if (i === steps.length - 1) playBtn.textContent = "↺ Replay"; }
+    });
+  });
+
   // ---------- glossary page search ----------
   const gSearch = document.getElementById("gloss-search");
   if (gSearch) {
