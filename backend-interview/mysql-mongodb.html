@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MySQL and MongoDB Interview Questions for Backend | Kodivo</title>
+  <meta name="description" content="Database interview questions: SQL vs NoSQL, MySQL vs PostgreSQL, MongoDB embed vs reference, indexes, aggregation, transactions and replicas." />
+  <link rel="canonical" href="https://agamsahu017.github.io/backend-interview/mysql-mongodb.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/backend-interview/mysql-mongodb.html" />
+  <meta property="og:title" content="MySQL and MongoDB Interview Questions for Backend | Kodivo" />
+  <meta property="og:description" content="Database interview questions: SQL vs NoSQL, MySQL vs PostgreSQL, MongoDB embed vs reference, indexes, aggregation, transactions and replicas." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Backend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/backend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "MySQL, MongoDB and choosing a database",
+          "item": "https://agamsahu017.github.io/backend-interview/mysql-mongodb.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "MySQL and MongoDB Interview Questions for Backend",
+      "description": "Database interview questions: SQL vs NoSQL, MySQL vs PostgreSQL, MongoDB embed vs reference, indexes, aggregation, transactions and replicas.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Backend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/backend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Backend Interview</span><span class="hi">Backend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20backend%20on%20your%20website%20(MySQL%2C%20MongoDB%20and%20choosing%20a%20database)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Backend Interview</a> › <span>MySQL, MongoDB and choosing a database</span></nav>
+        <span class="pill"><span class="en">Module 6 of 10</span><span class="hi">मॉड्यूल 6 / 10</span></span>
+        <h1><span class="en">MySQL, MongoDB and choosing a database</span><span class="hi">MySQL, MongoDB and choosing a database</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> If your resume lists PostgreSQL, MySQL and MongoDB, expect 'which one would you pick for this, and why?'</p><p class="hi"><b>एक लाइन में:</b> If your resume lists PostgreSQL, MySQL and MongoDB, expect 'which one would you pick for this, and why?'</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">SQL vs NoSQL in plain words</span><span class="hi">SQL vs NoSQL in plain words</span></li><li><span class="en">MySQL vs PostgreSQL differences that matter</span><span class="hi">MySQL vs PostgreSQL differences that matter</span></li><li><span class="en">MongoDB schema design: embed or reference</span><span class="hi">MongoDB schema design: embed or reference</span></li><li><span class="en">Mongo indexes and the aggregation pipeline</span><span class="hi">Mongo indexes and the aggregation pipeline</span></li><li><span class="en">Transactions in MongoDB</span><span class="hi">Transactions in MongoDB</span></li><li><span class="en">Read replicas and replication lag</span><span class="hi">Read replicas and replication lag</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#choose"><span class="en">Choosing a database</span><span class="hi">Choosing a database</span></a><a href="#mongo"><span class="en">MongoDB</span><span class="hi">MongoDB</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="choose">
+        <h2 id="choose-h"><span class="en">Choosing a database</span><span class="hi">Choosing a database</span></h2>
+        
+        <article class="qa" id="mysql-mongodb-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>SQL vs NoSQL: how do you choose?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>SQL (PostgreSQL, MySQL)</b>: tables with a fixed schema, relations and joins, strong <b>ACID transactions</b>. Best when data is related and correctness matters: payments, orders, HR, approvals, government records.</p><p><b>NoSQL</b> is a family:</p><ul><li><b>document</b> stores (MongoDB): flexible JSON-like documents,</li><li><b>key-value</b> stores (Redis),</li><li><b>wide-column</b> stores (Cassandra),</li><li><b>graph</b> databases (Neo4j).</li></ul><p>It's good for flexible or changing shapes, very high write volume, or data always read as one whole document.</p><p>Honest answer: <b>"Start with PostgreSQL unless there's a clear reason not to."</b> It also handles JSON well with JSONB. Many systems use both: Postgres for core data, Redis for cache, and Mongo or Elasticsearch for logs or search.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Relational for connected data needing transactions, NoSQL for flexible shapes or extreme scale; Postgres is my default.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="mysql-mongodb-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>MySQL vs PostgreSQL: what are the real differences?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Both are solid, open-source relational databases. Differences that come up in interviews:</p><ul><li><b>PostgreSQL</b>: richer features (JSONB with GIN indexes, arrays, CTEs, partial and expression indexes, strong extensions like PostGIS), strict about data types, default isolation Read Committed.</li><li><b>MySQL</b> (InnoDB): very common in web apps and hosting, simple to run, great read performance with replicas, default isolation <b>Repeatable Read</b>. Historically it was more relaxed about bad data (it depends on <code>sql_mode</code>).</li><li>Both support window functions (MySQL 8+), JSON, and replication.</li></ul><p>Choose by team skills and features needed, not by hype.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Postgres for richer SQL, JSONB and extensions; MySQL for simple, widely-hosted, read-heavy apps; both are reliable.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="mysql-mongodb-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>What are read replicas? What is replication lag?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A read replica is a copy of the primary database that receives changes continuously and serves <b>read-only</b> queries. Use it for reports, dashboards and heavy reads, so the primary stays free for writes.</p><p><b>Replication lag</b>: the replica can be a little behind (milliseconds, sometimes seconds). A user saves a profile, then reads from the replica and sees <b>old data</b>.</p><p>Fix: read <b>your own writes</b> from the primary (for example, for a few seconds after a write, or for that user's own record), and send only lag-tolerant queries (reports, analytics) to replicas.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> The main notice board in the office (primary) and photocopies on each floor (replicas). The photocopies take a few minutes to update. If you just changed a notice, check the main board.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Replicas offload reads, but they lag, so a user's own just-written data is read from the primary.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="mongo">
+        <h2 id="mongo-h"><span class="en">MongoDB</span><span class="hi">MongoDB</span></h2>
+        
+        <article class="qa" id="mysql-mongodb-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>MongoDB schema design: when do you embed and when do you reference?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Design for <b>how the data is read</b>:</p><ul><li><b>Embed</b> when the child data is <b>owned by</b> the parent, always read together, and limited in size: an order with its line items, a user with addresses.</li><li><b>Reference</b> (store ids) when the data is <b>shared</b>, read separately, or grows without limit: a product used by many orders, the comments on a viral post.</li></ul><p>Remember the <b>16 MB document limit</b>, and avoid arrays that grow forever.</p>
+            
+            <pre class="code" data-copy><span class="cm">// Embed: read the order with its items in one go</span>
+db.orders.insertOne({ _id: <span class="st">"ord_1"</span>, userId: <span class="st">"u_7"</span>, items: [{ sku: <span class="st">"TSHIRT-M"</span>, qty: 2, price: 499 }], total: 998 })
+
+<span class="cm">// Reference: products are shared and change on their own</span>
+db.orders.insertOne({ _id: <span class="st">"ord_2"</span>, userId: <span class="st">"u_7"</span>, items: [{ productId: <span class="st">"p_55"</span>, qty: 1 }] })</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Embed what is owned and read together; reference what is shared or grows without limit.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="mysql-mongodb-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>How do indexes work in MongoDB? What is the ESR rule?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>MongoDB also uses B-tree indexes, including <b>compound</b> indexes where the order matters. Check queries with <code>.explain("executionStats")</code> and look for <code>COLLSCAN</code> (a full scan) vs <code>IXSCAN</code>.</p><p>The <b>ESR rule</b> for compound index order: <b>Equality</b> fields first, then <b>Sort</b> fields, then <b>Range</b> fields.</p>
+            
+            <pre class="code" data-copy><span class="cm">// Query: status = "pending" (equality), sort by createdAt, amount &gt; 1000 (range)</span>
+db.orders.createIndex({ status: 1, createdAt: -1, amount: 1 })
+db.orders.find({ status: <span class="st">"pending"</span>, amount: { $gt: 1000 } }).sort({ createdAt: -1 }).explain(<span class="st">"executionStats"</span>)</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Compound indexes in Equality, Sort, Range order, verified with explain().</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="mysql-mongodb-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>What is the aggregation pipeline? Give an example.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A pipeline is a list of <b>stages</b>; each stage transforms the documents and passes them on, like SQL's WHERE, GROUP BY and ORDER BY in steps:</p><ul><li><code>$match</code> (filter, put it first so it can use indexes),</li><li><code>$group</code>, <code>$sort</code>, <code>$project</code>, <code>$lookup</code> (a join), <code>$unwind</code> (split an array into separate documents).</li></ul>
+            
+            <pre class="code" data-copy><span class="cm">// Total sales per city for paid orders, highest first</span>
+db.orders.aggregate([
+  { $match: { status: <span class="st">"paid"</span> } },
+  { $group: { _id: <span class="st">"$city"</span>, total: { $sum: <span class="st">"$amount"</span> }, orders: { $sum: 1 } } },
+  { $sort: { total: -1 } },
+  { $limit: 5 },
+])</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A chain of stages like $match, $group and $sort, with $match first so it uses indexes.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="mysql-mongodb-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>Does MongoDB support transactions?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Yes. <b>Single-document</b> operations have always been atomic. <b>Multi-document</b> transactions exist since MongoDB 4.0 (replica sets) and 4.2 (sharded clusters), and they need a <b>replica set</b>, even in development.</p><p>They are slower than in SQL databases, so good MongoDB design tries to keep data that changes together <b>in one document</b>. If you need transactions everywhere, a relational database may be the better choice.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Yes, multi-document transactions on replica sets, but good Mongo design keeps atomic changes inside one document.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">Postgres by default; NoSQL for a clear reason.</span><span class="hi">Postgres by default; NoSQL for a clear reason.</span></li><li><span class="en">MySQL default isolation: Repeatable Read. Postgres: Read Committed.</span><span class="hi">MySQL default isolation: Repeatable Read. Postgres: Read Committed.</span></li><li><span class="en">Replicas lag, so read your own writes from the primary.</span><span class="hi">Replicas lag, so read your own writes from the primary.</span></li><li><span class="en">Mongo: embed owned and bounded data; reference shared or unbounded data.</span><span class="hi">Mongo: embed owned and bounded data; reference shared or unbounded data.</span></li><li><span class="en">Compound index order in Mongo: Equality → Sort → Range.</span><span class="hi">Compound index order in Mongo: Equality → Sort → Range.</span></li><li><span class="en">Aggregation: put $match first.</span><span class="hi">Aggregation: put $match first.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>Scenario questions: say your choice and one trade-off.</p><div class="exercise"><p class="q-text">Mock task 1: Store audit logs: 50 lakh rows a day, rarely read, kept for 1 year.</p><details><summary>Show a sample answer</summary><div class="answer"><p>An append-only table <b>partitioned by month</b> in PostgreSQL (drop old partitions instead of DELETE), with few indexes. Or a document/log store (MongoDB with a TTL index, or OpenSearch) if search across fields is needed. Write asynchronously through a queue, so audit writes never slow down the main request.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 2: A dashboard query is slowing down the main database during office hours.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Move it to a <b>read replica</b>, or precompute the numbers into a summary table with a cron job or materialised view. Add the right indexes, and cache the result in Redis for a few minutes.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"MySQL InnoDB's default isolation level?","hi":"MySQL InnoDB's default isolation level?"},"options":["Read Committed","Repeatable Read","Serializable","Read Uncommitted"],"answer":1,"why":{"en":"Repeatable Read.","hi":"Repeatable Read."}},{"q":{"en":"Order line items that belong to one order:","hi":"Order line items that belong to one order:"},"options":["Reference","Embed","A separate database","Redis"],"answer":1,"why":{"en":"Owned, bounded, read together → embed.","hi":"Owned, bounded, read together → embed."}},{"q":{"en":"ESR stands for…","hi":"ESR stands for…"},"options":["Equality, Sort, Range","Error, Status, Retry","Embed, Shard, Replicate","Exact, Sorted, Random"],"answer":0,"why":{"en":"Equality, Sort, Range.","hi":"Equality, Sort, Range."}},{"q":{"en":"The user saves, then sees old data. Likely cause?","hi":"The user saves, then sees old data. Likely cause?"},"options":["Deadlock","Replication lag on a read replica","Index missing","CORS"],"answer":1,"why":{"en":"The read went to a lagging replica.","hi":"The read went to a lagging replica."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="backend-interview:mysql-mongodb"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="typeorm.html">← <span class="en">TypeORM questions</span><span class="hi">TypeORM questions</span></a><a class="btn btn-outline" href="redis-bullmq.html">→ <span class="en">Redis and BullMQ questions</span><span class="hi">Redis and BullMQ questions</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20MySQL%2C%20MongoDB%20and%20choosing%20a%20database" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20MySQL%2C%20MongoDB%20and%20choosing%20a%20database" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Backend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

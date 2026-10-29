@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TypeORM Interview Questions with NestJS | Kodivo</title>
+  <meta name="description" content="TypeORM interview questions for NestJS developers: relations, the N+1 problem, QueryBuilder, transactions, migrations, soft delete and locking." />
+  <link rel="canonical" href="https://agamsahu017.github.io/backend-interview/typeorm.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/backend-interview/typeorm.html" />
+  <meta property="og:title" content="TypeORM Interview Questions with NestJS | Kodivo" />
+  <meta property="og:description" content="TypeORM interview questions for NestJS developers: relations, the N+1 problem, QueryBuilder, transactions, migrations, soft delete and locking." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Backend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/backend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "TypeORM questions",
+          "item": "https://agamsahu017.github.io/backend-interview/typeorm.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "TypeORM Interview Questions with NestJS",
+      "description": "TypeORM interview questions for NestJS developers: relations, the N+1 problem, QueryBuilder, transactions, migrations, soft delete and locking.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Backend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/backend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Backend Interview</span><span class="hi">Backend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20backend%20on%20your%20website%20(TypeORM%20questions)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Backend Interview</a> › <span>TypeORM questions</span></nav>
+        <span class="pill"><span class="en">Module 5 of 10</span><span class="hi">मॉड्यूल 5 / 10</span></span>
+        <h1><span class="en">TypeORM questions</span><span class="hi">TypeORM questions</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> With TypeORM on your resume, expect the N+1 problem, transactions and 'why synchronize: true is dangerous'.</p><p class="hi"><b>एक लाइन में:</b> With TypeORM on your resume, expect the N+1 problem, transactions and 'why synchronize: true is dangerous'.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Entities and relations (ManyToOne, OneToMany, ManyToMany)</span><span class="hi">Entities and relations (ManyToOne, OneToMany, ManyToMany)</span></li><li><span class="en">Eager vs lazy loading and the N+1 problem</span><span class="hi">Eager vs lazy loading and the N+1 problem</span></li><li><span class="en">Repository vs QueryBuilder vs raw SQL</span><span class="hi">Repository vs QueryBuilder vs raw SQL</span></li><li><span class="en">Transactions in NestJS with DataSource</span><span class="hi">Transactions in NestJS with DataSource</span></li><li><span class="en">Migrations vs synchronize</span><span class="hi">Migrations vs synchronize</span></li><li><span class="en">Soft delete, optimistic and pessimistic locking</span><span class="hi">Soft delete, optimistic and pessimistic locking</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#entities"><span class="en">Entities and loading</span><span class="hi">Entities and loading</span></a><a href="#tx-migrations"><span class="en">Transactions, migrations and locking</span><span class="hi">Transactions, migrations and locking</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="entities">
+        <h2 id="entities-h"><span class="en">Entities and loading</span><span class="hi">Entities and loading</span></h2>
+        
+        <article class="qa" id="typeorm-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>Show an entity with a ManyToOne / OneToMany relation.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>The <b>ManyToOne</b> side owns the foreign key column. OneToMany is just the reverse view and needs the ManyToOne on the other side.</p><p>Name your columns explicitly (<code>@JoinColumn({ name: "department_id" })</code>), so the database schema is readable and matches your migrations.</p>
+            
+            <pre class="code" data-copy><span class="kw">import</span> { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } <span class="kw">from</span> <span class="st">"typeorm"</span>;
+
+@Entity(<span class="st">"departments"</span>)
+<span class="kw">export</span> <span class="kw">class</span> Department {
+  @PrimaryGeneratedColumn() id!: number;
+  @Column() name!: string;
+  @OneToMany(() =&gt; Employee, (e) =&gt; e.department) employees!: Employee[];
+}
+
+@Entity(<span class="st">"employees"</span>)
+<span class="kw">export</span> <span class="kw">class</span> Employee {
+  @PrimaryGeneratedColumn() id!: number;
+  @Column() name!: string;
+  @Column({ <span class="kw">type</span>: <span class="st">"varchar"</span>, length: 20, <span class="kw">default</span>: <span class="st">"active"</span> }) status!: string;
+  @ManyToOne(() =&gt; Department, (d) =&gt; d.employees, { nullable: <span class="kw">false</span> })
+  @JoinColumn({ name: <span class="st">"department_id"</span> })
+  department!: Department;
+  @CreateDateColumn({ name: <span class="st">"created_at"</span> }) createdAt!: Date;
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> ManyToOne owns the foreign key with JoinColumn; OneToMany is the inverse side.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="typeorm-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>What is the N+1 query problem? How do you fix it in TypeORM?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>You load 100 employees with <b>1 query</b>, then access each employee's department, causing <b>100 more queries</b>: 101 in total. It is fast with 10 rows in dev and terrible with 10,000 in production.</p><p>Fix: load the relation in the <b>same query</b>, with <code>relations</code> in <code>find</code>, or <code>leftJoinAndSelect</code> in QueryBuilder. For GraphQL, use <b>DataLoader</b> to batch the queries. Detect it by turning on query logging in dev and counting queries per request.</p>
+            
+            <pre class="code" data-copy><span class="cm">// 1 query with a JOIN instead of 101</span>
+<span class="kw">const</span> employees = <span class="kw">await</span> employeeRepo.find({
+  where: { status: <span class="st">"active"</span> },
+  relations: { department: <span class="kw">true</span> },
+  take: 50,
+});
+
+<span class="kw">const</span> rows = <span class="kw">await</span> employeeRepo
+  .createQueryBuilder(<span class="st">"e"</span>)
+  .leftJoinAndSelect(<span class="st">"e.department"</span>, <span class="st">"d"</span>)
+  .where(<span class="st">"e.status = :status"</span>, { status: <span class="st">"active"</span> })
+  .orderBy(<span class="st">"e.id"</span>, <span class="st">"DESC"</span>)
+  .take(50)
+  .getMany();</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> One query for the list plus one per row; fix it with relations or leftJoinAndSelect in a single query.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="typeorm-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>Eager vs lazy relations: which do you use?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><code>eager: true</code>: the relation loads <b>every time</b> you use <code>find</code>. Convenient, but you load data you don't need, and it can chain into big joins.</li><li><b>lazy</b> (a <code>Promise&lt;T&gt;</code> type): loads when you access it, which can quietly create <b>N+1</b> queries.</li></ul><p>A safe default: <b>neither</b>. Load relations explicitly per query with <code>relations</code> or joins, so every query shows exactly what it fetches.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> I avoid both and load relations explicitly per query, so the cost is always visible.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="typeorm-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>Repository methods vs QueryBuilder vs raw SQL: when to use which?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>Repository</b> (<code>find</code>, <code>save</code>, <code>update</code>): simple CRUD and simple filters.</li><li><b>QueryBuilder</b>: dynamic filters, joins, aggregates, subqueries and pagination for list screens, still with <b>parameters</b> (safe from SQL injection).</li><li><b>Raw SQL</b> (<code>dataSource.query(sql, params)</code>): heavy reports, window functions, CTEs, or database-specific features. Always use <b>parameters</b> (<code>$1</code>), never string concatenation.</li></ul><p>Also: <code>save()</code> does a SELECT and then an INSERT or UPDATE. For bulk updates, <code>update()</code> or <code>insert()</code> is much faster.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Repository for CRUD, QueryBuilder for dynamic lists, parameterised raw SQL for heavy reports.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="tx-migrations">
+        <h2 id="tx-migrations-h"><span class="en">Transactions, migrations and locking</span><span class="hi">Transactions, migrations and locking</span></h2>
+        
+        <article class="qa" id="typeorm-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>How do you run a transaction in TypeORM with NestJS?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Inject the <code>DataSource</code> and use <code>dataSource.transaction(async (manager) =&gt; ...)</code>. <b>Every</b> query inside must use that <code>manager</code> (not the injected repositories), or it runs outside the transaction.</p><p>For more control (several steps, custom error handling), use a <code>QueryRunner</code> with <code>startTransaction</code>, <code>commitTransaction</code>, <code>rollbackTransaction</code>, and <code>release</code> in <code>finally</code>.</p>
+            
+            <pre class="code" data-copy><span class="kw">import</span> { Injectable } <span class="kw">from</span> <span class="st">"@nestjs/common"</span>;
+<span class="kw">import</span> { DataSource } <span class="kw">from</span> <span class="st">"typeorm"</span>;
+<span class="kw">import</span> { Account } <span class="kw">from</span> <span class="st">"./account.entity"</span>;
+
+@Injectable()
+<span class="kw">export</span> <span class="kw">class</span> TransferService {
+  <span class="kw">constructor</span>(<span class="kw">private</span> <span class="kw">readonly</span> dataSource: DataSource) {}
+
+  <span class="kw">async</span> transfer(fromId: number, toId: number, amount: number) {
+    <span class="kw">await</span> <span class="kw">this</span>.dataSource.transaction(<span class="kw">async</span> (manager) =&gt; {
+      <span class="kw">const</span> <span class="kw">from</span> = <span class="kw">await</span> manager.findOne(Account, { where: { id: fromId }, lock: { mode: <span class="st">"pessimistic_write"</span> } });
+      <span class="kw">if</span> (!<span class="kw">from</span> || <span class="kw">from</span>.balance &lt; amount) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">"Insufficient balance"</span>);
+      <span class="kw">await</span> manager.decrement(Account, { id: fromId }, <span class="st">"balance"</span>, amount);
+      <span class="kw">await</span> manager.increment(Account, { id: toId }, <span class="st">"balance"</span>, amount);
+    }); <span class="cm">// any throw -&gt; automatic rollback</span>
+  }
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> dataSource.transaction with the provided manager for every query; QueryRunner when I need manual control.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="typeorm-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>Why is <code>synchronize: true</code> dangerous? How do migrations work?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><code>synchronize: true</code> changes the database schema to match your entities <b>on every start</b>. If you rename a column, it may <b>drop the old column and its data</b>. Use it only for local experiments, never in staging or production.</p><p><b>Migrations</b> are versioned files with <code>up</code> and <code>down</code>, committed to git, reviewed, and run in the deploy pipeline (<code>typeorm migration:generate</code> / <code>migration:run</code>). Every environment then gets the same changes in the same order.</p><p>For zero-downtime changes, use <b>expand and contract</b>: add the new column, deploy code that writes to both, backfill, switch reads, then drop the old column in a later release.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> synchronize can drop data; migrations are reviewed, versioned and run in the pipeline, using expand-and-contract for renames.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="typeorm-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>How do soft delete and optimistic locking work in TypeORM?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Soft delete</b>: add <code>@DeleteDateColumn() deletedAt</code>. <code>softDelete(id)</code> sets the timestamp instead of deleting, and normal <code>find</code> calls skip those rows automatically. Use <code>withDeleted: true</code> to include them. Useful for audit and undo. Remember that unique indexes still see the deleted rows.</p><p><b>Optimistic locking</b>: add <code>@VersionColumn() version</code>. TypeORM increases it on every save. To stop "two admins editing the same record" overwriting each other, update with <code>WHERE id = :id AND version = :version</code> (or pass the version and check the affected row count); if nothing was updated, return <b>409 Conflict</b>.</p>
+            
+            <pre class="code" data-copy>@Entity(<span class="st">"profiles"</span>)
+<span class="kw">export</span> <span class="kw">class</span> Profile {
+  @PrimaryGeneratedColumn() id!: number;
+  @Column() address!: string;
+  @VersionColumn() version!: number;
+  @DeleteDateColumn({ name: <span class="st">"deleted_at"</span> }) deletedAt?: Date;
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> DeleteDateColumn for soft delete; VersionColumn plus a version check in the update for optimistic locking.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">ManyToOne owns the foreign key; name columns with JoinColumn.</span><span class="hi">ManyToOne owns the foreign key; name columns with JoinColumn.</span></li><li><span class="en">N+1: load relations in one query (<code>relations</code> / <code>leftJoinAndSelect</code>).</span><span class="hi">N+1: load relations in one query (<code>relations</code> / <code>leftJoinAndSelect</code>).</span></li><li><span class="en">Avoid eager and lazy; load relations explicitly.</span><span class="hi">Avoid eager and lazy; load relations explicitly.</span></li><li><span class="en">Transactions: use the provided <code>manager</code> for every query.</span><span class="hi">Transactions: use the provided <code>manager</code> for every query.</span></li><li><span class="en">Never <code>synchronize: true</code> in production; migrations + expand-and-contract.</span><span class="hi">Never <code>synchronize: true</code> in production; migrations + expand-and-contract.</span></li><li><span class="en">Soft delete with DeleteDateColumn; optimistic locking with VersionColumn.</span><span class="hi">Soft delete with DeleteDateColumn; optimistic locking with VersionColumn.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>Explain these as if they happened in your project.</p><div class="exercise"><p class="q-text">Mock task 1: An employee list API takes 6 seconds. Logs show 400 queries per request. Fix it.</p><details><summary>Show a sample answer</summary><div class="answer"><p>It's N+1: each row loads its department, manager and documents separately. Use one QueryBuilder with <code>leftJoinAndSelect</code> for the needed relations, select only the needed columns, paginate with <code>take</code>/<code>skip</code> (or a cursor), and add indexes on the filter and foreign key columns. Check the query count afterwards (from 400 to 2: the data plus a count).</p></div></details></div><div class="exercise"><p class="q-text">Mock task 2: A migration must add a NOT NULL column to a 2 crore row table without downtime.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Add the column as <b>nullable</b> (fast), deploy code that writes it for new rows, <b>backfill in batches</b> (for example 10,000 rows at a time) to avoid long locks, then add <code>NOT NULL</code> (or a <code>CHECK ... NOT VALID</code> constraint followed by <code>VALIDATE</code>) once all rows are filled.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Which side holds the foreign key?","hi":"Which side holds the foreign key?"},"options":["OneToMany","ManyToOne","Both","Neither"],"answer":1,"why":{"en":"ManyToOne owns the join column.","hi":"ManyToOne owns the join column."}},{"q":{"en":"100 rows + 1 query per row for a relation is called…","hi":"100 rows + 1 query per row for a relation is called…"},"options":["Deadlock","N+1 problem","Cartesian join","Index miss"],"answer":1,"why":{"en":"1 + N queries.","hi":"1 + N queries."}},{"q":{"en":"Inside dataSource.transaction, run queries with…","hi":"Inside dataSource.transaction, run queries with…"},"options":["The injected repository","The provided manager","A new DataSource","Raw fetch"],"answer":1,"why":{"en":"Only the manager is inside the transaction.","hi":"Only the manager is inside the transaction."}},{"q":{"en":"synchronize: true in production is…","hi":"synchronize: true in production is…"},"options":["Recommended","Dangerous: it may drop data","Required for migrations","Faster"],"answer":1,"why":{"en":"It can drop columns on rename.","hi":"It can drop columns on rename."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="backend-interview:typeorm"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="postgres-sql.html">← <span class="en">PostgreSQL and SQL questions</span><span class="hi">PostgreSQL and SQL questions</span></a><a class="btn btn-outline" href="mysql-mongodb.html">→ <span class="en">MySQL, MongoDB and choosing a database</span><span class="hi">MySQL, MongoDB and choosing a database</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20TypeORM%20questions" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20TypeORM%20questions" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Backend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

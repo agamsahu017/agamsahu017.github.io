@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JavaScript Interview Questions for 3–10 Years | Kodivo</title>
+  <meta name="description" content="Most asked JavaScript interview questions for experienced developers: closures, event loop, promises, this, hoisting and debounce, with simple answers." />
+  <link rel="canonical" href="https://agamsahu017.github.io/frontend-interview/js-core.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/frontend-interview/js-core.html" />
+  <meta property="og:title" content="JavaScript Interview Questions for 3–10 Years | Kodivo" />
+  <meta property="og:description" content="Most asked JavaScript interview questions for experienced developers: closures, event loop, promises, this, hoisting and debounce, with simple answers." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Frontend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/frontend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "JavaScript core questions",
+          "item": "https://agamsahu017.github.io/frontend-interview/js-core.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "JavaScript Interview Questions for 3–10 Years",
+      "description": "Most asked JavaScript interview questions for experienced developers: closures, event loop, promises, this, hoisting and debounce, with simple answers.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Frontend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/frontend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Frontend Interview</span><span class="hi">Frontend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20frontend%20on%20your%20website%20(JavaScript%20core%20questions)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Frontend Interview</a> › <span>JavaScript core questions</span></nav>
+        <span class="pill"><span class="en">Module 1 of 10</span><span class="hi">मॉड्यूल 1 / 10</span></span>
+        <h1><span class="en">JavaScript core questions</span><span class="hi">JavaScript core questions</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">35 min read + practice</span><span class="hi">35 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Almost every frontend round starts with JavaScript. If you can explain closures, the event loop and promises with an example, you clear most L1 rounds.</p><p class="hi"><b>एक लाइन में:</b> Almost every frontend round starts with JavaScript. If you can explain closures, the event loop and promises with an example, you clear most L1 rounds.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">var, let, const, hoisting and the temporal dead zone</span><span class="hi">var, let, const, hoisting and the temporal dead zone</span></li><li><span class="en">Closures, `this`, and call/apply/bind</span><span class="hi">Closures, `this`, and call/apply/bind</span></li><li><span class="en">The event loop: why a promise runs before setTimeout</span><span class="hi">The event loop: why a promise runs before setTimeout</span></li><li><span class="en">Promise.all vs allSettled vs race vs any</span><span class="hi">Promise.all vs allSettled vs race vs any</span></li><li><span class="en">Writing debounce and throttle by hand</span><span class="hi">Writing debounce and throttle by hand</span></li><li><span class="en">Shallow vs deep copy, prototypes and classes</span><span class="hi">Shallow vs deep copy, prototypes and classes</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#basics"><span class="en">Basics they always ask</span><span class="hi">Basics they always ask</span></a><a href="#async"><span class="en">Event loop and async</span><span class="hi">Event loop and async</span></a><a href="#practical"><span class="en">Practical coding questions</span><span class="hi">Practical coding questions</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="basics">
+        <h2 id="basics-h"><span class="en">Basics they always ask</span><span class="hi">Basics they always ask</span></h2>
+        
+        <article class="qa" id="js-core-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>What is the difference between <code>var</code>, <code>let</code> and <code>const</code>?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><code>var</code> is function-scoped and can be re-declared. <code>let</code> and <code>const</code> are block-scoped, which means they live only inside the nearest <code>{ }</code>.</p><p><code>const</code> means you cannot re-assign the variable. It does not make an object frozen: you can still change the properties of a <code>const</code> object.</p><p>All three are hoisted, but <code>let</code> and <code>const</code> are in the <b>temporal dead zone</b> until their line runs, so using them early throws an error. <code>var</code> gives <code>undefined</code> instead.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> <code>const</code> is like a locker number given to you. You can't change your locker number, but you can change what is inside the locker.</p></div>
+            <pre class="code" data-copy>console.log(a); <span class="cm">// undefined (var is hoisted with undefined)</span>
+<span class="kw">var</span> a = 1;
+
+<span class="kw">const</span> user = { name: <span class="st">"Ravi"</span> };
+user.name = <span class="st">"Priya"</span>; <span class="cm">// allowed: we changed a property</span>
+console.log(user.name);
+
+<span class="kw">try</span> {
+  console.log(b); <span class="cm">// let in temporal dead zone</span>
+  <span class="kw">let</span> b = 2;
+} <span class="kw">catch</span> (e) {
+  console.log(e.name);
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> <code>var</code> is function-scoped, <code>let</code> and <code>const</code> are block-scoped, and <code>const</code> stops re-assignment, not mutation.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Why do people avoid <code>var</code> today? <i>Because it leaks out of blocks like <code>if</code> and <code>for</code>, which causes bugs, especially in loops with callbacks.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="js-core-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>What is a closure? Give a real use.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A closure is a function that <b>remembers the variables from the place where it was created</b>, even after that outer function has finished.</p><p>Real uses: keeping private data (like a counter), creating functions with a preset value, and debounce/throttle, which remember a timer between calls. React hooks also depend on closures.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Think of a tiffin packed at home. Even when you are in the office in Noida, you still have the food from home. The inner function carries its 'home' variables with it.</p></div>
+            <pre class="code" data-copy><span class="kw">function</span> makeCounter() {
+  <span class="kw">let</span> count = 0; <span class="cm">// private: nobody outside can touch it</span>
+  <span class="kw">return</span> <span class="kw">function</span> () {
+    count++;
+    <span class="kw">return</span> count;
+  };
+}
+<span class="kw">const</span> next = makeCounter();
+next();
+next();
+console.log(next());</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A closure is a function plus the variables it remembers from where it was created.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Can closures cause memory leaks? <i>Yes, if a long-living closure (like an event listener) holds a big object you no longer need. Remove listeners and clear timers when done.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="js-core-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>What will this print, and how do you fix it? <code>for (var i = 0; i &lt; 3; i++) setTimeout(() =&gt; console.log(i));</code></h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>It prints <code>3 3 3</code>. There is only <b>one</b> <code>i</code> because <code>var</code> is function-scoped, and by the time the timers run, the loop has finished and <code>i</code> is 3.</p><p>Fix: use <code>let</code>. <code>let</code> creates a new <code>i</code> for every loop round, so each callback closes over its own copy and you get <code>0 1 2</code>.</p>
+            
+            <pre class="code" data-copy><span class="kw">for</span> (<span class="kw">var</span> i = 0; i &lt; 3; i++) setTimeout(() =&gt; console.log(<span class="st">"var"</span>, i));
+<span class="kw">for</span> (<span class="kw">let</span> j = 0; j &lt; 3; j++) setTimeout(() =&gt; console.log(<span class="st">"let"</span>, j));</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> <code>var</code> shares one variable across the loop; <code>let</code> gives each round its own copy.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="js-core-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>What is the difference between <code>==</code> and <code>===</code>?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><code>===</code> checks value <b>and</b> type, with no conversion. <code>==</code> converts types first and then compares, which gives surprising results like <code>0 == ""</code> being true.</p><p>Use <code>===</code> always. The only common exception is <code>x == null</code>, which checks for both <code>null</code> and <code>undefined</code> in one go.</p>
+            
+            <pre class="code" data-copy>console.log(0 == <span class="st">""</span>, 0 === <span class="st">""</span>);
+console.log(<span class="kw">null</span> == <span class="kw">undefined</span>, <span class="kw">null</span> === <span class="kw">undefined</span>);
+console.log(typeof <span class="kw">null</span>); <span class="cm">// a famous old bug in JavaScript</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> <code>===</code> compares without type conversion, so it is predictable; I use it everywhere.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="js-core-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>Explain <code>this</code> in JavaScript. How is an arrow function different?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><code>this</code> depends on <b>how a function is called</b>, not where it is written:</p><ul><li><code>obj.method()</code> → <code>this</code> is <code>obj</code></li><li>a plain call <code>fn()</code> → <code>undefined</code> in strict mode</li><li><code>new Fn()</code> → the new object</li><li><code>fn.call(x)</code> / <code>apply</code> / <code>bind</code> → <code>x</code></li></ul><p>Arrow functions <b>do not have their own <code>this</code></b>. They use the <code>this</code> of the code around them. That is why arrow functions are handy inside callbacks, and why you should not use an arrow function as an object method that needs <code>this</code>.</p>
+            
+            <pre class="code" data-copy><span class="st">"use strict"</span>;
+<span class="kw">const</span> team = {
+  name: <span class="st">"Payments"</span>,
+  normal() { <span class="kw">return</span> <span class="kw">this</span>.name; },
+  arrow: () =&gt; <span class="kw">this</span> === team, <span class="cm">// arrow takes 'this' from outside, so it is not team</span>
+  later() { <span class="kw">return</span> [1].map(() =&gt; <span class="kw">this</span>.name)[0]; }, <span class="cm">// arrow inside method: works</span>
+};
+console.log(team.normal(), team.arrow(), team.later());
+<span class="kw">const</span> loose = team.normal;
+<span class="kw">try</span> { loose(); } <span class="kw">catch</span> (e) { console.log(<span class="st">"lost this:"</span>, e.name); }</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> <code>this</code> is decided by the call site; arrow functions borrow <code>this</code> from the surrounding scope.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What do call, apply and bind do? <i>All three set <code>this</code>. <code>call</code> passes arguments one by one, <code>apply</code> passes them as an array, and <code>bind</code> returns a new function for later.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="async">
+        <h2 id="async-h"><span class="en">Event loop and async</span><span class="hi">Event loop and async</span></h2>
+        
+        <article class="qa" id="js-core-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>What will this print? <code>console.log(1); setTimeout(() =&gt; console.log(2)); Promise.resolve().then(() =&gt; console.log(3)); console.log(4);</code></h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>It prints <b>1, 4, 3, 2</b>.</p><ul><li>1 and 4 are normal code, so they run first.</li><li>Promise callbacks go to the <b>microtask queue</b>.</li><li><code>setTimeout</code> goes to the <b>task (macrotask) queue</b>.</li><li>After the current code finishes, the event loop empties <b>all microtasks first</b>, then picks the next task.</li></ul>
+            <div class="ex"><p>💡 <b>Easy example:</b> At a bank counter, the person already being served finishes first (sync code). Then 'quick questions' (microtasks) are answered. Only then is the next token number (setTimeout) called.</p></div>
+            <pre class="code" data-copy>console.log(1);
+setTimeout(() =&gt; console.log(2));
+Promise.resolve().then(() =&gt; console.log(3));
+console.log(4);</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Sync code runs first, then all microtasks like promises, then the next macrotask like setTimeout.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Where does <code>await</code> fit in? <i>Code after <code>await</code> continues as a microtask, just like <code>.then()</code>.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="js-core-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>Explain the event loop in simple words.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>JavaScript runs on <b>one main thread</b>. The event loop is the system that lets it handle many things without blocking:</p><ul><li>The <b>call stack</b> runs your current code.</li><li>Slow work (timers, network, file reads) is handed to the browser or Node.js.</li><li>When that work finishes, its callback waits in a queue.</li><li>When the call stack is empty, the event loop moves callbacks in: microtasks first, then one macrotask, then rendering in the browser.</li></ul><p>This is why a long <code>for</code> loop freezes the page: the stack never becomes empty, so nothing else (clicks, painting) can run.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> One thread runs code; slow work happens outside; the event loop feeds finished callbacks back when the stack is empty.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="js-core-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>Difference between <code>Promise.all</code>, <code>allSettled</code>, <code>race</code> and <code>any</code>?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><code>Promise.all</code>: waits for all. <b>Fails fast</b> if any one fails.</li><li><code>Promise.allSettled</code>: waits for all and gives each result as fulfilled or rejected. Never fails.</li><li><code>Promise.race</code>: settles with the <b>first one to finish</b>, success or failure.</li><li><code>Promise.any</code>: gives the <b>first success</b>. Fails only if all fail.</li></ul><p>Real use: a dashboard that loads 4 widgets should use <code>allSettled</code>, so one broken widget doesn't blank the whole page. A timeout wrapper uses <code>race</code>.</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> ok = (v, ms) =&gt; <span class="kw">new</span> Promise((r) =&gt; setTimeout(() =&gt; r(v), ms));
+<span class="kw">const</span> bad = (v, ms) =&gt; <span class="kw">new</span> Promise((_, j) =&gt; setTimeout(() =&gt; j(<span class="kw">new</span> Error(v)), ms));
+
+(<span class="kw">async</span> () =&gt; {
+  <span class="kw">try</span> { <span class="kw">await</span> Promise.all([ok(<span class="st">"a"</span>, 10), bad(<span class="st">"b"</span>, 5)]); } <span class="kw">catch</span> (e) { console.log(<span class="st">"all failed:"</span>, e.message); }
+  <span class="kw">const</span> s = <span class="kw">await</span> Promise.allSettled([ok(<span class="st">"a"</span>, 10), bad(<span class="st">"b"</span>, 5)]);
+  console.log(s.map((x) =&gt; x.status).join(<span class="st">","</span>));
+  console.log(<span class="st">"race:"</span>, <span class="kw">await</span> Promise.race([ok(<span class="st">"slow"</span>, 20), ok(<span class="st">"fast"</span>, 5)]));
+  console.log(<span class="st">"any:"</span>, <span class="kw">await</span> Promise.any([bad(<span class="st">"x"</span>, 5), ok(<span class="st">"first ok"</span>, 10)]));
+})();</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> all fails fast, allSettled never fails, race takes the first to finish, any takes the first success.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> How would you write Promise.all yourself? <i>Return a new promise, keep a results array and a counter, resolve when the counter reaches the length, and reject on the first error.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="js-core-q9">
+          <div class="qa-head"><span class="qa-num">Q9</span><h3>async/await vs <code>.then()</code>: which is better and how do you handle errors?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Both use promises underneath. <code>async/await</code> reads like normal top-to-bottom code, so it is easier to follow. Handle errors with <code>try/catch</code>.</p><p>A common mistake: awaiting independent calls one by one. If two API calls don't depend on each other, start both and <code>await Promise.all</code>, which can halve the waiting time.</p>
+            
+            <pre class="code" data-copy><span class="kw">async</span> <span class="kw">function</span> loadDashboard(api) {
+  <span class="kw">try</span> {
+    <span class="cm">// Slow: await one, then the other.</span>
+    <span class="cm">// Fast: start both together.</span>
+    <span class="kw">const</span> [user, orders] = <span class="kw">await</span> Promise.all([api.user(), api.orders()]);
+    <span class="kw">return</span> { user, orders };
+  } <span class="kw">catch</span> (err) {
+    console.error(<span class="st">"Dashboard failed"</span>, err);
+    <span class="kw">throw</span> err;
+  }
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> I prefer async/await with try/catch, and I run independent calls in parallel with Promise.all.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="practical">
+        <h2 id="practical-h"><span class="en">Practical coding questions</span><span class="hi">Practical coding questions</span></h2>
+        
+        <article class="qa" id="js-core-q10">
+          <div class="qa-head"><span class="qa-num">Q10</span><h3>What is debounce vs throttle? Write a debounce function.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Debounce</b> waits until the user <b>stops</b> doing something for a set time, then runs once. Use it for a search box: call the API only after typing stops for 300 ms.</p><p><b>Throttle</b> runs <b>at most once every X ms</b>, no matter how many events come. Use it for scroll or resize handlers.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Debounce is a lift door that waits until people stop entering before it closes. Throttle is a Delhi Metro gate that lets one person through every second, however big the crowd.</p></div>
+            <pre class="code" data-copy><span class="kw">function</span> debounce(fn, delay) {
+  <span class="kw">let</span> timer;
+  <span class="kw">return</span> <span class="kw">function</span> (...args) {
+    clearTimeout(timer); <span class="cm">// cancel the previous plan</span>
+    timer = setTimeout(() =&gt; fn.apply(<span class="kw">this</span>, args), delay);
+  };
+}
+
+<span class="kw">const</span> search = debounce((q) =&gt; console.log(<span class="st">"API call for:"</span>, q), 50);
+search(<span class="st">"n"</span>); search(<span class="st">"no"</span>); search(<span class="st">"noida"</span>); <span class="cm">// only the last one runs</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Debounce runs after activity stops; throttle runs at a fixed maximum rate.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Write throttle too. <i>Keep a <code>last</code> timestamp; run only if <code>Date.now() - last &gt;= limit</code>, then update <code>last</code>.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="js-core-q11">
+          <div class="qa-head"><span class="qa-num">Q11</span><h3>Shallow copy vs deep copy. How do you deep copy an object?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A <b>shallow copy</b> (<code>{...obj}</code>, <code>Object.assign</code>, <code>[...arr]</code>) copies only the top level. Nested objects are still shared, so changing them changes the original too.</p><p>A <b>deep copy</b> copies everything. Use <code>structuredClone(obj)</code>, which is built into modern browsers and Node.js. <code>JSON.parse(JSON.stringify(obj))</code> is the old trick, but it loses dates, <code>undefined</code>, Maps and functions.</p><p>In React this matters a lot: you must create new objects for the parts you change, or React may not re-render.</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> order = { id: 1, address: { city: <span class="st">"Noida"</span> } };
+<span class="kw">const</span> shallow = { ...order };
+shallow.address.city = <span class="st">"Gurugram"</span>;
+console.log(order.address.city); <span class="cm">// original changed too!</span>
+
+<span class="kw">const</span> deep = structuredClone(order);
+deep.address.city = <span class="st">"Delhi"</span>;
+console.log(order.address.city); <span class="cm">// original safe</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Spread copies one level; <code>structuredClone</code> copies everything.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="js-core-q12">
+          <div class="qa-head"><span class="qa-num">Q12</span><h3>Explain prototypes. How is a JavaScript <code>class</code> related to them?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Every object has a hidden link to another object called its <b>prototype</b>. When you read a property that the object doesn't have, JavaScript looks up this chain. That is how arrays get <code>.map</code>: from <code>Array.prototype</code>.</p><p><code>class</code> is mostly <b>cleaner syntax over prototypes</b>. Methods written in a class are placed on <code>ClassName.prototype</code> and shared by all objects, which saves memory.</p>
+            
+            <pre class="code" data-copy><span class="kw">class</span> Employee {
+  <span class="kw">constructor</span>(name) { <span class="kw">this</span>.name = name; }
+  greet() { <span class="kw">return</span> <span class="st">"Hi "</span> + <span class="kw">this</span>.name; }
+}
+<span class="kw">const</span> e = <span class="kw">new</span> Employee(<span class="st">"Aman"</span>);
+console.log(e.greet(), Object.getPrototypeOf(e) === Employee.prototype);
+console.log(e.hasOwnProperty(<span class="st">"greet"</span>)); <span class="cm">// greet lives on the prototype</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Objects inherit through a prototype chain, and <code>class</code> is a cleaner way to write that.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="js-core-q13">
+          <div class="qa-head"><span class="qa-num">Q13</span><h3>What is the output? <code>[1, 2, 3].map(parseInt)</code></h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>It gives <code>[1, NaN, NaN]</code>. <code>map</code> passes <b>three</b> arguments: value, index and array. <code>parseInt</code> takes the second argument as the <b>radix</b> (number base):</p><ul><li><code>parseInt(1, 0)</code> → radix 0 means 'guess', so 1</li><li><code>parseInt(2, 1)</code> → base 1 is invalid, so NaN</li><li><code>parseInt(3, 2)</code> → "3" is not a valid binary digit, so NaN</li></ul><p>Lesson: pass a small arrow function, like <code>.map((x) =&gt; parseInt(x, 10))</code> or <code>.map(Number)</code>.</p>
+            
+            <pre class="code" data-copy>console.log([1, 2, 3].map(parseInt));
+console.log([<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>].map(Number));</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> map passes the index as a second argument, and parseInt treats it as the number base.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en"><code>let</code>/<code>const</code> are block-scoped; <code>const</code> stops re-assignment, not mutation.</span><span class="hi"><code>let</code>/<code>const</code> are block-scoped; <code>const</code> stops re-assignment, not mutation.</span></li><li><span class="en">A closure is a function that remembers the variables where it was created.</span><span class="hi">A closure is a function that remembers the variables where it was created.</span></li><li><span class="en">Order: sync code → all microtasks (promises) → one macrotask (setTimeout).</span><span class="hi">Order: sync code → all microtasks (promises) → one macrotask (setTimeout).</span></li><li><span class="en"><code>allSettled</code> for 'show what loaded', <code>all</code> for 'need everything'.</span><span class="hi"><code>allSettled</code> for 'show what loaded', <code>all</code> for 'need everything'.</span></li><li><span class="en">Debounce = after typing stops; throttle = at most once per X ms.</span><span class="hi">Debounce = after typing stops; throttle = at most once per X ms.</span></li><li><span class="en"><code>structuredClone</code> for deep copies; spread is shallow.</span><span class="hi"><code>structuredClone</code> for deep copies; spread is shallow.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>Try each task on paper or in the browser console first, then open the sample answer. In a real L1 round you will often share your screen and write this live.</p><div class="exercise"><p class="q-text">Mock task 1: Write your own <code>Promise.all</code>.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Keep a results array in the right order and a counter of finished promises. Reject on the first error.</p><pre class="code" data-copy><span class="kw">function</span> promiseAll(list) {
+  <span class="kw">return</span> <span class="kw">new</span> Promise((resolve, reject) =&gt; {
+    <span class="kw">const</span> results = [];
+    <span class="kw">let</span> done = 0;
+    <span class="kw">if</span> (list.length === 0) <span class="kw">return</span> resolve(results);
+    list.forEach((p, i) =&gt; {
+      Promise.resolve(p).then((value) =&gt; {
+        results[i] = value; <span class="cm">// keep the original order</span>
+        done++;
+        <span class="kw">if</span> (done === list.length) resolve(results);
+      }, reject);
+    });
+  });
+}</pre></div></details></div><div class="exercise"><p class="q-text">Mock task 2: Flatten <code>[1, [2, [3, [4]]]]</code> to <code>[1, 2, 3, 4]</code> without <code>.flat()</code>.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Use recursion: for each item, if it is an array, flatten it and spread the result; otherwise push the item.</p><pre class="code" data-copy><span class="kw">function</span> flatten(arr) {
+  <span class="kw">const</span> out = [];
+  <span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> arr) {
+    <span class="kw">if</span> (Array.isArray(item)) out.push(...flatten(item));
+    <span class="kw">else</span> out.push(item);
+  }
+  <span class="kw">return</span> out;
+}</pre></div></details></div><div class="exercise"><p class="q-text">Mock task 3: Explain to a fresher why the page freezes during a big <code>for</code> loop.</p><details><summary>Show a sample answer</summary><div class="answer"><p>JavaScript has one main thread. While the loop runs, the call stack is never empty, so the event loop can't handle clicks or let the browser paint. Fix: split the work into chunks with <code>setTimeout</code>, or move it to a <b>Web Worker</b>.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"What does this print? `console.log(typeof null)`","hi":"What does this print? `console.log(typeof null)`"},"options":["null","object","undefined","error"],"answer":1,"why":{"en":"It's a historic bug in JavaScript: `typeof null` is \"object\".","hi":"It's a historic bug in JavaScript: `typeof null` is \"object\"."}},{"q":{"en":"Which runs first after the current code finishes?","hi":"Which runs first after the current code finishes?"},"options":["setTimeout callback","Promise .then callback","Both at the same time","Depends on the browser"],"answer":1,"why":{"en":"Microtasks (promises) always run before the next macrotask (setTimeout).","hi":"Microtasks (promises) always run before the next macrotask (setTimeout)."}},{"q":{"en":"You need all API results, even if some fail. Use…","hi":"You need all API results, even if some fail. Use…"},"options":["Promise.all","Promise.race","Promise.allSettled","Promise.any"],"answer":2,"why":{"en":"allSettled waits for every promise and reports each one's status.","hi":"allSettled waits for every promise and reports each one's status."}},{"q":{"en":"A search box should call the API only after typing stops. Use…","hi":"A search box should call the API only after typing stops. Use…"},"options":["Throttle","Debounce","setInterval","Promise.race"],"answer":1,"why":{"en":"Debounce waits for a pause in events before running once.","hi":"Debounce waits for a pause in events before running once."}},{"q":{"en":"`const a = {x:1}; a.x = 2;` What happens?","hi":"`const a = {x:1}; a.x = 2;` What happens?"},"options":["Error: const","a.x becomes 2","a becomes undefined","Silent fail"],"answer":1,"why":{"en":"const blocks re-assigning `a`, not changing its properties.","hi":"const blocks re-assigning `a`, not changing its properties."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="frontend-interview:js-core"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="./"><span class="en">← Roadmap</span><span class="hi">← रोडमैप</span></a><a class="btn btn-outline" href="typescript.html">→ <span class="en">TypeScript questions</span><span class="hi">TypeScript questions</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20JavaScript%20core%20questions" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20JavaScript%20core%20questions" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Frontend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

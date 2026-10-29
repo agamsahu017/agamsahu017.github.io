@@ -23,6 +23,8 @@
     [`🤖 Free AI Course`, `🤖 फ़्री AI कोर्स`],
     [`📚 Free CS Fundamentals Course`, `📚 फ़्री CS Fundamentals कोर्स`],
     [`💡 Resume Project Ideas`, `💡 Resume के लिए Project Ideas`],
+    [`⚛️ Frontend Interview Questions (3–10 yrs)`, `⚛️ Frontend Interview सवाल (3–10 साल)`],
+    [`🛠️ Backend Interview Questions (3–10 yrs)`, `🛠️ Backend Interview सवाल (3–10 साल)`],
     [`🏢 AI for your business`, `🏢 आपके बिज़नेस के लिए AI`],
     [`AI Demo`, `AI डेमो`],
     [`Industries`, `इंडस्ट्रीज़`],

@@ -29,13 +29,15 @@
   langBtn.type = "button";
   langBtn.className = "lang-btn";
   const actions = document.querySelector(".nav-actions");
-  if (actions) actions.insertBefore(langBtn, actions.firstChild);
+  // English-only courses (like the interview series) have no Hindi copy, so no switch.
+  const enOnly = document.documentElement.hasAttribute("data-en-only");
+  if (actions && !enOnly) actions.insertBefore(langBtn, actions.firstChild);
   function applyLang(lang) {
     document.documentElement.lang = lang;
     langBtn.textContent = lang === "hi" ? "EN" : "हिंदी";
     langBtn.setAttribute("aria-label", lang === "hi" ? "Switch to English" : "हिंदी में देखें");
   }
-  applyLang(getLang());
+  applyLang(enOnly ? "en" : getLang());
   langBtn.addEventListener("click", () => {
     const next = document.documentElement.lang === "hi" ? "en" : "hi";
     try { localStorage.setItem(LANG_KEY, next); } catch (e) {}

@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JWT, Keycloak and API Security Interview Questions | Kodivo</title>
+  <meta name="description" content="Backend security interview questions: authentication vs authorization, JWT, refresh tokens, OAuth2/OIDC flows, Keycloak with NestJS and OWASP risks." />
+  <link rel="canonical" href="https://agamsahu017.github.io/backend-interview/auth-security.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/backend-interview/auth-security.html" />
+  <meta property="og:title" content="JWT, Keycloak and API Security Interview Questions | Kodivo" />
+  <meta property="og:description" content="Backend security interview questions: authentication vs authorization, JWT, refresh tokens, OAuth2/OIDC flows, Keycloak with NestJS and OWASP risks." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Backend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/backend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Auth, Keycloak and security",
+          "item": "https://agamsahu017.github.io/backend-interview/auth-security.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "JWT, Keycloak and API Security Interview Questions",
+      "description": "Backend security interview questions: authentication vs authorization, JWT, refresh tokens, OAuth2/OIDC flows, Keycloak with NestJS and OWASP risks.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Backend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/backend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Backend Interview</span><span class="hi">Backend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20backend%20on%20your%20website%20(Auth%2C%20Keycloak%20and%20security)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Backend Interview</a> › <span>Auth, Keycloak and security</span></nav>
+        <span class="pill"><span class="en">Module 8 of 10</span><span class="hi">मॉड्यूल 8 / 10</span></span>
+        <h1><span class="en">Auth, Keycloak and security</span><span class="hi">Auth, Keycloak and security</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">30 min read + practice</span><span class="hi">30 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Auth is where small mistakes become big incidents. Interviewers check if you understand tokens, flows and server-side checks.</p><p class="hi"><b>एक लाइन में:</b> Auth is where small mistakes become big incidents. Interviewers check if you understand tokens, flows and server-side checks.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Authentication vs authorization</span><span class="hi">Authentication vs authorization</span></li><li><span class="en">JWT structure and how it's verified</span><span class="hi">JWT structure and how it's verified</span></li><li><span class="en">Access vs refresh tokens</span><span class="hi">Access vs refresh tokens</span></li><li><span class="en">OAuth2 / OIDC flows, and when to use which</span><span class="hi">OAuth2 / OIDC flows, and when to use which</span></li><li><span class="en">Verifying Keycloak tokens in NestJS</span><span class="hi">Verifying Keycloak tokens in NestJS</span></li><li><span class="en">Password hashing and the main OWASP risks</span><span class="hi">Password hashing and the main OWASP risks</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#tokens"><span class="en">Tokens and flows</span><span class="hi">Tokens and flows</span></a><a href="#keycloak"><span class="en">Keycloak with NestJS</span><span class="hi">Keycloak with NestJS</span></a><a href="#owasp"><span class="en">Passwords and common attacks</span><span class="hi">Passwords and common attacks</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="tokens">
+        <h2 id="tokens-h"><span class="en">Tokens and flows</span><span class="hi">Tokens and flows</span></h2>
+        
+        <article class="qa" id="auth-security-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>Authentication vs authorization?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>Authentication</b>: <b>who are you?</b> Login, verifying a token. Failure → <b>401</b>.</li><li><b>Authorization</b>: <b>what may you do?</b> Roles and permissions. Failure → <b>403</b>.</li></ul><p>In NestJS: an auth guard verifies the token and sets <code>request.user</code>, then a roles or permissions guard checks access.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> At the airport, showing your ID at the gate is authentication. Your boarding pass allowing you onto only one flight is authorization.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Authentication proves identity (401 if it fails); authorization checks permissions (403 if it fails).</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="auth-security-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>What is a JWT? How is it verified? Can someone change it?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A JWT has three Base64URL parts: <b>header.payload.signature</b>. The payload holds claims: <code>sub</code> (user id), <code>exp</code> (expiry), <code>iss</code> (issuer), <code>aud</code> (audience), and roles.</p><p>The payload is only <b>encoded, not encrypted</b>: anyone can read it, so never put secrets in it. But nobody can <b>change</b> it without breaking the <b>signature</b>.</p><p>Verification: check the signature (with Keycloak, <b>RS256</b> using the public key from its <b>JWKS</b> endpoint), then check <code>exp</code>, <code>iss</code> and the audience or client. Never accept <code>alg: none</code>, and fix the allowed algorithm.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Header, payload and signature; readable by anyone but tamper-proof, verified by signature, expiry, issuer and audience.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="auth-security-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>Access token vs refresh token? Why keep access tokens short-lived?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>Access token</b>: sent with every API call, <b>short-lived</b> (5–15 minutes). A JWT can't easily be cancelled before it expires, so keeping it short limits the damage if it leaks.</li><li><b>Refresh token</b>: long-lived, used <b>only</b> with the auth server to get new access tokens. Store it more safely (an HttpOnly cookie), and <b>rotate</b> it on every use; reuse of an old refresh token signals theft.</li></ul><p>Logout or blocking a user: revoke the refresh token or session in Keycloak. Access tokens then die within minutes. For instant blocking, keep a small denylist in Redis.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Short access tokens limit damage; long refresh tokens, stored safely and rotated, get new ones.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="auth-security-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>Which OAuth2/OIDC flow for which case?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>Authorization Code + PKCE</b>: users logging in from a browser SPA or mobile app. The standard today.</li><li><b>Client Credentials</b>: <b>service-to-service</b> calls with no user (a cron service calling the report service). The service uses its own client id and secret.</li><li><b>Refresh Token</b>: getting new access tokens.</li><li>Avoid the old <b>Implicit</b> and <b>Password</b> grants.</li></ul><p><b>OIDC</b> is a layer on OAuth2 for <b>identity</b>: it adds the <b>ID token</b> and the userinfo endpoint. OAuth2 alone is about access, not "who is this user".</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Code + PKCE for users, Client Credentials for services; OIDC adds identity on top of OAuth2.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="keycloak">
+        <h2 id="keycloak-h"><span class="en">Keycloak with NestJS</span><span class="hi">Keycloak with NestJS</span></h2>
+        
+        <article class="qa" id="auth-security-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>What are realms, clients and roles in Keycloak?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>Realm</b>: an isolated space with its own users, roles and settings (often one per product or environment).</li><li><b>Client</b>: an application that uses Keycloak (the web app is a public client, the backend a confidential client).</li><li><b>Realm roles</b>: global roles (<code>admin</code>). <b>Client roles</b>: roles specific to one app.</li><li><b>Groups</b>: assign roles to many users at once.</li></ul><p>Roles appear in the access token under <code>realm_access.roles</code> and <code>resource_access.&lt;client&gt;.roles</code>.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Realm = isolated tenant, client = an app, roles at realm or client level, which show up as token claims.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="auth-security-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>How do you verify Keycloak tokens in NestJS?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Use Passport's JWT strategy with <b>jwks-rsa</b>, so Nest fetches (and caches) Keycloak's public keys and verifies the RS256 signature, the issuer and the expiry <b>locally</b>, with no call to Keycloak on every request.</p><p><code>validate()</code> maps the token to your user shape, and a global guard plus a roles or permission guard handles the rest.</p>
+            
+            <pre class="code" data-copy><span class="kw">import</span> { Injectable } <span class="kw">from</span> <span class="st">"@nestjs/common"</span>;
+<span class="kw">import</span> { PassportStrategy } <span class="kw">from</span> <span class="st">"@nestjs/passport"</span>;
+<span class="kw">import</span> { passportJwtSecret } <span class="kw">from</span> <span class="st">"jwks-rsa"</span>;
+<span class="kw">import</span> { ExtractJwt, Strategy } <span class="kw">from</span> <span class="st">"passport-jwt"</span>;
+
+<span class="kw">const</span> ISSUER = <span class="st">"https://auth.example.com/realms/my-company"</span>;
+
+<span class="kw">interface</span> KeycloakPayload {
+  sub: string;
+  preferred_username?: string;
+  realm_access?: { roles: string[] };
+}
+
+@Injectable()
+<span class="kw">export</span> <span class="kw">class</span> JwtStrategy <span class="kw">extends</span> PassportStrategy(Strategy) {
+  <span class="kw">constructor</span>() {
+    <span class="kw">super</span>({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKeyProvider: passportJwtSecret({
+        jwksUri: <span class="st">`${ISSUER}/protocol/openid-connect/certs`</span>,
+        cache: <span class="kw">true</span>,
+        rateLimit: <span class="kw">true</span>,
+      }),
+      issuer: ISSUER,
+      algorithms: [<span class="st">"RS256"</span>],
+    });
+  }
+
+  validate(payload: KeycloakPayload) {
+    <span class="kw">return</span> { id: payload.sub, username: payload.preferred_username, roles: payload.realm_access?.roles ?? [] };
+  }
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> passport-jwt with jwks-rsa verifies RS256 tokens locally against Keycloak's JWKS, checking issuer and expiry.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="auth-security-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>Roles vs permissions: how do you design RBAC on the backend?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Guards check <b>permissions</b> (<code>leave:approve</code>), and roles are just <b>bundles of permissions</b> kept in config or a table. Adding a role then needs no code change.</p><p>Two levels of checks:</p><ul><li><b>endpoint level</b>: can this user call approve at all? (a guard)</li><li><b>data level</b>: can this user approve <b>this</b> leave? It must be in their department, branch or region. This happens in the service or query (<code>WHERE approver_id = :me</code>). Most real security bugs (IDOR) are missing data-level checks.</li></ul><p>Log every sensitive action in an <b>audit log</b>.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Guards check permissions, roles are bundles of permissions, and services enforce data-level ownership.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="owasp">
+        <h2 id="owasp-h"><span class="en">Passwords and common attacks</span><span class="hi">Passwords and common attacks</span></h2>
+        
+        <article class="qa" id="auth-security-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>How should passwords be stored?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Never</b> in plain text, and never with plain fast hashes like MD5 or SHA-256. Use a <b>slow, salted</b> password hash: <b>bcrypt</b> (cost 10–12), <b>argon2id</b>, or scrypt. The salt makes the same password hash differently each time, and slowness makes guessing expensive.</p><p>Even better: let an identity server like <b>Keycloak</b> handle passwords, so your application never touches them. Add rate limiting and lockout on login and OTP endpoints.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Slow salted hashes like bcrypt or argon2id, or delegate passwords to Keycloak entirely.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="auth-security-q9">
+          <div class="qa-head"><span class="qa-num">Q9</span><h3>What are the most common API security risks and how do you prevent them?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>Broken access control / IDOR</b>: <code>GET /orders/123</code> returns someone else's order. Always check ownership.</li><li><b>SQL injection</b>: always use parameters or the ORM; never build SQL by joining strings.</li><li><b>Mass assignment</b>: the client sends <code>role: "admin"</code>. Use DTOs with <code>whitelist: true</code>.</li><li><b>No rate limiting</b>: brute force on login and OTP endpoints.</li><li><b>Sensitive data in logs or responses</b>: mask Aadhaar, phone numbers and tokens; never return password hashes.</li><li><b>Misconfiguration</b>: open CORS (<code>*</code> with credentials), debug errors in production, public S3 buckets.</li><li><b>Vulnerable packages</b>: run <code>npm audit</code> and Dependabot.</li></ul><p>Also: HTTPS everywhere, the <code>helmet</code> middleware for security headers, and secrets in a secrets manager.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Ownership checks, parameterised queries, DTO whitelisting, rate limits, masked data and safe config.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">Authentication → 401, authorization → 403.</span><span class="hi">Authentication → 401, authorization → 403.</span></li><li><span class="en">JWT: readable, not changeable; verify signature, exp, iss, aud.</span><span class="hi">JWT: readable, not changeable; verify signature, exp, iss, aud.</span></li><li><span class="en">Short access tokens; refresh tokens stored safely and rotated.</span><span class="hi">Short access tokens; refresh tokens stored safely and rotated.</span></li><li><span class="en">Code + PKCE for users; Client Credentials for services.</span><span class="hi">Code + PKCE for users; Client Credentials for services.</span></li><li><span class="en">Verify Keycloak tokens locally with JWKS (jwks-rsa).</span><span class="hi">Verify Keycloak tokens locally with JWKS (jwks-rsa).</span></li><li><span class="en">Most real bugs are missing ownership checks (IDOR).</span><span class="hi">Most real bugs are missing ownership checks (IDOR).</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>Security scenarios come up in L2 and client rounds.</p><div class="exercise"><p class="q-text">Mock task 1: A tester changes <code>/api/applications/1051</code> to <code>/1052</code> and sees someone else's data. Fix it.</p><details><summary>Show a sample answer</summary><div class="answer"><p>That is an <b>IDOR</b> bug. In the service, load the record <b>with the owner condition</b> (<code>WHERE id = :id AND user_id = :me</code>, or check the branch/region scope for approvers) and return 404 or 403 if it doesn't match. Add this check in a shared helper or policy so every endpoint uses it, add tests for it, and search for other endpoints with the same pattern.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 2: Our reporting service needs to call the user service. How should it authenticate?</p><details><summary>Show a sample answer</summary><div class="answer"><p>Use the <b>Client Credentials</b> flow: the reporting service has its own Keycloak client and secret (stored in a secrets manager), gets a short-lived token, and calls the user service with it. The user service checks that the token's client has the right role. No user passwords or shared static API keys.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"The JWT payload is…","hi":"The JWT payload is…"},"options":["Encrypted","Only Base64URL-encoded; readable","Hashed","Compressed"],"answer":1,"why":{"en":"Anyone can decode it; the signature only prevents changes.","hi":"Anyone can decode it; the signature only prevents changes."}},{"q":{"en":"Service-to-service with no user:","hi":"Service-to-service with no user:"},"options":["Authorization Code + PKCE","Client Credentials","Implicit","Password grant"],"answer":1,"why":{"en":"Machine identity → Client Credentials.","hi":"Machine identity → Client Credentials."}},{"q":{"en":"Best password storage:","hi":"Best password storage:"},"options":["SHA-256","MD5 + salt","bcrypt / argon2id","AES encryption"],"answer":2,"why":{"en":"Slow, salted password hashing.","hi":"Slow, salted password hashing."}},{"q":{"en":"User A reads User B's record by changing the id. This is…","hi":"User A reads User B's record by changing the id. This is…"},"options":["XSS","IDOR (broken access control)","CSRF","SQL injection"],"answer":1,"why":{"en":"A missing ownership check.","hi":"A missing ownership check."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="backend-interview:auth-security"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="redis-bullmq.html">← <span class="en">Redis and BullMQ questions</span><span class="hi">Redis and BullMQ questions</span></a><a class="btn btn-outline" href="aws-docker.html">→ <span class="en">AWS S3, Docker and deployment</span><span class="hi">AWS S3, Docker and deployment</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20Auth%2C%20Keycloak%20and%20security" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20Auth%2C%20Keycloak%20and%20security" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Backend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

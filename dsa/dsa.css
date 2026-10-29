@@ -239,3 +239,23 @@ h2 + .badge { margin: -4px 0 10px; }
 .future-legend p, .future-legend li { color: var(--muted); font-size: .92rem; }
 .future-legend ul { padding-left: 20px; display: grid; gap: 4px; margin: 6px 0; }
 .future-legend .reviewed { font-size: .82rem; margin-top: 6px; }
+
+/* Interview series: question cards (frontend-interview, backend-interview) */
+.qa { margin: 14px 0; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--border); background: var(--surface); scroll-margin-top: 80px; }
+.qa-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+.qa-head h3 { margin: 0; font-size: 1.05rem; flex: 1 1 260px; color: var(--text); line-height: 1.5; }
+.qa-num { font-weight: 800; color: var(--primary); font-size: .9rem; }
+.qa-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.qa-tag { font-size: .74rem; font-weight: 600; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-alt); color: var(--muted); white-space: nowrap; }
+.qa-tag.hot { color: var(--accent-text); border-color: var(--accent-text); }
+.qa details { margin-top: 10px; }
+.qa summary { cursor: pointer; font-weight: 600; color: var(--primary); padding: 4px 0; }
+.qa .ans { margin-top: 8px; }
+.qa .ex { margin: 10px 0; padding: 10px 14px; border-radius: 10px; background: var(--bg-alt); border-left: 4px solid #10b981; }
+.qa .ex p { color: var(--text); margin: 0; }
+.qa .oneliner { margin: 10px 0; padding: 10px 14px; border-radius: 10px; border: 1px dashed var(--primary); }
+.qa .oneliner p { color: var(--text); margin: 0; }
+.qa .follow { font-size: .95rem; }
+.qa-tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+.qa-tools button { font: inherit; font-size: .85rem; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-alt); color: var(--text); cursor: pointer; }
+.qa-tools button:hover { border-color: var(--primary); }

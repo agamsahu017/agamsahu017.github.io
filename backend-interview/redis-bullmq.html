@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redis and BullMQ Interview Questions for Node.js | Kodivo</title>
+  <meta name="description" content="Redis and BullMQ interview questions: cache-aside, TTL and invalidation, cache stampede, distributed locks, job queues, retries, idempotent jobs." />
+  <link rel="canonical" href="https://agamsahu017.github.io/backend-interview/redis-bullmq.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/backend-interview/redis-bullmq.html" />
+  <meta property="og:title" content="Redis and BullMQ Interview Questions for Node.js | Kodivo" />
+  <meta property="og:description" content="Redis and BullMQ interview questions: cache-aside, TTL and invalidation, cache stampede, distributed locks, job queues, retries, idempotent jobs." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Backend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/backend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Redis and BullMQ questions",
+          "item": "https://agamsahu017.github.io/backend-interview/redis-bullmq.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Redis and BullMQ Interview Questions for Node.js",
+      "description": "Redis and BullMQ interview questions: cache-aside, TTL and invalidation, cache stampede, distributed locks, job queues, retries, idempotent jobs.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Backend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/backend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Backend Interview</span><span class="hi">Backend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20backend%20on%20your%20website%20(Redis%20and%20BullMQ%20questions)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Backend Interview</a> › <span>Redis and BullMQ questions</span></nav>
+        <span class="pill"><span class="en">Module 7 of 10</span><span class="hi">मॉड्यूल 7 / 10</span></span>
+        <h1><span class="en">Redis and BullMQ questions</span><span class="hi">Redis and BullMQ questions</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">30 min read + practice</span><span class="hi">30 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Redis and queues show you've built real production systems. Expect caching invalidation, retries and 'what if the job runs twice?'</p><p class="hi"><b>एक लाइन में:</b> Redis and queues show you've built real production systems. Expect caching invalidation, retries and 'what if the job runs twice?'</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Redis data types and real uses</span><span class="hi">Redis data types and real uses</span></li><li><span class="en">Cache-aside, TTL and invalidation</span><span class="hi">Cache-aside, TTL and invalidation</span></li><li><span class="en">Cache stampede and how to prevent it</span><span class="hi">Cache stampede and how to prevent it</span></li><li><span class="en">Distributed locks with SET NX</span><span class="hi">Distributed locks with SET NX</span></li><li><span class="en">BullMQ queues, workers, retries and backoff</span><span class="hi">BullMQ queues, workers, retries and backoff</span></li><li><span class="en">Idempotent jobs, delayed and repeatable jobs, failed jobs</span><span class="hi">Idempotent jobs, delayed and repeatable jobs, failed jobs</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#redis"><span class="en">Redis and caching</span><span class="hi">Redis and caching</span></a><a href="#queues"><span class="en">BullMQ job queues</span><span class="hi">BullMQ job queues</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="redis">
+        <h2 id="redis-h"><span class="en">Redis and caching</span><span class="hi">Redis and caching</span></h2>
+        
+        <article class="qa" id="redis-bullmq-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>What is Redis and what do you use it for?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Redis is an <b>in-memory</b> key-value store, very fast (well under a millisecond for simple operations), with data types beyond strings:</p><ul><li><b>String</b>: cache values, counters (<code>INCR</code> for rate limits), OTPs with expiry.</li><li><b>Hash</b>: an object with fields, like a session.</li><li><b>List</b>: simple queues.</li><li><b>Set</b>: unique items, like online user ids.</li><li><b>Sorted set</b>: leaderboards, or "top 10 by score".</li><li><b>Streams and Pub/Sub</b>: events and messaging.</li></ul><p>Common uses: <b>caching</b>, sessions, rate limiting, OTP storage, distributed locks, and <b>job queues</b> (BullMQ is built on Redis).</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A fast in-memory store for caching, sessions, OTPs, rate limits, locks and queues.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="redis-bullmq-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>Explain the cache-aside pattern. How do you keep the cache correct?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Cache-aside</b> (lazy loading): the app checks Redis first; on a <b>miss</b>, it reads the database, saves the result in Redis with a <b>TTL</b>, and returns it.</p><p>Keeping it correct, which is the hard part:</p><ul><li><b>Always set a TTL</b>, so wrong data fixes itself eventually.</li><li>On update, <b>delete</b> the key (don't update it), so the next read loads fresh data.</li><li>Use clear key names: <code>employee:42</code>, <code>master:states:v2</code>.</li><li>Cache what is <b>read often and changes rarely</b>: master data, permissions, config.</li></ul>
+            
+            <pre class="code" data-copy><span class="kw">import</span> Redis <span class="kw">from</span> <span class="st">"ioredis"</span>;
+
+<span class="kw">const</span> redis = <span class="kw">new</span> Redis();
+
+<span class="kw">export</span> <span class="kw">async</span> <span class="kw">function</span> getEmployee(id: number, loadFromDb: (id: number) =&gt; Promise&lt;object&gt;) {
+  <span class="kw">const</span> key = <span class="st">`employee:${id}`</span>;
+  <span class="kw">const</span> cached = <span class="kw">await</span> redis.get(key);
+  <span class="kw">if</span> (cached) <span class="kw">return</span> JSON.parse(cached);
+
+  <span class="kw">const</span> employee = <span class="kw">await</span> loadFromDb(id);
+  <span class="kw">await</span> redis.set(key, JSON.stringify(employee), <span class="st">"EX"</span>, 300); <span class="cm">// 5 minute TTL</span>
+  <span class="kw">return</span> employee;
+}
+
+<span class="kw">export</span> <span class="kw">async</span> <span class="kw">function</span> onEmployeeUpdated(id: number) {
+  <span class="kw">await</span> redis.del(<span class="st">`employee:${id}`</span>); <span class="cm">// next read reloads fresh data</span>
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Read from cache, on a miss load from the DB and set it with a TTL, and delete the key on update.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="redis-bullmq-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>What is a cache stampede and how do you prevent it?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A popular key expires, and <b>thousands of requests miss at the same moment</b> and all hit the database together, which can take it down.</p><p>Prevention:</p><ul><li><b>lock / single flight</b>: only one request rebuilds the cache, the others wait briefly or use the old value,</li><li><b>random jitter on TTLs</b> (300 s ± 30), so keys don't all expire together,</li><li><b>refresh early in the background</b> before expiry for very hot keys,</li><li>serve <b>stale data</b> while refreshing.</li></ul>
+            <div class="ex"><p>💡 <b>Easy example:</b> The moment a result is announced on a university website, lakhs of students refresh together. If the cache expires at that second, the database gets all of them.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Many requests rebuild the same expired key at once; prevent it with a rebuild lock, TTL jitter and early refresh.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="redis-bullmq-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>How do you build a distributed lock with Redis?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>When you run 5 copies of a service, an in-memory lock isn't enough. Use Redis:</p><ul><li><b>Acquire</b>: <code>SET lock:key &lt;random-token&gt; NX PX 30000</code>. NX means only if it doesn't exist; PX sets an expiry, so a crashed holder doesn't block others forever.</li><li><b>Release</b>: delete the key <b>only if the token is still yours</b>, using a small Lua script, so you don't delete someone else's lock after yours expired.</li></ul><p>Use it for things like "only one instance runs this cron job". For money-critical correctness, still rely on <b>database constraints and transactions</b>; a Redis lock is a helper, not a guarantee.</p>
+            
+            <pre class="code" data-copy><span class="kw">import</span> Redis <span class="kw">from</span> <span class="st">"ioredis"</span>;
+<span class="kw">import</span> { randomUUID } <span class="kw">from</span> <span class="st">"node:crypto"</span>;
+
+<span class="kw">const</span> redis = <span class="kw">new</span> Redis();
+<span class="kw">const</span> RELEASE = <span class="st">`if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end`</span>;
+
+<span class="kw">export</span> <span class="kw">async</span> <span class="kw">function</span> withLock(key: string, ttlMs: number, work: () =&gt; Promise&lt;void&gt;) {
+  <span class="kw">const</span> token = randomUUID();
+  <span class="kw">const</span> ok = <span class="kw">await</span> redis.set(key, token, <span class="st">"PX"</span>, ttlMs, <span class="st">"NX"</span>);
+  <span class="kw">if</span> (ok !== <span class="st">"OK"</span>) <span class="kw">return</span> <span class="kw">false</span>; <span class="cm">// someone else holds it</span>
+  <span class="kw">try</span> {
+    <span class="kw">await</span> work();
+    <span class="kw">return</span> <span class="kw">true</span>;
+  } <span class="kw">finally</span> {
+    <span class="kw">await</span> redis.eval(RELEASE, 1, key, token);
+  }
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> SET with NX and an expiry plus a random token, and release with a Lua compare-and-delete.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="queues">
+        <h2 id="queues-h"><span class="en">BullMQ job queues</span><span class="hi">BullMQ job queues</span></h2>
+        
+        <article class="qa" id="redis-bullmq-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>Why use a job queue like BullMQ? What work goes there?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A queue moves slow or unreliable work <b>out of the request</b>. The API adds a job and replies fast; a <b>worker</b> process picks it up and does the work, with retries.</p><p>Good candidates: emails, SMS and WhatsApp messages, PDF and Excel generation, report exports, image processing, calling slow third-party APIs, webhooks, scheduled reminders.</p><p>Benefits: fast APIs, <b>automatic retries</b>, spreading load over time, and scaling workers separately from the API.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> At a restaurant counter you get a token and sit down; the kitchen (worker) cooks orders one by one. The counter (API) keeps serving new customers instead of waiting at the stove.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> The API enqueues and replies fast; workers process slow work with retries and scale separately.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="redis-bullmq-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>Show a BullMQ queue and worker in NestJS with retries.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Register the queue, add jobs from a service, and process them in a class that extends <code>WorkerHost</code>. Set <b>attempts</b> and <b>exponential backoff</b>, so temporary failures (an SMTP timeout) are retried after 2 s, 4 s, 8 s...</p><p>A custom <code>jobId</code> stops duplicate jobs for the same thing.</p>
+            
+            <pre class="code" data-copy><span class="kw">import</span> { InjectQueue, Processor, WorkerHost } <span class="kw">from</span> <span class="st">"@nestjs/bullmq"</span>;
+<span class="kw">import</span> { Injectable } <span class="kw">from</span> <span class="st">"@nestjs/common"</span>;
+<span class="kw">import</span> { Job, Queue } <span class="kw">from</span> <span class="st">"bullmq"</span>;
+
+<span class="cm">// In the module: BullModule.forRoot({ connection: { host: "localhost", port: 6379 } }),</span>
+<span class="cm">//                BullModule.registerQueue({ name: "emails" })</span>
+
+@Injectable()
+<span class="kw">export</span> <span class="kw">class</span> WelcomeMailer {
+  <span class="kw">constructor</span>(@InjectQueue(<span class="st">"emails"</span>) <span class="kw">private</span> <span class="kw">readonly</span> emails: Queue) {}
+
+  <span class="kw">async</span> queueWelcome(userId: number, to: string) {
+    <span class="kw">await</span> <span class="kw">this</span>.emails.add(
+      <span class="st">"welcome"</span>,
+      { userId, to },
+      {
+        jobId: <span class="st">`welcome-${userId}`</span>, <span class="cm">// the same id is not added twice</span>
+        attempts: 5,
+        backoff: { <span class="kw">type</span>: <span class="st">"exponential"</span>, delay: 2000 },
+        removeOnComplete: 1000,
+        removeOnFail: 5000,
+      },
+    );
+  }
+}
+
+@Processor(<span class="st">"emails"</span>, { concurrency: 5 })
+<span class="kw">export</span> <span class="kw">class</span> EmailProcessor <span class="kw">extends</span> WorkerHost {
+  <span class="kw">async</span> process(job: Job&lt;{ userId: number; to: string }&gt;): Promise&lt;void&gt; {
+    <span class="cm">// throw to trigger a retry; return normally when done</span>
+    <span class="kw">await</span> sendWelcomeEmail(job.data.to);
+  }
+}
+
+declare <span class="kw">function</span> sendWelcomeEmail(to: string): Promise&lt;void&gt;;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Add jobs with attempts and exponential backoff; a WorkerHost processor handles them with set concurrency.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="redis-bullmq-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>A job may run twice. How do you make jobs idempotent?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Queues guarantee <b>at-least-once</b> delivery: after a crash or a stalled job, a job can run <b>again</b>. So design every job to be safe to repeat:</p><ul><li>before sending, check a <b>"sent" flag or a unique row</b> (<code>notification_id</code> with a unique constraint),</li><li>use <b>upserts</b> instead of blind inserts,</li><li>pass an <b>idempotency key</b> to payment and SMS providers,</li><li>use a deterministic <code>jobId</code> to avoid adding duplicates.</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Delivery is at-least-once, so jobs check a unique record or flag before acting and use upserts and idempotency keys.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="redis-bullmq-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>What happens to jobs that keep failing? What about delayed and repeating jobs?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>After all attempts fail, the job moves to the <b>failed</b> set, which works like a <b>dead letter queue</b>. Keep failed jobs (<code>removeOnFail</code> with a limit), <b>alert</b> on them (a failed count above a threshold), inspect them in a dashboard (like Bull Board), and <b>retry</b> them after fixing the cause.</p><ul><li><b>Delayed jobs</b>: <code>{ delay: 24 * 3600 * 1000 }</code> for "send a reminder after 24 hours".</li><li><b>Repeatable / scheduled jobs</b>: cron-like schedules (BullMQ's job schedulers), for example a daily 8 AM report. Only one scheduled job runs per schedule, even with many workers.</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Failed jobs act as a dead letter queue with alerts and manual retry; delays and job schedulers handle timing.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">Cache what is read often and changes rarely; always set a TTL.</span><span class="hi">Cache what is read often and changes rarely; always set a TTL.</span></li><li><span class="en">On update, delete the cache key.</span><span class="hi">On update, delete the cache key.</span></li><li><span class="en">Stampede: rebuild lock, TTL jitter, early refresh.</span><span class="hi">Stampede: rebuild lock, TTL jitter, early refresh.</span></li><li><span class="en">Lock: SET NX PX with a token; release with Lua compare-and-delete.</span><span class="hi">Lock: SET NX PX with a token; release with Lua compare-and-delete.</span></li><li><span class="en">Queue slow work; set attempts + exponential backoff.</span><span class="hi">Queue slow work; set attempts + exponential backoff.</span></li><li><span class="en">At-least-once delivery → idempotent jobs.</span><span class="hi">At-least-once delivery → idempotent jobs.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>These scenario questions are common for 5+ years.</p><div class="exercise"><p class="q-text">Mock task 1: Send 2 lakh SMS reminders at 9 AM without getting blocked by the SMS provider.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Create the jobs in <b>batches</b> ahead of time (bulk add), and use a BullMQ <b>rate limiter</b> on the worker (for example <code>limiter: { max: 100, duration: 1000 }</code>) to match the provider's limit. Retry with backoff on 429/5xx, use idempotency per user per day, track delivery status in the DB, and alert on the failed count. Spread the sending over a window instead of one second.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 2: Users see an old permission after an admin changes their role.</p><details><summary>Show a sample answer</summary><div class="answer"><p>The permissions are cached (in Redis, or in the token) and not invalidated. On a role change, <b>delete</b> that user's permission cache key. If permissions are in the JWT, keep access tokens short-lived, or check a 'permissions version' on each request so the change applies quickly.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"On updating an employee, the cached `employee:42` should be…","hi":"On updating an employee, the cached `employee:42` should be…"},"options":["Left alone","Deleted","Doubled","Moved"],"answer":1,"why":{"en":"Delete it so the next read loads fresh data.","hi":"Delete it so the next read loads fresh data."}},{"q":{"en":"`SET key val NX PX 30000` means…","hi":"`SET key val NX PX 30000` means…"},"options":["Always set, no expiry","Set only if missing, expire in 30 s","Delete after 30 s","Set if it exists"],"answer":1,"why":{"en":"NX = only if not exists, PX = expiry in ms.","hi":"NX = only if not exists, PX = expiry in ms."}},{"q":{"en":"BullMQ delivery guarantee:","hi":"BullMQ delivery guarantee:"},"options":["Exactly once","At least once","At most once","None"],"answer":1,"why":{"en":"Jobs may run again, so make them idempotent.","hi":"Jobs may run again, so make them idempotent."}},{"q":{"en":"Retry after 2 s, 4 s, 8 s is called…","hi":"Retry after 2 s, 4 s, 8 s is called…"},"options":["Fixed backoff","Exponential backoff","Jitter","Debounce"],"answer":1,"why":{"en":"The delay doubles each time.","hi":"The delay doubles each time."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="backend-interview:redis-bullmq"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="mysql-mongodb.html">← <span class="en">MySQL, MongoDB and choosing a database</span><span class="hi">MySQL, MongoDB and choosing a database</span></a><a class="btn btn-outline" href="auth-security.html">→ <span class="en">Auth, Keycloak and security</span><span class="hi">Auth, Keycloak and security</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20Redis%20and%20BullMQ%20questions" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20Redis%20and%20BullMQ%20questions" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Backend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>REST API Design Interview Questions for Backend | Kodivo</title>
+  <meta name="description" content="REST API interview questions for 3–10 years: status codes, 401 vs 403, PUT vs PATCH, idempotency keys, cursor pagination, versioning and rate limiting." />
+  <link rel="canonical" href="https://agamsahu017.github.io/backend-interview/api-design.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/backend-interview/api-design.html" />
+  <meta property="og:title" content="REST API Design Interview Questions for Backend | Kodivo" />
+  <meta property="og:description" content="REST API interview questions for 3–10 years: status codes, 401 vs 403, PUT vs PATCH, idempotency keys, cursor pagination, versioning and rate limiting." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Backend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/backend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "REST API design questions",
+          "item": "https://agamsahu017.github.io/backend-interview/api-design.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "REST API Design Interview Questions for Backend",
+      "description": "REST API interview questions for 3–10 years: status codes, 401 vs 403, PUT vs PATCH, idempotency keys, cursor pagination, versioning and rate limiting.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Backend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/backend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Backend Interview</span><span class="hi">Backend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20backend%20on%20your%20website%20(REST%20API%20design%20questions)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Backend Interview</a> › <span>REST API design questions</span></nav>
+        <span class="pill"><span class="en">Module 2 of 10</span><span class="hi">मॉड्यूल 2 / 10</span></span>
+        <h1><span class="en">REST API design questions</span><span class="hi">REST API design questions</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Clean API design is how they judge your experience quickly: status codes, idempotency and pagination say a lot about you.</p><p class="hi"><b>एक लाइन में:</b> Clean API design is how they judge your experience quickly: status codes, idempotency and pagination say a lot about you.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">REST basics and good URL design</span><span class="hi">REST basics and good URL design</span></li><li><span class="en">Status codes, especially 401 vs 403 and 400 vs 422</span><span class="hi">Status codes, especially 401 vs 403 and 400 vs 422</span></li><li><span class="en">PUT vs PATCH, and idempotency</span><span class="hi">PUT vs PATCH, and idempotency</span></li><li><span class="en">Idempotency keys for payments</span><span class="hi">Idempotency keys for payments</span></li><li><span class="en">Offset vs cursor pagination</span><span class="hi">Offset vs cursor pagination</span></li><li><span class="en">Versioning, rate limiting, and REST vs GraphQL vs gRPC</span><span class="hi">Versioning, rate limiting, and REST vs GraphQL vs gRPC</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#rest"><span class="en">REST basics</span><span class="hi">REST basics</span></a><a href="#scale"><span class="en">Pagination, versioning and limits</span><span class="hi">Pagination, versioning and limits</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="rest">
+        <h2 id="rest-h"><span class="en">REST basics</span><span class="hi">REST basics</span></h2>
+        
+        <article class="qa" id="api-design-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>What makes an API RESTful? Show good URL design.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>REST treats everything as a <b>resource</b> with a URL, and uses <b>HTTP methods</b> for actions. It is <b>stateless</b>: every request carries everything needed (like the token), so any server can handle it.</p><p>Good design: <b>nouns</b> in URLs, plural, nested only one level, and filters in the query string.</p>
+            
+            <pre class="code" data-copy>GET    /api/v1/employees?status=active&amp;page=2   <span class="cm"># list with filters</span>
+GET    /api/v1/employees/42                     <span class="cm"># one employee</span>
+POST   /api/v1/employees                        <span class="cm"># create  -&gt; 201 Created</span>
+PATCH  /api/v1/employees/42                     <span class="cm"># partial update</span>
+DELETE /api/v1/employees/42                     <span class="cm"># delete  -&gt; 204 No Content</span>
+POST   /api/v1/leaves/7/approve                 <span class="cm"># an action that isn't plain CRUD</span>
+
+<span class="cm"># Avoid: /getEmployees, /employee/delete?id=42</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Resources as plural nouns, HTTP methods as verbs, stateless requests, filters in the query string.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="api-design-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>Which status codes do you use? What is 401 vs 403, and 400 vs 422?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>200</b> OK, <b>201</b> Created, <b>204</b> No Content.</li><li><b>400</b> Bad Request: the request is broken (bad JSON, wrong type).</li><li><b>401</b> Unauthorized: <b>not logged in</b>, or the token is missing or expired. "Who are you?"</li><li><b>403</b> Forbidden: logged in, but <b>not allowed</b>. "I know you, but no."</li><li><b>404</b> Not Found. <b>409</b> Conflict: duplicate email, or a version clash.</li><li><b>422</b> Unprocessable Entity: the format is fine but a business rule fails (end date before start date). Some teams use 400 for all validation; just be consistent.</li><li><b>429</b> Too Many Requests. <b>500</b> server bug. <b>502/503/504</b>: upstream problem, unavailable, timeout.</li></ul>
+            <div class="ex"><p>💡 <b>Easy example:</b> Office building: 401 is the guard saying 'show your ID card'. 403 is 'your ID is valid, but you can't enter the server room'.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> 401 means not authenticated, 403 means authenticated but not permitted; 409 for conflicts, 429 for rate limits.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="api-design-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>PUT vs PATCH? What does idempotent mean?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>PUT</b> replaces the <b>whole</b> resource with what you send.</li><li><b>PATCH</b> changes <b>only the fields</b> you send.</li></ul><p><b>Idempotent</b> means doing it once or ten times gives the <b>same final result</b>. GET, PUT and DELETE are idempotent. POST is not: two POSTs create two orders. PATCH may or may not be (<code>{"count": +1}</code> isn't).</p><p>Idempotency matters because networks retry. If a client retries a timed-out request, an idempotent API is safe.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> PUT replaces, PATCH updates fields; idempotent means repeating the call doesn't change the result again.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="api-design-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>A user double-clicks 'Pay', or the app retries after a timeout. How do you avoid charging twice?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Use an <b>idempotency key</b>:</p><ul><li>The client generates a unique key (a UUID) per payment attempt and sends it in a header (<code>Idempotency-Key</code>).</li><li>The server stores the key with the result (a DB table with a <b>unique constraint</b>, or Redis with a TTL).</li><li>If the same key comes again, return the <b>saved response</b> instead of charging again.</li><li>If the first request is still processing, return 409 or wait.</li></ul><p>Also disable the button on the frontend, but <b>never rely only on that</b>. This is how payment gateways handle it.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Like an IRCTC booking reference: refreshing the page shows the same booking instead of booking a second ticket.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> The client sends a unique Idempotency-Key; the server stores it with a unique constraint and replays the saved response on repeats.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="scale">
+        <h2 id="scale-h"><span class="en">Pagination, versioning and limits</span><span class="hi">Pagination, versioning and limits</span></h2>
+        
+        <article class="qa" id="api-design-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>Offset vs cursor pagination: which and why?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Offset</b> (<code>LIMIT 20 OFFSET 100000</code>): simple, and you can jump to page 50. But the database still reads and <b>skips</b> 1 lakh rows, so deep pages get slow. And if rows are inserted meanwhile, users see duplicates or miss rows.</p><p><b>Cursor / keyset</b> (<code>WHERE id &lt; :lastId ORDER BY id DESC LIMIT 20</code>): uses the index to start right after the last row seen, so it is <b>fast at any depth</b> and stable while data changes. You can't jump to a page number.</p><p>Use offset for admin tables with page numbers and modest data. Use cursor for feeds, infinite scroll, big tables and exports.</p>
+            
+            <pre class="code" data-copy><span class="cm">-- offset: slow for deep pages</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders <span class="kw">ORDER BY</span> id <span class="kw">DESC</span> <span class="kw">LIMIT</span> 20 <span class="kw">OFFSET</span> 100000;
+
+<span class="cm">-- keyset/cursor: fast at any depth (needs an index on id)</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders <span class="kw">WHERE</span> id &lt; 873421 <span class="kw">ORDER BY</span> id <span class="kw">DESC</span> <span class="kw">LIMIT</span> 20;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Offset is simple but slow for deep pages; a cursor uses the index to continue after the last row.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="api-design-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>How do you version an API and make changes without breaking clients?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Most teams use the URL: <code>/api/v1/...</code> (NestJS supports this with <code>app.enableVersioning()</code>). Headers also work, but they are harder to test.</p><p>The real skill is <b>not needing v2 often</b>:</p><ul><li><b>adding</b> fields is safe; removing or renaming fields breaks clients,</li><li>for a rename, add the new field, keep the old one, mark it deprecated, and remove it after clients move,</li><li>announce deprecation dates and log which clients still use old fields.</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> URL versioning, additive changes, and deprecate-then-remove for anything breaking.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="api-design-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>How do you implement rate limiting?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Rate limiting protects the API from abuse and accidents: login brute force, OTP spam, a buggy client looping.</p><ul><li>In NestJS, <code>@nestjs/throttler</code> gives per-route limits (like 5 OTP requests per minute per phone).</li><li>With <b>multiple servers</b>, keep the counters in <b>Redis</b> so all instances share them.</li><li>Common algorithms: fixed window, sliding window, and token bucket (allows short bursts).</li><li>Return <b>429</b> with a <code>Retry-After</code> header. Also limit at the gateway or WAF (Nginx, API Gateway, Cloudflare).</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Per-user or per-IP limits with counters in Redis, return 429 with Retry-After, plus gateway limits.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="api-design-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>REST vs GraphQL vs gRPC: when would you use each?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>REST</b>: simple, cacheable, works everywhere. The default for public and most internal APIs.</li><li><b>GraphQL</b>: the client asks for exactly the fields it needs from one endpoint. Good when many different screens or mobile apps need different shapes. Costs: caching and N+1 problems are harder, and you need query cost limits.</li><li><b>gRPC</b>: binary (Protocol Buffers) over HTTP/2, fast and strongly typed. Good for <b>service-to-service</b> calls inside a microservice system; not ideal for browsers directly.</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> REST by default, GraphQL for many varied clients, gRPC for fast internal service-to-service calls.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">Nouns in URLs, methods as verbs, stateless requests.</span><span class="hi">Nouns in URLs, methods as verbs, stateless requests.</span></li><li><span class="en">401 = who are you? 403 = not allowed. 409 = conflict. 429 = slow down.</span><span class="hi">401 = who are you? 403 = not allowed. 409 = conflict. 429 = slow down.</span></li><li><span class="en">PUT replaces, PATCH updates; GET, PUT and DELETE are idempotent.</span><span class="hi">PUT replaces, PATCH updates; GET, PUT and DELETE are idempotent.</span></li><li><span class="en">Payments need an Idempotency-Key with a unique constraint.</span><span class="hi">Payments need an Idempotency-Key with a unique constraint.</span></li><li><span class="en">Cursor pagination for big or live data; offset for small admin tables.</span><span class="hi">Cursor pagination for big or live data; offset for small admin tables.</span></li><li><span class="en">Additive changes; deprecate before removing.</span><span class="hi">Additive changes; deprecate before removing.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>Design questions like these come up in L2 rounds for 5+ years.</p><div class="exercise"><p class="q-text">Mock task 1: Design the APIs for a leave-approval workflow (apply, approve, reject, send back, list pending).</p><details><summary>Show a sample answer</summary><div class="answer"><p><code>POST /leaves</code> (apply, 201), <code>GET /leaves?status=pending&amp;approverId=me</code> (paginated), <code>GET /leaves/:id</code>, <code>POST /leaves/:id/approve</code>, <code>POST /leaves/:id/reject</code> (body: remark, required), <code>POST /leaves/:id/send-back</code>. Check the <b>current status</b> in the service (only Pending can be approved), returning <b>409</b> if someone else already acted. Record every action in a history/audit table with who, when and the remark. A guard checks the approver role, and the service checks that this approver owns the request.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 2: A partner calls your webhook, and sometimes calls it twice. What do you do?</p><details><summary>Show a sample answer</summary><div class="answer"><p>Make the handler idempotent: store the partner's event id with a <b>unique constraint</b>, and skip duplicates. Return 200 quickly and do the heavy work in a queue. Verify the webhook signature.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Valid token, but the user lacks the role. Status?","hi":"Valid token, but the user lacks the role. Status?"},"options":["401","403","404","400"],"answer":1,"why":{"en":"Authenticated but not permitted → 403.","hi":"Authenticated but not permitted → 403."}},{"q":{"en":"Which method is NOT idempotent?","hi":"Which method is NOT idempotent?"},"options":["GET","PUT","DELETE","POST"],"answer":3,"why":{"en":"Repeating POST usually creates duplicates.","hi":"Repeating POST usually creates duplicates."}},{"q":{"en":"Why is OFFSET 100000 slow?","hi":"Why is OFFSET 100000 slow?"},"options":["It locks the table","The DB still reads and skips those rows","Indexes are disabled","It isn't slow"],"answer":1,"why":{"en":"Offset scans and discards rows.","hi":"Offset scans and discards rows."}},{"q":{"en":"Status for a duplicate email on sign-up?","hi":"Status for a duplicate email on sign-up?"},"options":["200","409","500","204"],"answer":1,"why":{"en":"Conflict with existing data → 409.","hi":"Conflict with existing data → 409."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="backend-interview:api-design"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="node-core.html">← <span class="en">Node.js core questions</span><span class="hi">Node.js core questions</span></a><a class="btn btn-outline" href="nestjs.html">→ <span class="en">NestJS questions</span><span class="hi">NestJS questions</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20REST%20API%20design%20questions" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20REST%20API%20design%20questions" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Backend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

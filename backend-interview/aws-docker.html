@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AWS S3 and Docker Interview Questions for Node.js | Kodivo</title>
+  <meta name="description" content="AWS S3 and Docker interview questions: pre-signed URLs, private buckets, multipart upload, IAM roles, Dockerfiles, health checks and CI/CD." />
+  <link rel="canonical" href="https://agamsahu017.github.io/backend-interview/aws-docker.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/backend-interview/aws-docker.html" />
+  <meta property="og:title" content="AWS S3 and Docker Interview Questions for Node.js | Kodivo" />
+  <meta property="og:description" content="AWS S3 and Docker interview questions: pre-signed URLs, private buckets, multipart upload, IAM roles, Dockerfiles, health checks and CI/CD." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Backend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/backend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "AWS S3, Docker and deployment",
+          "item": "https://agamsahu017.github.io/backend-interview/aws-docker.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "AWS S3 and Docker Interview Questions for Node.js",
+      "description": "AWS S3 and Docker interview questions: pre-signed URLs, private buckets, multipart upload, IAM roles, Dockerfiles, health checks and CI/CD.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Backend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/backend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Backend Interview</span><span class="hi">Backend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20backend%20on%20your%20website%20(AWS%20S3%2C%20Docker%20and%20deployment)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Backend Interview</a> › <span>AWS S3, Docker and deployment</span></nav>
+        <span class="pill"><span class="en">Module 9 of 10</span><span class="hi">मॉड्यूल 9 / 10</span></span>
+        <h1><span class="en">AWS S3, Docker and deployment</span><span class="hi">AWS S3, Docker and deployment</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> You don't need to be a DevOps engineer, but at 5+ years you must ship your own service safely: files on S3, a Docker image, and a pipeline.</p><p class="hi"><b>एक लाइन में:</b> You don't need to be a DevOps engineer, but at 5+ years you must ship your own service safely: files on S3, a Docker image, and a pipeline.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Uploading files with S3 pre-signed URLs</span><span class="hi">Uploading files with S3 pre-signed URLs</span></li><li><span class="en">Private buckets, downloads and IAM roles</span><span class="hi">Private buckets, downloads and IAM roles</span></li><li><span class="en">Large uploads with multipart</span><span class="hi">Large uploads with multipart</span></li><li><span class="en">Docker image vs container, and a good Dockerfile</span><span class="hi">Docker image vs container, and a good Dockerfile</span></li><li><span class="en">docker-compose for local development</span><span class="hi">docker-compose for local development</span></li><li><span class="en">Secrets, health checks, logs and CI/CD</span><span class="hi">Secrets, health checks, logs and CI/CD</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#s3"><span class="en">AWS S3</span><span class="hi">AWS S3</span></a><a href="#docker"><span class="en">Docker and deployment</span><span class="hi">Docker and deployment</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="s3">
+        <h2 id="s3-h"><span class="en">AWS S3</span><span class="hi">AWS S3</span></h2>
+        
+        <article class="qa" id="aws-docker-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>How do you let users upload files to S3? Why pre-signed URLs?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Pre-signed URL flow:</b></p><ul><li>The frontend asks your API: "I want to upload <code>photo.jpg</code>, image/jpeg, 2 MB".</li><li>The API checks permissions, the file type and the size, decides the <b>key</b> (<code>users/42/photo-uuid.jpg</code>), and returns a <b>pre-signed PUT URL</b> valid for a few minutes.</li><li>The browser uploads <b>directly to S3</b>.</li><li>The frontend tells the API "done" with the key; the API saves the key in the database.</li></ul><p>Why: big files don't pass through your Node.js server (no memory or bandwidth load), the bucket stays <b>private</b>, and the URL works only for that key, for a short time.</p>
+            
+            <pre class="code" data-copy><span class="kw">import</span> { PutObjectCommand, S3Client } <span class="kw">from</span> <span class="st">"@aws-sdk/client-s3"</span>;
+<span class="kw">import</span> { getSignedUrl } <span class="kw">from</span> <span class="st">"@aws-sdk/s3-request-presigner"</span>;
+<span class="kw">import</span> { randomUUID } <span class="kw">from</span> <span class="st">"node:crypto"</span>;
+
+<span class="kw">const</span> s3 = <span class="kw">new</span> S3Client({ region: <span class="st">"ap-south-1"</span> }); <span class="cm">// Mumbai</span>
+<span class="kw">const</span> ALLOWED = [<span class="st">"image/jpeg"</span>, <span class="st">"image/png"</span>, <span class="st">"application/pdf"</span>];
+
+<span class="kw">export</span> <span class="kw">async</span> <span class="kw">function</span> createUploadUrl(userId: number, contentType: string) {
+  <span class="kw">if</span> (!ALLOWED.includes(contentType)) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">"File type not allowed"</span>);
+  <span class="kw">const</span> key = <span class="st">`users/${userId}/${randomUUID()}`</span>;
+  <span class="kw">const</span> url = <span class="kw">await</span> getSignedUrl(
+    s3,
+    <span class="kw">new</span> PutObjectCommand({ Bucket: process.env.BUCKET, Key: key, ContentType: contentType }),
+    { expiresIn: 300 }, <span class="cm">// 5 minutes</span>
+  );
+  <span class="kw">return</span> { url, key };
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> The API validates and returns a short-lived pre-signed PUT URL; the browser uploads straight to a private bucket.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="aws-docker-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>How do users download private files? Should the bucket be public?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Keep buckets <b>private</b> (Block Public Access on). For a download, the API checks the user may see the file, then returns a <b>pre-signed GET URL</b> valid for a few minutes. For public assets like a website's images, serve them through <b>CloudFront</b>.</p><p>Store only the <b>key</b> in the database, not a full URL. You can then change buckets, add a CDN, or re-sign URLs anytime.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Private bucket, permission check, then a short-lived pre-signed GET URL; the DB stores only the key.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="aws-docker-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>How does your app get AWS credentials safely? How do you handle big uploads?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Credentials</b>: never put access keys in code or images. On AWS, use <b>IAM roles</b> (an ECS task role, an EC2 instance profile, or IRSA on EKS); the SDK picks them up automatically. Give <b>least privilege</b>: only <code>s3:PutObject</code> and <code>s3:GetObject</code> on that bucket's prefix.</p><p><b>Big files</b> (over about 100 MB, or on unreliable networks): use <b>multipart upload</b>. The file goes in parts (5 MB minimum each, except the last), parts upload in parallel and are retried individually, and S3 joins them at the end. Add a lifecycle rule to clean up incomplete multipart uploads.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> IAM roles with least privilege instead of keys, and multipart upload for big files.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="docker">
+        <h2 id="docker-h"><span class="en">Docker and deployment</span><span class="hi">Docker and deployment</span></h2>
+        
+        <article class="qa" id="aws-docker-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>Docker image vs container? Why use Docker?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>An <b>image</b> is a read-only package: your app, Node.js, dependencies and config, built from a Dockerfile. A <b>container</b> is a <b>running instance</b> of an image. You can run 10 containers from one image.</p><p>Why: "it works on my machine" goes away, since dev, QA and prod run the <b>same image</b>. Startup is fast, it's easy to scale and roll back, and services like Postgres, Redis and Keycloak start locally with one command.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> An image is a recipe printed in a book; a container is the dish cooked from it. You can cook the same dish ten times.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> An image is the packaged app; a container is a running copy of it, the same everywhere.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="aws-docker-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>Write a production Dockerfile for a NestJS app.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Use a <b>multi-stage build</b>: build with dev dependencies, then copy only the compiled <code>dist</code> and production dependencies into a small final image. Run as a <b>non-root</b> user, and copy <code>package*.json</code> first so the dependency layer is cached between builds.</p>
+            
+            <pre class="code" data-copy><span class="cm"># ---- build stage ----</span>
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build &amp;&amp; npm prune --omit=dev
+
+<span class="cm"># ---- runtime stage ----</span>
+FROM node:22-alpine
+ENV NODE_ENV=production
+WORKDIR /app
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+COPY package*.json ./
+USER node
+EXPOSE 3000
+CMD ["node", "dist/main.js"]</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Multi-stage build, cached dependency layer, only dist and prod dependencies, non-root user.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Why <code>node dist/main.js</code> and not <code>npm run start</code>? <i>So that node is the main process and receives SIGTERM directly for graceful shutdown; npm can get in the way of signals.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="aws-docker-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>How do you handle config and secrets in containers?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>Never bake secrets into the image</b> or commit <code>.env</code> files to git. Anyone with the image can read them.</li><li>Pass config as <b>environment variables</b> at runtime. In NestJS, use <code>@nestjs/config</code> and <b>validate</b> the variables at startup, so a missing <code>DB_HOST</code> fails immediately and clearly.</li><li>Store real secrets in <b>AWS Secrets Manager / SSM Parameter Store</b> (or Kubernetes secrets), injected into the task or pod.</li><li>Use separate values per environment (dev, QA, UAT, prod), and rotate them.</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Runtime env variables validated at startup, real secrets from a secrets manager, nothing baked into images.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="aws-docker-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>What are health checks? What should /health check?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>The load balancer or orchestrator calls a health endpoint to decide whether to <b>send traffic</b> to a container or <b>restart</b> it.</p><ul><li><b>Liveness</b>: is the process alive and not stuck? Keep it simple; don't check the DB here, or a DB blip restarts every pod.</li><li><b>Readiness</b>: can it serve traffic now? Check the DB and Redis connections.</li></ul><p><code>@nestjs/terminus</code> provides ready-made indicators. Also log to <b>stdout</b> as JSON, and let the platform collect the logs (CloudWatch, ELK, Loki).</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Liveness keeps it simple; readiness checks dependencies; logs go to stdout as JSON.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="aws-docker-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>Describe a CI/CD pipeline for a backend service.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>On every pull request: install → <b>lint</b> → <b>type check</b> → <b>unit tests</b> → build. On merge to main:</p><ul><li>build the <b>Docker image</b>, tagged with the git commit SHA, and push it to a registry (ECR),</li><li>run <b>migrations</b>,</li><li>deploy to dev/QA automatically, and to UAT/prod with an approval,</li><li>use a <b>rolling or blue-green</b> deploy with health checks,</li><li>run smoke tests, and roll back automatically if errors go up.</li></ul><p>Tools: GitHub Actions, GitLab CI, Jenkins or Azure DevOps; ECS or Kubernetes to run it.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> PR checks, an immutable image tagged with the commit, migrations, staged deploys with health checks and quick rollback.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">Uploads: API validates → pre-signed PUT → browser uploads straight to S3.</span><span class="hi">Uploads: API validates → pre-signed PUT → browser uploads straight to S3.</span></li><li><span class="en">Buckets private; downloads via short-lived pre-signed GET; the DB stores the key.</span><span class="hi">Buckets private; downloads via short-lived pre-signed GET; the DB stores the key.</span></li><li><span class="en">IAM roles with least privilege, never access keys in code.</span><span class="hi">IAM roles with least privilege, never access keys in code.</span></li><li><span class="en">Multi-stage Dockerfile, non-root user, <code>node dist/main.js</code>.</span><span class="hi">Multi-stage Dockerfile, non-root user, <code>node dist/main.js</code>.</span></li><li><span class="en">Secrets from a secrets manager, validated config at startup.</span><span class="hi">Secrets from a secrets manager, validated config at startup.</span></li><li><span class="en">Liveness simple, readiness checks dependencies.</span><span class="hi">Liveness simple, readiness checks dependencies.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>Practise drawing these on a whiteboard or paper.</p><div class="exercise"><p class="q-text">Mock task 1: Write a docker-compose file for local development with Postgres and Redis.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Two services with fixed versions, a named volume for Postgres data, and the app connecting via service names (<code>postgres</code>, <code>redis</code>).</p><pre class="code" data-copy>services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: app
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+  redis:
+    image: redis:7
+    ports: ["6379:6379"]
+volumes:
+  pgdata:</pre></div></details></div><div class="exercise"><p class="q-text">Mock task 2: Users upload Aadhaar and PAN documents. What do you take care of?</p><details><summary>Show a sample answer</summary><div class="answer"><p>Private bucket with encryption (SSE-S3 or KMS), pre-signed URLs with short expiry, a file type and size check (and scanning the content if possible), random keys (not the Aadhaar number in the file name), access checks and <b>audit logs</b> for every view, masking the numbers in the UI and logs, a retention policy, and following data protection rules (India's DPDP Act).</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Best way to upload a 50 MB file?","hi":"Best way to upload a 50 MB file?"},"options":["Through the Node.js API as base64","Direct to S3 with a pre-signed URL","Store it in Postgres","Email it"],"answer":1,"why":{"en":"Pre-signed URLs keep big files off your server.","hi":"Pre-signed URLs keep big files off your server."}},{"q":{"en":"How should an ECS task access S3?","hi":"How should an ECS task access S3?"},"options":["Access keys in .env","An IAM task role","A public bucket","Root credentials"],"answer":1,"why":{"en":"Roles give temporary, least-privilege credentials.","hi":"Roles give temporary, least-privilege credentials."}},{"q":{"en":"A running instance of an image is a…","hi":"A running instance of an image is a…"},"options":["Volume","Container","Layer","Registry"],"answer":1,"why":{"en":"A container.","hi":"A container."}},{"q":{"en":"The liveness check should…","hi":"The liveness check should…"},"options":["Check every dependency","Stay simple (process is alive)","Run migrations","Call third-party APIs"],"answer":1,"why":{"en":"Otherwise a DB blip restarts every pod.","hi":"Otherwise a DB blip restarts every pod."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="backend-interview:aws-docker"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="auth-security.html">← <span class="en">Auth, Keycloak and security</span><span class="hi">Auth, Keycloak and security</span></a><a class="btn btn-outline" href="senior-rounds.html">→ <span class="en">System design, managerial and HR rounds</span><span class="hi">System design, managerial and HR rounds</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20AWS%20S3%2C%20Docker%20and%20deployment" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20AWS%20S3%2C%20Docker%20and%20deployment" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Backend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

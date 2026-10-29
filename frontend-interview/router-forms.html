@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>React Router and React Hook Form Interview Q&A | Kodivo</title>
+  <meta name="description" content="React Router 6 and react-hook-form interview questions: nested and protected routes, lazy loading, search params, validation and Controller." />
+  <link rel="canonical" href="https://agamsahu017.github.io/frontend-interview/router-forms.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/frontend-interview/router-forms.html" />
+  <meta property="og:title" content="React Router and React Hook Form Interview Q&A | Kodivo" />
+  <meta property="og:description" content="React Router 6 and react-hook-form interview questions: nested and protected routes, lazy loading, search params, validation and Controller." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Frontend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/frontend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "React Router 6 and react-hook-form",
+          "item": "https://agamsahu017.github.io/frontend-interview/router-forms.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "React Router and React Hook Form Interview Q&A",
+      "description": "React Router 6 and react-hook-form interview questions: nested and protected routes, lazy loading, search params, validation and Controller.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Frontend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/frontend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Frontend Interview</span><span class="hi">Frontend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20frontend%20on%20your%20website%20(React%20Router%206%20and%20react-hook-form)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Frontend Interview</a> › <span>React Router 6 and react-hook-form</span></nav>
+        <span class="pill"><span class="en">Module 8 of 10</span><span class="hi">मॉड्यूल 8 / 10</span></span>
+        <h1><span class="en">React Router 6 and react-hook-form</span><span class="hi">React Router 6 and react-hook-form</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Every enterprise React app has routing and big forms. They will ask how you protect routes and why react-hook-form is fast.</p><p class="hi"><b>एक लाइन में:</b> Every enterprise React app has routing and big forms. They will ask how you protect routes and why react-hook-form is fast.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Nested routes, layouts and Outlet</span><span class="hi">Nested routes, layouts and Outlet</span></li><li><span class="en">Protected routes with redirect-back</span><span class="hi">Protected routes with redirect-back</span></li><li><span class="en">Lazy loading pages</span><span class="hi">Lazy loading pages</span></li><li><span class="en">URL search params for filters</span><span class="hi">URL search params for filters</span></li><li><span class="en">Why react-hook-form is fast</span><span class="hi">Why react-hook-form is fast</span></li><li><span class="en">Validation, Controller, useFieldArray and edit forms</span><span class="hi">Validation, Controller, useFieldArray and edit forms</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#router"><span class="en">React Router 6</span><span class="hi">React Router 6</span></a><a href="#forms"><span class="en">react-hook-form</span><span class="hi">react-hook-form</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="router">
+        <h2 id="router-h"><span class="en">React Router 6</span><span class="hi">React Router 6</span></h2>
+        
+        <article class="qa" id="router-forms-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>How do nested routes and <code>&lt;Outlet /&gt;</code> work?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A parent route renders a <b>layout</b> (header and sidebar), and <code>&lt;Outlet /&gt;</code> is the slot where the matching <b>child route</b> appears. The layout stays on screen while only the inner part changes.</p><p>An <code>index</code> route is the default child, and <code>path="*"</code> catches unknown URLs for a 404 page.</p>
+            
+            <pre class="code" data-copy>&lt;Routes&gt;
+  &lt;Route path=<span class="st">"/"</span> element={&lt;AppLayout /&gt;}&gt;      {/* header + sidebar + &lt;Outlet /&gt; */}
+    &lt;Route index element={&lt;Dashboard /&gt;} /&gt;
+    &lt;Route path=<span class="st">"employees"</span> element={&lt;EmployeeList /&gt;} /&gt;
+    &lt;Route path=<span class="st">"employees/:id"</span> element={&lt;EmployeeDetail /&gt;} /&gt;
+  &lt;/Route&gt;
+  &lt;Route path=<span class="st">"/login"</span> element={&lt;Login /&gt;} /&gt;
+  &lt;Route path=<span class="st">"*"</span> element={&lt;NotFound /&gt;} /&gt;
+&lt;/Routes&gt;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> The parent renders a layout and <code>&lt;Outlet /&gt;</code> shows whichever child route matches.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="router-forms-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>How do you build a protected route that sends the user back after login?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Make a guard component. If there is no user, <code>&lt;Navigate&gt;</code> to <code>/login</code> with <code>replace</code>, and pass the current location in <code>state</code>. After a successful login, navigate to <code>state.from</code>.</p><p>Use it as a <b>layout route</b> with <code>&lt;Outlet /&gt;</code>, so you protect a whole group of pages at once. Add a permission check for role-based pages.</p>
+            
+            <pre class="code" data-copy><span class="kw">function</span> RequireAuth({ permission }) {
+  <span class="kw">const</span> { user } = useAuth();
+  <span class="kw">const</span> location = useLocation();
+  <span class="kw">if</span> (!user) <span class="kw">return</span> &lt;Navigate to=<span class="st">"/login"</span> replace state={{ <span class="kw">from</span>: location }} /&gt;;
+  <span class="kw">if</span> (permission &amp;&amp; !user.permissions.includes(permission)) <span class="kw">return</span> &lt;Navigate to=<span class="st">"/403"</span> replace /&gt;;
+  <span class="kw">return</span> &lt;Outlet /&gt;;
+}
+
+<span class="cm">// routes</span>
+&lt;Route element={&lt;RequireAuth permission=<span class="st">"report:view"</span> /&gt;}&gt;
+  &lt;Route path=<span class="st">"reports"</span> element={&lt;Reports /&gt;} /&gt;
+&lt;/Route&gt;
+
+<span class="cm">// after login</span>
+<span class="kw">const</span> <span class="kw">from</span> = location.state?.<span class="kw">from</span>?.pathname || <span class="st">"/"</span>;
+navigate(<span class="kw">from</span>, { replace: <span class="kw">true</span> });</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A guard layout route redirects to login with the current location in state, then login navigates back to it.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="router-forms-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>useParams vs useSearchParams? Where should table filters live?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><code>useParams</code>: values from the <b>path</b>, like <code>/employees/:id</code> → <code>id</code>. Used for "which item".</li><li><code>useSearchParams</code>: values from the <b>query string</b>, like <code>?status=pending&amp;page=2</code>. Used for filters, sort and page.</li></ul><p>Keep table filters in the <b>URL</b>: the page then survives a refresh, the browser Back button works, and users can share the link. Combine it with React Query by putting the params in the queryKey.</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> [params, setParams] = useSearchParams();
+<span class="kw">const</span> status = params.get(<span class="st">"status"</span>) ?? <span class="st">"all"</span>;
+<span class="kw">const</span> page = Number(params.get(<span class="st">"page"</span>) ?? 1);
+
+<span class="kw">const</span> changeStatus = (s) =&gt; setParams({ status: s, page: <span class="st">"1"</span> });</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Path params identify the item; search params hold filters, so links are shareable and refresh-safe.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="router-forms-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>How do you lazy-load pages to reduce the bundle size?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Use <code>React.lazy</code> with a dynamic <code>import()</code>, and wrap the routes in <code>&lt;Suspense&gt;</code> with a fallback. Each page becomes a <b>separate JS file</b>, downloaded only when the user opens it.</p><p>Good candidates: admin screens, reports and chart-heavy pages. Keep the login and dashboard in the main bundle so they open fast.</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> Reports = lazy(() =&gt; <span class="kw">import</span>(<span class="st">"./pages/Reports"</span>));
+
+&lt;Suspense fallback={&lt;PageSkeleton /&gt;}&gt;
+  &lt;Routes&gt;
+    &lt;Route path=<span class="st">"reports"</span> element={&lt;Reports /&gt;} /&gt;
+  &lt;/Routes&gt;
+&lt;/Suspense&gt;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> React.lazy plus Suspense splits each page into its own chunk that loads on demand.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="router-forms-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>What are data routers, loaders and actions in React Router 6.4+? What changed in v7?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>From 6.4, you can create the router with <code>createBrowserRouter</code> and give routes a <code>loader</code> (fetch data <b>before</b> the page renders), an <code>action</code> (handle form submits) and an <code>errorElement</code>. This avoids "render, then fetch" waterfalls.</p><p>React Router <b>v7</b> combined React Router with Remix. Upgrading from v6 is mostly smooth if you turn on the v6 "future flags" first. Many projects in NCR are still on v6, which is fine. Say which one your project uses and why.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Loaders fetch before render and actions handle submits; v7 merged in Remix and upgrades smoothly via future flags.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="forms">
+        <h2 id="forms-h"><span class="en">react-hook-form</span><span class="hi">react-hook-form</span></h2>
+        
+        <article class="qa" id="router-forms-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>Why is react-hook-form faster than controlled forms?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>It keeps inputs <b>uncontrolled</b> and registers them with refs, so typing doesn't re-render the whole form. Only the parts that subscribe to a value (like an error message or a <code>useWatch</code>) re-render.</p><p>For a 60-field registration form, a controlled approach re-renders the full form on every key press. RHF doesn't.</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+  defaultValues: { name: <span class="st">""</span>, email: <span class="st">""</span> },
+  mode: <span class="st">"onBlur"</span>, <span class="cm">// validate when the user leaves a field</span>
+});
+
+&lt;form onSubmit={handleSubmit(onSubmit)}&gt;
+  &lt;input {...register(<span class="st">"name"</span>, { required: <span class="st">"Name is required"</span> })} /&gt;
+  {errors.name &amp;&amp; &lt;p&gt;{errors.name.message}&lt;/p&gt;}
+  &lt;input {...register(<span class="st">"email"</span>, { required: <span class="st">"Email is required"</span>, pattern: { value: /^\S+@\S+$/, message: <span class="st">"Enter a valid email"</span> } })} /&gt;
+  {errors.email &amp;&amp; &lt;p&gt;{errors.email.message}&lt;/p&gt;}
+  &lt;button disabled={isSubmitting}&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Inputs stay uncontrolled and register via refs, so typing doesn't re-render the whole form.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="router-forms-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>How do you use react-hook-form with MUI, a date picker or react-select?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Those components are <b>controlled</b> (they need <code>value</code> and <code>onChange</code>) and don't accept <code>register</code>. Use <code>&lt;Controller&gt;</code> (or <code>useController</code>), which connects them to the form state.</p>
+            
+            <pre class="code" data-copy>&lt;Controller
+  name=<span class="st">"state"</span>
+  control={control}
+  rules={{ required: <span class="st">"Select a state"</span> }}
+  render={({ field, fieldState }) =&gt; (
+    &lt;Select {...field} options={stateOptions} /&gt;
+  )}
+/&gt;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Controller connects controlled UI components to the form state.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="router-forms-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>How do you validate with a schema (zod or yup)? Why?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Write the rules once as a <b>schema</b> and pass it with <code>resolver: zodResolver(schema)</code> from <code>@hookform/resolvers</code>. Benefits: all rules in one place, cross-field rules (end date after start date, password match), and with zod you get the TypeScript type for free with <code>z.infer&lt;typeof schema&gt;</code>.</p><p>Remember: frontend validation is for user experience. The backend must validate again.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A zod schema via zodResolver keeps all rules in one place and gives me the form's TypeScript type.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="router-forms-q9">
+          <div class="qa-head"><span class="qa-num">Q9</span><h3>How do you build an edit form that loads data from the API? And dynamic rows?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Edit form</b>: fetch with React Query, then call <code>reset(data)</code> when the data arrives (or render the form only after loading, passing <code>defaultValues</code>). <code>reset</code> also sets the "clean" state, so <code>isDirty</code> works correctly.</p><p><b>Dynamic rows</b> (add another education entry, another document): use <code>useFieldArray</code>. Use <code>field.id</code> as the key, not the index.</p><p>Use <code>useWatch</code> instead of <code>watch</code> to read one field without re-rendering the whole form.</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> { data } = useQuery({ queryKey: [<span class="st">"employee"</span>, id], queryFn: () =&gt; api.employee(id) });
+<span class="kw">const</span> { control, register, reset } = useForm();
+useEffect(() =&gt; { <span class="kw">if</span> (data) reset(data); }, [data, reset]);
+
+<span class="kw">const</span> { fields, append, remove } = useFieldArray({ control, name: <span class="st">"education"</span> });
+fields.map((f, i) =&gt; (
+  &lt;div key={f.id}&gt;
+    &lt;input {...register(<span class="st">`education.${i}.degree`</span>)} /&gt;
+    &lt;button <span class="kw">type</span>=<span class="st">"button"</span> onClick={() =&gt; remove(i)}&gt;Remove&lt;/button&gt;
+  &lt;/div&gt;
+));</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> reset(data) when the API data arrives, and useFieldArray with field.id keys for dynamic rows.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">Layout route + <code>&lt;Outlet /&gt;</code> for shared headers and sidebars.</span><span class="hi">Layout route + <code>&lt;Outlet /&gt;</code> for shared headers and sidebars.</span></li><li><span class="en">Guard routes with <code>&lt;Navigate replace state={{ from }}&gt;</code>, then send the user back after login.</span><span class="hi">Guard routes with <code>&lt;Navigate replace state={{ from }}&gt;</code>, then send the user back after login.</span></li><li><span class="en">Filters go in search params: refresh-safe and shareable.</span><span class="hi">Filters go in search params: refresh-safe and shareable.</span></li><li><span class="en"><code>React.lazy</code> + <code>Suspense</code> = smaller first load.</span><span class="hi"><code>React.lazy</code> + <code>Suspense</code> = smaller first load.</span></li><li><span class="en">RHF is fast because inputs are uncontrolled; use <code>Controller</code> for MUI and selects.</span><span class="hi">RHF is fast because inputs are uncontrolled; use <code>Controller</code> for MUI and selects.</span></li><li><span class="en">Edit forms: <code>reset(data)</code>; dynamic rows: <code>useFieldArray</code> with <code>field.id</code> keys.</span><span class="hi">Edit forms: <code>reset(data)</code>; dynamic rows: <code>useFieldArray</code> with <code>field.id</code> keys.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>A common L2 task: design a big form for an enterprise app.</p><div class="exercise"><p class="q-text">Mock task 1: Design a 5-step registration form with 60 fields, a 'save draft' button and file uploads.</p><details><summary>Show a sample answer</summary><div class="answer"><p>One <code>useForm</code> for the whole wizard (or one per step, merged on submit), with a zod schema <b>per step</b>, using <code>trigger(stepFields)</code> before going to the next step. Save drafts to the API (debounced, or on 'Save draft'). Upload files separately to S3 using pre-signed URLs and store only the returned keys in the form. Use <code>useFieldArray</code> for repeating sections and <code>Controller</code> for date pickers. Warn on leaving with unsaved changes when <code>isDirty</code> is true.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 2: The URL <code>/employees?page=3</code> loses the page after clicking a row and pressing Back. Why?</p><details><summary>Show a sample answer</summary><div class="answer"><p>The page number was kept in <code>useState</code>, which resets on remount. Move it into <code>useSearchParams</code> so the URL holds it, and Back restores it.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Where does a child route render inside its parent layout?","hi":"Where does a child route render inside its parent layout?"},"options":["<Children />","<Outlet />","<Slot />","<Route />"],"answer":1,"why":{"en":"Outlet is the placeholder for the matching child.","hi":"Outlet is the placeholder for the matching child."}},{"q":{"en":"Redirect without adding a history entry:","hi":"Redirect without adding a history entry:"},"options":["<Navigate to=\"/login\" />","<Navigate to=\"/login\" replace />","window.location","navigate(-1)"],"answer":1,"why":{"en":"`replace` swaps the current entry.","hi":"`replace` swaps the current entry."}},{"q":{"en":"Connect an MUI Select to react-hook-form:","hi":"Connect an MUI Select to react-hook-form:"},"options":["register","Controller","useState","useRef"],"answer":1,"why":{"en":"Controlled components use Controller.","hi":"Controlled components use Controller."}},{"q":{"en":"Fill an edit form after the API returns:","hi":"Fill an edit form after the API returns:"},"options":["setValue for each field only","reset(data)","Re-mount the app","defaultValue on each input after render"],"answer":1,"why":{"en":"reset sets the values and the clean baseline.","hi":"reset sets the values and the clean baseline."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="frontend-interview:router-forms"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="react-query.html">← <span class="en">TanStack React Query 5</span><span class="hi">TanStack React Query 5</span></a><a class="btn btn-outline" href="performance-security.html">→ <span class="en">Performance, security and testing</span><span class="hi">Performance, security and testing</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20React%20Router%206%20and%20react-hook-form" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20React%20Router%206%20and%20react-hook-form" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Frontend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

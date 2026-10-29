@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>React Hooks Interview Questions: useEffect, useMemo | Kodivo</title>
+  <meta name="description" content="React hooks interview questions: useState batching, useEffect cleanup and race conditions, stale closures, useMemo vs useCallback and custom hooks." />
+  <link rel="canonical" href="https://agamsahu017.github.io/frontend-interview/hooks.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/frontend-interview/hooks.html" />
+  <meta property="og:title" content="React Hooks Interview Questions: useEffect, useMemo | Kodivo" />
+  <meta property="og:description" content="React hooks interview questions: useState batching, useEffect cleanup and race conditions, stale closures, useMemo vs useCallback and custom hooks." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Frontend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/frontend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "React hooks questions",
+          "item": "https://agamsahu017.github.io/frontend-interview/hooks.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "React Hooks Interview Questions: useEffect, useMemo",
+      "description": "React hooks interview questions: useState batching, useEffect cleanup and race conditions, stale closures, useMemo vs useCallback and custom hooks.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Frontend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/frontend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Frontend Interview</span><span class="hi">Frontend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20frontend%20on%20your%20website%20(React%20hooks%20questions)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Frontend Interview</a> › <span>React hooks questions</span></nav>
+        <span class="pill"><span class="en">Module 5 of 10</span><span class="hi">मॉड्यूल 5 / 10</span></span>
+        <h1><span class="en">React hooks questions</span><span class="hi">React hooks questions</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">30 min read + practice</span><span class="hi">30 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Hooks questions show whether you really understand React. Most bugs in real projects come from useEffect dependencies and stale state.</p><p class="hi"><b>एक लाइन में:</b> Hooks questions show whether you really understand React. Most bugs in real projects come from useEffect dependencies and stale state.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">useState updates, batching and the updater function</span><span class="hi">useState updates, batching and the updater function</span></li><li><span class="en">useEffect dependencies, cleanup and race conditions</span><span class="hi">useEffect dependencies, cleanup and race conditions</span></li><li><span class="en">Stale closures and how to fix them</span><span class="hi">Stale closures and how to fix them</span></li><li><span class="en">useMemo vs useCallback vs memo</span><span class="hi">useMemo vs useCallback vs memo</span></li><li><span class="en">useRef, useReducer and useLayoutEffect</span><span class="hi">useRef, useReducer and useLayoutEffect</span></li><li><span class="en">Writing a clean custom hook</span><span class="hi">Writing a clean custom hook</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#state-effect"><span class="en">useState and useEffect</span><span class="hi">useState and useEffect</span></a><a href="#memo"><span class="en">Memo, refs and custom hooks</span><span class="hi">Memo, refs and custom hooks</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="state-effect">
+        <h2 id="state-effect-h"><span class="en">useState and useEffect</span><span class="hi">useState and useEffect</span></h2>
+        
+        <article class="qa" id="hooks-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>Why does <code>setCount(count + 1)</code> three times only add 1? How do you fix it?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Inside one render, <code>count</code> is a <b>fixed value</b> (a snapshot). All three calls say "set to 0 + 1", so the result is 1. React also <b>batches</b> them into one render.</p><p>Fix: use the <b>updater function</b> <code>setCount(c =&gt; c + 1)</code>. React passes the latest value each time, so you get 3.</p>
+            
+            <pre class="code" data-copy><span class="kw">function</span> Counter() {
+  <span class="kw">const</span> [count, setCount] = useState(0);
+  <span class="kw">function</span> addThree() {
+    setCount((c) =&gt; c + 1);
+    setCount((c) =&gt; c + 1);
+    setCount((c) =&gt; c + 1); <span class="cm">// count becomes 3</span>
+  }
+  <span class="kw">return</span> &lt;button onClick={addThree}&gt;{count}&lt;/button&gt;;
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> State is a snapshot per render; use the updater form when the new value depends on the old one.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What is automatic batching? <i>Since React 18, multiple state updates in the same event, timeout or promise are combined into one re-render.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="hooks-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>Explain the useEffect dependency array: none, empty and with values.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>No array</b>: runs after <b>every</b> render.</li><li><b>Empty <code>[]</code></b>: runs once after the first render (and cleanup on unmount).</li><li><b><code>[userId]</code></b>: runs after the first render and again whenever <code>userId</code> changes.</li></ul><p>The <b>cleanup</b> function (the function you return) runs before the next effect and on unmount. Use it to clear timers, remove listeners and cancel requests.</p><p>Rule: include everything from the component that the effect uses. Don't silence the ESLint <code>exhaustive-deps</code> warning; fix the code instead.</p>
+            
+            <pre class="code" data-copy>useEffect(() =&gt; {
+  <span class="kw">const</span> id = setInterval(() =&gt; refreshPrices(), 5000);
+  window.addEventListener(<span class="st">"resize"</span>, onResize);
+  <span class="kw">return</span> () =&gt; {
+    clearInterval(id); <span class="cm">// cleanup</span>
+    window.removeEventListener(<span class="st">"resize"</span>, onResize);
+  };
+}, [refreshPrices, onResize]);</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> No array runs every render, [] runs once, [x] runs when x changes; cleanup runs before the next run and on unmount.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="hooks-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>How do you avoid a race condition when fetching in useEffect?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>If the user switches from employee 1 to employee 2 quickly, the reply for 1 may arrive <b>after</b> 2 and show the wrong data.</p><p>Fix: in the cleanup, <b>abort</b> the old request with <code>AbortController</code>, or set an <code>ignore</code> flag. Better still, use <b>TanStack Query</b>, which handles this, caching and retries for you.</p>
+            
+            <pre class="code" data-copy>useEffect(() =&gt; {
+  <span class="kw">const</span> controller = <span class="kw">new</span> AbortController();
+  fetch(<span class="st">`/api/employees/${id}`</span>, { signal: controller.signal })
+    .then((r) =&gt; r.json())
+    .then(setEmployee)
+    .<span class="kw">catch</span>((e) =&gt; { <span class="kw">if</span> (e.name !== <span class="st">"AbortError"</span>) setError(e); });
+  <span class="kw">return</span> () =&gt; controller.abort(); <span class="cm">// old request is cancelled</span>
+}, [id]);</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> I cancel the previous request in the cleanup with AbortController, or let React Query handle it.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="hooks-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>What is a stale closure in React?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A function created in an old render <b>remembers old state</b>. Classic example: a <code>setInterval</code> started in <code>useEffect(..., [])</code> always sees <code>count = 0</code>, because the callback closed over the first render's value.</p><p>Fixes:</p><ul><li>use the updater <code>setCount(c =&gt; c + 1)</code>,</li><li>add the value to the dependency array,</li><li>or keep the latest value in a <code>useRef</code>.</li></ul>
+            
+            <pre class="code" data-copy><span class="cm">// Bug: always logs 0</span>
+useEffect(() =&gt; {
+  <span class="kw">const</span> id = setInterval(() =&gt; console.log(count), 1000);
+  <span class="kw">return</span> () =&gt; clearInterval(id);
+}, []);
+
+<span class="cm">// Fix for updates: the updater always gets the latest value</span>
+useEffect(() =&gt; {
+  <span class="kw">const</span> id = setInterval(() =&gt; setCount((c) =&gt; c + 1), 1000);
+  <span class="kw">return</span> () =&gt; clearInterval(id);
+}, []);</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A callback from an old render sees old state; fix it with updater functions, correct deps or a ref.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="hooks-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>When should you NOT use useEffect?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Effects are for <b>syncing with outside systems</b> (network, timers, browser APIs, third-party widgets). They are often overused:</p><ul><li><b>Derived data</b>: don't store <code>fullName</code> in state and sync it with an effect. Just calculate <code>first + " " + last</code> during render.</li><li><b>User events</b>: put the logic in the click handler, not in an effect that watches a flag.</li><li><b>Resetting state on a prop change</b>: give the component a <code>key</code> instead.</li><li><b>Data fetching</b>: prefer TanStack Query.</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Effects are for outside systems; derived values are calculated during render and event logic goes in handlers.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="memo">
+        <h2 id="memo-h"><span class="en">Memo, refs and custom hooks</span><span class="hi">Memo, refs and custom hooks</span></h2>
+        
+        <article class="qa" id="hooks-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3><code>useMemo</code> vs <code>useCallback</code> vs <code>React.memo</code>?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><code>useMemo(fn, deps)</code>: remembers a <b>calculated value</b>, like a filtered list.</li><li><code>useCallback(fn, deps)</code>: remembers a <b>function</b>, so its identity stays the same.</li><li><code>memo(Component)</code>: skips re-rendering a <b>component</b> if its props are the same (shallow compare).</li></ul><p>They work together: <code>memo</code> on a child is useless if the parent passes a new function or object every render. That is where <code>useCallback</code> and <code>useMemo</code> help.</p><p>Don't wrap everything. Memoisation has its own cost; use it for heavy calculations or a memoised child that renders a lot.</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> visible = useMemo(() =&gt; orders.filter((o) =&gt; o.status === tab), [orders, tab]);
+<span class="kw">const</span> onSelect = useCallback((id) =&gt; setSelected(id), []);
+<span class="kw">return</span> &lt;OrderTable rows={visible} onSelect={onSelect} /&gt;; <span class="cm">// OrderTable = memo(...)</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> useMemo caches a value, useCallback caches a function, memo skips a component's render when props are equal.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="hooks-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>What is useRef used for?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><code>useRef</code> gives a box (<code>ref.current</code>) that <b>survives renders</b> and <b>does not cause a re-render</b> when changed.</p><p>Two uses: reaching a <b>DOM element</b> (focus an input, scroll to a row), and keeping a <b>mutable value</b> like a timer id, the previous value, or "is this the first render".</p>
+            
+            <pre class="code" data-copy><span class="kw">function</span> SearchBox() {
+  <span class="kw">const</span> inputRef = useRef(<span class="kw">null</span>);
+  useEffect(() =&gt; { inputRef.current.focus(); }, []);
+  <span class="kw">return</span> &lt;input ref={inputRef} /&gt;;
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> useRef holds a DOM node or a value that survives renders without causing one.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="hooks-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>When would you use useReducer instead of useState?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Use <code>useReducer</code> when state has <b>many related fields</b> or the next state depends on <b>what happened</b> (an action), like a multi-step form, a cart, or a table with filters, sort and page.</p><p>All the update logic sits in one pure function, which is easy to test and read: <code>dispatch({ type: "addItem", item })</code>.</p>
+            
+            <pre class="code" data-copy><span class="kw">function</span> cartReducer(state, action) {
+  <span class="kw">switch</span> (action.<span class="kw">type</span>) {
+    <span class="kw">case</span> <span class="st">"add"</span>: <span class="kw">return</span> { ...state, items: [...state.items, action.item] };
+    <span class="kw">case</span> <span class="st">"remove"</span>: <span class="kw">return</span> { ...state, items: state.items.filter((i) =&gt; i.id !== action.id) };
+    <span class="kw">case</span> <span class="st">"clear"</span>: <span class="kw">return</span> { ...state, items: [] };
+    <span class="kw">default</span>: <span class="kw">return</span> state;
+  }
+}
+<span class="kw">const</span> [cart, dispatch] = useReducer(cartReducer, { items: [] });</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> useReducer when many fields change together or updates depend on an action type.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="hooks-q9">
+          <div class="qa-head"><span class="qa-num">Q9</span><h3>useEffect vs useLayoutEffect?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><code>useEffect</code> runs <b>after</b> the browser paints, so it doesn't block the screen. Use it for almost everything.</p><p><code>useLayoutEffect</code> runs <b>after DOM changes but before paint</b>. Use it only when you must measure the DOM and fix the position before the user sees a flicker, like placing a tooltip.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> useLayoutEffect runs before paint for measuring the DOM; everything else uses useEffect.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="hooks-q10">
+          <div class="qa-head"><span class="qa-num">Q10</span><h3>What is a custom hook? Write one.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A custom hook is a function starting with <code>use</code> that <b>reuses stateful logic</b> (not UI) across components. Each component that uses it gets its <b>own</b> state.</p><p>Good examples: <code>useDebounce</code>, <code>useOnlineStatus</code>, <code>usePermission</code>, <code>useLocalStorage</code>.</p>
+            
+            <pre class="code" data-copy><span class="kw">function</span> useDebounce(value, delay = 300) {
+  <span class="kw">const</span> [debounced, setDebounced] = useState(value);
+  useEffect(() =&gt; {
+    <span class="kw">const</span> t = setTimeout(() =&gt; setDebounced(value), delay);
+    <span class="kw">return</span> () =&gt; clearTimeout(t);
+  }, [value, delay]);
+  <span class="kw">return</span> debounced;
+}
+
+<span class="cm">// usage</span>
+<span class="kw">const</span> debouncedQuery = useDebounce(query);
+<span class="kw">const</span> { data } = useQuery({ queryKey: [<span class="st">"search"</span>, debouncedQuery], queryFn: () =&gt; search(debouncedQuery) });</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A custom hook shares stateful logic, not state; each user gets its own copy.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What are the rules of hooks? <i>Call hooks only at the top level (not in loops or conditions) and only from components or other hooks. React matches hooks by call order.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">Use the updater <code>setX(x =&gt; ...)</code> when the new value depends on the old one.</span><span class="hi">Use the updater <code>setX(x =&gt; ...)</code> when the new value depends on the old one.</span></li><li><span class="en">Every effect that starts something must clean it up.</span><span class="hi">Every effect that starts something must clean it up.</span></li><li><span class="en">Cancel old fetches with AbortController, or use TanStack Query.</span><span class="hi">Cancel old fetches with AbortController, or use TanStack Query.</span></li><li><span class="en">Derived values are calculated during render, not stored and synced with an effect.</span><span class="hi">Derived values are calculated during render, not stored and synced with an effect.</span></li><li><span class="en"><code>memo</code> needs stable props: pair it with <code>useCallback</code> and <code>useMemo</code>.</span><span class="hi"><code>memo</code> needs stable props: pair it with <code>useCallback</code> and <code>useMemo</code>.</span></li><li><span class="en">Hooks are called at the top level, in the same order every render.</span><span class="hi">Hooks are called at the top level, in the same order every render.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>These come up as live-coding tasks in L1 and L2 rounds.</p><div class="exercise"><p class="q-text">Mock task 1: Write <code>usePrevious(value)</code> that returns the value from the last render.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Store the value in a ref inside an effect; the effect runs after render, so during render the ref still holds the old value.</p><pre class="code" data-copy><span class="kw">function</span> usePrevious(value) {
+  <span class="kw">const</span> ref = useRef();
+  useEffect(() =&gt; { ref.current = value; }, [value]);
+  <span class="kw">return</span> ref.current;
+}</pre></div></details></div><div class="exercise"><p class="q-text">Mock task 2: Write <code>useOnlineStatus()</code> that returns true or false and updates live.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Subscribe to the window's <code>online</code> and <code>offline</code> events and clean up.</p><pre class="code" data-copy><span class="kw">function</span> useOnlineStatus() {
+  <span class="kw">const</span> [online, setOnline] = useState(navigator.onLine);
+  useEffect(() =&gt; {
+    <span class="kw">const</span> on = () =&gt; setOnline(<span class="kw">true</span>);
+    <span class="kw">const</span> off = () =&gt; setOnline(<span class="kw">false</span>);
+    window.addEventListener(<span class="st">"online"</span>, on);
+    window.addEventListener(<span class="st">"offline"</span>, off);
+    <span class="kw">return</span> () =&gt; {
+      window.removeEventListener(<span class="st">"online"</span>, on);
+      window.removeEventListener(<span class="st">"offline"</span>, off);
+    };
+  }, []);
+  <span class="kw">return</span> online;
+}</pre></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"`setCount(count + 1)` called 3 times in one click (count = 0) gives…","hi":"`setCount(count + 1)` called 3 times in one click (count = 0) gives…"},"options":["3","1","0","Error"],"answer":1,"why":{"en":"Each call uses the same snapshot value 0.","hi":"Each call uses the same snapshot value 0."}},{"q":{"en":"Which caches a function's identity?","hi":"Which caches a function's identity?"},"options":["useMemo","useCallback","useRef","memo"],"answer":1,"why":{"en":"useCallback returns the same function until deps change.","hi":"useCallback returns the same function until deps change."}},{"q":{"en":"Effect with `[]` runs…","hi":"Effect with `[]` runs…"},"options":["Every render","Once after the first render","Never","Only on unmount"],"answer":1,"why":{"en":"Empty deps: run after mount, clean up on unmount.","hi":"Empty deps: run after mount, clean up on unmount."}},{"q":{"en":"You need to measure a tooltip before paint to avoid flicker. Use…","hi":"You need to measure a tooltip before paint to avoid flicker. Use…"},"options":["useEffect","useLayoutEffect","useMemo","useId"],"answer":1,"why":{"en":"useLayoutEffect runs before the browser paints.","hi":"useLayoutEffect runs before the browser paints."}},{"q":{"en":"Can you call a hook inside an `if`?","hi":"Can you call a hook inside an `if`?"},"options":["Yes, always","No, hooks must run in the same order","Only useState","Only in class components"],"answer":1,"why":{"en":"Rules of hooks: top level only. (React 19's `use()` is a special exception.)","hi":"Rules of hooks: top level only. (React 19's `use()` is a special exception.)"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="frontend-interview:hooks"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="react-core.html">← <span class="en">React 19 core questions</span><span class="hi">React 19 core questions</span></a><a class="btn btn-outline" href="state-auth.html">→ <span class="en">State, Context API, auth and RBAC</span><span class="hi">State, Context API, auth and RBAC</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20React%20hooks%20questions" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20React%20hooks%20questions" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Frontend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TypeScript Interview Questions for React Developers | Kodivo</title>
+  <meta name="description" content="TypeScript interview questions for 3–10 years: interface vs type, generics, unknown vs any, utility types and typing React props, explained simply." />
+  <link rel="canonical" href="https://agamsahu017.github.io/frontend-interview/typescript.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/frontend-interview/typescript.html" />
+  <meta property="og:title" content="TypeScript Interview Questions for React Developers | Kodivo" />
+  <meta property="og:description" content="TypeScript interview questions for 3–10 years: interface vs type, generics, unknown vs any, utility types and typing React props, explained simply." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Frontend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/frontend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "TypeScript questions",
+          "item": "https://agamsahu017.github.io/frontend-interview/typescript.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "TypeScript Interview Questions for React Developers",
+      "description": "TypeScript interview questions for 3–10 years: interface vs type, generics, unknown vs any, utility types and typing React props, explained simply.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Frontend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/frontend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Frontend Interview</span><span class="hi">Frontend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20frontend%20on%20your%20website%20(TypeScript%20questions)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Frontend Interview</a> › <span>TypeScript questions</span></nav>
+        <span class="pill"><span class="en">Module 2 of 10</span><span class="hi">मॉड्यूल 2 / 10</span></span>
+        <h1><span class="en">TypeScript questions</span><span class="hi">TypeScript questions</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">20 min read + practice</span><span class="hi">20 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Most Delhi NCR projects now use TypeScript. They check whether you use types to prevent bugs, or just add `any` everywhere.</p><p class="hi"><b>एक लाइन में:</b> Most Delhi NCR projects now use TypeScript. They check whether you use types to prevent bugs, or just add `any` everywhere.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">interface vs type, and when to use each</span><span class="hi">interface vs type, and when to use each</span></li><li><span class="en">any vs unknown vs never</span><span class="hi">any vs unknown vs never</span></li><li><span class="en">Generics with a simple real example</span><span class="hi">Generics with a simple real example</span></li><li><span class="en">Utility types: Partial, Pick, Omit, Record</span><span class="hi">Utility types: Partial, Pick, Omit, Record</span></li><li><span class="en">Union types instead of enums</span><span class="hi">Union types instead of enums</span></li><li><span class="en">Typing React props, state and events</span><span class="hi">Typing React props, state and events</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#ts-basics"><span class="en">Core TypeScript</span><span class="hi">Core TypeScript</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="ts-basics">
+        <h2 id="ts-basics-h"><span class="en">Core TypeScript</span><span class="hi">Core TypeScript</span></h2>
+        
+        <article class="qa" id="typescript-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>What is the difference between <code>interface</code> and <code>type</code>?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Both describe the shape of an object, and for most props they work the same.</p><ul><li><code>interface</code> can be <b>extended</b> with <code>extends</code> and can be <b>re-opened</b> (declaration merging), which is useful for libraries.</li><li><code>type</code> can describe <b>anything</b>: unions (<code>"admin" | "user"</code>), tuples, function types, and mapped types.</li></ul><p>A simple team rule: <code>interface</code> for object shapes like props and API responses, <code>type</code> for unions and combinations. Being consistent matters more than the choice.</p>
+            
+            <pre class="code" data-copy><span class="kw">interface</span> User { id: number; name: string }
+<span class="kw">interface</span> Admin <span class="kw">extends</span> User { permissions: string[] }
+
+<span class="kw">type</span> Role = <span class="st">"admin"</span> | <span class="st">"manager"</span> | <span class="st">"viewer"</span>; <span class="cm">// only 'type' can do unions</span>
+<span class="kw">type</span> ApiState = { status: <span class="st">"loading"</span> } | { status: <span class="st">"done"</span>; data: User[] };</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Interface for object shapes and extension; type for unions and anything more complex.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="typescript-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3><code>any</code> vs <code>unknown</code> vs <code>never</code>?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><code>any</code> switches type checking <b>off</b>. You can do anything with it, so bugs slip through.</li><li><code>unknown</code> means "I don't know the type yet". You <b>must check</b> it before using it. Use it for API responses and <code>catch</code> errors.</li><li><code>never</code> means "this can never happen". It is used for functions that always throw, and for exhaustive checks in a <code>switch</code>.</li></ul>
+            
+            <pre class="code" data-copy><span class="kw">function</span> parse(raw: unknown) {
+  <span class="kw">if</span> (typeof raw === <span class="st">"string"</span>) <span class="kw">return</span> raw.toUpperCase(); <span class="cm">// checked, so allowed</span>
+  <span class="kw">return</span> <span class="st">"not text"</span>;
+}
+
+<span class="kw">type</span> Status = <span class="st">"paid"</span> | <span class="st">"pending"</span>;
+<span class="kw">function</span> label(s: Status) {
+  <span class="kw">switch</span> (s) {
+    <span class="kw">case</span> <span class="st">"paid"</span>: <span class="kw">return</span> <span class="st">"Paid"</span>;
+    <span class="kw">case</span> <span class="st">"pending"</span>: <span class="kw">return</span> <span class="st">"Pending"</span>;
+    <span class="kw">default</span>: {
+      <span class="kw">const</span> check: never = s; <span class="cm">// compile error here if a new status is added and not handled</span>
+      <span class="kw">return</span> check;
+    }
+  }
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> <code>any</code> turns checking off, <code>unknown</code> forces you to check first, <code>never</code> means impossible.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="typescript-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>What are generics? Give a real example.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Generics let you write <b>one function or type that works with many types</b> while keeping type safety. The type is passed like a parameter.</p><p>Real example: an API response wrapper. Every API returns <code>{ data, total }</code>, but <code>data</code> differs. One generic type covers all of them.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> A generic is like a courier box with a label slot. The box is the same, but the label says what is inside: 'Books' or 'Mobile'. TypeScript reads the label for you.</p></div>
+            <pre class="code" data-copy><span class="kw">interface</span> Paged&lt;T&gt; { data: T[]; total: number; page: number }
+
+<span class="kw">async</span> <span class="kw">function</span> getPage&lt;T&gt;(url: string): Promise&lt;Paged&lt;T&gt;&gt; {
+  <span class="kw">const</span> res = <span class="kw">await</span> fetch(url);
+  <span class="kw">return</span> res.json();
+}
+
+<span class="kw">interface</span> Order { id: number; amount: number }
+<span class="kw">const</span> orders = <span class="kw">await</span> getPage&lt;Order&gt;(<span class="st">"/api/orders"</span>); <span class="cm">// orders.data is Order[]</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Generics are type parameters, so one function or type stays type-safe for many shapes.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="typescript-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>Which utility types do you use daily?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><code>Partial&lt;T&gt;</code>: all fields optional. Good for an "update" form.</li><li><code>Required&lt;T&gt;</code>: all fields required.</li><li><code>Pick&lt;T, "a" | "b"&gt;</code>: only some fields.</li><li><code>Omit&lt;T, "password"&gt;</code>: everything except some fields.</li><li><code>Record&lt;K, V&gt;</code>: an object map, like <code>Record&lt;Role, string[]&gt;</code>.</li><li><code>ReturnType&lt;typeof fn&gt;</code>: the type a function returns.</li></ul>
+            
+            <pre class="code" data-copy><span class="kw">interface</span> Employee { id: number; name: string; salary: number; password: string }
+
+<span class="kw">type</span> EmployeeUpdate = Partial&lt;Omit&lt;Employee, <span class="st">"id"</span> | <span class="st">"password"</span>&gt;&gt;;
+<span class="kw">type</span> PublicEmployee = Omit&lt;Employee, <span class="st">"password"</span> | <span class="st">"salary"</span>&gt;;
+<span class="kw">const</span> menuByRole: Record&lt;<span class="st">"admin"</span> | <span class="st">"hr"</span>, string[]&gt; = { admin: [<span class="st">"All"</span>], hr: [<span class="st">"Leaves"</span>] };</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Partial for updates, Pick and Omit to reshape, Record for maps.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="typescript-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>Enum or union type? Which do you prefer?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Many teams now prefer <b>union types of strings</b> (<code>type Status = "open" | "closed"</code>) because they add no extra JavaScript code and work directly with API JSON.</p><p><code>enum</code> creates a real object at runtime. It is fine, but numeric enums can accept wrong numbers silently. If you need a list you can loop over, use a <code>const</code> object with <code>as const</code> and derive the type from it.</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> STATUS = [<span class="st">"open"</span>, <span class="st">"in_progress"</span>, <span class="st">"closed"</span>] as <span class="kw">const</span>;
+<span class="kw">type</span> Status = (typeof STATUS)[number]; <span class="cm">// "open" | "in_progress" | "closed"</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> I prefer string unions or <code>as const</code> objects: zero runtime cost and they match API JSON.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="typescript-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>How do you type React props, state and events?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li>Props: an <code>interface</code> and destructure it in the function signature. In React 19 you don't need <code>React.FC</code>.</li><li>State: <code>useState&lt;User | null&gt;(null)</code> when the start value doesn't show the full type.</li><li>Events: <code>React.ChangeEvent&lt;HTMLInputElement&gt;</code>, <code>React.FormEvent&lt;HTMLFormElement&gt;</code>, <code>React.MouseEvent&lt;HTMLButtonElement&gt;</code>.</li><li>Children: <code>children: React.ReactNode</code>.</li></ul>
+            
+            <pre class="code" data-copy><span class="kw">interface</span> ButtonProps { label: string; onClick: () =&gt; void; disabled?: boolean }
+
+<span class="kw">function</span> SaveButton({ label, onClick, disabled = <span class="kw">false</span> }: ButtonProps) {
+  <span class="kw">return</span> &lt;button onClick={onClick} disabled={disabled}&gt;{label}&lt;/button&gt;;
+}
+
+<span class="kw">function</span> Search() {
+  <span class="kw">const</span> [q, setQ] = useState(<span class="st">""</span>);
+  <span class="kw">const</span> onChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; setQ(e.target.value);
+  <span class="kw">return</span> &lt;input value={q} onChange={onChange} /&gt;;
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Interface for props, a generic on useState when needed, and React's event types for handlers.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="typescript-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>What is type narrowing? What are type guards?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Narrowing</b> is TypeScript making a type more specific after a check. <code>typeof</code>, <code>instanceof</code>, <code>in</code>, and checking a shared field (a <b>discriminated union</b>) all narrow types.</p><p>A <b>type guard</b> is your own function that returns <code>value is SomeType</code>, so TypeScript trusts your check.</p>
+            
+            <pre class="code" data-copy><span class="kw">type</span> Result = { ok: <span class="kw">true</span>; data: string[] } | { ok: <span class="kw">false</span>; error: string };
+
+<span class="kw">function</span> show(r: Result) {
+  <span class="kw">if</span> (r.ok) <span class="kw">return</span> r.data.length; <span class="cm">// TypeScript knows data exists here</span>
+  <span class="kw">return</span> r.error;                  <span class="cm">// and error exists here</span>
+}
+
+<span class="kw">function</span> isError(e: unknown): e is Error {
+  <span class="kw">return</span> e instanceof Error;
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Narrowing lets TypeScript pick the exact type after a check; a type guard is a custom check it trusts.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 5 things</span><span class="hi">ये 5 बातें याद रखिए</span></div><ol><li><span class="en"><code>interface</code> for object shapes; <code>type</code> for unions and combinations.</span><span class="hi"><code>interface</code> for object shapes; <code>type</code> for unions and combinations.</span></li><li><span class="en">Never use <code>any</code> for API data; use <code>unknown</code> and check it, or a typed schema.</span><span class="hi">Never use <code>any</code> for API data; use <code>unknown</code> and check it, or a typed schema.</span></li><li><span class="en">Generics = type parameters, like <code>Paged&lt;T&gt;</code>.</span><span class="hi">Generics = type parameters, like <code>Paged&lt;T&gt;</code>.</span></li><li><span class="en"><code>Partial</code>, <code>Pick</code>, <code>Omit</code> and <code>Record</code> cover most daily needs.</span><span class="hi"><code>Partial</code>, <code>Pick</code>, <code>Omit</code> and <code>Record</code> cover most daily needs.</span></li><li><span class="en">A discriminated union (a shared <code>status</code> or <code>ok</code> field) makes state safe.</span><span class="hi">A discriminated union (a shared <code>status</code> or <code>ok</code> field) makes state safe.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>Write the types without looking, then compare.</p><div class="exercise"><p class="q-text">Mock task 1: Type a <code>useFetch</code> hook result that can be loading, error or success.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Use a discriminated union so the UI can't read <code>data</code> while loading.</p><pre class="code" data-copy><span class="kw">type</span> FetchState&lt;T&gt; =
+  | { status: <span class="st">"loading"</span> }
+  | { status: <span class="st">"error"</span>; error: string }
+  | { status: <span class="st">"success"</span>; data: T };</pre></div></details></div><div class="exercise"><p class="q-text">Mock task 2: The team has <code>any</code> in 300 places. How would you clean it up?</p><details><summary>Show a sample answer</summary><div class="answer"><p>Turn on <code>noImplicitAny</code> and <code>strict</code> step by step, folder by folder. Type the API layer first, since bad data enters there. Use <code>unknown</code> plus validation (for example with zod) at the boundary. Add an ESLint rule (<code>@typescript-eslint/no-explicit-any</code>) so new <code>any</code> can't come in, and track the count going down each sprint.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Which can describe a union like \"a\" | \"b\"?","hi":"Which can describe a union like \"a\" | \"b\"?"},"options":["interface","type","both","neither"],"answer":1,"why":{"en":"Only a type alias can name a union.","hi":"Only a type alias can name a union."}},{"q":{"en":"Safest type for an unknown API response before validation?","hi":"Safest type for an unknown API response before validation?"},"options":["any","unknown","object","never"],"answer":1,"why":{"en":"unknown forces you to check before use.","hi":"unknown forces you to check before use."}},{"q":{"en":"`Omit<User, \"password\">` gives…","hi":"`Omit<User, \"password\">` gives…"},"options":["Only password","User without password","An error","Optional password"],"answer":1,"why":{"en":"Omit removes the listed keys.","hi":"Omit removes the listed keys."}},{"q":{"en":"What does `never` mean in an exhaustive switch?","hi":"What does `never` mean in an exhaustive switch?"},"options":["Any value","A case that should be impossible","null","A runtime error"],"answer":1,"why":{"en":"If a new case is added and not handled, assigning it to never fails at compile time.","hi":"If a new case is added and not handled, assigning it to never fails at compile time."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="frontend-interview:typescript"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="js-core.html">← <span class="en">JavaScript core questions</span><span class="hi">JavaScript core questions</span></a><a class="btn btn-outline" href="html-css.html">→ <span class="en">HTML, CSS and browser questions</span><span class="hi">HTML, CSS and browser questions</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20TypeScript%20questions" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20TypeScript%20questions" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Frontend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

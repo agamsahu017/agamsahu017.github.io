@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Node.js Backend Interview Questions, 3–10 Years | Kodivo</title>
+  <meta name="description" content="Node.js backend interview questions for 3–10 years: NestJS, PostgreSQL, TypeORM, Redis, BullMQ, Keycloak, S3, Docker and system design, simply explained." />
+  <link rel="canonical" href="https://agamsahu017.github.io/backend-interview/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/backend-interview/" />
+  <meta property="og:title" content="Node.js Backend Interview Questions, 3–10 Years | Kodivo" />
+  <meta property="og:description" content="Node.js backend interview questions for 3–10 years: NestJS, PostgreSQL, TypeORM, Redis, BullMQ, Keycloak, S3, Docker and system design, simply explained." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Backend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/backend-interview/"
+        }
+      ]
+    },
+    {
+      "@type": "Course",
+      "name": "Backend Interview Questions (3–10 Years)",
+      "description": "Frequently asked backend interview questions with simple answers for developers with 3 to 10 years of experience: Node.js, REST API design, NestJS, PostgreSQL, TypeORM, MySQL, MongoDB, Redis, BullMQ, Keycloak and security, AWS S3, Docker, system design, and managerial and HR rounds.",
+      "url": "https://agamsahu017.github.io/backend-interview/",
+      "inLanguage": "en",
+      "provider": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT20H"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR",
+        "category": "Free"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Backend Interview</span><span class="hi">Backend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20preparing%20with%20your%20backend%20interview%20questions." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero page-hero">
+      <div class="container narrow">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <span>Backend Interview</span></nav>
+        <span class="pill">🎯 For 3–10 years of experience · Free to read · Simple English</span>
+        <h1>Backend interview questions, <span class="grad">3–10 years</span></h1>
+        <p class="lead">89 frequently asked questions for Node.js developers, with simple answers and easy examples. Built around a modern stack: Node.js, NestJS, TypeScript, PostgreSQL, TypeORM, Redis and BullMQ, Keycloak, AWS S3, Docker, MySQL and MongoDB.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#modules">📚 See all modules</a>
+          <a class="btn btn-outline" href="#process">🏢 How interviews work in Delhi NCR</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="process">
+      <div class="dsa-wrap lesson">
+        <h2>How interviews usually work in Delhi NCR</h2>
+        <p>For 3–10 years of experience, service companies (like TCS, Infosys, Wipro, Tech Mahindra, Cognizant and Accenture) and product companies in Noida, Gurugram and Delhi usually follow a pattern like this. Many rounds are on video calls; some companies run weekend hiring drives.</p>
+        <div class="table-wrap"><table><thead><tr><th>Round</th><th>What happens</th><th>How to prepare</th></tr></thead><tbody><tr><td>Recruiter / HR call</td><td>Notice period, current and expected CTC, location (Noida, Gurugram, Delhi), office or hybrid, stack match.</td><td>Keep exact numbers ready. Be honest: it's checked later.</td></tr><tr><td>Online test (sometimes)</td><td>MCQs on Node.js, SQL and REST, plus 1–2 coding problems or SQL queries. More common in bulk or weekend hiring drives.</td><td>Revise <a href="node-core.html">Node.js core</a> and the <a href="postgres-sql.html#queries">SQL queries</a>.</td></tr><tr><td>Technical round 1 (L1)</td><td>Concepts and live coding: event loop output questions, an API in NestJS, SQL queries, a guard or a DTO.</td><td>Do the mock tasks on each page out loud, with screen sharing.</td></tr><tr><td>Technical round 2 (L2) / client round</td><td>Your project's architecture, scenarios (slow API, double booking, retries, auth), and a design discussion for 6+ years. Some service-company projects add a round with the client.</td><td>Prepare a 2-minute architecture story with one hard problem and numbers.</td></tr><tr><td>Managerial round</td><td>Incidents, estimates, deadlines, conflicts, leading juniors, working with QA and DevOps.</td><td>Use STAR answers from the <a href="senior-rounds.html">senior rounds</a> module.</td></tr><tr><td>HR round</td><td>Why switch, notice period, salary discussion, documents and background verification.</td><td>Research the salary range first and give a range with reasons.</td></tr></tbody></table></div>
+        <div class="warn"><p>Every company, project and year is different. This is the common pattern we see in Noida, Gurugram and Delhi hiring for 3–10 years of experience, not an official process of any company. Kodivo is not linked to any company named here.</p></div>
+        <h2>What they expect at each level</h2>
+        <div class="table-wrap"><table><thead><tr><th>Experience</th><th>They check</th><th>Tags to focus on</th></tr></thead><tbody><tr><td>3–5 years</td><td>Node.js and async basics, REST design, NestJS structure, SQL queries, TypeORM, debugging APIs.</td><td>Questions tagged <b>3–5 yrs</b></td></tr><tr><td>5–8 years</td><td>Transactions and locking, caching, queues, auth flows, performance, Docker and S3, owning a service.</td><td>Add <b>5–8 yrs</b> questions</td></tr><tr><td>8–10 years</td><td>System design, microservice trade-offs, observability, incidents, standards and mentoring.</td><td>Add <b>8–10 yrs</b> questions and the senior module</td></tr></tbody></table></div>
+        <h2>How to use these pages</h2>
+        <ul><li><b>Try first</b>: read the question, answer out loud, then open the answer. Use "Show all answers" only for revision.</li><li><b>Say it in one line</b>: every answer has a one-liner. Start with it in the interview, then explain.</li><li><b>Tested code</b>: the Node.js output questions and SQL queries on these pages were run to confirm the results, and the NestJS, TypeORM, BullMQ, Keycloak and S3 examples were type-checked against the real libraries.</li><li><b>Use your project</b>: after each answer, add "In my project, we used this for..." That is what makes an experienced answer.</li><li><b>Frontend too?</b> Full-stack roles get React questions as well; see the <a href="../frontend-interview/">Frontend Interview series</a>.</li></ul>
+      </div>
+    </section>
+
+    <section class="section alt" id="modules">
+      <div class="dsa-wrap">
+        <div class="section-head"><span class="eyebrow">Modules</span><h2>10 modules, 89 questions</h2><p>Each question has a simple answer, an easy example, a one-line version to say in the interview, and a likely follow-up. Your progress is saved in this browser.</p></div>
+        <div class="progress-box"><div class="progress"><span></span></div><div class="progress-text"></div></div>
+        <div class="modules">
+          <h3 class="module-group"><span class="en">Node.js and APIs</span><span class="hi">Node.js and APIs</span></h3>
+          <a class="module" href="node-core.html" data-module="backend-interview:node-core"><div class="num">1</div><div><h3><span class="en">Node.js core questions</span><span class="hi">Node.js core questions</span></h3><p><span class="en">Event loop phases, thread pool, blocking, streams, workers, shutdown</span><span class="hi">Event loop phases, thread pool, blocking, streams, workers, shutdown</span></p></div><span class="status"><span class="en">Start</span><span class="hi">शुरू करें</span></span></a>
+          <a class="module" href="api-design.html" data-module="backend-interview:api-design"><div class="num">2</div><div><h3><span class="en">REST API design questions</span><span class="hi">REST API design questions</span></h3><p><span class="en">Status codes, PUT vs PATCH, idempotency, pagination, versioning, rate limits</span><span class="hi">Status codes, PUT vs PATCH, idempotency, pagination, versioning, rate limits</span></p></div><span class="status"><span class="en">Start</span><span class="hi">शुरू करें</span></span></a>
+          <a class="module" href="nestjs.html" data-module="backend-interview:nestjs"><div class="num">3</div><div><h3><span class="en">NestJS questions</span><span class="hi">NestJS questions</span></h3><p><span class="en">Modules, DI, request lifecycle, guards, pipes, interceptors, filters</span><span class="hi">Modules, DI, request lifecycle, guards, pipes, interceptors, filters</span></p></div><span class="status"><span class="en">Start</span><span class="hi">शुरू करें</span></span></a>
+          <h3 class="module-group"><span class="en">Databases</span><span class="hi">Databases</span></h3>
+          <a class="module" href="postgres-sql.html" data-module="backend-interview:postgres-sql"><div class="num">4</div><div><h3><span class="en">PostgreSQL and SQL questions</span><span class="hi">PostgreSQL and SQL questions</span></h3><p><span class="en">Indexes, EXPLAIN, transactions, isolation, locks, window functions</span><span class="hi">Indexes, EXPLAIN, transactions, isolation, locks, window functions</span></p></div><span class="status"><span class="en">Start</span><span class="hi">शुरू करें</span></span></a>
+          <a class="module" href="typeorm.html" data-module="backend-interview:typeorm"><div class="num">5</div><div><h3><span class="en">TypeORM questions</span><span class="hi">TypeORM questions</span></h3><p><span class="en">Entities, relations, N+1, QueryBuilder, transactions, migrations, locking</span><span class="hi">Entities, relations, N+1, QueryBuilder, transactions, migrations, locking</span></p></div><span class="status"><span class="en">Start</span><span class="hi">शुरू करें</span></span></a>
+          <a class="module" href="mysql-mongodb.html" data-module="backend-interview:mysql-mongodb"><div class="num">6</div><div><h3><span class="en">MySQL, MongoDB and choosing a database</span><span class="hi">MySQL, MongoDB and choosing a database</span></h3><p><span class="en">SQL vs NoSQL, MySQL vs PostgreSQL, Mongo schema design, aggregation</span><span class="hi">SQL vs NoSQL, MySQL vs PostgreSQL, Mongo schema design, aggregation</span></p></div><span class="status"><span class="en">Start</span><span class="hi">शुरू करें</span></span></a>
+          <h3 class="module-group"><span class="en">Your stack: Redis, auth and cloud</span><span class="hi">Your stack: Redis, auth and cloud</span></h3>
+          <a class="module" href="redis-bullmq.html" data-module="backend-interview:redis-bullmq"><div class="num">7</div><div><h3><span class="en">Redis and BullMQ questions</span><span class="hi">Redis and BullMQ questions</span></h3><p><span class="en">Caching patterns, TTL, cache stampede, distributed lock, queues, retries</span><span class="hi">Caching patterns, TTL, cache stampede, distributed lock, queues, retries</span></p></div><span class="status"><span class="en">Start</span><span class="hi">शुरू करें</span></span></a>
+          <a class="module" href="auth-security.html" data-module="backend-interview:auth-security"><div class="num">8</div><div><h3><span class="en">Auth, Keycloak and security</span><span class="hi">Auth, Keycloak and security</span></h3><p><span class="en">JWT, access vs refresh tokens, OAuth2/OIDC, Keycloak, RBAC, OWASP</span><span class="hi">JWT, access vs refresh tokens, OAuth2/OIDC, Keycloak, RBAC, OWASP</span></p></div><span class="status"><span class="en">Start</span><span class="hi">शुरू करें</span></span></a>
+          <a class="module" href="aws-docker.html" data-module="backend-interview:aws-docker"><div class="num">9</div><div><h3><span class="en">AWS S3, Docker and deployment</span><span class="hi">AWS S3, Docker and deployment</span></h3><p><span class="en">Pre-signed URLs, private buckets, Dockerfiles, compose, secrets, CI/CD</span><span class="hi">Pre-signed URLs, private buckets, Dockerfiles, compose, secrets, CI/CD</span></p></div><span class="status"><span class="en">Start</span><span class="hi">शुरू करें</span></span></a>
+          <h3 class="module-group"><span class="en">Senior rounds</span><span class="hi">Senior rounds</span></h3>
+          <a class="module" href="senior-rounds.html" data-module="backend-interview:senior-rounds"><div class="num">10</div><div><h3><span class="en">System design, managerial and HR rounds</span><span class="hi">System design, managerial and HR rounds</span></h3><p><span class="en">Design a notification system, scaling, microservices, incidents, HR</span><span class="hi">Design a notification system, scaling, microservices, incidents, HR</span></p></div><span class="status"><span class="en">Start</span><span class="hi">शुरू करें</span></span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact">
+      <div class="container contact-inner">
+        <h2>Want a real mock interview? 🎯</h2>
+        <p>Practise a full technical round on your own stack with Agam Sahu, a Senior Full Stack Engineer with 8+ years of experience, and get honest feedback on what to fix.</p>
+        <div class="contact-btns">
+          <a class="btn btn-wa btn-lg" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20want%20a%20mock%20backend%20interview." target="_blank" rel="noopener">💬 Ask about mock interviews</a>
+          <a class="btn btn-light btn-lg" href="../frontend-interview/">⚛️ Frontend Interview Questions</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Backend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

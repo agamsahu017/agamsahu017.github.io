@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTML and CSS Interview Questions, 3–10 Years | Kodivo</title>
+  <meta name="description" content="HTML and CSS interview questions for 3–10 years: box model, flexbox vs grid, specificity, positioning, responsive design, accessibility and storage." />
+  <link rel="canonical" href="https://agamsahu017.github.io/frontend-interview/html-css.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/frontend-interview/html-css.html" />
+  <meta property="og:title" content="HTML and CSS Interview Questions, 3–10 Years | Kodivo" />
+  <meta property="og:description" content="HTML and CSS interview questions for 3–10 years: box model, flexbox vs grid, specificity, positioning, responsive design, accessibility and storage." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Frontend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/frontend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "HTML, CSS and browser questions",
+          "item": "https://agamsahu017.github.io/frontend-interview/html-css.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "HTML and CSS Interview Questions, 3–10 Years",
+      "description": "HTML and CSS interview questions for 3–10 years: box model, flexbox vs grid, specificity, positioning, responsive design, accessibility and storage.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Frontend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/frontend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Frontend Interview</span><span class="hi">Frontend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20frontend%20on%20your%20website%20(HTML%2C%20CSS%20and%20browser%20questions)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Frontend Interview</a> › <span>HTML, CSS and browser questions</span></nav>
+        <span class="pill"><span class="en">Module 3 of 10</span><span class="hi">मॉड्यूल 3 / 10</span></span>
+        <h1><span class="en">HTML, CSS and browser questions</span><span class="hi">HTML, CSS and browser questions</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">20 min read + practice</span><span class="hi">20 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Service-company rounds often include 2–4 quick CSS and HTML questions. They are easy marks if you revise them once.</p><p class="hi"><b>एक लाइन में:</b> Service-company rounds often include 2–4 quick CSS and HTML questions. They are easy marks if you revise them once.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Box model and box-sizing</span><span class="hi">Box model and box-sizing</span></li><li><span class="en">Flexbox vs Grid, and centering a div</span><span class="hi">Flexbox vs Grid, and centering a div</span></li><li><span class="en">Specificity and positioning</span><span class="hi">Specificity and positioning</span></li><li><span class="en">rem, em, %, vw and responsive design</span><span class="hi">rem, em, %, vw and responsive design</span></li><li><span class="en">Semantic HTML and accessibility basics</span><span class="hi">Semantic HTML and accessibility basics</span></li><li><span class="en">localStorage vs sessionStorage vs cookies</span><span class="hi">localStorage vs sessionStorage vs cookies</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#css"><span class="en">CSS</span><span class="hi">CSS</span></a><a href="#html"><span class="en">HTML and browser</span><span class="hi">HTML and browser</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="css">
+        <h2 id="css-h"><span class="en">CSS</span><span class="hi">CSS</span></h2>
+        
+        <article class="qa" id="html-css-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>Explain the CSS box model. What does <code>box-sizing: border-box</code> do?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Every element is a box with four layers, from inside out: <b>content → padding → border → margin</b>.</p><p>By default (<code>content-box</code>), <code>width</code> sets only the content, so padding and border are <b>added</b> on top. With <code>border-box</code>, <code>width</code> includes padding and border, so a 200px box stays 200px. Most projects set <code>* { box-sizing: border-box; }</code> at the start.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> A gift box: the gift is the content, the bubble wrap is padding, the cardboard is the border, and the space you leave between boxes on the shelf is margin.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Content, padding, border, margin; border-box makes width include padding and border.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="html-css-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>Flexbox vs Grid: when do you use which? How do you center a div?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Flexbox</b> is for <b>one direction</b>: a row or a column, like a navbar or a row of buttons. <b>Grid</b> is for <b>two directions</b>: rows and columns together, like a page layout or a card gallery.</p><p>Centering is easiest with either one.</p>
+            
+            <pre class="code" data-copy>/* Flexbox */
+.parent { display: flex; justify-content: center; align-items: center; }
+
+/* Grid: shortest */
+.parent { display: grid; place-items: center; }</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Flex for one direction, grid for two; <code>display: grid; place-items: center</code> centers anything.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="html-css-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>What is CSS specificity?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>When two rules style the same element, the more <b>specific</b> selector wins. The order from weak to strong:</p><ul><li>element (<code>p</code>) &lt; class / attribute / pseudo-class (<code>.btn</code>, <code>:hover</code>) &lt; id (<code>#save</code>) &lt; inline style</li><li><code>!important</code> beats all of them, which is why it should be rare.</li></ul><p>If specificity is equal, the rule written <b>later</b> wins.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Inline beats id, id beats class, class beats element; on a tie the later rule wins.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="html-css-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>Explain <code>position</code>: static, relative, absolute, fixed and sticky.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><code>static</code>: the default, normal flow.</li><li><code>relative</code>: stays in the flow, but you can nudge it. It also becomes the <b>anchor</b> for absolute children.</li><li><code>absolute</code>: taken out of the flow, placed relative to the nearest positioned parent.</li><li><code>fixed</code>: placed relative to the screen and stays during scroll, like a WhatsApp chat button.</li><li><code>sticky</code>: normal until you scroll to a point, then it sticks, like a table header.</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Relative nudges and anchors, absolute uses the nearest positioned parent, fixed uses the screen, sticky switches on scroll.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="html-css-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>rem vs em vs px vs %? How do you make a site responsive?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><code>px</code>: fixed size.</li><li><code>rem</code>: relative to the <b>root</b> font size (usually 16px). Best for font sizes and spacing.</li><li><code>em</code>: relative to the <b>parent's</b> font size, which can multiply when nested.</li><li><code>%</code>, <code>vw</code>, <code>vh</code>: relative to the parent or the screen.</li></ul><p>Responsive design means: start <b>mobile-first</b>, use flex/grid with wrapping, use <code>max-width</code> instead of a fixed width, add media queries at breakpoints, and include the viewport meta tag.</p>
+            
+            <pre class="code" data-copy>.cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+@media (min-width: 768px) { .sidebar { display: block; } }</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> rem for sizes, mobile-first CSS, flexible grids and a few media queries.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="html">
+        <h2 id="html-h"><span class="en">HTML and browser</span><span class="hi">HTML and browser</span></h2>
+        
+        <article class="qa" id="html-css-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>What is semantic HTML and why does it matter?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Semantic HTML uses tags that describe meaning: <code>header</code>, <code>nav</code>, <code>main</code>, <code>article</code>, <code>button</code>, <code>label</code>, instead of <code>div</code> everywhere.</p><p>It helps <b>screen readers</b> (accessibility), <b>SEO</b>, and gives keyboard support for free. For example, a real <code>button</code> works with Enter and Space, but a <code>div</code> with <code>onClick</code> doesn't.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Meaningful tags give accessibility, SEO and keyboard support for free.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What basic accessibility checks do you do? <i>Alt text on images, a label for every input, enough colour contrast, everything usable by keyboard, and visible focus outlines.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="html-css-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>localStorage vs sessionStorage vs cookies?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>localStorage</b>: about 5 MB, stays until cleared, readable by any JavaScript on the page.</li><li><b>sessionStorage</b>: same, but cleared when the tab closes.</li><li><b>Cookies</b>: small (about 4 KB), <b>sent to the server with every request</b>, and can be <code>HttpOnly</code> (hidden from JavaScript), <code>Secure</code> and <code>SameSite</code>.</li></ul><p>For auth tokens, an <code>HttpOnly</code> cookie is safer than localStorage, because an XSS attack can read localStorage.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Storage stays in the browser; cookies travel with requests, and HttpOnly cookies are safest for tokens.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="html-css-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>What happens in the browser between getting HTML and showing the page?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>This is the <b>critical rendering path</b>:</p><ul><li>Parse HTML into the <b>DOM</b> and CSS into the <b>CSSOM</b>.</li><li>Combine them into the <b>render tree</b> (only visible elements).</li><li><b>Layout</b>: calculate size and position.</li><li><b>Paint</b>: fill pixels, then <b>composite</b> layers.</li></ul><p>A <code>&lt;script&gt;</code> without <code>defer</code> blocks parsing, and CSS blocks rendering. That is why we use <code>defer</code>, load less CSS up front, and lazy-load images.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> DOM plus CSSOM make the render tree, then layout, paint and composite.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Reflow vs repaint? <i>Reflow recalculates layout (expensive, caused by size or position changes); repaint only redraws colours. Animate <code>transform</code> and <code>opacity</code> to avoid both.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">Content → padding → border → margin; use <code>border-box</code>.</span><span class="hi">Content → padding → border → margin; use <code>border-box</code>.</span></li><li><span class="en">Flex = one direction, Grid = two; <code>place-items: center</code> centers.</span><span class="hi">Flex = one direction, Grid = two; <code>place-items: center</code> centers.</span></li><li><span class="en">Specificity: inline &gt; id &gt; class &gt; element; a tie goes to the later rule.</span><span class="hi">Specificity: inline &gt; id &gt; class &gt; element; a tie goes to the later rule.</span></li><li><span class="en">rem for sizes, mobile-first CSS.</span><span class="hi">rem for sizes, mobile-first CSS.</span></li><li><span class="en">Real <code>button</code> and <code>label</code> tags give accessibility for free.</span><span class="hi">Real <code>button</code> and <code>label</code> tags give accessibility for free.</span></li><li><span class="en">Tokens are safer in HttpOnly cookies than in localStorage.</span><span class="hi">Tokens are safer in HttpOnly cookies than in localStorage.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>These are quick, so answer each in under a minute, out loud.</p><div class="exercise"><p class="q-text">Mock task 1: Build a header with the logo on the left and links on the right, which wraps nicely on mobile.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Use flexbox with <code>justify-content: space-between</code> and <code>flex-wrap: wrap</code>.</p><pre class="code" data-copy>.header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }</pre></div></details></div><div class="exercise"><p class="q-text">Mock task 2: A modal must sit over everything and stay centered. How?</p><details><summary>Show a sample answer</summary><div class="answer"><p>A <code>position: fixed; inset: 0</code> overlay using <code>display: grid; place-items: center</code>, a z-index above the page, focus moved into the modal, Escape to close, and <code>role="dialog"</code> with <code>aria-modal="true"</code>.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"With border-box, a 200px wide box with 20px padding is…","hi":"With border-box, a 200px wide box with 20px padding is…"},"options":["240px wide","200px wide","220px wide","160px wide"],"answer":1,"why":{"en":"border-box includes padding and border in the width.","hi":"border-box includes padding and border in the width."}},{"q":{"en":"Best for a 2D page layout?","hi":"Best for a 2D page layout?"},"options":["Flexbox","Grid","float","table"],"answer":1,"why":{"en":"Grid handles rows and columns together.","hi":"Grid handles rows and columns together."}},{"q":{"en":"Which selector wins: `#save` or `.btn.primary`?","hi":"Which selector wins: `#save` or `.btn.primary`?"},"options":["#save",".btn.primary","The later one","Neither"],"answer":0,"why":{"en":"An id beats any number of classes.","hi":"An id beats any number of classes."}},{"q":{"en":"Which storage is sent to the server automatically?","hi":"Which storage is sent to the server automatically?"},"options":["localStorage","sessionStorage","Cookies","IndexedDB"],"answer":2,"why":{"en":"Cookies go with every matching request.","hi":"Cookies go with every matching request."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="frontend-interview:html-css"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="typescript.html">← <span class="en">TypeScript questions</span><span class="hi">TypeScript questions</span></a><a class="btn btn-outline" href="react-core.html">→ <span class="en">React 19 core questions</span><span class="hi">React 19 core questions</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20HTML%2C%20CSS%20and%20browser%20questions" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20HTML%2C%20CSS%20and%20browser%20questions" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Frontend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>React Context, Auth and RBAC Interview Questions | Kodivo</title>
+  <meta name="description" content="React interview questions on Context API, Redux vs Zustand, auth context, Keycloak login, protected routes and role-based access (RBAC)." />
+  <link rel="canonical" href="https://agamsahu017.github.io/frontend-interview/state-auth.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/frontend-interview/state-auth.html" />
+  <meta property="og:title" content="React Context, Auth and RBAC Interview Questions | Kodivo" />
+  <meta property="og:description" content="React interview questions on Context API, Redux vs Zustand, auth context, Keycloak login, protected routes and role-based access (RBAC)." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Frontend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/frontend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "State, Context API, auth and RBAC",
+          "item": "https://agamsahu017.github.io/frontend-interview/state-auth.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "React Context, Auth and RBAC Interview Questions",
+      "description": "React interview questions on Context API, Redux vs Zustand, auth context, Keycloak login, protected routes and role-based access (RBAC).",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Frontend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/frontend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Frontend Interview</span><span class="hi">Frontend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20frontend%20on%20your%20website%20(State%2C%20Context%20API%2C%20auth%20and%20RBAC)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Frontend Interview</a> › <span>State, Context API, auth and RBAC</span></nav>
+        <span class="pill"><span class="en">Module 6 of 10</span><span class="hi">मॉड्यूल 6 / 10</span></span>
+        <h1><span class="en">State, Context API, auth and RBAC</span><span class="hi">State, Context API, auth and RBAC</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Enterprise and government projects in NCR are full of logins and roles. Expect 'how did you do auth and permissions in your project?'</p><p class="hi"><b>एक लाइन में:</b> Enterprise and government projects in NCR are full of logins and roles. Expect 'how did you do auth and permissions in your project?'</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Context API: when to use it and its re-render problem</span><span class="hi">Context API: when to use it and its re-render problem</span></li><li><span class="en">Context vs Redux vs Zustand vs TanStack Query</span><span class="hi">Context vs Redux vs Zustand vs TanStack Query</span></li><li><span class="en">Building an AuthContext with roles</span><span class="hi">Building an AuthContext with roles</span></li><li><span class="en">Keycloak / OIDC login flow in simple words</span><span class="hi">Keycloak / OIDC login flow in simple words</span></li><li><span class="en">Role-based UI: hiding buttons is not security</span><span class="hi">Role-based UI: hiding buttons is not security</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#context"><span class="en">Context and state choices</span><span class="hi">Context and state choices</span></a><a href="#auth"><span class="en">Auth, Keycloak and RBAC</span><span class="hi">Auth, Keycloak and RBAC</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="context">
+        <h2 id="context-h"><span class="en">Context and state choices</span><span class="hi">Context and state choices</span></h2>
+        
+        <article class="qa" id="state-auth-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>What is the Context API and when should you use it?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Context lets you share a value with <b>any component below a provider</b> without passing props through every level.</p><p>Good for values that <b>many components read and that change rarely</b>: the logged-in user, roles and permissions, theme, language. It is not a full state manager, and it is not good for values that change many times per second.</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> AuthContext = createContext(<span class="kw">null</span>);
+
+<span class="kw">export</span> <span class="kw">function</span> AuthProvider({ children }) {
+  <span class="kw">const</span> [user, setUser] = useState(<span class="kw">null</span>);
+  <span class="kw">const</span> value = useMemo(() =&gt; ({ user, setUser }), [user]);
+  <span class="kw">return</span> &lt;AuthContext value={value}&gt;{children}&lt;/AuthContext&gt;; <span class="cm">// React 19: Context as provider</span>
+}
+
+<span class="kw">export</span> <span class="kw">function</span> useAuth() {
+  <span class="kw">const</span> ctx = useContext(AuthContext);
+  <span class="kw">if</span> (!ctx) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">"useAuth must be used inside AuthProvider"</span>);
+  <span class="kw">return</span> ctx;
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Context shares rarely-changing app-wide values like the user and roles without prop drilling.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="state-auth-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>What is the performance problem with Context, and how do you fix it?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>When the provider's <code>value</code> changes, <b>every component that uses that context re-renders</b>, even if it only needed one field.</p><p>Fixes:</p><ul><li><b>memoise</b> the value with <code>useMemo</code>, so it doesn't change on every provider render,</li><li><b>split</b> contexts: <code>AuthContext</code> separate from <code>ThemeContext</code>, or state separate from actions,</li><li>keep fast-changing state (form input, filters) <b>local</b>, not in context,</li><li>for heavy shared state, use a store with selectors (Zustand, Redux Toolkit).</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Every consumer re-renders when the value changes, so I memoise the value, split contexts and keep fast state local.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="state-auth-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>Context vs Redux vs Zustand vs TanStack Query: how do you choose?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>First separate two kinds of state:</p><ul><li><b>Server state</b> (employees, orders from the API): use <b>TanStack Query</b>. It gives caching, refetching and loading states. This is usually 80% of the "state".</li><li><b>Client state</b> (sidebar open, selected tab, the logged-in user):</li><li>small and rarely changing → <b>Context</b></li><li>large, shared and frequently changing → <b>Zustand</b> (simple) or <b>Redux Toolkit</b> (strict structure, great dev tools, common in older big projects).</li></ul><p>A strong answer: "In my project we use React Query for API data and Context for auth and RBAC, so we didn't need Redux."</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> React Query for server state, Context for small app-wide state, Zustand or Redux only for large shared client state.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="auth">
+        <h2 id="auth-h"><span class="en">Auth, Keycloak and RBAC</span><span class="hi">Auth, Keycloak and RBAC</span></h2>
+        
+        <article class="qa" id="state-auth-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>How does login with Keycloak (OIDC) work in a React app?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Keycloak is an identity server. The React app <b>never sees the password</b>:</p><ul><li>The user clicks Login, and the app redirects to the Keycloak login page.</li><li>After login, Keycloak redirects back with a short-lived <b>code</b>.</li><li>The code is exchanged for an <b>access token</b> (and a refresh token). For browser apps, use the <b>Authorization Code flow with PKCE</b>.</li><li>The app sends the access token in the <code>Authorization: Bearer</code> header to the backend.</li><li>The token holds roles (for example <code>realm_access.roles</code>). Before it expires, refresh it in the background.</li></ul><p>The <code>keycloak-js</code> adapter does most of this. We wrap it in an <code>AuthProvider</code> so the whole app can read the user and roles.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Like DigiLocker login: the government site checks your identity, not the app. The app only receives a signed 'pass' that says who you are and what you may do.</p></div>
+            <pre class="code" data-copy><span class="kw">const</span> keycloak = <span class="kw">new</span> Keycloak({ url: KC_URL, realm: <span class="st">"my-company"</span>, clientId: <span class="st">"web"</span> });
+<span class="kw">await</span> keycloak.init({ onLoad: <span class="st">"login-required"</span>, pkceMethod: <span class="st">"S256"</span> });
+
+<span class="cm">// before API calls: refresh if the token expires in under 30 seconds</span>
+<span class="kw">await</span> keycloak.updateToken(30);
+api.defaults.headers.Authorization = <span class="st">`Bearer ${keycloak.token}`</span>;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Redirect to Keycloak, get a code back, swap it for tokens with PKCE, send the access token as a Bearer header and refresh it before expiry.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="state-auth-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>How do you implement role-based access (RBAC) in the UI?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Keep permissions in one place (the AuthContext), and build small helpers on top:</p><ul><li>a <code>usePermission("leave:approve")</code> hook,</li><li>a <code>&lt;Can permission="..."&gt;</code> component that shows or hides buttons,</li><li>a route guard that blocks whole pages,</li><li>a menu built from config, filtered by permission.</li></ul><p>Check <b>permissions</b>, not role names, inside components. Then a new role only needs config changes, not code changes.</p><p>Most important: <b>frontend RBAC is only for user experience</b>. Anyone can call the API with Postman, so the <b>backend must check permissions on every request</b>.</p>
+            
+            <pre class="code" data-copy><span class="kw">function</span> usePermission(permission) {
+  <span class="kw">const</span> { user } = useAuth();
+  <span class="kw">return</span> !!user?.permissions.includes(permission);
+}
+
+<span class="kw">function</span> Can({ permission, children }) {
+  <span class="kw">return</span> usePermission(permission) ? children : <span class="kw">null</span>;
+}
+
+<span class="cm">// usage</span>
+&lt;Can permission=<span class="st">"leave:approve"</span>&gt;&lt;button onClick={approve}&gt;Approve&lt;/button&gt;&lt;/Can&gt;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> One AuthContext, a usePermission hook, a Can component and route guards; the backend still enforces every rule.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="state-auth-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>Where do you store the token: localStorage, memory or a cookie?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>localStorage</b>: easy and survives refresh, but any XSS script can steal it.</li><li><b>Memory</b> (a JavaScript variable or context): safer from XSS stealing it later, but lost on refresh, so you need a silent refresh.</li><li><b>HttpOnly cookie</b>: JavaScript can't read it at all, which is the safest against XSS. It needs <code>SameSite</code> and CSRF protection, and the backend must be built for it.</li></ul><p>A balanced answer: "Access token in memory, short expiry; refresh via an HttpOnly cookie or the Keycloak session. And we prevent XSS in the first place."</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> HttpOnly cookies or memory are safer than localStorage; the real defence is preventing XSS.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="state-auth-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>How do you handle a 401 when the token expires in the middle of using the app?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Use an <b>axios interceptor</b> (or a fetch wrapper):</p><ul><li>On a 401, try <b>one</b> token refresh.</li><li>If several requests fail at the same time, make them wait for the <b>same</b> refresh promise instead of refreshing 5 times.</li><li>Retry the original request with the new token.</li><li>If the refresh fails, clear the auth state and send the user to login, remembering the page they were on.</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> An interceptor refreshes once, queues parallel requests on the same refresh, retries, and logs out if the refresh fails.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 5 things</span><span class="hi">ये 5 बातें याद रखिए</span></div><ol><li><span class="en">Context is for rarely-changing app-wide values: user, roles, theme.</span><span class="hi">Context is for rarely-changing app-wide values: user, roles, theme.</span></li><li><span class="en">Memoise and split context values to avoid mass re-renders.</span><span class="hi">Memoise and split context values to avoid mass re-renders.</span></li><li><span class="en">Server state goes in TanStack Query; don't copy it into Redux.</span><span class="hi">Server state goes in TanStack Query; don't copy it into Redux.</span></li><li><span class="en">Keycloak in the browser: Authorization Code flow with PKCE.</span><span class="hi">Keycloak in the browser: Authorization Code flow with PKCE.</span></li><li><span class="en">Check permissions, not role names; the backend must enforce everything.</span><span class="hi">Check permissions, not role names; the backend must enforce everything.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>This is a favourite L2 scenario for enterprise projects.</p><div class="exercise"><p class="q-text">Mock task 1: Design RBAC for an app with 6 roles (Admin, HQ, Head, Staff, Vendor, Viewer) and 40 screens.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Store a <b>permission list</b> per role on the backend (for example <code>leave:approve</code>). After login, the API (or token) returns the user's permissions. The frontend keeps a config of routes and menu items, each with a required permission, filters the menu, guards routes, and uses <code>&lt;Can&gt;</code> for buttons. Adding a new role is then a data change only. The backend checks the same permissions on every API call.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 2: The app logs users out randomly after 5 minutes. How do you debug it?</p><details><summary>Show a sample answer</summary><div class="answer"><p>Check the token expiry in the JWT, whether the refresh is called before expiry, whether parallel 401s trigger many refreshes and one invalidates the other (refresh token rotation), whether the device clock is wrong, and the Keycloak session idle timeout settings. Reproduce with the Network tab open and look at the first failing request.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"What happens when a context value changes?","hi":"What happens when a context value changes?"},"options":["Only the provider re-renders","All consumers of that context re-render","Nothing","The whole app reloads"],"answer":1,"why":{"en":"Every component using that context re-renders.","hi":"Every component using that context re-renders."}},{"q":{"en":"Best tool for caching API data?","hi":"Best tool for caching API data?"},"options":["Context","Redux","TanStack Query","localStorage"],"answer":2,"why":{"en":"TanStack Query is built for server state.","hi":"TanStack Query is built for server state."}},{"q":{"en":"Which OAuth flow should a browser SPA use?","hi":"Which OAuth flow should a browser SPA use?"},"options":["Implicit flow","Authorization Code with PKCE","Password grant","Client credentials"],"answer":1,"why":{"en":"PKCE secures the code exchange for public clients.","hi":"PKCE secures the code exchange for public clients."}},{"q":{"en":"Hiding the Delete button for viewers means…","hi":"Hiding the Delete button for viewers means…"},"options":["The API is secure","Only the UI is nicer; the API must still check","Viewers can't call the API","We don't need backend checks"],"answer":1,"why":{"en":"Frontend checks are UX only.","hi":"Frontend checks are UX only."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="frontend-interview:state-auth"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="hooks.html">← <span class="en">React hooks questions</span><span class="hi">React hooks questions</span></a><a class="btn btn-outline" href="react-query.html">→ <span class="en">TanStack React Query 5</span><span class="hi">TanStack React Query 5</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20State%2C%20Context%20API%2C%20auth%20and%20RBAC" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20State%2C%20Context%20API%2C%20auth%20and%20RBAC" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Frontend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

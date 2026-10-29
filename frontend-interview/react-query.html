@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>React Query (TanStack Query v5) Interview Questions | Kodivo</title>
+  <meta name="description" content="TanStack Query v5 interview questions: query keys, staleTime vs gcTime, isPending, mutations, invalidation, optimistic updates and pagination." />
+  <link rel="canonical" href="https://agamsahu017.github.io/frontend-interview/react-query.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/frontend-interview/react-query.html" />
+  <meta property="og:title" content="React Query (TanStack Query v5) Interview Questions | Kodivo" />
+  <meta property="og:description" content="TanStack Query v5 interview questions: query keys, staleTime vs gcTime, isPending, mutations, invalidation, optimistic updates and pagination." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Frontend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/frontend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "TanStack React Query 5",
+          "item": "https://agamsahu017.github.io/frontend-interview/react-query.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "React Query (TanStack Query v5) Interview Questions",
+      "description": "TanStack Query v5 interview questions: query keys, staleTime vs gcTime, isPending, mutations, invalidation, optimistic updates and pagination.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Frontend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/frontend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Frontend Interview</span><span class="hi">Frontend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20frontend%20on%20your%20website%20(TanStack%20React%20Query%205)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Frontend Interview</a> › <span>TanStack React Query 5</span></nav>
+        <span class="pill"><span class="en">Module 7 of 10</span><span class="hi">मॉड्यूल 7 / 10</span></span>
+        <h1><span class="en">TanStack React Query 5</span><span class="hi">TanStack React Query 5</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> If React Query is on your resume, they will ask about staleTime, cache invalidation and what changed in v5.</p><p class="hi"><b>एक लाइन में:</b> If React Query is on your resume, they will ask about staleTime, cache invalidation and what changed in v5.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Why server state needs its own tool</span><span class="hi">Why server state needs its own tool</span></li><li><span class="en">Query keys and how caching works</span><span class="hi">Query keys and how caching works</span></li><li><span class="en">staleTime vs gcTime (renamed from cacheTime in v5)</span><span class="hi">staleTime vs gcTime (renamed from cacheTime in v5)</span></li><li><span class="en">isPending vs isLoading vs isFetching</span><span class="hi">isPending vs isLoading vs isFetching</span></li><li><span class="en">Mutations, invalidation and optimistic updates</span><span class="hi">Mutations, invalidation and optimistic updates</span></li><li><span class="en">Pagination and infinite scroll</span><span class="hi">Pagination and infinite scroll</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#queries"><span class="en">Queries and caching</span><span class="hi">Queries and caching</span></a><a href="#mutations"><span class="en">Mutations and cache updates</span><span class="hi">Mutations and cache updates</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="queries">
+        <h2 id="queries-h"><span class="en">Queries and caching</span><span class="hi">Queries and caching</span></h2>
+        
+        <article class="qa" id="react-query-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>Why use React Query instead of useEffect + useState for API calls?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>With useEffect you write loading, error, cancellation, retries and caching yourself, in every component. React Query gives all of that out of the box:</p><ul><li><b>caching</b>: the same data isn't fetched twice,</li><li><b>request de-duplication</b>: 5 components asking for the same key make 1 call,</li><li><b>background refetch</b> when data is stale (on window focus or reconnect),</li><li><b>retries</b>, pagination, and mutations with cache updates,</li><li>no race conditions.</li></ul><p>It treats API data as <b>server state</b>: a cache of data that lives on the server, not app state you own.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> It gives caching, de-duplication, retries and background refetching, so I don't hand-write loading logic in every component.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-query-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>What is a queryKey and how should you design it?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>The <code>queryKey</code> is the <b>cache id</b> of the data. Same key = same cached data. If any part of the key changes, it is a different query, and it fetches.</p><p>Put <b>everything the query depends on</b> into the key: <code>["employees", { page, search, status }]</code>. Then changing the page fetches the new page automatically.</p><p>Keep keys in one place (a key factory), so invalidation is easy and has no typos.</p>
+            
+            <pre class="code" data-copy><span class="kw">export</span> <span class="kw">const</span> employeeKeys = {
+  all: [<span class="st">"employees"</span>],
+  list: (filters) =&gt; [<span class="st">"employees"</span>, <span class="st">"list"</span>, filters],
+  detail: (id) =&gt; [<span class="st">"employees"</span>, <span class="st">"detail"</span>, id],
+};
+
+<span class="kw">const</span> { data, isPending, isError } = useQuery({
+  queryKey: employeeKeys.list({ page, search }),
+  queryFn: () =&gt; api.getEmployees({ page, search }),
+});</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> The key is the cache id, so it must include every input of the query; I keep keys in a factory.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-query-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>staleTime vs gcTime: what is the difference?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>staleTime</b>: how long data is treated as <b>fresh</b>. While fresh, React Query doesn't refetch. The default is <b>0</b>, so data is stale immediately and refetches on mount, focus or reconnect.</li><li><b>gcTime</b> (called <code>cacheTime</code> before v5): how long <b>unused</b> data stays in memory after the last component using it unmounts. The default is <b>5 minutes</b>.</li></ul><p>For master data like the list of states or departments, set a long staleTime (like 30 minutes). For live data like an approval queue, keep it short.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> staleTime is the 'best before' time on milk: within it, you drink it without checking. gcTime is how long the empty milk packet stays in the kitchen before it goes in the bin.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> staleTime decides when to refetch; gcTime decides when unused cache is deleted.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-query-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>In v5, what is the difference between isPending, isLoading and isFetching?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><code>isPending</code>: there is <b>no data yet</b> (status is <code>pending</code>). Show a skeleton.</li><li><code>isFetching</code>: a request is <b>running right now</b>, including background refetches. Show a small spinner.</li><li><code>isLoading</code>: <code>isPending &amp;&amp; isFetching</code>, meaning the very first load is happening.</li></ul><p>In v5 the old <code>loading</code> status was renamed to <code>pending</code>. Other v5 changes: only the object syntax <code>useQuery({ queryKey, queryFn })</code> is allowed, <code>cacheTime</code> became <code>gcTime</code>, <code>keepPreviousData</code> became <code>placeholderData: keepPreviousData</code>, and <code>onSuccess</code>/<code>onError</code> were removed from <code>useQuery</code> (they still exist on mutations).</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> isPending means no data yet, isFetching means a request is in flight, isLoading is both together.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-query-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>How do you build pagination and infinite scroll with React Query?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Pagination</b>: put <code>page</code> in the key and use <code>placeholderData: keepPreviousData</code>, so the old page stays visible while the next one loads, instead of the table flashing empty.</p><p><b>Infinite scroll</b>: <code>useInfiniteQuery</code> with <code>initialPageParam</code> (required in v5) and <code>getNextPageParam</code>. Call <code>fetchNextPage()</code> when the user reaches the bottom (an IntersectionObserver).</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> list = useQuery({
+  queryKey: [<span class="st">"orders"</span>, page],
+  queryFn: () =&gt; api.orders(page),
+  placeholderData: keepPreviousData,
+});
+
+<span class="kw">const</span> feed = useInfiniteQuery({
+  queryKey: [<span class="st">"feed"</span>],
+  queryFn: ({ pageParam }) =&gt; api.feed(pageParam),
+  initialPageParam: 1,
+  getNextPageParam: (lastPage) =&gt; lastPage.nextPage ?? <span class="kw">undefined</span>, <span class="cm">// undefined = no more pages</span>
+});</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Page in the key plus keepPreviousData for tables; useInfiniteQuery with getNextPageParam for feeds.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="mutations">
+        <h2 id="mutations-h"><span class="en">Mutations and cache updates</span><span class="hi">Mutations and cache updates</span></h2>
+        
+        <article class="qa" id="react-query-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>How do you update the list after creating or editing something?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Use <code>useMutation</code>, and in <code>onSuccess</code> <b>invalidate</b> the related queries. Invalidation marks them stale and refetches the ones on screen.</p><p>If the API returns the updated object, you can also put it straight into the cache with <code>setQueryData</code> and skip one network call.</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> queryClient = useQueryClient();
+<span class="kw">const</span> approve = useMutation({
+  mutationFn: (id) =&gt; api.approveLeave(id),
+  onSuccess: () =&gt; {
+    queryClient.invalidateQueries({ queryKey: [<span class="st">"leaves"</span>] }); <span class="cm">// every query starting with "leaves"</span>
+  },
+});
+
+&lt;button disabled={approve.isPending} onClick={() =&gt; approve.mutate(leave.id)}&gt;Approve&lt;/button&gt;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> useMutation, then invalidateQueries on success so the lists refetch; setQueryData when the API returns the new object.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-query-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>How do you do an optimistic update with rollback?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Update the screen <b>before</b> the server replies, and undo it if the request fails:</p><ul><li><code>onMutate</code>: cancel running fetches for that key, save a <b>snapshot</b> of the old data, write the new data with <code>setQueryData</code>, and return the snapshot.</li><li><code>onError</code>: put the snapshot back.</li><li><code>onSettled</code>: invalidate, to sync with the real server data.</li></ul>
+            
+            <pre class="code" data-copy>useMutation({
+  mutationFn: api.toggleDone,
+  onMutate: <span class="kw">async</span> (id) =&gt; {
+    <span class="kw">await</span> queryClient.cancelQueries({ queryKey: [<span class="st">"todos"</span>] });
+    <span class="kw">const</span> previous = queryClient.getQueryData([<span class="st">"todos"</span>]);
+    queryClient.setQueryData([<span class="st">"todos"</span>], (old) =&gt;
+      old.map((t) =&gt; (t.id === id ? { ...t, done: !t.done } : t)));
+    <span class="kw">return</span> { previous }; <span class="cm">// passed to onError</span>
+  },
+  onError: (err, id, snapshot) =&gt; queryClient.setQueryData([<span class="st">"todos"</span>], snapshot.previous),
+  onSettled: () =&gt; queryClient.invalidateQueries({ queryKey: [<span class="st">"todos"</span>] }),
+});</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Snapshot in onMutate, write the new value, roll back in onError, invalidate in onSettled.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-query-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>How do you set up global error handling and retries?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Set defaults on the <code>QueryClient</code>: a sensible <code>staleTime</code>, and a <code>retry</code> function that <b>doesn't retry 4xx errors</b> (a 403 won't fix itself) but retries network and 5xx errors up to 2–3 times.</p><p>For global error toasts, use a <code>QueryCache</code> / <code>MutationCache</code> with an <code>onError</code> callback, since <code>onError</code> was removed from <code>useQuery</code> in v5. Show page-level errors with an error boundary or the <code>isError</code> state.</p>
+            
+            <pre class="code" data-copy><span class="kw">const</span> queryClient = <span class="kw">new</span> QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30_000,
+      retry: (count, error) =&gt; error?.status &gt;= 500 &amp;&amp; count &lt; 2,
+    },
+  },
+  queryCache: <span class="kw">new</span> QueryCache({ onError: (error) =&gt; toast.error(error.message) }),
+});</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Defaults on the QueryClient: no retries on 4xx, a few on 5xx, and a QueryCache onError for toasts.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 5 things</span><span class="hi">ये 5 बातें याद रखिए</span></div><ol><li><span class="en">queryKey = cache id; put every input in it.</span><span class="hi">queryKey = cache id; put every input in it.</span></li><li><span class="en">staleTime = when to refetch (default 0). gcTime = when to delete unused cache (default 5 min).</span><span class="hi">staleTime = when to refetch (default 0). gcTime = when to delete unused cache (default 5 min).</span></li><li><span class="en">v5: object syntax only, <code>gcTime</code>, <code>isPending</code>, <code>placeholderData: keepPreviousData</code>.</span><span class="hi">v5: object syntax only, <code>gcTime</code>, <code>isPending</code>, <code>placeholderData: keepPreviousData</code>.</span></li><li><span class="en">After a mutation: <code>invalidateQueries</code>, or <code>setQueryData</code> with the returned object.</span><span class="hi">After a mutation: <code>invalidateQueries</code>, or <code>setQueryData</code> with the returned object.</span></li><li><span class="en">Optimistic: snapshot → set → rollback on error → invalidate on settle.</span><span class="hi">Optimistic: snapshot → set → rollback on error → invalidate on settle.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>Answer these as if you are explaining your current project.</p><div class="exercise"><p class="q-text">Mock task 1: A dropdown of 36 states is fetched on every page. Fix it.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Use one shared <code>useStates()</code> hook with <code>queryKey: ["master", "states"]</code> and a long <code>staleTime</code> (for example 1 hour) and <code>gcTime</code>. Every component reads the same cache, so there is one network call per hour. You can also prefetch it after login.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 2: After approving a leave, the count badge in the header doesn't update. Why?</p><details><summary>Show a sample answer</summary><div class="answer"><p>The badge uses a different query key (for example <code>["leave-count"]</code>) that wasn't invalidated. Either invalidate both keys in <code>onSuccess</code>, or design keys hierarchically (<code>["leaves", "count"]</code> and <code>["leaves", "list", ...]</code>) so <code>invalidateQueries({ queryKey: ["leaves"] })</code> covers both.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Default staleTime in TanStack Query?","hi":"Default staleTime in TanStack Query?"},"options":["5 minutes","0","Infinity","30 seconds"],"answer":1,"why":{"en":"Data is stale immediately by default.","hi":"Data is stale immediately by default."}},{"q":{"en":"In v5, cacheTime was renamed to…","hi":"In v5, cacheTime was renamed to…"},"options":["staleTime","gcTime","cacheDuration","keepTime"],"answer":1,"why":{"en":"cacheTime → gcTime.","hi":"cacheTime → gcTime."}},{"q":{"en":"Show a skeleton when there is no data yet. Check…","hi":"Show a skeleton when there is no data yet. Check…"},"options":["isFetching","isPending","isStale","isSuccess"],"answer":1,"why":{"en":"isPending = no data yet.","hi":"isPending = no data yet."}},{"q":{"en":"Keep the old page visible while the next page loads:","hi":"Keep the old page visible while the next page loads:"},"options":["staleTime: Infinity","placeholderData: keepPreviousData","retry: false","enabled: false"],"answer":1,"why":{"en":"keepPreviousData is now passed to placeholderData.","hi":"keepPreviousData is now passed to placeholderData."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="frontend-interview:react-query"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="state-auth.html">← <span class="en">State, Context API, auth and RBAC</span><span class="hi">State, Context API, auth and RBAC</span></a><a class="btn btn-outline" href="router-forms.html">→ <span class="en">React Router 6 and react-hook-form</span><span class="hi">React Router 6 and react-hook-form</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20TanStack%20React%20Query%205" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20TanStack%20React%20Query%205" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Frontend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

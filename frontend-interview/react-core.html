@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>React 19 Interview Questions for 3–10 Years | Kodivo</title>
+  <meta name="description" content="React interview questions for experienced developers: virtual DOM, keys, re-renders, controlled inputs, and React 19 Actions, useOptimistic and use()." />
+  <link rel="canonical" href="https://agamsahu017.github.io/frontend-interview/react-core.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/frontend-interview/react-core.html" />
+  <meta property="og:title" content="React 19 Interview Questions for 3–10 Years | Kodivo" />
+  <meta property="og:description" content="React interview questions for experienced developers: virtual DOM, keys, re-renders, controlled inputs, and React 19 Actions, useOptimistic and use()." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Frontend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/frontend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "React 19 core questions",
+          "item": "https://agamsahu017.github.io/frontend-interview/react-core.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "React 19 Interview Questions for 3–10 Years",
+      "description": "React interview questions for experienced developers: virtual DOM, keys, re-renders, controlled inputs, and React 19 Actions, useOptimistic and use().",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Frontend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/frontend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Frontend Interview</span><span class="hi">Frontend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20frontend%20on%20your%20website%20(React%2019%20core%20questions)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Frontend Interview</a> › <span>React 19 core questions</span></nav>
+        <span class="pill"><span class="en">Module 4 of 10</span><span class="hi">मॉड्यूल 4 / 10</span></span>
+        <h1><span class="en">React 19 core questions</span><span class="hi">React 19 core questions</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">30 min read + practice</span><span class="hi">30 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> For 3+ years, they don't ask 'what is JSX'. They ask why components re-render, how keys work, and what changed in React 19.</p><p class="hi"><b>एक लाइन में:</b> For 3+ years, they don't ask 'what is JSX'. They ask why components re-render, how keys work, and what changed in React 19.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Virtual DOM and reconciliation in simple words</span><span class="hi">Virtual DOM and reconciliation in simple words</span></li><li><span class="en">Why keys matter, and why index keys break</span><span class="hi">Why keys matter, and why index keys break</span></li><li><span class="en">What causes a re-render</span><span class="hi">What causes a re-render</span></li><li><span class="en">Controlled vs uncontrolled inputs</span><span class="hi">Controlled vs uncontrolled inputs</span></li><li><span class="en">React 19: Actions, useActionState, useOptimistic, use(), ref as a prop</span><span class="hi">React 19: Actions, useActionState, useOptimistic, use(), ref as a prop</span></li><li><span class="en">StrictMode double rendering and the React Compiler</span><span class="hi">StrictMode double rendering and the React Compiler</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#rendering"><span class="en">Rendering and reconciliation</span><span class="hi">Rendering and reconciliation</span></a><a href="#react19"><span class="en">What's new in React 19</span><span class="hi">What's new in React 19</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="rendering">
+        <h2 id="rendering-h"><span class="en">Rendering and reconciliation</span><span class="hi">Rendering and reconciliation</span></h2>
+        
+        <article class="qa" id="react-core-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>What is the virtual DOM and reconciliation?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>The virtual DOM is a <b>plain JavaScript copy of the UI</b>. When state changes, React builds a new copy, <b>compares</b> it with the old one (this is <b>reconciliation</b>, or diffing), and updates only the real DOM parts that changed.</p><p>Two rules make the comparison fast: if the element <b>type</b> changes (<code>div</code> to <code>span</code>), React replaces that whole part; and in lists, <b>keys</b> tell React which item is which.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Like checking a revised Excel sheet against the old one and only re-printing the changed rows, instead of re-printing the whole file.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> React compares the new UI description with the old one and updates only what changed in the real DOM.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-core-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>Why do we need keys in lists? What goes wrong with index as key?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Keys tell React <b>which item is which</b> between renders. With a stable key (like <code>order.id</code>), React can move, add or remove items correctly.</p><p>With the <b>index</b> as key, inserting or deleting at the top shifts every index. React then thinks item 0 is still item 0, so <b>state stays with the wrong row</b>: a typed input or a checkbox appears on the wrong item. Index keys are only safe for static lists that never reorder.</p>
+            
+            <pre class="code" data-copy><span class="cm">// Bad: delete the first row and the input text jumps to the wrong person</span>
+{users.map((u, i) =&gt; &lt;Row key={i} user={u} /&gt;)}
+
+<span class="cm">// Good: stable id from the data</span>
+{users.map((u) =&gt; &lt;Row key={u.id} user={u} /&gt;)}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Keys give items identity; index keys break state when the list reorders.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-core-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>When does a React component re-render?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A component re-renders when:</p><ul><li>its own <b>state</b> changes,</li><li>its <b>parent re-renders</b> (by default, all children re-render too, even with the same props),</li><li>a <b>context</b> it uses changes.</li></ul><p>A re-render is not always slow: React still updates only the changed DOM. It becomes a problem when the component is heavy or the list is long. Then use <code>memo</code>, move state down, or split context.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> State change, parent re-render or context change; children re-render with the parent unless memoised.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Does changing a ref re-render? <i>No. Changing <code>ref.current</code> never triggers a render; that is why refs are used for timers and DOM nodes.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="react-core-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>Controlled vs uncontrolled components?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Controlled</b>: React state holds the value (<code>value={name}</code> + <code>onChange</code>). Easy to validate on every key press, but each key press re-renders.</p><p><b>Uncontrolled</b>: the DOM holds the value, and you read it when needed (a ref, or <code>FormData</code> on submit). Fewer re-renders.</p><p><code>react-hook-form</code> is fast because it is mostly uncontrolled.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Controlled means React state owns the value; uncontrolled means the DOM owns it and we read it when needed.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-core-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>Why does my component render twice, and why does useEffect run twice in development?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>That is <b>StrictMode</b> in development. React renders components twice and runs effects as <b>mount → unmount → mount</b> to catch bugs like missing cleanup or impure render code.</p><p>It does <b>not</b> happen in production. The fix is not to remove StrictMode, but to write effects with proper cleanup (cancel the request, remove the listener).</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> StrictMode double-runs render and effects in development only, to expose missing cleanup.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-core-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>What is lifting state up? What is prop drilling?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><b>Lifting state up</b>: when two siblings need the same data, move the state to their <b>nearest common parent</b> and pass it down.</p><p><b>Prop drilling</b>: passing props through many layers that don't use them, just to reach a deep child. Fix it with <b>composition</b> (pass components as <code>children</code>), <b>Context</b> for app-wide values like the logged-in user, or a state library.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Lift shared state to the common parent; fix deep prop drilling with composition or context.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="react19">
+        <h2 id="react19-h"><span class="en">What's new in React 19</span><span class="hi">What's new in React 19</span></h2>
+        <p>If your resume says React 19, expect at least one question here. Even on React 18 projects, interviewers like candidates who know what changed.</p>
+        <article class="qa" id="react-core-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>What are the main new features in React 19?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li><b>Actions</b>: you can pass an async function to a transition or to <code>&lt;form action={fn}&gt;</code>. React tracks the pending state, errors and form reset for you.</li><li>New hooks: <code>useActionState</code> (state and pending for an action), <code>useFormStatus</code> (pending state of the parent form), <code>useOptimistic</code> (show the result before the server replies).</li><li>The <code>use()</code> API: read a promise or context, and it can even be called inside an <code>if</code>.</li><li><b><code>ref</code> as a normal prop</b>: function components no longer need <code>forwardRef</code>.</li><li><code>&lt;Context&gt;</code> can be used directly as the provider.</li><li><code>&lt;title&gt;</code> and <code>&lt;meta&gt;</code> tags inside components are moved into the document head automatically.</li><li>Server Components and Server Actions are stable (used through frameworks like Next.js).</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Actions with useActionState, useFormStatus and useOptimistic, the use() API, and ref as a prop.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-core-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>Show a form using <code>useActionState</code>. Why is it better than manual loading state?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Before, we wrote <code>const [loading, setLoading] = useState(false)</code>, set it before and after the call, and handled errors ourselves. <code>useActionState</code> gives you the <b>last result</b> and a <b>pending flag</b> for an async action, with much less code.</p>
+            
+            <pre class="code" data-copy><span class="kw">import</span> { useActionState } <span class="kw">from</span> <span class="st">"react"</span>;
+
+<span class="kw">function</span> ChangeName({ updateName }) {
+  <span class="kw">const</span> [error, submitAction, isPending] = useActionState(
+    <span class="kw">async</span> (prevState, formData) =&gt; {
+      <span class="kw">const</span> err = <span class="kw">await</span> updateName(formData.get(<span class="st">"name"</span>));
+      <span class="kw">return</span> err ?? <span class="kw">null</span>; <span class="cm">// whatever we return becomes the new state</span>
+    },
+    <span class="kw">null</span>,
+  );
+
+  <span class="kw">return</span> (
+    &lt;form action={submitAction}&gt;
+      &lt;input name=<span class="st">"name"</span> /&gt;
+      &lt;button disabled={isPending}&gt;{isPending ? <span class="st">"Saving..."</span> : <span class="st">"Save"</span>}&lt;/button&gt;
+      {error &amp;&amp; &lt;p className=<span class="st">"error"</span>&gt;{error}&lt;/p&gt;}
+    &lt;/form&gt;
+  );
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> useActionState wraps an async action and gives me its result and pending state, so I write no manual loading flags.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-core-q9">
+          <div class="qa-head"><span class="qa-num">Q9</span><h3>What does <code>useOptimistic</code> do? Give a use case.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>It shows a <b>temporary result straight away</b> while the real request is running. When the request finishes, React replaces it with the real state, or rolls back if it failed.</p><p>Use cases: a like button, sending a chat message, or ticking a to-do item. The user sees the change instantly instead of waiting 500 ms.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Like WhatsApp showing your message with a clock icon before the tick arrives.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> useOptimistic shows the expected result immediately and swaps in the real result when the server answers.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="react-core-q10">
+          <div class="qa-head"><span class="qa-num">Q10</span><h3>What is the React Compiler? Do we still need useMemo and useCallback?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>The React Compiler is a build-time tool that <b>adds memoisation automatically</b>. It understands your components and skips work that doesn't need to rerun, which is what we did by hand with <code>useMemo</code>, <code>useCallback</code> and <code>memo</code>.</p><p>With the compiler on, you need much less manual memoisation. But many existing projects don't use it yet, so you must still know when and why to use these hooks. A safe answer: "If the project has the compiler, I rely on it and remove noisy memo code; if not, I memoise only after measuring with the Profiler."</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> The compiler memoises automatically; without it, I memoise only where the Profiler shows a real cost.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 5 things</span><span class="hi">ये 5 बातें याद रखिए</span></div><ol><li><span class="en">Reconciliation = compare the new UI tree with the old one, update only the changes.</span><span class="hi">Reconciliation = compare the new UI tree with the old one, update only the changes.</span></li><li><span class="en">Use stable ids as keys; index keys break when the list reorders.</span><span class="hi">Use stable ids as keys; index keys break when the list reorders.</span></li><li><span class="en">Re-render triggers: own state, parent render, context change.</span><span class="hi">Re-render triggers: own state, parent render, context change.</span></li><li><span class="en">StrictMode double-runs render and effects only in development.</span><span class="hi">StrictMode double-runs render and effects only in development.</span></li><li><span class="en">React 19: Actions, <code>useActionState</code>, <code>useFormStatus</code>, <code>useOptimistic</code>, <code>use()</code>, ref as a prop.</span><span class="hi">React 19: Actions, <code>useActionState</code>, <code>useFormStatus</code>, <code>useOptimistic</code>, <code>use()</code>, ref as a prop.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>Explain out loud as if the interviewer is sharing their screen.</p><div class="exercise"><p class="q-text">Mock task 1: A list of 5,000 rows is slow when typing in a search box above it. What do you do?</p><details><summary>Show a sample answer</summary><div class="answer"><p>1) Debounce or use <code>useDeferredValue</code> for the search text so typing stays fast. 2) Wrap the row in <code>memo</code> with stable props. 3) <b>Virtualise</b> the list (react-window or TanStack Virtual) so only ~20 visible rows are in the DOM. 4) Filter on the server for very big data. Measure before and after with the React Profiler.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 2: Why does this input lose focus on every key press? <code>function Form() { function Field() { return &lt;input/&gt; } return &lt;Field/&gt; }</code></p><details><summary>Show a sample answer</summary><div class="answer"><p><code>Field</code> is defined <b>inside</b> <code>Form</code>, so each render creates a new component type. React sees a different type, unmounts the old input and mounts a new one, which loses focus. Move <code>Field</code> outside <code>Form</code>.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"What's the best key for a list of orders?","hi":"What's the best key for a list of orders?"},"options":["Array index","Math.random()","order.id","order.amount"],"answer":2,"why":{"en":"A stable unique id from the data.","hi":"A stable unique id from the data."}},{"q":{"en":"Changing `ref.current`…","hi":"Changing `ref.current`…"},"options":["Re-renders the component","Doesn't re-render","Re-renders the parent","Throws an error"],"answer":1,"why":{"en":"Refs are mutable boxes that don't trigger renders.","hi":"Refs are mutable boxes that don't trigger renders."}},{"q":{"en":"In React 19, how does a parent give a ref to a function component?","hi":"In React 19, how does a parent give a ref to a function component?"},"options":["Must use forwardRef","Pass `ref` as a normal prop","Not possible","Use context"],"answer":1,"why":{"en":"React 19 allows ref as a prop on function components.","hi":"React 19 allows ref as a prop on function components."}},{"q":{"en":"Which hook shows an instant result before the server replies?","hi":"Which hook shows an instant result before the server replies?"},"options":["useTransition","useOptimistic","useDeferredValue","useId"],"answer":1,"why":{"en":"useOptimistic shows a temporary result that is replaced or rolled back.","hi":"useOptimistic shows a temporary result that is replaced or rolled back."}},{"q":{"en":"Effects run twice only in development because of…","hi":"Effects run twice only in development because of…"},"options":["A bug in React","StrictMode","Concurrent rendering in production","React Query"],"answer":1,"why":{"en":"StrictMode does mount → unmount → mount in dev to catch missing cleanup.","hi":"StrictMode does mount → unmount → mount in dev to catch missing cleanup."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="frontend-interview:react-core"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="html-css.html">← <span class="en">HTML, CSS and browser questions</span><span class="hi">HTML, CSS and browser questions</span></a><a class="btn btn-outline" href="hooks.html">→ <span class="en">React hooks questions</span><span class="hi">React hooks questions</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20React%2019%20core%20questions" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20React%2019%20core%20questions" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Frontend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

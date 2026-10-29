@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PostgreSQL and SQL Interview Questions, 3–10 Yrs | Kodivo</title>
+  <meta name="description" content="PostgreSQL interview questions for backend developers: indexes, EXPLAIN ANALYZE, transactions, isolation levels, locking and top SQL queries." />
+  <link rel="canonical" href="https://agamsahu017.github.io/backend-interview/postgres-sql.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/backend-interview/postgres-sql.html" />
+  <meta property="og:title" content="PostgreSQL and SQL Interview Questions, 3–10 Yrs | Kodivo" />
+  <meta property="og:description" content="PostgreSQL interview questions for backend developers: indexes, EXPLAIN ANALYZE, transactions, isolation levels, locking and top SQL queries." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Backend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/backend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "PostgreSQL and SQL questions",
+          "item": "https://agamsahu017.github.io/backend-interview/postgres-sql.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "PostgreSQL and SQL Interview Questions, 3–10 Yrs",
+      "description": "PostgreSQL interview questions for backend developers: indexes, EXPLAIN ANALYZE, transactions, isolation levels, locking and top SQL queries.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Backend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/backend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Backend Interview</span><span class="hi">Backend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20backend%20on%20your%20website%20(PostgreSQL%20and%20SQL%20questions)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Backend Interview</a> › <span>PostgreSQL and SQL questions</span></nav>
+        <span class="pill"><span class="en">Module 4 of 10</span><span class="hi">मॉड्यूल 4 / 10</span></span>
+        <h1><span class="en">PostgreSQL and SQL questions</span><span class="hi">PostgreSQL and SQL questions</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">35 min read + practice</span><span class="hi">35 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> SQL is asked in almost every backend round, often as a live query. Indexes and transactions separate 3-year answers from 8-year answers.</p><p class="hi"><b>एक लाइन में:</b> SQL is asked in almost every backend round, often as a live query. Indexes and transactions separate 3-year answers from 8-year answers.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">How indexes work and when they are not used</span><span class="hi">How indexes work and when they are not used</span></li><li><span class="en">Reading EXPLAIN ANALYZE</span><span class="hi">Reading EXPLAIN ANALYZE</span></li><li><span class="en">Transactions, isolation levels and MVCC</span><span class="hi">Transactions, isolation levels and MVCC</span></li><li><span class="en">Row locking with SELECT … FOR UPDATE, and deadlocks</span><span class="hi">Row locking with SELECT … FOR UPDATE, and deadlocks</span></li><li><span class="en">Window functions: Nth highest salary, running totals</span><span class="hi">Window functions: Nth highest salary, running totals</span></li><li><span class="en">Finding and deleting duplicates, connection pooling</span><span class="hi">Finding and deleting duplicates, connection pooling</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#indexes"><span class="en">Indexes and query speed</span><span class="hi">Indexes and query speed</span></a><a href="#tx"><span class="en">Transactions, isolation and locks</span><span class="hi">Transactions, isolation and locks</span></a><a href="#queries"><span class="en">Most asked SQL queries</span><span class="hi">Most asked SQL queries</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div>
+      </div>
+      <section id="indexes">
+        <h2 id="indexes-h"><span class="en">Indexes and query speed</span><span class="hi">Indexes and query speed</span></h2>
+        
+        <article class="qa" id="postgres-sql-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>How does an index work? When will PostgreSQL not use it?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A normal index is a <b>B-tree</b>: a sorted structure that lets the database jump to matching rows instead of reading the whole table (a <b>sequential scan</b>). Lookups become roughly O(log n).</p><p>The index may <b>not</b> be used when:</p><ul><li>you wrap the column in a function: <code>WHERE LOWER(email) = ...</code> (fix: an expression index on <code>LOWER(email)</code>),</li><li><code>LIKE '%text'</code> with a leading wildcard,</li><li>the query matches a large part of the table anyway, so a scan is cheaper,</li><li>the types don't match, or the statistics are out of date (run <code>ANALYZE</code>).</li></ul><p>Indexes cost space and slow down writes, so add them for real query patterns, not on every column.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> A phone's contact list sorted by name: you jump to 'R' for Rahul. Searching for everyone whose name ends with 'ul' means reading the whole list.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A B-tree lets the DB jump to rows; functions on the column, leading wildcards and low selectivity stop it being used.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="postgres-sql-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>What is a composite index? Does column order matter?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A composite index covers multiple columns, like <code>(department_id, status)</code>. <b>Order matters</b>: it is sorted by the first column, then the second.</p><p>So it helps <code>WHERE department_id = 5</code> and <code>WHERE department_id = 5 AND status = 'active'</code>, but is <b>not efficient</b> for <code>WHERE status = 'active'</code> alone. (PostgreSQL 18 can sometimes "skip scan", but don't design around it.)</p><p>Rule of thumb: equality columns first, then range or sort columns.</p><p>Other useful types: a <b>partial</b> index (<code>WHERE deleted_at IS NULL</code>), a <b>covering</b> index with <code>INCLUDE</code>, and <b>GIN</b> for JSONB and full-text search.</p>
+            
+            <pre class="code" data-copy><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_emp_dept_status <span class="kw">ON</span> employees (department_id, status);
+<span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_users_email_lower <span class="kw">ON</span> users (LOWER(email));
+<span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_active_orders <span class="kw">ON</span> orders (created_at) <span class="kw">WHERE</span> status = <span class="st">'active'</span>; <span class="cm">-- partial</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Multi-column indexes follow the leftmost-prefix rule, so put equality columns first.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="postgres-sql-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>A query is slow in production. How do you investigate?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <ul><li>Find it: the slow query log, or <code>pg_stat_statements</code> (sort by total time).</li><li>Run <code>EXPLAIN (ANALYZE, BUFFERS)</code> on it (carefully on production, since ANALYZE really executes the query).</li><li>Look for a <b>Seq Scan</b> on a big table, a large gap between <b>estimated and actual rows</b> (stale statistics), expensive sorts or hash joins spilling to disk, and nested loops over many rows.</li><li>Fix: add the right index, rewrite the query (avoid <code>SELECT *</code>, use joins instead of N+1 queries), paginate, cache, or move the report to a <b>read replica</b>.</li><li>Measure again, and record the before/after numbers.</li></ul>
+            
+            <pre class="code" data-copy><span class="kw">EXPLAIN</span> (<span class="kw">ANALYZE</span>, BUFFERS)
+<span class="kw">SELECT</span> id, name <span class="kw">FROM</span> employees <span class="kw">WHERE</span> department_id = 5 <span class="kw">AND</span> status = <span class="st">'active'</span>;
+<span class="cm">-- Before: Seq Scan on employees ... actual time=0.02..412.7 ms</span>
+<span class="cm">-- After the composite index: Index Scan using idx_emp_dept_status ... actual time=0.03..0.9 ms</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> pg_stat_statements to find it, EXPLAIN ANALYZE to see why, then index or rewrite and measure again.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="tx">
+        <h2 id="tx-h"><span class="en">Transactions, isolation and locks</span><span class="hi">Transactions, isolation and locks</span></h2>
+        
+        <article class="qa" id="postgres-sql-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>What is a transaction? Explain ACID simply.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>A transaction groups statements so they <b>all succeed or all fail</b>.</p><ul><li><b>Atomicity</b>: all or nothing. Money is never debited without being credited.</li><li><b>Consistency</b>: rules (constraints) always hold.</li><li><b>Isolation</b>: transactions running at the same time don't see each other's half-finished work.</li><li><b>Durability</b>: once committed, it survives a crash.</li></ul>
+            
+            <pre class="code" data-copy><span class="kw">BEGIN</span>;
+<span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance = balance - 500 <span class="kw">WHERE</span> id = 1;
+<span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance = balance + 500 <span class="kw">WHERE</span> id = 2;
+<span class="kw">COMMIT</span>; <span class="cm">-- or ROLLBACK if anything failed</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> All-or-nothing groups of statements; ACID means atomic, consistent, isolated and durable.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="postgres-sql-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>What are the isolation levels? What is PostgreSQL's default?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>From weakest to strongest:</p><ul><li><b>Read Uncommitted</b>: in PostgreSQL it behaves like Read Committed (no dirty reads ever).</li><li><b>Read Committed</b> (<b>PostgreSQL's default</b>): each statement sees data committed before <b>that statement</b> started. Two reads in one transaction can differ.</li><li><b>Repeatable Read</b>: the whole transaction sees one <b>snapshot</b>.</li><li><b>Serializable</b>: as if transactions ran one at a time. It may fail with a serialization error, which you must <b>retry</b>.</li></ul><p>PostgreSQL uses <b>MVCC</b>: readers don't block writers, because each transaction sees a version of the row. (MySQL InnoDB's default is Repeatable Read.)</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Postgres defaults to Read Committed, uses MVCC so readers don't block writers, and Serializable needs retries.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="postgres-sql-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>Two users book the last seat at the same time. How do you prevent double booking?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Several correct options; name one and its trade-off:</p><ul><li><b>Pessimistic lock</b>: <code>SELECT ... FOR UPDATE</code> locks the row inside a transaction, so the second user waits, then sees 0 seats.</li><li><b>Atomic conditional update</b>: <code>UPDATE ... SET seats = seats - 1 WHERE id = $1 AND seats &gt; 0</code>, then check that 1 row was affected. Simple and fast.</li><li><b>Optimistic locking</b>: a <code>version</code> column; the update fails if someone changed it first, and you retry.</li><li><b>Unique constraint</b>: on (show_id, seat_no), so the database itself refuses the duplicate.</li></ul>
+            <div class="ex"><p>💡 <b>Easy example:</b> Tatkal booking at 10 AM: thousands click at once for the last berth. Only one update can succeed; everyone else must get 'not available', never a double booking.</p></div>
+            <pre class="code" data-copy><span class="kw">BEGIN</span>;
+<span class="kw">SELECT</span> seats_left <span class="kw">FROM</span> shows <span class="kw">WHERE</span> id = 42 <span class="kw">FOR UPDATE</span>; <span class="cm">-- other bookers wait here</span>
+<span class="kw">UPDATE</span> shows <span class="kw">SET</span> seats_left = seats_left - 1 <span class="kw">WHERE</span> id = 42 <span class="kw">AND</span> seats_left &gt; 0;
+<span class="kw">INSERT</span> <span class="kw">INTO</span> bookings (show_id, user_id) <span class="kw">VALUES</span> (42, 7);
+<span class="kw">COMMIT</span>;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Lock the row with FOR UPDATE, or use a conditional atomic update, with a unique constraint as the final safety net.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="postgres-sql-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>What is a deadlock? How does PostgreSQL handle it, and how do you avoid it?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Transaction A locks row 1 and wants row 2; transaction B locks row 2 and wants row 1. Both wait forever.</p><p>PostgreSQL <b>detects</b> this (after <code>deadlock_timeout</code>, 1 second by default) and <b>cancels one</b> transaction with an error.</p><p>Avoid it: always lock rows in the <b>same order</b> (for example by id), keep transactions <b>short</b> (no API calls inside a transaction), and retry on deadlock errors.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Two transactions wait on each other; Postgres kills one, and we prevent it with consistent lock order and short transactions.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="queries">
+        <h2 id="queries-h"><span class="en">Most asked SQL queries</span><span class="hi">Most asked SQL queries</span></h2>
+        <p>These are asked as live queries. The results below come from really running the queries.</p>
+        <article class="qa" id="postgres-sql-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>Find the 2nd highest salary (and the Nth highest).</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Use <code>DENSE_RANK()</code>, which gives equal salaries the same rank with no gaps. Change <code>= 2</code> to <code>= N</code> for any N. This works in PostgreSQL, MySQL 8+ and SQLite.</p><p><code>LIMIT 1 OFFSET 1</code> on distinct salaries also works for a fixed N.</p>
+            
+            <pre class="code" data-copy><span class="kw">SELECT</span> <span class="kw">DISTINCT</span> salary
+<span class="kw">FROM</span> (<span class="kw">SELECT</span> salary, DENSE_RANK() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) <span class="kw">AS</span> rnk <span class="kw">FROM</span> employees) t
+<span class="kw">WHERE</span> rnk = 2;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> DENSE_RANK over salary descending, then filter rank = N.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="postgres-sql-q9">
+          <div class="qa-head"><span class="qa-num">Q9</span><h3>Find the highest-paid employee in each department.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Use a window function with <code>PARTITION BY</code>. This keeps ties (two people with the same top salary) and is easier to read than a correlated subquery.</p>
+            
+            <pre class="code" data-copy><span class="kw">SELECT</span> dept, name, salary
+<span class="kw">FROM</span> (
+  <span class="kw">SELECT</span> dept, name, salary, RANK() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> dept <span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) <span class="kw">AS</span> rnk
+  <span class="kw">FROM</span> employees
+) t
+<span class="kw">WHERE</span> rnk = 1
+<span class="kw">ORDER BY</span> dept, name;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> RANK() OVER (PARTITION BY dept ORDER BY salary DESC) and keep rank 1.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="postgres-sql-q10">
+          <div class="qa-head"><span class="qa-num">Q10</span><h3>Find duplicate emails, then delete the duplicates and keep the oldest row.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Find them with <code>GROUP BY ... HAVING COUNT(*) &gt; 1</code>. Delete every row whose id is <b>not</b> the smallest id for its email. Then add a <b>unique index</b> so it can't happen again.</p>
+            
+            <pre class="code" data-copy><span class="kw">SELECT</span> email, <span class="kw">COUNT</span>(*) <span class="kw">AS</span> cnt <span class="kw">FROM</span> users <span class="kw">GROUP BY</span> email <span class="kw">HAVING</span> <span class="kw">COUNT</span>(*) &gt; 1;
+
+<span class="kw">DELETE</span> <span class="kw">FROM</span> users
+<span class="kw">WHERE</span> id <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="kw">SELECT</span> MIN(id) <span class="kw">FROM</span> users <span class="kw">GROUP BY</span> email);
+
+<span class="kw">SELECT</span> id, email <span class="kw">FROM</span> users <span class="kw">ORDER BY</span> id;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> GROUP BY with HAVING COUNT &gt; 1 to find them, delete where id isn't the MIN per group, then add a unique index.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="postgres-sql-q11">
+          <div class="qa-head"><span class="qa-num">Q11</span><h3>What is the difference between WHERE and HAVING? And between the JOIN types?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">3–5 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p><code>WHERE</code> filters <b>rows before</b> grouping. <code>HAVING</code> filters <b>groups after</b> <code>GROUP BY</code>, so it can use <code>COUNT</code> or <code>SUM</code>.</p><p>Joins:</p><ul><li><b>INNER JOIN</b>: only rows that match in both tables.</li><li><b>LEFT JOIN</b>: all rows from the left table, with NULLs where the right side has no match. "All employees, even those without a department."</li><li><b>RIGHT JOIN</b>: the opposite (rarely used).</li><li><b>FULL JOIN</b>: everything from both sides.</li></ul>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> WHERE filters rows, HAVING filters groups; INNER keeps matches, LEFT keeps every left row.</p></div>
+            
+          </div></details>
+        </article>
+        <article class="qa" id="postgres-sql-q12">
+          <div class="qa-head"><span class="qa-num">Q12</span><h3>Why use a connection pool? How many connections?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans">
+            <p>Opening a PostgreSQL connection is slow and each one uses server memory (a process per connection). A <b>pool</b> keeps some connections open and reuses them.</p><p>Size it from the database's <code>max_connections</code> divided across <b>all app instances</b>: 10 pods × 20 connections = 200, which may already be too many. With many instances or serverless, put <b>PgBouncer</b> (or RDS Proxy) in front.</p><p>Symptoms of a pool that is too small: requests waiting for a connection. Too big: the database runs out of connections or memory.</p>
+            
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A pool reuses expensive connections; size it across all instances, and use PgBouncer when there are many.</p></div>
+            
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">B-tree indexes; functions on columns and leading <code>%</code> stop them being used.</span><span class="hi">B-tree indexes; functions on columns and leading <code>%</code> stop them being used.</span></li><li><span class="en">Composite index: leftmost columns first, equality before range.</span><span class="hi">Composite index: leftmost columns first, equality before range.</span></li><li><span class="en">EXPLAIN (ANALYZE, BUFFERS) and pg_stat_statements for slow queries.</span><span class="hi">EXPLAIN (ANALYZE, BUFFERS) and pg_stat_statements for slow queries.</span></li><li><span class="en">Postgres default = Read Committed + MVCC. Serializable needs retries.</span><span class="hi">Postgres default = Read Committed + MVCC. Serializable needs retries.</span></li><li><span class="en">Double booking → FOR UPDATE, or a conditional UPDATE, plus a unique constraint.</span><span class="hi">Double booking → FOR UPDATE, or a conditional UPDATE, plus a unique constraint.</span></li><li><span class="en">Nth highest = DENSE_RANK; per-group top = PARTITION BY.</span><span class="hi">Nth highest = DENSE_RANK; per-group top = PARTITION BY.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>Write each query on paper first. Interviewers care about the approach more than exact syntax.</p><div class="exercise"><p class="q-text">Mock task 1: Show each employee's salary next to their department's average salary.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Use <code>AVG(...) OVER (PARTITION BY dept)</code>, a window function that doesn't collapse rows like GROUP BY does.</p><pre class="code" data-copy><span class="kw">SELECT</span> name, dept, salary,
+       AVG(salary) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> dept) <span class="kw">AS</span> dept_avg
+<span class="kw">FROM</span> employees;</pre></div></details></div><div class="exercise"><p class="q-text">Mock task 2: A table has 5 crore rows and <code>COUNT(*)</code> on it takes 20 seconds for a dashboard. What do you do?</p><details><summary>Show a sample answer</summary><div class="answer"><p>Exact counts on huge Postgres tables are slow because of MVCC. Options: keep a <b>counter table</b> updated by the app or a trigger; use an estimate from <code>pg_class.reltuples</code> when exactness isn't needed; precompute dashboard numbers with a <b>cron job into a summary table</b>; or count with a filter that uses an index. Run dashboards on a read replica.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Index on (a, b). Which query uses it best?","hi":"Index on (a, b). Which query uses it best?"},"options":["WHERE b = 1","WHERE a = 1","WHERE b > 5","WHERE LOWER(a) = 'x'"],"answer":1,"why":{"en":"The leftmost-prefix rule.","hi":"The leftmost-prefix rule."}},{"q":{"en":"PostgreSQL's default isolation level?","hi":"PostgreSQL's default isolation level?"},"options":["Serializable","Repeatable Read","Read Committed","Read Uncommitted"],"answer":2,"why":{"en":"Read Committed.","hi":"Read Committed."}},{"q":{"en":"Filter groups with COUNT(*) > 1. Use…","hi":"Filter groups with COUNT(*) > 1. Use…"},"options":["WHERE","HAVING","ORDER BY","LIMIT"],"answer":1,"why":{"en":"HAVING filters after grouping.","hi":"HAVING filters after grouping."}},{"q":{"en":"Lock a row so other transactions wait:","hi":"Lock a row so other transactions wait:"},"options":["SELECT … FOR UPDATE","LOCK NOTHING","SELECT DISTINCT","VACUUM"],"answer":0,"why":{"en":"FOR UPDATE takes a row-level lock.","hi":"FOR UPDATE takes a row-level lock."}},{"q":{"en":"Equal salaries share a rank with no gaps:","hi":"Equal salaries share a rank with no gaps:"},"options":["ROW_NUMBER","RANK","DENSE_RANK","NTILE"],"answer":2,"why":{"en":"DENSE_RANK.","hi":"DENSE_RANK."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="backend-interview:postgres-sql"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="nestjs.html">← <span class="en">NestJS questions</span><span class="hi">NestJS questions</span></a><a class="btn btn-outline" href="typeorm.html">→ <span class="en">TypeORM questions</span><span class="hi">TypeORM questions</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20PostgreSQL%20and%20SQL%20questions" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20PostgreSQL%20and%20SQL%20questions" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Backend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>
