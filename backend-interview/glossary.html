@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Backend Interview Glossary: Node.js and DB Terms | Kodivo</title>
+  <meta name="description" content="Simple meanings of words used in backend interviews: event loop, idempotent, DTO, guard, MVCC, deadlock, TTL, JWT, pre-signed URL and more." />
+  <link rel="canonical" href="https://agamsahu017.github.io/backend-interview/glossary.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/backend-interview/glossary.html" />
+  <meta property="og:title" content="Backend Interview Glossary: Node.js and DB Terms | Kodivo" />
+  <meta property="og:description" content="Simple meanings of words used in backend interviews: event loop, idempotent, DTO, guard, MVCC, deadlock, TTL, JWT, pre-signed URL and more." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Backend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/backend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Glossary",
+          "item": "https://agamsahu017.github.io/backend-interview/glossary.html"
+        }
+      ]
+    },
+    {
+      "@type": "DefinedTermSet",
+      "name": "Backend Interview glossary",
+      "url": "https://agamsahu017.github.io/backend-interview/glossary.html",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "name": "Thread",
+          "description": "A worker that runs code. Node.js runs your JavaScript on one main thread.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#thread"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Non-blocking I/O",
+          "description": "Starting slow work (DB, files) and moving on instead of waiting for it.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#non-blocking-i-o"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "I/O",
+          "description": "Input/output: reading or writing files, network or database.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#i-o"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Event loop",
+          "description": "The manager that keeps running ready callbacks on Node's one main thread.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#event-loop"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Blocking",
+          "description": "Code that keeps the main thread busy so nothing else can run.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#blocking"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "libuv",
+          "description": "The C library inside Node.js that handles the event loop and the thread pool.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#libuv"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Thread pool",
+          "description": "A small team of helper threads (4 by default) for files, crypto and compression.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#thread-pool"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Callback",
+          "description": "A function handed over to be called when something finishes.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#callback"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Microtask",
+          "description": "A small urgent job (like a promise callback) that runs before the next phase.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#microtask"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Stream",
+          "description": "Data processed piece by piece instead of all at once.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#stream"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Backpressure",
+          "description": "Slowing the reader down when the writer can't keep up.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#backpressure"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Heap snapshot",
+          "description": "A photo of everything in memory at one moment, used to find leaks.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#heap-snapshot"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Memory leak",
+          "description": "Memory that keeps growing because it's never released.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#memory-leak"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "SIGTERM",
+          "description": "A polite 'please stop' signal sent before a container is shut down.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#sigterm"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Graceful shutdown",
+          "description": "Finishing current work and closing connections before exiting.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#graceful-shutdown"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Container",
+          "description": "A running, packaged copy of your app with everything it needs.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#container"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Orchestrator",
+          "description": "A system like Kubernetes or ECS that starts, stops and restarts containers.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#orchestrator"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Resource",
+          "description": "A thing your API manages, like an employee or an order.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#resource"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Stateless",
+          "description": "The server doesn't remember you between requests; each request carries what's needed.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#stateless"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Idempotent",
+          "description": "Doing it twice gives the same result as doing it once.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#idempotent"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Payload",
+          "description": "The data inside a request, response or token.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#payload"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Pagination",
+          "description": "Returning a big list in small pages.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#pagination"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Rate limiting",
+          "description": "Allowing only a certain number of requests per minute.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#rate-limiting"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Webhook",
+          "description": "Another system calling your URL to tell you something happened.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#webhook"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Dependency injection",
+          "description": "The framework hands a class the tools it needs instead of the class creating them.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#dependency-injection"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Provider",
+          "description": "Anything Nest can create and inject, usually a service.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#provider"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Singleton",
+          "description": "Only one shared instance for the whole app.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#singleton"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Decorator",
+          "description": "An @label on a class or method that adds behaviour, like @Get() or @Roles().",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#decorator"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Middleware",
+          "description": "Code that runs on every request before routing, like logging.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#middleware"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Guard",
+          "description": "A checkpoint that decides if a request may continue.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#guard"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Pipe",
+          "description": "Checks and converts incoming data before it reaches the handler.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#pipe"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "DTO",
+          "description": "Data Transfer Object: a class describing the allowed shape of request data.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#dto"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Exception filter",
+          "description": "Catches thrown errors and builds the error response.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#exception-filter"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Metadata",
+          "description": "Extra labels attached to code, read later (for example by a guard).",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#metadata"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Mock",
+          "description": "A pretend version of a dependency, used in tests.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#mock"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Index",
+          "description": "A sorted lookup structure that lets the database jump to rows quickly.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#index"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Sequential scan",
+          "description": "Reading every row of a table, one by one.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#sequential-scan"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Transaction",
+          "description": "A group of changes that all succeed or all fail together.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#transaction"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "ACID",
+          "description": "Atomic, Consistent, Isolated, Durable: the promises of a safe transaction.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#acid"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Isolation level",
+          "description": "How much transactions running at the same time can see of each other.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#isolation-level"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "MVCC",
+          "description": "Multi-Version Concurrency Control: readers see a snapshot, so they don't block writers.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#mvcc"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Deadlock",
+          "description": "Two transactions waiting for each other forever.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#deadlock"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Window function",
+          "description": "A calculation across related rows (like rank) that keeps each row.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#window-function"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Connection pool",
+          "description": "A set of open DB connections shared and reused by requests.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#connection-pool"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "ORM",
+          "description": "Object-Relational Mapper: lets you use classes instead of writing SQL by hand.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#orm"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Entity",
+          "description": "A class that maps to a database table.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#entity"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Foreign key",
+          "description": "A column pointing to a row in another table.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#foreign-key"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "N+1 problem",
+          "description": "One query for a list, then one more query for every row.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#n-1-problem"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Migration",
+          "description": "A versioned script that changes the database structure safely.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#migration"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Optimistic locking",
+          "description": "Using a version number to detect if someone else changed a row first.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#optimistic-locking"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Read replica",
+          "description": "A read-only copy of the database for reports and heavy reads.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#read-replica"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Replication lag",
+          "description": "How far behind the copy (replica) is from the main database.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#replication-lag"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Schema",
+          "description": "The planned structure of your data: tables, columns and types.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#schema"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Sharding",
+          "description": "Splitting data across many database servers.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#sharding"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "TTL",
+          "description": "Time To Live: how long a cached value is kept before it expires.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#ttl"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Cache stampede",
+          "description": "Many requests rebuilding the same expired cache at once.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#cache-stampede"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Distributed lock",
+          "description": "A lock shared by all copies of a service, so only one does a job.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#distributed-lock"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Queue",
+          "description": "A waiting line of jobs to be done in the background.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#queue"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Worker",
+          "description": "A process that picks jobs from a queue and does them.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#worker"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Exponential backoff",
+          "description": "Waiting longer after each failure before retrying: 2 s, 4 s, 8 s…",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#exponential-backoff"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Dead letter queue",
+          "description": "A place for jobs that failed every retry, kept for checking.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#dead-letter-queue"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "At-least-once",
+          "description": "A job is never lost, but it might run more than once.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#at-least-once"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Authentication",
+          "description": "Checking who you are.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#authentication"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Authorization",
+          "description": "Checking what you are allowed to do.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#authorization"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "JWT",
+          "description": "JSON Web Token: a signed pass with user details that anyone can read but nobody can change.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#jwt"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "JWKS",
+          "description": "The public keys a login server publishes, used to check token signatures.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#jwks"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Claims",
+          "description": "The facts inside a token, like user id, roles and expiry.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#claims"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "OAuth2",
+          "description": "A standard for letting apps get access tokens safely.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#oauth2"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "OIDC",
+          "description": "OpenID Connect: adds 'who is the user' (login) on top of OAuth2.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#oidc"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "PKCE",
+          "description": "A safety check that protects the login code exchange in browser and mobile apps.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#pkce"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Realm",
+          "description": "A separate space in Keycloak with its own users and roles.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#realm"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "RBAC",
+          "description": "Role-Based Access Control: what you can do depends on your role.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#rbac"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "IDOR",
+          "description": "A bug where changing an id in the URL shows someone else's data.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#idor"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Salt",
+          "description": "Random data added before hashing so the same password gives different hashes.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#salt"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Password hash",
+          "description": "A one-way fingerprint of data; you can't turn it back into the original.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#password-hash"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "SQL injection",
+          "description": "An attack where user input is run as part of a SQL query.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#sql-injection"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Pre-signed URL",
+          "description": "A temporary link that allows one upload or download from a private bucket.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#pre-signed-url"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Bucket",
+          "description": "A top-level folder in S3 where files are stored.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#bucket"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "IAM role",
+          "description": "AWS permissions given to a service, without storing passwords or keys.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#iam-role"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Least privilege",
+          "description": "Giving only the exact permissions needed, nothing more.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#least-privilege"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Multipart upload",
+          "description": "Uploading a big file in parts that S3 joins together.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#multipart-upload"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "CDN",
+          "description": "A network of servers near users that serves files fast.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#cdn"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Docker image",
+          "description": "A packaged, read-only copy of your app and everything it needs.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#docker-image"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "CI/CD",
+          "description": "Automatic checks on every change (CI) and automatic deploys (CD).",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#ci-cd"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Rollback",
+          "description": "Going back to the previous working version.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#rollback"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Load balancer",
+          "description": "Spreads incoming requests across several servers.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#load-balancer"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Microservices",
+          "description": "Splitting one app into many small services that deploy separately.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#microservices"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Monolith",
+          "description": "One app that is built and deployed as a single unit.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#monolith"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Circuit breaker",
+          "description": "Stops calling a failing service for a while, so failures don't spread.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#circuit-breaker"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Outbox pattern",
+          "description": "Saving an event in the same DB transaction, then sending it reliably.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#outbox-pattern"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Observability",
+          "description": "Being able to see what's happening inside a running system.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#observability"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "p95 latency",
+          "description": "95% of requests are faster than this time.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#p95-latency"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Post-mortem",
+          "description": "A write-up after an incident: what happened and how to prevent it.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#post-mortem"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "STAR method",
+          "description": "Situation, Task, Action, Result: a simple way to tell a work story.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#star-method"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "CTC",
+          "description": "Cost To Company: your total yearly salary package.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#ctc"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Notice buyout",
+          "description": "The new company pays your old company so you can leave before the notice period ends.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#notice-buyout"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "BGV",
+          "description": "Background verification: checks of your past jobs, salary and documents.",
+          "url": "https://agamsahu017.github.io/backend-interview/glossary.html#bgv"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Backend Interview</span><span class="hi">Backend Interview</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20question%20about%20a%20backend%20term." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Backend Interview</a> › <span>Glossary</span></nav>
+        <h1>Backend Interview: hard words, simply explained</h1>
+        <p>97 words used in the answers, each in one or two simple lines. On the question pages, these words have a dotted underline; tap them to see the meaning.</p>
+        <input id="gloss-search" class="gloss-search" type="search" placeholder="Search: Thread, Non-blocking I/O, I/O…" aria-label="Search the glossary" />
+      </div>
+      <div class="gloss-group">
+        <h2>Node.js</h2>
+        <dl>
+          <div class="gloss-item" id="thread"><dt>Thread</dt><dd>A worker that runs code. Node.js runs your JavaScript on one main thread.</dd></div>
+          <div class="gloss-item" id="non-blocking-i-o"><dt>Non-blocking I/O</dt><dd>Starting slow work (DB, files) and moving on instead of waiting for it.</dd></div>
+          <div class="gloss-item" id="i-o"><dt>I/O</dt><dd>Input/output: reading or writing files, network or database.</dd></div>
+          <div class="gloss-item" id="event-loop"><dt>Event loop</dt><dd>The manager that keeps running ready callbacks on Node's one main thread.</dd></div>
+          <div class="gloss-item" id="blocking"><dt>Blocking</dt><dd>Code that keeps the main thread busy so nothing else can run.</dd></div>
+          <div class="gloss-item" id="libuv"><dt>libuv</dt><dd>The C library inside Node.js that handles the event loop and the thread pool.</dd></div>
+          <div class="gloss-item" id="thread-pool"><dt>Thread pool</dt><dd>A small team of helper threads (4 by default) for files, crypto and compression.</dd></div>
+          <div class="gloss-item" id="callback"><dt>Callback</dt><dd>A function handed over to be called when something finishes.</dd></div>
+          <div class="gloss-item" id="microtask"><dt>Microtask</dt><dd>A small urgent job (like a promise callback) that runs before the next phase.</dd></div>
+          <div class="gloss-item" id="stream"><dt>Stream</dt><dd>Data processed piece by piece instead of all at once.</dd></div>
+          <div class="gloss-item" id="backpressure"><dt>Backpressure</dt><dd>Slowing the reader down when the writer can't keep up.</dd></div>
+          <div class="gloss-item" id="heap-snapshot"><dt>Heap snapshot</dt><dd>A photo of everything in memory at one moment, used to find leaks.</dd></div>
+          <div class="gloss-item" id="memory-leak"><dt>Memory leak</dt><dd>Memory that keeps growing because it's never released.</dd></div>
+          <div class="gloss-item" id="sigterm"><dt>SIGTERM</dt><dd>A polite 'please stop' signal sent before a container is shut down.</dd></div>
+          <div class="gloss-item" id="graceful-shutdown"><dt>Graceful shutdown</dt><dd>Finishing current work and closing connections before exiting.</dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2>Deployment</h2>
+        <dl>
+          <div class="gloss-item" id="container"><dt>Container</dt><dd>A running, packaged copy of your app with everything it needs.</dd></div>
+          <div class="gloss-item" id="orchestrator"><dt>Orchestrator</dt><dd>A system like Kubernetes or ECS that starts, stops and restarts containers.</dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2>API design</h2>
+        <dl>
+          <div class="gloss-item" id="resource"><dt>Resource</dt><dd>A thing your API manages, like an employee or an order.</dd></div>
+          <div class="gloss-item" id="stateless"><dt>Stateless</dt><dd>The server doesn't remember you between requests; each request carries what's needed.</dd></div>
+          <div class="gloss-item" id="idempotent"><dt>Idempotent</dt><dd>Doing it twice gives the same result as doing it once.</dd></div>
+          <div class="gloss-item" id="payload"><dt>Payload</dt><dd>The data inside a request, response or token.</dd></div>
+          <div class="gloss-item" id="pagination"><dt>Pagination</dt><dd>Returning a big list in small pages.</dd></div>
+          <div class="gloss-item" id="rate-limiting"><dt>Rate limiting</dt><dd>Allowing only a certain number of requests per minute.</dd></div>
+          <div class="gloss-item" id="webhook"><dt>Webhook</dt><dd>Another system calling your URL to tell you something happened.</dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2>NestJS</h2>
+        <dl>
+          <div class="gloss-item" id="dependency-injection"><dt>Dependency injection</dt><dd>The framework hands a class the tools it needs instead of the class creating them.</dd></div>
+          <div class="gloss-item" id="provider"><dt>Provider</dt><dd>Anything Nest can create and inject, usually a service.</dd></div>
+          <div class="gloss-item" id="singleton"><dt>Singleton</dt><dd>Only one shared instance for the whole app.</dd></div>
+          <div class="gloss-item" id="decorator"><dt>Decorator</dt><dd>An @label on a class or method that adds behaviour, like @Get() or @Roles().</dd></div>
+          <div class="gloss-item" id="middleware"><dt>Middleware</dt><dd>Code that runs on every request before routing, like logging.</dd></div>
+          <div class="gloss-item" id="guard"><dt>Guard</dt><dd>A checkpoint that decides if a request may continue.</dd></div>
+          <div class="gloss-item" id="pipe"><dt>Pipe</dt><dd>Checks and converts incoming data before it reaches the handler.</dd></div>
+          <div class="gloss-item" id="dto"><dt>DTO</dt><dd>Data Transfer Object: a class describing the allowed shape of request data.</dd></div>
+          <div class="gloss-item" id="exception-filter"><dt>Exception filter</dt><dd>Catches thrown errors and builds the error response.</dd></div>
+          <div class="gloss-item" id="metadata"><dt>Metadata</dt><dd>Extra labels attached to code, read later (for example by a guard).</dd></div>
+          <div class="gloss-item" id="mock"><dt>Mock</dt><dd>A pretend version of a dependency, used in tests.</dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2>Databases</h2>
+        <dl>
+          <div class="gloss-item" id="index"><dt>Index</dt><dd>A sorted lookup structure that lets the database jump to rows quickly.</dd></div>
+          <div class="gloss-item" id="sequential-scan"><dt>Sequential scan</dt><dd>Reading every row of a table, one by one.</dd></div>
+          <div class="gloss-item" id="transaction"><dt>Transaction</dt><dd>A group of changes that all succeed or all fail together.</dd></div>
+          <div class="gloss-item" id="acid"><dt>ACID</dt><dd>Atomic, Consistent, Isolated, Durable: the promises of a safe transaction.</dd></div>
+          <div class="gloss-item" id="isolation-level"><dt>Isolation level</dt><dd>How much transactions running at the same time can see of each other.</dd></div>
+          <div class="gloss-item" id="mvcc"><dt>MVCC</dt><dd>Multi-Version Concurrency Control: readers see a snapshot, so they don't block writers.</dd></div>
+          <div class="gloss-item" id="deadlock"><dt>Deadlock</dt><dd>Two transactions waiting for each other forever.</dd></div>
+          <div class="gloss-item" id="window-function"><dt>Window function</dt><dd>A calculation across related rows (like rank) that keeps each row.</dd></div>
+          <div class="gloss-item" id="connection-pool"><dt>Connection pool</dt><dd>A set of open DB connections shared and reused by requests.</dd></div>
+          <div class="gloss-item" id="orm"><dt>ORM</dt><dd>Object-Relational Mapper: lets you use classes instead of writing SQL by hand.</dd></div>
+          <div class="gloss-item" id="entity"><dt>Entity</dt><dd>A class that maps to a database table.</dd></div>
+          <div class="gloss-item" id="foreign-key"><dt>Foreign key</dt><dd>A column pointing to a row in another table.</dd></div>
+          <div class="gloss-item" id="n-1-problem"><dt>N+1 problem</dt><dd>One query for a list, then one more query for every row.</dd></div>
+          <div class="gloss-item" id="migration"><dt>Migration</dt><dd>A versioned script that changes the database structure safely.</dd></div>
+          <div class="gloss-item" id="optimistic-locking"><dt>Optimistic locking</dt><dd>Using a version number to detect if someone else changed a row first.</dd></div>
+          <div class="gloss-item" id="read-replica"><dt>Read replica</dt><dd>A read-only copy of the database for reports and heavy reads.</dd></div>
+          <div class="gloss-item" id="replication-lag"><dt>Replication lag</dt><dd>How far behind the copy (replica) is from the main database.</dd></div>
+          <div class="gloss-item" id="schema"><dt>Schema</dt><dd>The planned structure of your data: tables, columns and types.</dd></div>
+          <div class="gloss-item" id="sharding"><dt>Sharding</dt><dd>Splitting data across many database servers.</dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2>Redis and queues</h2>
+        <dl>
+          <div class="gloss-item" id="ttl"><dt>TTL</dt><dd>Time To Live: how long a cached value is kept before it expires.</dd></div>
+          <div class="gloss-item" id="cache-stampede"><dt>Cache stampede</dt><dd>Many requests rebuilding the same expired cache at once.</dd></div>
+          <div class="gloss-item" id="distributed-lock"><dt>Distributed lock</dt><dd>A lock shared by all copies of a service, so only one does a job.</dd></div>
+          <div class="gloss-item" id="queue"><dt>Queue</dt><dd>A waiting line of jobs to be done in the background.</dd></div>
+          <div class="gloss-item" id="worker"><dt>Worker</dt><dd>A process that picks jobs from a queue and does them.</dd></div>
+          <div class="gloss-item" id="exponential-backoff"><dt>Exponential backoff</dt><dd>Waiting longer after each failure before retrying: 2 s, 4 s, 8 s…</dd></div>
+          <div class="gloss-item" id="dead-letter-queue"><dt>Dead letter queue</dt><dd>A place for jobs that failed every retry, kept for checking.</dd></div>
+          <div class="gloss-item" id="at-least-once"><dt>At-least-once</dt><dd>A job is never lost, but it might run more than once.</dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2>Auth and security</h2>
+        <dl>
+          <div class="gloss-item" id="authentication"><dt>Authentication</dt><dd>Checking who you are.</dd></div>
+          <div class="gloss-item" id="authorization"><dt>Authorization</dt><dd>Checking what you are allowed to do.</dd></div>
+          <div class="gloss-item" id="jwt"><dt>JWT</dt><dd>JSON Web Token: a signed pass with user details that anyone can read but nobody can change.</dd></div>
+          <div class="gloss-item" id="jwks"><dt>JWKS</dt><dd>The public keys a login server publishes, used to check token signatures.</dd></div>
+          <div class="gloss-item" id="claims"><dt>Claims</dt><dd>The facts inside a token, like user id, roles and expiry.</dd></div>
+          <div class="gloss-item" id="oauth2"><dt>OAuth2</dt><dd>A standard for letting apps get access tokens safely.</dd></div>
+          <div class="gloss-item" id="oidc"><dt>OIDC</dt><dd>OpenID Connect: adds 'who is the user' (login) on top of OAuth2.</dd></div>
+          <div class="gloss-item" id="pkce"><dt>PKCE</dt><dd>A safety check that protects the login code exchange in browser and mobile apps.</dd></div>
+          <div class="gloss-item" id="realm"><dt>Realm</dt><dd>A separate space in Keycloak with its own users and roles.</dd></div>
+          <div class="gloss-item" id="rbac"><dt>RBAC</dt><dd>Role-Based Access Control: what you can do depends on your role.</dd></div>
+          <div class="gloss-item" id="idor"><dt>IDOR</dt><dd>A bug where changing an id in the URL shows someone else's data.</dd></div>
+          <div class="gloss-item" id="salt"><dt>Salt</dt><dd>Random data added before hashing so the same password gives different hashes.</dd></div>
+          <div class="gloss-item" id="password-hash"><dt>Password hash</dt><dd>A one-way fingerprint of data; you can't turn it back into the original.</dd></div>
+          <div class="gloss-item" id="sql-injection"><dt>SQL injection</dt><dd>An attack where user input is run as part of a SQL query.</dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2>Cloud</h2>
+        <dl>
+          <div class="gloss-item" id="pre-signed-url"><dt>Pre-signed URL</dt><dd>A temporary link that allows one upload or download from a private bucket.</dd></div>
+          <div class="gloss-item" id="bucket"><dt>Bucket</dt><dd>A top-level folder in S3 where files are stored.</dd></div>
+          <div class="gloss-item" id="iam-role"><dt>IAM role</dt><dd>AWS permissions given to a service, without storing passwords or keys.</dd></div>
+          <div class="gloss-item" id="least-privilege"><dt>Least privilege</dt><dd>Giving only the exact permissions needed, nothing more.</dd></div>
+          <div class="gloss-item" id="multipart-upload"><dt>Multipart upload</dt><dd>Uploading a big file in parts that S3 joins together.</dd></div>
+          <div class="gloss-item" id="cdn"><dt>CDN</dt><dd>A network of servers near users that serves files fast.</dd></div>
+          <div class="gloss-item" id="docker-image"><dt>Docker image</dt><dd>A packaged, read-only copy of your app and everything it needs.</dd></div>
+          <div class="gloss-item" id="ci-cd"><dt>CI/CD</dt><dd>Automatic checks on every change (CI) and automatic deploys (CD).</dd></div>
+          <div class="gloss-item" id="rollback"><dt>Rollback</dt><dd>Going back to the previous working version.</dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2>System design</h2>
+        <dl>
+          <div class="gloss-item" id="load-balancer"><dt>Load balancer</dt><dd>Spreads incoming requests across several servers.</dd></div>
+          <div class="gloss-item" id="microservices"><dt>Microservices</dt><dd>Splitting one app into many small services that deploy separately.</dd></div>
+          <div class="gloss-item" id="monolith"><dt>Monolith</dt><dd>One app that is built and deployed as a single unit.</dd></div>
+          <div class="gloss-item" id="circuit-breaker"><dt>Circuit breaker</dt><dd>Stops calling a failing service for a while, so failures don't spread.</dd></div>
+          <div class="gloss-item" id="outbox-pattern"><dt>Outbox pattern</dt><dd>Saving an event in the same DB transaction, then sending it reliably.</dd></div>
+          <div class="gloss-item" id="observability"><dt>Observability</dt><dd>Being able to see what's happening inside a running system.</dd></div>
+          <div class="gloss-item" id="p95-latency"><dt>p95 latency</dt><dd>95% of requests are faster than this time.</dd></div>
+          <div class="gloss-item" id="post-mortem"><dt>Post-mortem</dt><dd>A write-up after an incident: what happened and how to prevent it.</dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2>Interview</h2>
+        <dl>
+          <div class="gloss-item" id="star-method"><dt>STAR method</dt><dd>Situation, Task, Action, Result: a simple way to tell a work story.</dd></div>
+          <div class="gloss-item" id="ctc"><dt>CTC</dt><dd>Cost To Company: your total yearly salary package.</dd></div>
+          <div class="gloss-item" id="notice-buyout"><dt>Notice buyout</dt><dd>The new company pays your old company so you can leave before the notice period ends.</dd></div>
+          <div class="gloss-item" id="bgv"><dt>BGV</dt><dd>Background verification: checks of your past jobs, salary and documents.</dd></div>
+        </dl>
+      </div>
+      <div class="lesson-nav"><a class="btn btn-outline" href="./">← All modules</a></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Backend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

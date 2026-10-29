@@ -259,3 +259,7 @@ h2 + .badge { margin: -4px 0 10px; }
 .qa-tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
 .qa-tools button { font: inherit; font-size: .85rem; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-alt); color: var(--text); cursor: pointer; }
 .qa-tools button:hover { border-color: var(--primary); }
+.qa .simple { margin: 0 0 12px; padding: 10px 14px; border-radius: 10px; background: rgba(16, 185, 129, .1); border: 1px solid rgba(16, 185, 129, .4); }
+.qa .simple p { color: var(--text); margin: 0; }
+.qa .pic-title { margin: 12px 0 0; color: var(--text); }
+.qa .flow { margin-top: 6px; }
