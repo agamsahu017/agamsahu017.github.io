@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Embeddings and Semantic Search Explained Simply | Kodivo</title>
+  <meta name="description" content="What embeddings are, how cosine similarity measures meaning, and how to build semantic search in JavaScript, with an interactive meaning-map demo." />
+  <link rel="canonical" href="https://agamsahu017.github.io/ai/embeddings.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/ai/embeddings.html" />
+  <meta property="og:title" content="Embeddings and Semantic Search Explained Simply | Kodivo" />
+  <meta property="og:description" content="What embeddings are, how cosine similarity measures meaning, and how to build semantic search in JavaScript, with an interactive meaning-map demo." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "AI from Zero to Job-Ready",
+          "item": "https://agamsahu017.github.io/ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Embeddings and semantic search",
+          "item": "https://agamsahu017.github.io/ai/embeddings.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Embeddings and Semantic Search Explained Simply",
+      "description": "What embeddings are, how cosine similarity measures meaning, and how to build semantic search in JavaScript, with an interactive meaning-map demo.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "AI from Zero to Job-Ready",
+        "url": "https://agamsahu017.github.io/ai/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../system-design/"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20AI%20on%20your%20website%20(Embeddings%20and%20semantic%20search)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">AI</a> › <span>Embeddings and semantic search</span></nav>
+        <span class="pill"><span class="en">Module 6 of 18</span><span class="hi">मॉड्यूल 6 / 18</span></span>
+        <h1><span class="en">Embeddings and semantic search</span><span class="hi">Embeddings और semantic search</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🤖 AI</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">What an embedding is: meaning as a list of numbers</span><span class="hi">Embedding क्या है: numbers की list के रूप में मतलब</span></li><li><span class="en">How cosine similarity finds similar meanings</span><span class="hi">Cosine similarity मिलते-जुलते मतलब कैसे ढूँढती है</span></li><li><span class="en">Keyword search vs semantic search</span><span class="hi">Keyword search vs semantic search</span></li><li><span class="en">Create embeddings in JavaScript and search them</span><span class="hi">JavaScript में embeddings बनाना और उनमें search करना</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#idea"><span class="en">The idea</span><span class="hi">आइडिया</span></a><a href="#similarity"><span class="en">Similarity</span><span class="hi">Similarity</span></a><a href="#vs"><span class="en">Keyword vs semantic</span><span class="hi">Keyword vs semantic</span></a><a href="#code"><span class="en">Build it</span><span class="hi">बनाइए</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">AI glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">AI glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="idea">
+        <h2 id="idea-h"><span class="en">Meaning as numbers</span><span class="hi">मतलब, numbers के रूप में</span></h2>
+        <p class="en">Think of a map. Lucknow and Kanpur are close; Lucknow and London are far. An <b>embedding</b> puts every sentence on a "meaning map": sentences that mean similar things land close together, even if they use different words or languages.</p><p class="hi">एक map सोचिए। लखनऊ और कानपुर पास हैं; लखनऊ और London दूर। <b>Embedding</b> हर sentence को एक "मतलब के map" पर रखता है: मिलते-जुलते मतलब वाले sentences पास-पास आते हैं, भले ही शब्द या भाषा अलग हो।</p>
+        <pre class="code" data-copy><span class="st">"Clinic fees kitni hai?"</span>        → [0.12, -0.53, 0.88, ...]
+<span class="st">"What is the consultation charge?"</span> → [0.11, -0.50, 0.85, ...]   ← very close
+<span class="st">"Aaj mausam kaisa hai?"</span>          → [-0.70, 0.31, -0.10, ...]  ← far away</pre>
+        <p class="en">Real embeddings have hundreds or thousands of numbers. You don't read them yourself: you compare them.</p><p class="hi">असली embeddings में सैकड़ों या हज़ारों numbers होते हैं। आप उन्हें ख़ुद नहीं पढ़ते: आप उनकी तुलना करते हैं।</p>
+      </section>
+      <section id="similarity">
+        <h2 id="similarity-h"><span class="en">Cosine similarity: how close are two meanings?</span><span class="hi">Cosine similarity: दो मतलब कितने पास हैं?</span></h2>
+        <p class="en"><b>Cosine similarity</b> gives a score: close to <b>1</b> means very similar meaning, close to <b>0</b> means unrelated. Below, each sentence has a tiny hand-made 3-number embedding so you can see the idea. Pick a question and watch which sentences come out on top.</p><p class="hi"><b>Cosine similarity</b> एक score देती है: <b>1</b> के पास मतलब बहुत मिलता-जुलता, <b>0</b> के पास मतलब कोई संबंध नहीं। नीचे हर sentence का हाथ से बना छोटा 3-number embedding है ताकि idea दिखे। एक सवाल चुनिए और देखिए कौन-से sentences सबसे ऊपर आते हैं।</p>
+        <div class="viz" id="embed-viz">
+          <div class="viz-title"><span class="en">Try it: search by meaning</span><span class="hi">ख़ुद देखें: मतलब से search</span></div>
+          <div class="viz-controls"><select class="wide" aria-label="Question"></select></div>
+          <div class="sim-list"></div>
+          <div class="viz-msg"><span class="en">Notice: "Kitna paisa lagega?" matches the fee sentences, even though no word is the same. That's semantic search.</span><span class="hi">ध्यान दीजिए: "Kitna paisa lagega?" fee वाले sentences से मिलता है, जबकि एक भी शब्द एक जैसा नहीं। यही semantic search है।</span></div>
+        </div>
+        <pre class="code" data-copy><span class="cm">// Cosine similarity between two vectors</span>
+<span class="kw">function</span> cosine(a, b) {
+  <span class="kw">let</span> dot = 0, lenA = 0, lenB = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; a.length; i++) {
+    dot += a[i] * b[i];
+    lenA += a[i] * a[i];
+    lenB += b[i] * b[i];
+  }
+  <span class="kw">return</span> dot / (Math.sqrt(lenA) * Math.sqrt(lenB));
+}</pre>
+      </section>
+      <section id="vs">
+        <h2 id="vs-h"><span class="en">Keyword search vs semantic search</span><span class="hi">Keyword search vs semantic search</span></h2>
+        <div class="table-wrap"><table><thead><tr><th></th><th><span class="en">Keyword search</span><span class="hi">Keyword search</span></th><th><span class="en">Semantic search</span><span class="hi">Semantic search</span></th></tr></thead><tbody><tr><td><span class="en">Matches</span><span class="hi">किससे मिलाता है</span></td><td><span class="en">Exact words</span><span class="hi">Exact शब्द</span></td><td><span class="en">Meaning</span><span class="hi">मतलब</span></td></tr><tr><td><span class="en">"fees" finds "charges"?</span><span class="hi">"fees" से "charges" मिलेगा?</span></td><td>❌</td><td>✅</td></tr><tr><td><span class="en">Hindi question, English document?</span><span class="hi">Hindi सवाल, English document?</span></td><td>❌</td><td><span class="en">✅ (with a multilingual model)</span><span class="hi">✅ (multilingual model के साथ)</span></td></tr><tr><td><span class="en">Best for</span><span class="hi">सबसे अच्छा</span></td><td><span class="en">Codes, IDs, exact names</span><span class="hi">Codes, IDs, exact नाम</span></td><td><span class="en">Natural questions</span><span class="hi">आम बोलचाल वाले सवाल</span></td></tr></tbody></table></div>
+        <p class="en">Many real systems use <b>both</b> (hybrid search): keywords for exact matches like order IDs, and embeddings for meaning.</p><p class="hi">कई असली systems <b>दोनों</b> इस्तेमाल करते हैं (hybrid search): order ID जैसे exact matches के लिए keywords, और मतलब के लिए embeddings।</p>
+      </section>
+      <section id="code">
+        <h2 id="code-h"><span class="en">Semantic search in JavaScript</span><span class="hi">JavaScript में semantic search</span></h2><span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">You need an <b>embedding model</b>. You can call an embedding API from a provider, or run a small open model on your own computer for free. This example runs a multilingual model locally (it downloads about 120 MB the first time), so Hindi and English questions both work.</p><p class="hi">आपको एक <b>embedding model</b> चाहिए। आप किसी provider की embedding API call कर सकते हैं, या अपने computer पर एक छोटा open model मुफ़्त में चला सकते हैं। यह उदाहरण एक multilingual model local चलाता है (पहली बार लगभग 120 MB download होता है), इसलिए Hindi और English दोनों सवाल चलते हैं।</p>
+        <pre class="code" data-copy><span class="cm">// npm install @huggingface/transformers</span>
+import { pipeline } from <span class="st">"@huggingface/transformers"</span>;
+
+<span class="kw">const</span> extractor = <span class="kw">await</span> pipeline(<span class="st">"feature-extraction"</span>, <span class="st">"Xenova/paraphrase-multilingual-MiniLM-L12-v2"</span>);
+<span class="kw">const</span> embed = <span class="kw">async</span> (texts) =&gt;
+  (<span class="kw">await</span> extractor(texts, { pooling: <span class="st">"mean"</span>, normalize: <span class="kw">true</span> })).tolist();
+
+<span class="kw">const</span> docs = [
+  <span class="st">"Consultation fee is ₹500."</span>,
+  <span class="st">"The clinic is open 9 AM to 9 PM, Monday to Saturday."</span>,
+  <span class="st">"Free parking is available behind the building."</span>,
+];
+<span class="kw">const</span> docVectors = <span class="kw">await</span> embed(docs);
+
+<span class="cm">// With normalized vectors, cosine similarity is just the dot product.</span>
+<span class="kw">const</span> dot = (a, b) =&gt; a.reduce((sum, x, i) =&gt; sum + x * b[i], 0);
+
+<span class="kw">async</span> <span class="kw">function</span> search(question) {
+  <span class="kw">const</span> [q] = <span class="kw">await</span> embed([question]);
+  <span class="kw">return</span> docs
+    .map((text, i) =&gt; ({ text, score: dot(q, docVectors[i]) }))
+    .sort((a, b) =&gt; b.score - a.score);
+}
+
+console.log(<span class="kw">await</span> search(<span class="st">"Kitna paisa lagega?"</span>)); <span class="cm">// the fee sentence comes first</span></pre>
+        <p class="en">For thousands of documents, store the vectors in a <b>vector database</b> such as <b>pgvector</b> (PostgreSQL), so the search stays fast. That's the next module: RAG.</p><p class="hi">हज़ारों documents के लिए vectors को <b>vector database</b> में रखिए, जैसे <b>pgvector</b> (PostgreSQL), ताकि search तेज़ रहे। यही अगला module है: RAG।</p>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Comparing embeddings made by two different models. Always use the same model for documents and questions.</span><span class="hi">दो अलग models से बने embeddings की तुलना करना। Documents और सवालों के लिए हमेशा एक ही model इस्तेमाल कीजिए।</span></li><li><span class="en">Embedding a whole 50-page PDF as one vector. Split it into chunks first.</span><span class="hi">पूरे 50 पेज के PDF का एक ही vector बनाना। पहले उसे chunks में बाँटिए।</span></li><li><span class="en">Treating the similarity score as certainty. Set a minimum score and test with real questions.</span><span class="hi">Similarity score को पक्की बात मानना। एक minimum score रखिए और असली सवालों से test कीजिए।</span></li></ul></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: You have 500 FAQ answers for a college. A student asks "hostel ka kharcha kitna hai?". Describe, step by step, how semantic search finds the right FAQ.</span><span class="hi">Exercise 1: एक college के 500 FAQ जवाब हैं। Student पूछता है "hostel ka kharcha kitna hai?"। Step by step बताइए कि semantic search सही FAQ कैसे ढूँढेगा।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><ul><li><span class="en">Once: create an embedding for each of the 500 FAQs and store them.</span><span class="hi">एक बार: 500 FAQs में से हर एक का embedding बनाकर रखिए।</span></li><li><span class="en">When the question comes: create its embedding with the <b>same</b> model.</span><span class="hi">सवाल आने पर: <b>उसी</b> model से उसका embedding बनाइए।</span></li><li><span class="en">Compare it with all FAQ embeddings using cosine similarity (or let a vector database do it).</span><span class="hi">Cosine similarity से उसकी तुलना सारे FAQ embeddings से कीजिए (या vector database से करवाइए)।</span></li><li><span class="en">Return the top 1–3 FAQs, such as "Hostel fees are ₹60,000 per year", even though the student wrote "kharcha", not "fees".</span><span class="hi">सबसे ऊपर के 1–3 FAQs लौटाइए, जैसे "Hostel fees are ₹60,000 per year", जबकि student ने "fees" नहीं, "kharcha" लिखा था।</span></li></ul></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"An embedding is…","hi":"Embedding है…"},"options":[{"en":"A compressed image","hi":"Compressed image"},{"en":"A list of numbers representing meaning","hi":"मतलब दिखाने वाले numbers की list"},{"en":"A database table","hi":"Database table"},{"en":"A type of prompt","hi":"एक तरह का prompt"}],"answer":1,"why":{"en":"Similar meanings get similar numbers.","hi":"मिलते-जुलते मतलब के numbers भी मिलते-जुलते होते हैं।"}},{"q":{"en":"A cosine similarity of 0.95 means…","hi":"0.95 की cosine similarity का मतलब…"},"options":[{"en":"Very different meanings","hi":"बिल्कुल अलग मतलब"},{"en":"Very similar meanings","hi":"बहुत मिलते-जुलते मतलब"},{"en":"An error","hi":"Error"},{"en":"95% of words match","hi":"95% शब्द मिलते हैं"}],"answer":1,"why":{"en":"Near 1 = very similar meaning, regardless of exact words.","hi":"1 के पास = बहुत मिलता-जुलता मतलब, शब्द चाहे जो हों।"}},{"q":{"en":"Searching \"fees\" also finds \"charges\". This is…","hi":"\"fees\" search करने पर \"charges\" भी मिलता है। यह है…"},"options":["Keyword search","Semantic search","SQL LIKE","Regex"],"answer":1,"why":{"en":"Semantic search matches meaning.","hi":"Semantic search मतलब से मिलाती है।"}},{"q":{"en":"Documents were embedded with model A. Questions should use…","hi":"Documents model A से embed हुए। सवालों के लिए इस्तेमाल करें…"},"options":[{"en":"Any model","hi":"कोई भी model"},{"en":"The same model A","hi":"वही model A"},{"en":"A bigger model","hi":"बड़ा model"},{"en":"No model","hi":"कोई model नहीं"}],"answer":1,"why":{"en":"Different models create incompatible \"maps\".","hi":"अलग models के \"maps\" आपस में मेल नहीं खाते।"}},{"q":{"en":"Where do you store embeddings for fast search at scale?","hi":"बड़े पैमाने पर तेज़ search के लिए embeddings कहाँ रखें?"},"options":[{"en":"A text file","hi":"Text file"},{"en":"A vector database like pgvector","hi":"pgvector जैसा vector database"},{"en":"Browser cookies","hi":"Browser cookies"},{"en":"The prompt","hi":"Prompt"}],"answer":1,"why":{"en":"Vector databases are built for nearest-neighbour search.","hi":"Vector databases सबसे पास वाले ढूँढने के लिए ही बने हैं।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="ai:embeddings"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="llm-api.html">← <span class="en">Your first AI app in JavaScript</span><span class="hi">JavaScript में आपकी पहली AI app</span></a><a class="btn btn-outline" href="rag.html">→ <span class="en">RAG: AI that answers from your data</span><span class="hi">RAG: AI जो आपके data से जवाब दे</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20AI%20module%3A%20Embeddings%20and%20semantic%20search" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20AI%20module%3A%20Embeddings%20and%20semantic%20search" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"ai","m":["Artificial Intelligence"],"en":"Computers doing tasks that normally need human intelligence: understanding language, recognising images, making decisions.","hi":"Computers का ऐसे काम करना जिनमें आमतौर पर इंसानी समझ लगती है: भाषा समझना, तस्वीरें पहचानना, फ़ैसले लेना।"},{"s":"ml","m":["machine learning","Machine learning"],"en":"Teaching computers by showing them many examples, instead of writing every rule by hand.","hi":"हर नियम हाथ से लिखने की जगह, बहुत सारे examples दिखाकर computer को सिखाना।"},{"s":"deep-learning","m":["deep learning","Deep learning"],"en":"Machine learning with large neural networks (many layers). Powers modern AI.","hi":"बड़े neural networks (कई layers) वाली machine learning। आज की AI इसी से चलती है।"},{"s":"neural-network","m":["neural network","neural networks"],"en":"A program made of many connected number-crunching units, loosely inspired by the brain.","hi":"बहुत सारी जुड़ी हुई गणना करने वाली units से बना program, दिमाग़ से थोड़ा प्रेरित।"},{"s":"llm","m":["LLM","LLMs"],"en":"An AI trained on huge amounts of text to predict the next token. ChatGPT, Claude and Gemini are LLMs.","hi":"बहुत सारे text पर trained AI जो अगला token predict करता है। ChatGPT, Claude और Gemini LLMs हैं।"},{"s":"generative-ai","m":["generative AI","Generative AI"],"en":"AI that creates new content: text, images, code, audio or video.","hi":"AI जो नया content बनाता है: text, images, code, audio या video।"},{"s":"model","m":["model","models"],"en":"The trained AI itself: a large file of learned numbers (parameters) plus the code that runs it.","hi":"Trained AI ख़ुद: सीखे हुए numbers (parameters) की बड़ी file और उसे चलाने वाला code।"},{"s":"parameters","m":["parameters"],"en":"The numbers a model learned during training. More parameters usually means more capable, and more costly to run.","hi":"Training में model के सीखे हुए numbers। ज़्यादा parameters आमतौर पर ज़्यादा क़ाबिल, और चलाने में ज़्यादा महँगा।"},{"s":"training","m":["training"],"en":"Teaching a model by adjusting its parameters on huge data. Very expensive; done by AI companies.","hi":"बहुत बड़े data पर parameters बदलकर model को सिखाना। बहुत महँगा; AI companies करती हैं।"},{"s":"inference","m":["inference"],"en":"Using a trained model to produce an answer. Every API call is inference.","hi":"Trained model से जवाब निकलवाना। हर API call inference है।"},{"s":"token","m":["token","tokens"],"en":"A small piece of text (part of a word) that an LLM reads and writes. Usage and cost are counted in tokens.","hi":"Text का छोटा टुकड़ा (शब्द का हिस्सा) जिसे LLM पढ़ता और लिखता है। Usage और cost tokens में गिने जाते हैं।"},{"s":"context-window","m":["context window"],"en":"How many tokens the model can see at once: instructions, chat history, documents and its answer together.","hi":"Model एक बार में कितने tokens देख सकता है: निर्देश, chat history, documents और उसका जवाब मिलाकर।"},{"s":"prompt","m":["prompt","prompts"],"en":"The input you give the model: your question, instructions and any data.","hi":"Model को दिया गया input: आपका सवाल, निर्देश और कोई भी data।"},{"s":"system-prompt","m":["system prompt"],"en":"Instructions from the developer that set the AI's role and rules for the whole conversation.","hi":"Developer के निर्देश जो पूरी बातचीत के लिए AI का role और नियम तय करते हैं।"},{"s":"temperature","m":["temperature"],"en":"How random the word choice is. Low = predictable, high = creative.","hi":"शब्द चुनने में कितना random-पन। कम = अनुमानित, ज़्यादा = creative।"},{"s":"hallucination","m":["hallucination","hallucinate"],"en":"When an AI confidently says something false or made up.","hi":"जब AI पूरे भरोसे से कुछ ग़लत या मनगढ़ंत बोल दे।"},{"s":"few-shot","m":["few-shot"],"en":"Showing the model a few examples of the input and output you want.","hi":"Model को आपके चाहे गए input और output के कुछ examples दिखाना।"},{"s":"streaming","m":["streaming"],"en":"Showing the answer word by word as it's generated, instead of waiting for the whole answer.","hi":"पूरे जवाब का इंतज़ार करने की जगह, जवाब को बनते-बनते शब्द-दर-शब्द दिखाना।"},{"s":"api-key","m":["API key"],"en":"A secret password your server uses to call an AI API. Never put it in frontend code or GitHub.","hi":"एक secret password जिससे आपका server AI API call करता है। इसे कभी frontend code या GitHub में मत डालिए।"},{"s":"sdk","m":["SDK"],"en":"A ready-made library that makes calling an API easy in your language.","hi":"एक तैयार library जो आपकी language में API call करना आसान बनाती है।"},{"s":"embedding","m":["embedding","embeddings"],"en":"A list of numbers that represents the meaning of a text. Similar meanings have similar numbers.","hi":"Numbers की list जो text के मतलब को दिखाती है। मिलते-जुलते मतलब के numbers भी मिलते-जुलते होते हैं।"},{"s":"vector","m":["vector","vectors"],"en":"Another word for a list of numbers, like an embedding.","hi":"Numbers की list का दूसरा नाम, जैसे embedding।"},{"s":"cosine-similarity","m":["cosine similarity"],"en":"A score of how close two embeddings are in meaning: near 1 = very similar, near 0 = unrelated.","hi":"दो embeddings मतलब में कितने पास हैं, उसका score: 1 के पास = बहुत मिलते-जुलते, 0 के पास = कोई संबंध नहीं।"},{"s":"semantic-search","m":["semantic search"],"en":"Searching by meaning instead of exact words: \"fees\" also finds \"charges\".","hi":"Exact शब्दों की जगह मतलब से search: \"fees\" से \"charges\" भी मिल जाता है।"},{"s":"vector-db","m":["vector database","vector databases"],"en":"A database that stores embeddings and quickly finds the closest ones. Examples: pgvector, Pinecone, Qdrant.","hi":"Database जो embeddings रखता है और सबसे पास वाले जल्दी ढूँढता है। जैसे pgvector, Pinecone, Qdrant।"},{"s":"pgvector","m":["pgvector"],"en":"An extension that adds vector search to PostgreSQL.","hi":"एक extension जो PostgreSQL में vector search जोड़ता है।"},{"s":"chunking","m":["chunking","chunks","chunk"],"en":"Splitting long documents into small pieces before creating embeddings.","hi":"Embeddings बनाने से पहले लंबे documents को छोटे टुकड़ों में बाँटना।"},{"s":"rag","m":["RAG"],"en":"Retrieval-Augmented Generation: find relevant information first, then give it to the LLM with the question.","hi":"Retrieval-Augmented Generation: पहले सही जानकारी ढूँढो, फिर सवाल के साथ LLM को दो।"},{"s":"grounding","m":["grounded","grounding"],"en":"Making the AI answer only from given sources, so it doesn't make things up.","hi":"AI को सिर्फ़ दिए गए sources से जवाब देने को कहना, ताकि वो बातें न बनाए।"},{"s":"tool-calling","m":["tool calling","function calling"],"en":"The model asks your code to run a function (like checking a database) and uses the result.","hi":"Model आपके code से कोई function चलवाता है (जैसे database check करना) और नतीजा इस्तेमाल करता है।"},{"s":"agent","m":["agent","agents"],"en":"An AI that works in a loop: decides a step, uses tools, checks results, and repeats until the task is done.","hi":"AI जो loop में काम करता है: step तय करता है, tools इस्तेमाल करता है, नतीजे देखता है, और काम पूरा होने तक दोहराता है।"},{"s":"mcp","m":["MCP"],"en":"Model Context Protocol: a standard way to connect AI apps to tools and data sources.","hi":"Model Context Protocol: AI apps को tools और data sources से जोड़ने का standard तरीक़ा।"},{"s":"fine-tuning","m":["fine-tuning","fine-tune"],"en":"Further training a model on your examples to change its style or behaviour.","hi":"अपने examples पर model को और train करना, उसका style या व्यवहार बदलने के लिए।"},{"s":"evals","m":["evals","eval"],"en":"Tests for AI quality: a set of questions with expected answers, scored automatically.","hi":"AI quality के tests: अपेक्षित जवाबों वाले सवालों का set, जो अपने आप score होता है।"},{"s":"prompt-injection","m":["prompt injection"],"en":"When text from a user or document tries to override the AI's instructions.","hi":"जब user या document का text AI के निर्देशों को बदलने की कोशिश करे।"},{"s":"prompt-caching","m":["prompt caching"],"en":"Reusing the processed start of a long prompt across requests, so repeated calls are cheaper and faster.","hi":"लंबे prompt की शुरुआत को requests के बीच दोबारा इस्तेमाल करना, ताकि बार-बार की calls सस्ती और तेज़ हों।"},{"s":"transformer","m":["Transformer","Transformers"],"en":"The neural network design behind modern LLMs. It reads all tokens together and uses attention.","hi":"आज के LLMs के पीछे का neural network design। यह सारे tokens साथ में पढ़ता है और attention इस्तेमाल करता है।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">AI from Zero to Job-Ready</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">AI course by Agam Sahu</span><span class="hi">AI कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

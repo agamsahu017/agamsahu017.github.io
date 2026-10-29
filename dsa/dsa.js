@@ -542,4 +542,101 @@
       }
     });
   }
+
+  // ---------- AI: temperature and next-word probabilities ----------
+  const tempViz = document.getElementById("temp-viz");
+  if (tempViz) {
+    // Example scores (logits) a model might give for the next word after "Chai ke saath…".
+    const words = [["samosa", 3.2], ["biscuit", 2.6], ["pakode", 2.3], ["toast", 1.4], ["gossip", 0.8], ["cake", 0.5]];
+    const range = tempViz.querySelector("input[type=range]");
+    const tOut = tempViz.querySelector("[data-t]");
+    const bars = tempViz.querySelector(".bars");
+    const msg = tempViz.querySelector(".viz-msg");
+    bars.innerHTML = words.map(([w]) => `<div class="row"><b>${w}</b><div class="bar"></div><span class="val"></span></div>`).join("");
+    let probs = [];
+    const update = () => {
+      const t = Number(range.value);
+      tOut.textContent = t.toFixed(1);
+      const exps = words.map(([, logit]) => Math.exp(logit / t));
+      const sum = exps.reduce((a, b) => a + b, 0);
+      probs = exps.map((e) => e / sum);
+      [...bars.children].forEach((row, i) => {
+        row.querySelector(".bar").style.width = Math.max(0.8, probs[i] * 100) + "%";
+        row.querySelector(".val").textContent = Math.round(probs[i] * 1000) / 10 + "%";
+      });
+    };
+    tempViz.querySelector("[data-act=sample]").addEventListener("click", () => {
+      let r = Math.random(), i = 0;
+      while (i < probs.length - 1 && r > probs[i]) { r -= probs[i]; i++; }
+      setMsg(msg, `The model picked: <b>"Chai ke saath ${words[i][0]}"</b>. Click again: at low temperature you'll almost always get the same word; at high temperature you'll see surprises.`,
+        `Model ने चुना: <b>"Chai ke saath ${words[i][0]}"</b>। फिर से क्लिक कीजिए: कम temperature पर लगभग हमेशा वही शब्द आएगा; ज़्यादा temperature पर नए-नए शब्द दिखेंगे।`);
+    });
+    range.addEventListener("input", update);
+    update();
+  }
+
+  // ---------- AI: rough token counter ----------
+  const tokViz = document.getElementById("token-viz");
+  if (tokViz) {
+    const input = tokViz.querySelector("textarea");
+    const out = tokViz.querySelector(".tokens");
+    const msg = tokViz.querySelector(".viz-msg");
+    const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    // Simplified illustration: common short words = 1 token, long words are cut
+    // into pieces of ~4 characters, punctuation is separate. Real tokenizers differ.
+    const tokenize = (text) => {
+      const parts = text.match(/\s*[\p{L}\p{M}\p{N}]+|\s*[^\s\p{L}\p{M}\p{N}]/gu) || [];
+      const pieces = [];
+      for (const p of parts) {
+        const lead = p.match(/^\s*/)[0];
+        const word = p.slice(lead.length);
+        if (word.length <= 5) { pieces.push(p); continue; }
+        for (let i = 0; i < word.length; i += 4) pieces.push((i === 0 ? lead : "") + word.slice(i, i + 4));
+      }
+      return pieces;
+    };
+    const update = () => {
+      const pieces = tokenize(input.value.slice(0, 600));
+      out.innerHTML = pieces.map((p, i) => `<span class="tok t${i % 5}">${esc(p).replace(/ /g, "&nbsp;")}</span>`).join("");
+      const words = (input.value.trim().match(/\S+/g) || []).length;
+      setMsg(msg, `About <b>${pieces.length} tokens</b> for ${words} words (simplified example: real tokenizers split text a little differently).`,
+        `${words} शब्दों के लिए लगभग <b>${pieces.length} tokens</b> (आसान उदाहरण: असली tokenizers text को थोड़ा अलग तरह से तोड़ते हैं)।`);
+    };
+    input.addEventListener("input", update);
+    update();
+  }
+
+  // ---------- AI: toy "meaning map" for embeddings and retrieval ----------
+  const embViz = document.getElementById("embed-viz");
+  if (embViz) {
+    // Hand-made 3-number "embeddings" so the idea is visible. Real ones have hundreds of numbers.
+    const docs = [
+      ["Consultation fee is ₹500", [0.9, 0.1, 0.05]],
+      ["Doctor charges ₹500 per visit", [0.85, 0.15, 0.1]],
+      ["Clinic is open 9 AM to 9 PM", [0.1, 0.9, 0.1]],
+      ["On Sunday we open 10 AM to 1 PM", [0.15, 0.85, 0.2]],
+      ["Free parking is available", [0.1, 0.2, 0.9]],
+      ["It will rain in Lucknow today", [-0.2, 0.1, 0.3]],
+    ];
+    const questions = [
+      ["Kitna paisa lagega? (How much will it cost?)", [0.88, 0.12, 0.08]],
+      ["Is the clinic open on Sunday?", [0.12, 0.88, 0.15]],
+      ["Where can I park my car?", [0.08, 0.15, 0.92]],
+    ];
+    const select = embViz.querySelector("select");
+    const list = embViz.querySelector(".sim-list");
+    select.innerHTML = questions.map(([q], i) => `<option value="${i}">${q}</option>`).join("");
+    const cos = (a, b) => {
+      const dot = a.reduce((s, x, i) => s + x * b[i], 0);
+      const len = (v) => Math.sqrt(v.reduce((s, x) => s + x * x, 0));
+      return dot / (len(a) * len(b));
+    };
+    const update = () => {
+      const qv = questions[Number(select.value)][1];
+      const scored = docs.map(([text, v]) => ({ text, v, s: cos(qv, v) })).sort((a, b) => b.s - a.s);
+      list.innerHTML = scored.map((d, i) => `<div class="sim-row${i < 2 ? " top" : ""}"><span>${i < 2 ? "✅ " : ""}${d.text}<small>[${d.v.join(", ")}]</small></span><div class="bar" style="width:${Math.max(2, d.s * 100)}%"></div><b>${d.s.toFixed(2)}</b></div>`).join("");
+    };
+    select.addEventListener("change", update);
+    update();
+  }
 })();

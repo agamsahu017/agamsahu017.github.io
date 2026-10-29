@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Glossary: AI Terms Explained Simply | Kodivo</title>
+  <meta name="description" content="Simple meanings of AI words: LLM, token, context window, embedding, RAG, vector database, agent, MCP, fine-tuning and more, in English and Hindi." />
+  <link rel="canonical" href="https://agamsahu017.github.io/ai/glossary.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/ai/glossary.html" />
+  <meta property="og:title" content="AI Glossary: AI Terms Explained Simply | Kodivo" />
+  <meta property="og:description" content="Simple meanings of AI words: LLM, token, context window, embedding, RAG, vector database, agent, MCP, fine-tuning and more, in English and Hindi." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "AI from Zero to Job-Ready",
+          "item": "https://agamsahu017.github.io/ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Glossary",
+          "item": "https://agamsahu017.github.io/ai/glossary.html"
+        }
+      ]
+    },
+    {
+      "@type": "DefinedTermSet",
+      "name": "AI glossary",
+      "url": "https://agamsahu017.github.io/ai/glossary.html",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "name": "AI (Artificial Intelligence)",
+          "description": "Computers doing tasks that normally need human intelligence: understanding language, recognising images, making decisions.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#ai"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Machine learning (ML)",
+          "description": "Teaching computers by showing them many examples, instead of writing every rule by hand.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#ml"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Deep learning",
+          "description": "Machine learning with large neural networks (many layers). Powers modern AI.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#deep-learning"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Neural network",
+          "description": "A program made of many connected number-crunching units, loosely inspired by the brain.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#neural-network"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "LLM (Large Language Model)",
+          "description": "An AI trained on huge amounts of text to predict the next token. ChatGPT, Claude and Gemini are LLMs.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#llm"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Generative AI",
+          "description": "AI that creates new content: text, images, code, audio or video.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#generative-ai"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Model",
+          "description": "The trained AI itself: a large file of learned numbers (parameters) plus the code that runs it.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#model"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Parameters",
+          "description": "The numbers a model learned during training. More parameters usually means more capable, and more costly to run.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#parameters"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Training",
+          "description": "Teaching a model by adjusting its parameters on huge data. Very expensive; done by AI companies.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#training"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Inference",
+          "description": "Using a trained model to produce an answer. Every API call is inference.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#inference"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Token",
+          "description": "A small piece of text (part of a word) that an LLM reads and writes. Usage and cost are counted in tokens.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#token"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Context window",
+          "description": "How many tokens the model can see at once: instructions, chat history, documents and its answer together.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#context-window"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Prompt",
+          "description": "The input you give the model: your question, instructions and any data.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#prompt"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "System prompt",
+          "description": "Instructions from the developer that set the AI's role and rules for the whole conversation.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#system-prompt"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Temperature",
+          "description": "How random the word choice is. Low = predictable, high = creative.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#temperature"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Hallucination",
+          "description": "When an AI confidently says something false or made up.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#hallucination"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Few-shot prompting",
+          "description": "Showing the model a few examples of the input and output you want.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#few-shot"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Streaming",
+          "description": "Showing the answer word by word as it's generated, instead of waiting for the whole answer.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#streaming"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "API key",
+          "description": "A secret password your server uses to call an AI API. Never put it in frontend code or GitHub.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#api-key"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "SDK",
+          "description": "A ready-made library that makes calling an API easy in your language.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#sdk"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Embedding",
+          "description": "A list of numbers that represents the meaning of a text. Similar meanings have similar numbers.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#embedding"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Vector",
+          "description": "Another word for a list of numbers, like an embedding.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#vector"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Cosine similarity",
+          "description": "A score of how close two embeddings are in meaning: near 1 = very similar, near 0 = unrelated.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#cosine-similarity"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Semantic search",
+          "description": "Searching by meaning instead of exact words: \"fees\" also finds \"charges\".",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#semantic-search"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Vector database",
+          "description": "A database that stores embeddings and quickly finds the closest ones. Examples: pgvector, Pinecone, Qdrant.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#vector-db"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "pgvector",
+          "description": "An extension that adds vector search to PostgreSQL.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#pgvector"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Chunking",
+          "description": "Splitting long documents into small pieces before creating embeddings.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#chunking"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "RAG",
+          "description": "Retrieval-Augmented Generation: find relevant information first, then give it to the LLM with the question.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#rag"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Grounding",
+          "description": "Making the AI answer only from given sources, so it doesn't make things up.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#grounding"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Tool calling",
+          "description": "The model asks your code to run a function (like checking a database) and uses the result.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#tool-calling"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "AI agent",
+          "description": "An AI that works in a loop: decides a step, uses tools, checks results, and repeats until the task is done.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#agent"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "MCP",
+          "description": "Model Context Protocol: a standard way to connect AI apps to tools and data sources.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#mcp"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Fine-tuning",
+          "description": "Further training a model on your examples to change its style or behaviour.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#fine-tuning"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Evals",
+          "description": "Tests for AI quality: a set of questions with expected answers, scored automatically.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#evals"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Prompt injection",
+          "description": "When text from a user or document tries to override the AI's instructions.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#prompt-injection"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Prompt caching",
+          "description": "Reusing the processed start of a long prompt across requests, so repeated calls are cheaper and faster.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#prompt-caching"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Transformer",
+          "description": "The neural network design behind modern LLMs. It reads all tokens together and uses attention.",
+          "url": "https://agamsahu017.github.io/ai/glossary.html#transformer"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../system-design/"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20question%20about%20an%20AI%20term." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">AI</a> › <span>Glossary</span></nav>
+        <h1><span class="en">AI glossary</span><span class="hi">AI glossary</span></h1>
+        <p class="en">37 AI words, each explained in one or two simple lines. Use the search box to find a word quickly.</p><p class="hi">37 AI शब्द, हर एक का मतलब एक-दो आसान लाइनों में। किसी शब्द को जल्दी ढूँढने के लिए search box इस्तेमाल कीजिए।</p>
+        <input id="gloss-search" class="gloss-search" type="search" placeholder="Search: token, RAG, embedding…" aria-label="Search the glossary" />
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">AI basics</span><span class="hi">AI basics</span></h2>
+        <dl>
+          <div class="gloss-item" id="ai"><dt>AI (Artificial Intelligence)</dt><dd><span class="en">Computers doing tasks that normally need human intelligence: understanding language, recognising images, making decisions.</span><span class="hi">Computers का ऐसे काम करना जिनमें आमतौर पर इंसानी समझ लगती है: भाषा समझना, तस्वीरें पहचानना, फ़ैसले लेना।</span></dd></div>
+          <div class="gloss-item" id="ml"><dt>Machine learning (ML)</dt><dd><span class="en">Teaching computers by showing them many examples, instead of writing every rule by hand.</span><span class="hi">हर नियम हाथ से लिखने की जगह, बहुत सारे examples दिखाकर computer को सिखाना।</span></dd></div>
+          <div class="gloss-item" id="deep-learning"><dt>Deep learning</dt><dd><span class="en">Machine learning with large neural networks (many layers). Powers modern AI.</span><span class="hi">बड़े neural networks (कई layers) वाली machine learning। आज की AI इसी से चलती है।</span></dd></div>
+          <div class="gloss-item" id="neural-network"><dt>Neural network</dt><dd><span class="en">A program made of many connected number-crunching units, loosely inspired by the brain.</span><span class="hi">बहुत सारी जुड़ी हुई गणना करने वाली units से बना program, दिमाग़ से थोड़ा प्रेरित।</span></dd></div>
+          <div class="gloss-item" id="llm"><dt>LLM (Large Language Model)</dt><dd><span class="en">An AI trained on huge amounts of text to predict the next token. ChatGPT, Claude and Gemini are LLMs.</span><span class="hi">बहुत सारे text पर trained AI जो अगला token predict करता है। ChatGPT, Claude और Gemini LLMs हैं।</span></dd></div>
+          <div class="gloss-item" id="generative-ai"><dt>Generative AI</dt><dd><span class="en">AI that creates new content: text, images, code, audio or video.</span><span class="hi">AI जो नया content बनाता है: text, images, code, audio या video।</span></dd></div>
+          <div class="gloss-item" id="model"><dt>Model</dt><dd><span class="en">The trained AI itself: a large file of learned numbers (parameters) plus the code that runs it.</span><span class="hi">Trained AI ख़ुद: सीखे हुए numbers (parameters) की बड़ी file और उसे चलाने वाला code।</span></dd></div>
+          <div class="gloss-item" id="parameters"><dt>Parameters</dt><dd><span class="en">The numbers a model learned during training. More parameters usually means more capable, and more costly to run.</span><span class="hi">Training में model के सीखे हुए numbers। ज़्यादा parameters आमतौर पर ज़्यादा क़ाबिल, और चलाने में ज़्यादा महँगा।</span></dd></div>
+          <div class="gloss-item" id="training"><dt>Training</dt><dd><span class="en">Teaching a model by adjusting its parameters on huge data. Very expensive; done by AI companies.</span><span class="hi">बहुत बड़े data पर parameters बदलकर model को सिखाना। बहुत महँगा; AI companies करती हैं।</span></dd></div>
+          <div class="gloss-item" id="inference"><dt>Inference</dt><dd><span class="en">Using a trained model to produce an answer. Every API call is inference.</span><span class="hi">Trained model से जवाब निकलवाना। हर API call inference है।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">How LLMs work</span><span class="hi">LLMs कैसे काम करते हैं</span></h2>
+        <dl>
+          <div class="gloss-item" id="token"><dt>Token</dt><dd><span class="en">A small piece of text (part of a word) that an LLM reads and writes. Usage and cost are counted in tokens.</span><span class="hi">Text का छोटा टुकड़ा (शब्द का हिस्सा) जिसे LLM पढ़ता और लिखता है। Usage और cost tokens में गिने जाते हैं।</span></dd></div>
+          <div class="gloss-item" id="context-window"><dt>Context window</dt><dd><span class="en">How many tokens the model can see at once: instructions, chat history, documents and its answer together.</span><span class="hi">Model एक बार में कितने tokens देख सकता है: निर्देश, chat history, documents और उसका जवाब मिलाकर।</span></dd></div>
+          <div class="gloss-item" id="prompt"><dt>Prompt</dt><dd><span class="en">The input you give the model: your question, instructions and any data.</span><span class="hi">Model को दिया गया input: आपका सवाल, निर्देश और कोई भी data।</span></dd></div>
+          <div class="gloss-item" id="system-prompt"><dt>System prompt</dt><dd><span class="en">Instructions from the developer that set the AI's role and rules for the whole conversation.</span><span class="hi">Developer के निर्देश जो पूरी बातचीत के लिए AI का role और नियम तय करते हैं।</span></dd></div>
+          <div class="gloss-item" id="temperature"><dt>Temperature</dt><dd><span class="en">How random the word choice is. Low = predictable, high = creative.</span><span class="hi">शब्द चुनने में कितना random-पन। कम = अनुमानित, ज़्यादा = creative।</span></dd></div>
+          <div class="gloss-item" id="hallucination"><dt>Hallucination</dt><dd><span class="en">When an AI confidently says something false or made up.</span><span class="hi">जब AI पूरे भरोसे से कुछ ग़लत या मनगढ़ंत बोल दे।</span></dd></div>
+          <div class="gloss-item" id="few-shot"><dt>Few-shot prompting</dt><dd><span class="en">Showing the model a few examples of the input and output you want.</span><span class="hi">Model को आपके चाहे गए input और output के कुछ examples दिखाना।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Building AI apps</span><span class="hi">AI apps बनाना</span></h2>
+        <dl>
+          <div class="gloss-item" id="streaming"><dt>Streaming</dt><dd><span class="en">Showing the answer word by word as it's generated, instead of waiting for the whole answer.</span><span class="hi">पूरे जवाब का इंतज़ार करने की जगह, जवाब को बनते-बनते शब्द-दर-शब्द दिखाना।</span></dd></div>
+          <div class="gloss-item" id="api-key"><dt>API key</dt><dd><span class="en">A secret password your server uses to call an AI API. Never put it in frontend code or GitHub.</span><span class="hi">एक secret password जिससे आपका server AI API call करता है। इसे कभी frontend code या GitHub में मत डालिए।</span></dd></div>
+          <div class="gloss-item" id="sdk"><dt>SDK</dt><dd><span class="en">A ready-made library that makes calling an API easy in your language.</span><span class="hi">एक तैयार library जो आपकी language में API call करना आसान बनाती है।</span></dd></div>
+          <div class="gloss-item" id="embedding"><dt>Embedding</dt><dd><span class="en">A list of numbers that represents the meaning of a text. Similar meanings have similar numbers.</span><span class="hi">Numbers की list जो text के मतलब को दिखाती है। मिलते-जुलते मतलब के numbers भी मिलते-जुलते होते हैं।</span></dd></div>
+          <div class="gloss-item" id="vector"><dt>Vector</dt><dd><span class="en">Another word for a list of numbers, like an embedding.</span><span class="hi">Numbers की list का दूसरा नाम, जैसे embedding।</span></dd></div>
+          <div class="gloss-item" id="cosine-similarity"><dt>Cosine similarity</dt><dd><span class="en">A score of how close two embeddings are in meaning: near 1 = very similar, near 0 = unrelated.</span><span class="hi">दो embeddings मतलब में कितने पास हैं, उसका score: 1 के पास = बहुत मिलते-जुलते, 0 के पास = कोई संबंध नहीं।</span></dd></div>
+          <div class="gloss-item" id="semantic-search"><dt>Semantic search</dt><dd><span class="en">Searching by meaning instead of exact words: "fees" also finds "charges".</span><span class="hi">Exact शब्दों की जगह मतलब से search: "fees" से "charges" भी मिल जाता है।</span></dd></div>
+          <div class="gloss-item" id="vector-db"><dt>Vector database</dt><dd><span class="en">A database that stores embeddings and quickly finds the closest ones. Examples: pgvector, Pinecone, Qdrant.</span><span class="hi">Database जो embeddings रखता है और सबसे पास वाले जल्दी ढूँढता है। जैसे pgvector, Pinecone, Qdrant।</span></dd></div>
+          <div class="gloss-item" id="pgvector"><dt>pgvector</dt><dd><span class="en">An extension that adds vector search to PostgreSQL.</span><span class="hi">एक extension जो PostgreSQL में vector search जोड़ता है।</span></dd></div>
+          <div class="gloss-item" id="chunking"><dt>Chunking</dt><dd><span class="en">Splitting long documents into small pieces before creating embeddings.</span><span class="hi">Embeddings बनाने से पहले लंबे documents को छोटे टुकड़ों में बाँटना।</span></dd></div>
+          <div class="gloss-item" id="rag"><dt>RAG</dt><dd><span class="en">Retrieval-Augmented Generation: find relevant information first, then give it to the LLM with the question.</span><span class="hi">Retrieval-Augmented Generation: पहले सही जानकारी ढूँढो, फिर सवाल के साथ LLM को दो।</span></dd></div>
+          <div class="gloss-item" id="grounding"><dt>Grounding</dt><dd><span class="en">Making the AI answer only from given sources, so it doesn't make things up.</span><span class="hi">AI को सिर्फ़ दिए गए sources से जवाब देने को कहना, ताकि वो बातें न बनाए।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Advanced</span><span class="hi">Advanced</span></h2>
+        <dl>
+          <div class="gloss-item" id="tool-calling"><dt>Tool calling</dt><dd><span class="en">The model asks your code to run a function (like checking a database) and uses the result.</span><span class="hi">Model आपके code से कोई function चलवाता है (जैसे database check करना) और नतीजा इस्तेमाल करता है।</span></dd></div>
+          <div class="gloss-item" id="agent"><dt>AI agent</dt><dd><span class="en">An AI that works in a loop: decides a step, uses tools, checks results, and repeats until the task is done.</span><span class="hi">AI जो loop में काम करता है: step तय करता है, tools इस्तेमाल करता है, नतीजे देखता है, और काम पूरा होने तक दोहराता है।</span></dd></div>
+          <div class="gloss-item" id="mcp"><dt>MCP</dt><dd><span class="en">Model Context Protocol: a standard way to connect AI apps to tools and data sources.</span><span class="hi">Model Context Protocol: AI apps को tools और data sources से जोड़ने का standard तरीक़ा।</span></dd></div>
+          <div class="gloss-item" id="fine-tuning"><dt>Fine-tuning</dt><dd><span class="en">Further training a model on your examples to change its style or behaviour.</span><span class="hi">अपने examples पर model को और train करना, उसका style या व्यवहार बदलने के लिए।</span></dd></div>
+          <div class="gloss-item" id="evals"><dt>Evals</dt><dd><span class="en">Tests for AI quality: a set of questions with expected answers, scored automatically.</span><span class="hi">AI quality के tests: अपेक्षित जवाबों वाले सवालों का set, जो अपने आप score होता है।</span></dd></div>
+          <div class="gloss-item" id="prompt-injection"><dt>Prompt injection</dt><dd><span class="en">When text from a user or document tries to override the AI's instructions.</span><span class="hi">जब user या document का text AI के निर्देशों को बदलने की कोशिश करे।</span></dd></div>
+          <div class="gloss-item" id="prompt-caching"><dt>Prompt caching</dt><dd><span class="en">Reusing the processed start of a long prompt across requests, so repeated calls are cheaper and faster.</span><span class="hi">लंबे prompt की शुरुआत को requests के बीच दोबारा इस्तेमाल करना, ताकि बार-बार की calls सस्ती और तेज़ हों।</span></dd></div>
+          <div class="gloss-item" id="transformer"><dt>Transformer</dt><dd><span class="en">The neural network design behind modern LLMs. It reads all tokens together and uses attention.</span><span class="hi">आज के LLMs के पीछे का neural network design। यह सारे tokens साथ में पढ़ता है और attention इस्तेमाल करता है।</span></dd></div>
+        </dl>
+      </div>
+      <div class="lesson-nav"><a class="btn btn-outline" href="./"><span class="en">← Roadmap</span><span class="hi">← रोडमैप</span></a><a class="btn btn-primary" href="what-is-ai.html"><span class="en">Start Module 1 →</span><span class="hi">मॉड्यूल 1 शुरू करें →</span></a></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">AI from Zero to Job-Ready</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">AI course by Agam Sahu</span><span class="hi">AI कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

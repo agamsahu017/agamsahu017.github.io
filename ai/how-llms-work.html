@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How ChatGPT and Claude Work: Tokens & Temperature | Kodivo</title>
+  <meta name="description" content="How LLMs like ChatGPT and Claude work, simply: next-token prediction, tokens, context window, temperature and hallucination, with interactive demos." />
+  <link rel="canonical" href="https://agamsahu017.github.io/ai/how-llms-work.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/ai/how-llms-work.html" />
+  <meta property="og:title" content="How ChatGPT and Claude Work: Tokens & Temperature | Kodivo" />
+  <meta property="og:description" content="How LLMs like ChatGPT and Claude work, simply: next-token prediction, tokens, context window, temperature and hallucination, with interactive demos." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "AI from Zero to Job-Ready",
+          "item": "https://agamsahu017.github.io/ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How ChatGPT and Claude work",
+          "item": "https://agamsahu017.github.io/ai/how-llms-work.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "How ChatGPT and Claude Work: Tokens & Temperature",
+      "description": "How LLMs like ChatGPT and Claude work, simply: next-token prediction, tokens, context window, temperature and hallucination, with interactive demos.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "AI from Zero to Job-Ready",
+        "url": "https://agamsahu017.github.io/ai/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../system-design/"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20AI%20on%20your%20website%20(How%20ChatGPT%20and%20Claude%20work)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">AI</a> › <span>How ChatGPT and Claude work</span></nav>
+        <span class="pill"><span class="en">Module 2 of 18</span><span class="hi">मॉड्यूल 2 / 18</span></span>
+        <h1><span class="en">How ChatGPT and Claude work</span><span class="hi">ChatGPT और Claude कैसे काम करते हैं</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🤖 AI</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">How an LLM writes an answer, one token at a time</span><span class="hi">LLM एक-एक token करके जवाब कैसे लिखता है</span></li><li><span class="en">Tokens and why they decide cost and limits</span><span class="hi">Tokens, और वो cost और limits क्यों तय करते हैं</span></li><li><span class="en">The context window: the model's short-term memory</span><span class="hi">Context window: model की short-term memory</span></li><li><span class="en">Temperature, hallucination, and how to reduce mistakes</span><span class="hi">Temperature, hallucination, और ग़लतियाँ कैसे कम करें</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#next"><span class="en">Next-token prediction</span><span class="hi">अगला token</span></a><a href="#tokens"><span class="en">Tokens</span><span class="hi">Tokens</span></a><a href="#context"><span class="en">Context window</span><span class="hi">Context window</span></a><a href="#temperature"><span class="en">Temperature</span><span class="hi">Temperature</span></a><a href="#hallucination"><span class="en">Hallucination</span><span class="hi">Hallucination</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">AI glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">AI glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="next">
+        <h2 id="next-h"><span class="en">A very smart autocomplete</span><span class="hi">एक बहुत समझदार autocomplete</span></h2>
+        <p class="en">Your phone keyboard suggests "morning" after "Good". An LLM does the same thing, but it is far better at it: it looks at everything written so far and picks the next piece of text, then the next, then the next, until the answer is complete.</p><p class="hi">आपका phone keyboard "Good" के बाद "morning" सुझाता है। LLM भी यही करता है, पर कहीं बेहतर: वो अब तक लिखा सब कुछ देखकर अगला टुकड़ा चुनता है, फिर अगला, फिर अगला, जब तक जवाब पूरा न हो।</p>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">Your prompt</span><span class="hi">आपका prompt</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Model predicts next token</span><span class="hi">Model अगला token predict करता है</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Adds it to the text</span><span class="hi">उसे text में जोड़ता है</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Repeats until done</span><span class="hi">पूरा होने तक दोहराता है</span></div></div></figure>
+        <div class="idea"><p class="en">This is why answers appear word by word in ChatGPT and Claude. That's <b>streaming</b>: you see each token as it is generated.</p><p class="hi">इसीलिए ChatGPT और Claude में जवाब शब्द-दर-शब्द आते हैं। यह <b>streaming</b> है: हर token बनते ही दिखता है।</p></div>
+      </section>
+      <section id="tokens">
+        <h2 id="tokens-h"><span class="en">Tokens: how AI reads text</span><span class="hi">Tokens: AI text कैसे पढ़ता है</span></h2>
+        <p class="en">LLMs don't read whole words. They read <b>tokens</b>: common words are one token, longer or rare words are split into pieces. In English, 100 tokens is roughly 75 words. Hindi and other languages often need more tokens for the same meaning.</p><p class="hi">LLMs पूरे शब्द नहीं पढ़ते। वो <b>tokens</b> पढ़ते हैं: आम शब्द एक token, लंबे या कम इस्तेमाल होने वाले शब्द टुकड़ों में। English में 100 tokens लगभग 75 शब्द होते हैं। Hindi और दूसरी भाषाओं में उसी मतलब के लिए अक्सर ज़्यादा tokens लगते हैं।</p>
+        <div class="viz" id="token-viz">
+          <div class="viz-title"><span class="en">Try it: see text split into token-like pieces</span><span class="hi">ख़ुद देखें: text को token जैसे टुकड़ों में बँटते देखिए</span></div>
+          <textarea aria-label="Text to split">Unbelievable! Kodivo builds AI chatbots for clinics in Lucknow.</textarea>
+          <div class="tokens"></div>
+          <div class="viz-msg"></div>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Why tokens matter</span><span class="hi">Tokens क्यों मायने रखते हैं</span></th><th><span class="en">Example</span><span class="hi">उदाहरण</span></th></tr></thead><tbody><tr><td><span class="en"><b>Cost:</b> APIs charge per token, for input and output</span><span class="hi"><b>Cost:</b> APIs input और output के हर token का पैसा लेती हैं</span></td><td><span class="en">A long PDF in every request costs more</span><span class="hi">हर request में लंबा PDF भेजना महँगा पड़ता है</span></td></tr><tr><td><span class="en"><b>Limits:</b> the context window is measured in tokens</span><span class="hi"><b>Limits:</b> context window tokens में नापी जाती है</span></td><td><span class="en">A huge chat history can stop fitting</span><span class="hi">बहुत लंबी chat history फ़िट होना बंद हो सकती है</span></td></tr><tr><td><span class="en"><b>Speed:</b> more output tokens = longer wait</span><span class="hi"><b>Speed:</b> ज़्यादा output tokens = ज़्यादा इंतज़ार</span></td><td><span class="en">Ask for a short answer when you need speed</span><span class="hi">तेज़ी चाहिए तो छोटा जवाब माँगिए</span></td></tr></tbody></table></div>
+      </section>
+      <section id="context">
+        <h2 id="context-h"><span class="en">The context window: short-term memory</span><span class="hi">Context window: short-term memory</span></h2>
+        <p class="en">The <b>context window</b> is everything the model can see in one go: the instructions, the chat history, any documents you pasted, and the answer it is writing. Modern models have very large windows (hundreds of thousands of tokens or more), but it is still a limit.</p><p class="hi"><b>Context window</b> वो सब है जो model एक बार में देख सकता है: निर्देश, chat history, आपके paste किए documents, और जो जवाब वो लिख रहा है। आज के models की window बहुत बड़ी है (लाखों tokens या ज़्यादा), पर फिर भी एक सीमा है।</p>
+        <ul><li><span class="en">The model has <b>no memory between separate API calls</b>. A chatbot "remembers" because the app sends the whole conversation again each time.</span><span class="hi">Model को <b>अलग-अलग API calls के बीच कुछ याद नहीं रहता</b>। Chatbot "याद" रखता है क्योंकि app हर बार पूरी बातचीत दोबारा भेजती है।</span></li><li><span class="en">Very long chats get slower and costlier, and very old details can get less attention. Start a new chat for a new topic.</span><span class="hi">बहुत लंबी chats धीमी और महँगी होती जाती हैं, और बहुत पुरानी बातों पर ध्यान कम हो सकता है। नए topic के लिए नई chat शुरू कीजिए।</span></li></ul>
+      </section>
+      <section id="temperature">
+        <h2 id="temperature-h"><span class="en">Temperature: predictable or creative?</span><span class="hi">Temperature: अनुमानित या creative?</span></h2>
+        <p class="en">For each next token, the model gives every option a probability. <b>Temperature</b> controls how it picks: low temperature almost always picks the top option (predictable), high temperature spreads the chances out (creative, but riskier).</p><p class="hi">हर अगले token के लिए model हर option को एक probability देता है। <b>Temperature</b> तय करता है कि वो कैसे चुने: कम temperature पर लगभग हमेशा सबसे ऊपर वाला option (अनुमानित), ज़्यादा temperature पर chances फैल जाते हैं (creative, पर ज़्यादा जोखिम)।</p>
+        <div class="viz" id="temp-viz">
+          <div class="viz-title"><span class="en">Try it: the next word after "Chai ke saath…"</span><span class="hi">ख़ुद देखें: "Chai ke saath…" के बाद अगला शब्द</span></div>
+          <div class="viz-controls"><label for="temp-t">temperature = <b data-t>1.0</b></label><input id="temp-t" type="range" min="0.1" max="2" step="0.1" value="1" /><button type="button" class="btn btn-primary" data-act="sample"><span class="en">Generate a word</span><span class="hi">शब्द बनवाएँ</span></button></div>
+          <div class="bars"></div>
+          <div class="viz-msg"><span class="en">Move the slider to 0.1, then to 2.0, and watch the chances change.</span><span class="hi">Slider को 0.1 पर, फिर 2.0 पर ले जाइए, और chances बदलते देखिए।</span></div>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Setting</span><span class="hi">Setting</span></th><th><span class="en">Behaviour</span><span class="hi">व्यवहार</span></th><th><span class="en">Use for</span><span class="hi">किसके लिए</span></th></tr></thead><tbody><tr><td><span class="en">Low</span><span class="hi">कम</span></td><td><span class="en">Consistent, safe answers</span><span class="hi">एक जैसे, सुरक्षित जवाब</span></td><td><span class="en">Support bots, data extraction, code</span><span class="hi">Support bots, data निकालना, code</span></td></tr><tr><td><span class="en">High</span><span class="hi">ज़्यादा</span></td><td><span class="en">Varied, creative answers</span><span class="hi">अलग-अलग, creative जवाब</span></td><td><span class="en">Brainstorming, captions, stories</span><span class="hi">Ideas, captions, कहानियाँ</span></td></tr></tbody></table></div>
+        <p class="en">Note: some newer APIs, including current Claude models, no longer let you set temperature directly. There you steer behaviour with clear instructions and examples instead. The idea above still explains why the same prompt can give different answers.</p><p class="hi">ध्यान दें: कुछ नई APIs, जिनमें आज के Claude models भी हैं, अब temperature सीधे set नहीं करने देतीं। वहाँ आप साफ़ निर्देशों और examples से व्यवहार तय करते हैं। ऊपर वाला idea फिर भी समझाता है कि एक ही prompt से अलग-अलग जवाब क्यों आ सकते हैं।</p>
+      </section>
+      <section id="hallucination">
+        <h2 id="hallucination-h"><span class="en">Hallucination: confident but wrong</span><span class="hi">Hallucination: भरोसे से, पर ग़लत</span></h2>
+        <p class="en">Because an LLM predicts likely text rather than looking facts up, it can produce something that <i>sounds</i> right but isn't: a fake fee, a wrong date, a library function that doesn't exist.</p><p class="hi">LLM facts ढूँढने की जगह संभावित text predict करता है, इसलिए वो कुछ ऐसा बना सकता है जो सही <i>लगे</i> पर हो नहीं: नक़ली fee, ग़लत तारीख़, ऐसा library function जो है ही नहीं।</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">How to reduce it</span><span class="hi">कैसे कम करें</span></th><th><span class="en">Why it works</span><span class="hi">क्यों काम करता है</span></th></tr></thead><tbody><tr><td><span class="en">Give it the real data (RAG)</span><span class="hi">असली data दीजिए (RAG)</span></td><td><span class="en">It answers from facts you provide, not memory</span><span class="hi">वो आपके दिए facts से जवाब देता है, याददाश्त से नहीं</span></td></tr><tr><td><span class="en">Say "if you don't know, say so"</span><span class="hi">कहिए "नहीं पता तो बताओ"</span></td><td><span class="en">Gives it permission not to guess</span><span class="hi">उसे अंदाज़ा न लगाने की इजाज़त मिलती है</span></td></tr><tr><td><span class="en">Ask for sources or quotes</span><span class="hi">Sources या quotes माँगिए</span></td><td><span class="en">Easy for you to verify</span><span class="hi">आपके लिए check करना आसान</span></td></tr><tr><td><span class="en">Check important outputs in code</span><span class="hi">ज़रूरी outputs को code में check कीजिए</span></td><td><span class="en">Validate numbers, JSON and facts before using them</span><span class="hi">इस्तेमाल से पहले numbers, JSON और facts validate कीजिए</span></td></tr></tbody></table></div>
+        <div class="say"><p class="en">🎤 "Hallucination is when the model generates plausible but false information. In production I reduce it with RAG, clear instructions to admit uncertainty, citations, and validation of outputs."</p><p class="hi">🎤 "Hallucination is when the model generates plausible but false information. In production I reduce it with RAG, clear instructions to admit uncertainty, citations, and validation of outputs."</p></div>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Thinking the AI remembers you between separate chats or API calls.</span><span class="hi">यह सोचना कि AI अलग-अलग chats या API calls के बीच आपको याद रखता है।</span></li><li><span class="en">Pasting huge documents into every request and being surprised by the bill.</span><span class="hi">हर request में बड़े documents paste करना और फिर bill देखकर हैरान होना।</span></li><li><span class="en">Trusting exact numbers, dates or citations without checking.</span><span class="hi">बिना check किए सटीक numbers, तारीख़ों या citations पर भरोसा करना।</span></li></ul></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: A clinic chatbot told a patient the fee is ₹300, but the real fee is ₹500. Name the problem and give 3 fixes.</span><span class="hi">Exercise 1: एक clinic chatbot ने मरीज़ को fee ₹300 बताई, पर असली fee ₹500 है। Problem का नाम बताइए और 3 हल दीजिए।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><ul><li><span class="en">Problem: <b>hallucination</b>.</span><span class="hi">Problem: <b>hallucination</b>।</span></li><li><span class="en">Fix 1: put the real fee list in the prompt or use <b>RAG</b>, so it answers from data.</span><span class="hi">हल 1: असली fee list prompt में डालिए या <b>RAG</b> इस्तेमाल कीजिए, ताकि data से जवाब दे।</span></li><li><span class="en">Fix 2: system prompt rule: "Never guess fees. If unsure, say you'll confirm."</span><span class="hi">हल 2: system prompt का नियम: "Fees का अंदाज़ा कभी मत लगाओ। पक्का न हो तो कहो कि confirm करके बताएँगे।"</span></li><li><span class="en">Fix 3: for prices, read the number from the database in code instead of letting the AI write it.</span><span class="hi">हल 3: Prices के लिए AI से लिखवाने की जगह code में database से number पढ़िए।</span></li></ul></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"How does an LLM write its answer?","hi":"LLM अपना जवाब कैसे लिखता है?"},"options":[{"en":"It copies a stored answer","hi":"Stored जवाब copy करता है"},{"en":"One token at a time, predicting the next","hi":"एक-एक token, अगला predict करते हुए"},{"en":"It searches Google","hi":"Google search करता है"},{"en":"All at once","hi":"एक साथ पूरा"}],"answer":1,"why":{"en":"Next-token prediction, repeated until the answer is done.","hi":"अगला token predict करना, जवाब पूरा होने तक दोहराते हुए।"}},{"q":{"en":"API costs are mainly counted in…","hi":"API cost मुख्य रूप से किसमें गिनी जाती है…"},"options":[{"en":"Minutes","hi":"Minutes"},{"en":"Tokens","hi":"Tokens"},{"en":"Requests only","hi":"सिर्फ़ requests"},{"en":"Characters","hi":"Characters"}],"answer":1,"why":{"en":"Input and output tokens decide the cost.","hi":"Input और output tokens से cost तय होती है।"}},{"q":{"en":"Why does a chatbot remember earlier messages?","hi":"Chatbot पिछले messages क्यों याद रखता है?"},"options":[{"en":"The model stores them forever","hi":"Model उन्हें हमेशा के लिए रखता है"},{"en":"The app sends the history again with each request","hi":"App हर request के साथ history दोबारा भेजती है"},{"en":"Magic","hi":"जादू"},{"en":"The GPU remembers","hi":"GPU याद रखता है"}],"answer":1,"why":{"en":"Models are stateless between calls; the app resends the conversation.","hi":"Calls के बीच models को कुछ याद नहीं रहता; app बातचीत दोबारा भेजती है।"}},{"q":{"en":"For a support bot that must give consistent answers, temperature should be…","hi":"एक जैसे जवाब देने वाले support bot के लिए temperature होना चाहिए…"},"options":[{"en":"Low","hi":"कम"},{"en":"High","hi":"ज़्यादा"},{"en":"Random","hi":"Random"},{"en":"It doesn't matter","hi":"कोई फ़र्क़ नहीं"}],"answer":0,"why":{"en":"Low temperature = predictable, consistent answers.","hi":"कम temperature = अनुमानित, एक जैसे जवाब।"}},{"q":{"en":"Best way to stop a bot inventing your prices?","hi":"Bot को prices बनाने से रोकने का सबसे अच्छा तरीक़ा?"},"options":[{"en":"Use a higher temperature","hi":"ज़्यादा temperature"},{"en":"Give it the real data and tell it not to guess","hi":"असली data दो और अंदाज़ा न लगाने को कहो"},{"en":"Make the prompt shorter","hi":"Prompt छोटा करो"},{"en":"Use more emojis","hi":"ज़्यादा emojis"}],"answer":1,"why":{"en":"Grounding in real data + permission to say \"I don't know\".","hi":"असली data पर आधारित जवाब + \"नहीं पता\" कहने की इजाज़त।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="ai:how-llms-work"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="what-is-ai.html">← <span class="en">What is AI? (start here)</span><span class="hi">AI क्या है? (यहाँ से शुरू करें)</span></a><a class="btn btn-outline" href="prompting.html">→ <span class="en">Prompting that actually works</span><span class="hi">ऐसी prompting जो सच में काम करे</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20AI%20module%3A%20How%20ChatGPT%20and%20Claude%20work" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20AI%20module%3A%20How%20ChatGPT%20and%20Claude%20work" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"ai","m":["Artificial Intelligence"],"en":"Computers doing tasks that normally need human intelligence: understanding language, recognising images, making decisions.","hi":"Computers का ऐसे काम करना जिनमें आमतौर पर इंसानी समझ लगती है: भाषा समझना, तस्वीरें पहचानना, फ़ैसले लेना।"},{"s":"ml","m":["machine learning","Machine learning"],"en":"Teaching computers by showing them many examples, instead of writing every rule by hand.","hi":"हर नियम हाथ से लिखने की जगह, बहुत सारे examples दिखाकर computer को सिखाना।"},{"s":"deep-learning","m":["deep learning","Deep learning"],"en":"Machine learning with large neural networks (many layers). Powers modern AI.","hi":"बड़े neural networks (कई layers) वाली machine learning। आज की AI इसी से चलती है।"},{"s":"neural-network","m":["neural network","neural networks"],"en":"A program made of many connected number-crunching units, loosely inspired by the brain.","hi":"बहुत सारी जुड़ी हुई गणना करने वाली units से बना program, दिमाग़ से थोड़ा प्रेरित।"},{"s":"llm","m":["LLM","LLMs"],"en":"An AI trained on huge amounts of text to predict the next token. ChatGPT, Claude and Gemini are LLMs.","hi":"बहुत सारे text पर trained AI जो अगला token predict करता है। ChatGPT, Claude और Gemini LLMs हैं।"},{"s":"generative-ai","m":["generative AI","Generative AI"],"en":"AI that creates new content: text, images, code, audio or video.","hi":"AI जो नया content बनाता है: text, images, code, audio या video।"},{"s":"model","m":["model","models"],"en":"The trained AI itself: a large file of learned numbers (parameters) plus the code that runs it.","hi":"Trained AI ख़ुद: सीखे हुए numbers (parameters) की बड़ी file और उसे चलाने वाला code।"},{"s":"parameters","m":["parameters"],"en":"The numbers a model learned during training. More parameters usually means more capable, and more costly to run.","hi":"Training में model के सीखे हुए numbers। ज़्यादा parameters आमतौर पर ज़्यादा क़ाबिल, और चलाने में ज़्यादा महँगा।"},{"s":"training","m":["training"],"en":"Teaching a model by adjusting its parameters on huge data. Very expensive; done by AI companies.","hi":"बहुत बड़े data पर parameters बदलकर model को सिखाना। बहुत महँगा; AI companies करती हैं।"},{"s":"inference","m":["inference"],"en":"Using a trained model to produce an answer. Every API call is inference.","hi":"Trained model से जवाब निकलवाना। हर API call inference है।"},{"s":"token","m":["token","tokens"],"en":"A small piece of text (part of a word) that an LLM reads and writes. Usage and cost are counted in tokens.","hi":"Text का छोटा टुकड़ा (शब्द का हिस्सा) जिसे LLM पढ़ता और लिखता है। Usage और cost tokens में गिने जाते हैं।"},{"s":"context-window","m":["context window"],"en":"How many tokens the model can see at once: instructions, chat history, documents and its answer together.","hi":"Model एक बार में कितने tokens देख सकता है: निर्देश, chat history, documents और उसका जवाब मिलाकर।"},{"s":"prompt","m":["prompt","prompts"],"en":"The input you give the model: your question, instructions and any data.","hi":"Model को दिया गया input: आपका सवाल, निर्देश और कोई भी data।"},{"s":"system-prompt","m":["system prompt"],"en":"Instructions from the developer that set the AI's role and rules for the whole conversation.","hi":"Developer के निर्देश जो पूरी बातचीत के लिए AI का role और नियम तय करते हैं।"},{"s":"temperature","m":["temperature"],"en":"How random the word choice is. Low = predictable, high = creative.","hi":"शब्द चुनने में कितना random-पन। कम = अनुमानित, ज़्यादा = creative।"},{"s":"hallucination","m":["hallucination","hallucinate"],"en":"When an AI confidently says something false or made up.","hi":"जब AI पूरे भरोसे से कुछ ग़लत या मनगढ़ंत बोल दे।"},{"s":"few-shot","m":["few-shot"],"en":"Showing the model a few examples of the input and output you want.","hi":"Model को आपके चाहे गए input और output के कुछ examples दिखाना।"},{"s":"streaming","m":["streaming"],"en":"Showing the answer word by word as it's generated, instead of waiting for the whole answer.","hi":"पूरे जवाब का इंतज़ार करने की जगह, जवाब को बनते-बनते शब्द-दर-शब्द दिखाना।"},{"s":"api-key","m":["API key"],"en":"A secret password your server uses to call an AI API. Never put it in frontend code or GitHub.","hi":"एक secret password जिससे आपका server AI API call करता है। इसे कभी frontend code या GitHub में मत डालिए।"},{"s":"sdk","m":["SDK"],"en":"A ready-made library that makes calling an API easy in your language.","hi":"एक तैयार library जो आपकी language में API call करना आसान बनाती है।"},{"s":"embedding","m":["embedding","embeddings"],"en":"A list of numbers that represents the meaning of a text. Similar meanings have similar numbers.","hi":"Numbers की list जो text के मतलब को दिखाती है। मिलते-जुलते मतलब के numbers भी मिलते-जुलते होते हैं।"},{"s":"vector","m":["vector","vectors"],"en":"Another word for a list of numbers, like an embedding.","hi":"Numbers की list का दूसरा नाम, जैसे embedding।"},{"s":"cosine-similarity","m":["cosine similarity"],"en":"A score of how close two embeddings are in meaning: near 1 = very similar, near 0 = unrelated.","hi":"दो embeddings मतलब में कितने पास हैं, उसका score: 1 के पास = बहुत मिलते-जुलते, 0 के पास = कोई संबंध नहीं।"},{"s":"semantic-search","m":["semantic search"],"en":"Searching by meaning instead of exact words: \"fees\" also finds \"charges\".","hi":"Exact शब्दों की जगह मतलब से search: \"fees\" से \"charges\" भी मिल जाता है।"},{"s":"vector-db","m":["vector database","vector databases"],"en":"A database that stores embeddings and quickly finds the closest ones. Examples: pgvector, Pinecone, Qdrant.","hi":"Database जो embeddings रखता है और सबसे पास वाले जल्दी ढूँढता है। जैसे pgvector, Pinecone, Qdrant।"},{"s":"pgvector","m":["pgvector"],"en":"An extension that adds vector search to PostgreSQL.","hi":"एक extension जो PostgreSQL में vector search जोड़ता है।"},{"s":"chunking","m":["chunking","chunks","chunk"],"en":"Splitting long documents into small pieces before creating embeddings.","hi":"Embeddings बनाने से पहले लंबे documents को छोटे टुकड़ों में बाँटना।"},{"s":"rag","m":["RAG"],"en":"Retrieval-Augmented Generation: find relevant information first, then give it to the LLM with the question.","hi":"Retrieval-Augmented Generation: पहले सही जानकारी ढूँढो, फिर सवाल के साथ LLM को दो।"},{"s":"grounding","m":["grounded","grounding"],"en":"Making the AI answer only from given sources, so it doesn't make things up.","hi":"AI को सिर्फ़ दिए गए sources से जवाब देने को कहना, ताकि वो बातें न बनाए।"},{"s":"tool-calling","m":["tool calling","function calling"],"en":"The model asks your code to run a function (like checking a database) and uses the result.","hi":"Model आपके code से कोई function चलवाता है (जैसे database check करना) और नतीजा इस्तेमाल करता है।"},{"s":"agent","m":["agent","agents"],"en":"An AI that works in a loop: decides a step, uses tools, checks results, and repeats until the task is done.","hi":"AI जो loop में काम करता है: step तय करता है, tools इस्तेमाल करता है, नतीजे देखता है, और काम पूरा होने तक दोहराता है।"},{"s":"mcp","m":["MCP"],"en":"Model Context Protocol: a standard way to connect AI apps to tools and data sources.","hi":"Model Context Protocol: AI apps को tools और data sources से जोड़ने का standard तरीक़ा।"},{"s":"fine-tuning","m":["fine-tuning","fine-tune"],"en":"Further training a model on your examples to change its style or behaviour.","hi":"अपने examples पर model को और train करना, उसका style या व्यवहार बदलने के लिए।"},{"s":"evals","m":["evals","eval"],"en":"Tests for AI quality: a set of questions with expected answers, scored automatically.","hi":"AI quality के tests: अपेक्षित जवाबों वाले सवालों का set, जो अपने आप score होता है।"},{"s":"prompt-injection","m":["prompt injection"],"en":"When text from a user or document tries to override the AI's instructions.","hi":"जब user या document का text AI के निर्देशों को बदलने की कोशिश करे।"},{"s":"prompt-caching","m":["prompt caching"],"en":"Reusing the processed start of a long prompt across requests, so repeated calls are cheaper and faster.","hi":"लंबे prompt की शुरुआत को requests के बीच दोबारा इस्तेमाल करना, ताकि बार-बार की calls सस्ती और तेज़ हों।"},{"s":"transformer","m":["Transformer","Transformers"],"en":"The neural network design behind modern LLMs. It reads all tokens together and uses attention.","hi":"आज के LLMs के पीछे का neural network design। यह सारे tokens साथ में पढ़ता है और attention इस्तेमाल करता है।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">AI from Zero to Job-Ready</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">AI course by Agam Sahu</span><span class="hi">AI कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

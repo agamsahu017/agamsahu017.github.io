@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prompt Engineering for Beginners: Prompts That Work | Kodivo</title>
+  <meta name="description" content="Write prompts that get great results: context, clear tasks, examples, roles, output formats and step-by-step thinking, with before-and-after examples." />
+  <link rel="canonical" href="https://agamsahu017.github.io/ai/prompting.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/ai/prompting.html" />
+  <meta property="og:title" content="Prompt Engineering for Beginners: Prompts That Work | Kodivo" />
+  <meta property="og:description" content="Write prompts that get great results: context, clear tasks, examples, roles, output formats and step-by-step thinking, with before-and-after examples." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "AI from Zero to Job-Ready",
+          "item": "https://agamsahu017.github.io/ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Prompting that actually works",
+          "item": "https://agamsahu017.github.io/ai/prompting.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Prompt Engineering for Beginners: Prompts That Work",
+      "description": "Write prompts that get great results: context, clear tasks, examples, roles, output formats and step-by-step thinking, with before-and-after examples.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "AI from Zero to Job-Ready",
+        "url": "https://agamsahu017.github.io/ai/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../system-design/"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20AI%20on%20your%20website%20(Prompting%20that%20actually%20works)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">AI</a> › <span>Prompting that actually works</span></nav>
+        <span class="pill"><span class="en">Module 3 of 18</span><span class="hi">मॉड्यूल 3 / 18</span></span>
+        <h1><span class="en">Prompting that actually works</span><span class="hi">ऐसी prompting जो सच में काम करे</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">20 min read + practice</span><span class="hi">20 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🤖 AI</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Why vague prompts give vague answers</span><span class="hi">धुंधले prompts से धुंधले जवाब क्यों आते हैं</span></li><li><span class="en">A simple 5-part prompt formula</span><span class="hi">आसान 5-हिस्सों वाला prompt formula</span></li><li><span class="en">Examples (few-shot), roles and output formats</span><span class="hi">Examples (few-shot), roles और output formats</span></li><li><span class="en">System prompts for apps, and prompt mistakes to avoid</span><span class="hi">Apps के लिए system prompts, और prompt की ग़लतियाँ</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#formula"><span class="en">The 5-part formula</span><span class="hi">5-हिस्सों का formula</span></a><a href="#examples"><span class="en">Examples and format</span><span class="hi">Examples और format</span></a><a href="#system"><span class="en">System prompts</span><span class="hi">System prompts</span></a><a href="#tips"><span class="en">Pro tips</span><span class="hi">Pro tips</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">AI glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">AI glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="formula">
+        <h2 id="formula-h"><span class="en">A simple formula for good prompts</span><span class="hi">अच्छे prompts का आसान formula</span></h2>
+        <p class="en">Write to the AI like you are briefing a smart new colleague who knows nothing about your situation.</p><p class="hi">AI को ऐसे लिखिए जैसे किसी समझदार नए साथी को brief कर रहे हों जिसे आपकी situation के बारे में कुछ नहीं पता।</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Part</span><span class="hi">हिस्सा</span></th><th><span class="en">Ask yourself</span><span class="hi">ख़ुद से पूछिए</span></th><th><span class="en">Example</span><span class="hi">उदाहरण</span></th></tr></thead><tbody><tr><td>1. <span class="en">Context</span><span class="hi">Context</span></td><td><span class="en">Who is this for, and what's the situation?</span><span class="hi">यह किसके लिए है, और situation क्या है?</span></td><td><span class="en">"I run a coaching institute in Lucknow for Class 11–12."</span><span class="hi">"मैं लखनऊ में Class 11–12 का coaching institute चलाता हूँ।"</span></td></tr><tr><td>2. <span class="en">Task</span><span class="hi">काम</span></td><td><span class="en">What exactly should it do?</span><span class="hi">उसे ठीक-ठीक क्या करना है?</span></td><td><span class="en">"Write a WhatsApp message announcing a free demo class."</span><span class="hi">"Free demo class का WhatsApp message लिखो।"</span></td></tr><tr><td>3. <span class="en">Details</span><span class="hi">Details</span></td><td><span class="en">Facts it must use</span><span class="hi">Facts जो इस्तेमाल करने हैं</span></td><td><span class="en">"Saturday 4 PM, Physics, Gomti Nagar, call 98xxxxxx."</span><span class="hi">"Saturday 4 PM, Physics, Gomti Nagar, call 98xxxxxx।"</span></td></tr><tr><td>4. <span class="en">Format</span><span class="hi">Format</span></td><td><span class="en">Length, style, structure</span><span class="hi">Length, style, structure</span></td><td><span class="en">"Under 60 words, friendly, 2 emojis, Hinglish."</span><span class="hi">"60 शब्दों से कम, दोस्ताना, 2 emojis, Hinglish।"</span></td></tr><tr><td>5. <span class="en">Quality bar</span><span class="hi">Quality</span></td><td><span class="en">What makes it good?</span><span class="hi">अच्छा किससे बनेगा?</span></td><td><span class="en">"Parents should understand it in 5 seconds."</span><span class="hi">"Parents 5 seconds में समझ जाएँ।"</span></td></tr></tbody></table></div>
+        <h3><span class="en">Before and after</span><span class="hi">पहले और बाद में</span></h3>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">❌ Vague</span><span class="hi">❌ धुंधला</span></th><th><span class="en">✅ Clear</span><span class="hi">✅ साफ़</span></th></tr></thead><tbody><tr><td><span class="en">"Write a message about my class."</span><span class="hi">"मेरी class के बारे में message लिखो।"</span></td><td><span class="en">"I run a Class 11–12 coaching in Lucknow. Write a friendly WhatsApp message for parents announcing a free Physics demo class on Saturday at 4 PM in Gomti Nagar. Under 60 words, Hinglish, end with the phone number 98xxxxxx."</span><span class="hi">"मैं लखनऊ में Class 11–12 की coaching चलाता हूँ। Parents के लिए दोस्ताना WhatsApp message लिखो, जिसमें Saturday 4 PM, Gomti Nagar में free Physics demo class की ख़बर हो। 60 शब्दों से कम, Hinglish, आख़िर में phone number 98xxxxxx।"</span></td></tr></tbody></table></div>
+      </section>
+      <section id="examples">
+        <h2 id="examples-h"><span class="en">Show examples (few-shot) and ask for a format</span><span class="hi">Examples दिखाइए (few-shot) और format माँगिए</span></h2>
+        <p class="en">Showing 2–3 examples of what you want is often more powerful than describing it. This is called <b>few-shot</b> prompting.</p><p class="hi">आप क्या चाहते हैं उसके 2–3 examples दिखाना, उसे समझाने से अक्सर ज़्यादा असरदार होता है। इसे <b>few-shot</b> prompting कहते हैं।</p>
+        <pre class="code" data-copy>Classify each customer message as FEES, TIMING or OTHER.
+
+Message: <span class="st">"Kitni fees hai?"</span>           → FEES
+Message: <span class="st">"Sunday ko khula hai?"</span>      → TIMING
+Message: <span class="st">"Parking hai kya?"</span>          → OTHER
+
+Message: <span class="st">"Admission charges kya hain?"</span> →</pre>
+        <p class="en">When your code will read the answer, ask for a strict format such as JSON, and say exactly which fields you need.</p><p class="hi">जब आपका code जवाब पढ़ेगा, तो JSON जैसा पक्का format माँगिए, और बताइए कि कौन-से fields चाहिए।</p>
+        <pre class="code" data-copy>Extract the details from <span class="kw">this</span> message and reply with JSON only,
+using exactly these keys: name, phone, course, preferred_time.
+Use <span class="kw">null</span> <span class="kw">for</span> anything missing.
+
+Message: <span class="st">"Hi, I'm Rohit, 9876543210, want JEE batch, evening better"</span></pre>
+      </section>
+      <section id="system">
+        <h2 id="system-h"><span class="en">System prompts: rules for your AI app</span><span class="hi">System prompts: आपकी AI app के नियम</span></h2>
+        <p class="en">In an app, the <b>system prompt</b> is written by the developer and applies to the whole conversation. Users don't see it. It sets the role, the rules, and what to do when unsure.</p><p class="hi">App में <b>system prompt</b> developer लिखता है और यह पूरी बातचीत पर लागू होता है। Users इसे नहीं देखते। यह role, नियम, और पक्का न होने पर क्या करना है, तय करता है।</p>
+        <pre class="code" data-copy>You are the WhatsApp receptionist <span class="kw">of</span> CareWell Clinic, Lucknow.
+
+Rules:
+- Answer only questions about the clinic, using the information below.
+- Never guess fees, timings or doctor names. If something isn<span class="st">'t listed,
+  say you'</span>ll confirm with the team.
+- Never give medical advice. For emergencies, tell them to call 112.
+- Reply <span class="kw">in</span> the customer's language (English, Hindi or Hinglish),
+  <span class="kw">in</span> 2-4 short lines.
+
+Clinic information:
+- Consultation fee: ₹500
+- Timings: Mon-Sat 9 AM-9 PM, Sunday 10 AM-1 PM</pre>
+        <div class="idea"><p class="en"><b>Explain the why.</b> "Keep replies short, because customers read them on WhatsApp" works better than "SHORT REPLIES ONLY!!!". Modern models follow reasons well, and shouting isn't needed.</p><p class="hi"><b>क्यों, यह बताइए।</b> "जवाब छोटे रखो, क्योंकि customers WhatsApp पर पढ़ते हैं" ज़्यादा अच्छा काम करता है "SIRF CHHOTE JAWAB!!!" से। आज के models वजह समझकर अच्छे से मानते हैं, चिल्लाने की ज़रूरत नहीं।</p></div>
+      </section>
+      <section id="tips">
+        <h2 id="tips-h"><span class="en">Pro tips</span><span class="hi">Pro tips</span></h2>
+        <ul><li><span class="en"><b>Ask it to think first</b> for tricky problems: "Work through it step by step, then give the final answer."</span><span class="hi">मुश्किल सवालों पर <b>पहले सोचने को कहिए</b>: "Step by step सोचो, फिर final जवाब दो।"</span></li><li><span class="en"><b>Separate data from instructions</b> with tags like <code>&lt;document&gt;…&lt;/document&gt;</code>, so the model doesn't confuse your text with your commands.</span><span class="hi"><b>Data को निर्देशों से अलग रखिए</b>, <code>&lt;document&gt;…&lt;/document&gt;</code> जैसे tags से, ताकि model आपके text और आदेशों में गड़बड़ न करे।</span></li><li><span class="en"><b>Iterate:</b> if the answer is off, add the missing context and try again. Prompting is a conversation.</span><span class="hi"><b>दोहराइए:</b> जवाब ठीक न हो, तो छूटा हुआ context जोड़कर फिर कोशिश कीजिए। Prompting एक बातचीत है।</span></li><li><span class="en"><b>Ask for options:</b> "Give me 3 versions: formal, friendly and funny."</span><span class="hi"><b>Options माँगिए:</b> "3 versions दो: formal, दोस्ताना और मज़ेदार।"</span></li><li><span class="en"><b>Ask it to check its work:</b> "Before finishing, check the code for bugs and edge cases."</span><span class="hi"><b>अपना काम check करवाइए:</b> "ख़त्म करने से पहले code में bugs और edge cases देखो।"</span></li></ul>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">One-line prompts with no context, then blaming the AI for generic answers.</span><span class="hi">बिना context की एक लाइन वाला prompt, फिर generic जवाब के लिए AI को दोष देना।</span></li><li><span class="en">Mixing many unrelated tasks in one prompt.</span><span class="hi">एक prompt में कई अलग-अलग काम मिला देना।</span></li><li><span class="en">Asking for JSON without saying the exact keys.</span><span class="hi">Exact keys बताए बिना JSON माँगना।</span></li><li><span class="en">Pasting private data (passwords, customer details) into public AI tools.</span><span class="hi">Public AI tools में private data (passwords, customer details) paste करना।</span></li></ul></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Improve this prompt using the 5-part formula: "Make a resume for me."</span><span class="hi">Exercise 1: 5-हिस्सों वाले formula से यह prompt बेहतर कीजिए: "Mera resume bana do."</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><pre class="code" data-copy>I<span class="st">'m a final-year B.Tech (CSE) student from Lucknow applying for
+junior full stack developer roles. (context)
+
+Write a one-page resume (task) using only these details: (details)
+- Skills: JavaScript, React, Node.js, PostgreSQL, Git
+- Projects: (1) Clinic appointment app with React + Node,
+  (2) RAG chatbot over college notes
+- Internship: 2 months at XYZ, built REST APIs
+
+Format: plain text sections (Summary, Skills, Projects, Experience,
+Education), bullet points starting with action verbs, numbers where
+possible. (format)
+
+It should pass a recruiter'</span>s 6-second scan. Don<span class="st">'t invent anything that
+isn'</span>t listed above. (quality bar)</pre></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Which prompt will give the best result?","hi":"कौन-सा prompt सबसे अच्छा नतीजा देगा?"},"options":[{"en":"\"Write an email\"","hi":"\"Email likho\""},{"en":"\"Write a short, polite email to a clinic owner offering a free AI chatbot demo next week\"","hi":"\"Clinic owner को अगले हफ़्ते free AI chatbot demo offer करते हुए छोटा, विनम्र email लिखो\""},{"en":"\"EMAIL!!!\"","hi":"\"EMAIL!!!\""},{"en":"\"Do it\"","hi":"\"Kar do\""}],"answer":1,"why":{"en":"It has context, a clear task and a format.","hi":"इसमें context, साफ़ काम और format है।"}},{"q":{"en":"Showing 2–3 input/output examples in the prompt is called…","hi":"Prompt में 2–3 input/output examples दिखाना कहलाता है…"},"options":["Zero-shot","Few-shot","Fine-tuning","RAG"],"answer":1,"why":{"en":"Few-shot prompting teaches by example.","hi":"Few-shot prompting examples से सिखाती है।"}},{"q":{"en":"Who writes the system prompt in an app?","hi":"App में system prompt कौन लिखता है?"},"options":[{"en":"The end user","hi":"आख़िरी user"},{"en":"The developer","hi":"Developer"},{"en":"The model itself","hi":"Model ख़ुद"},{"en":"Nobody","hi":"कोई नहीं"}],"answer":1,"why":{"en":"The developer sets role and rules; users don't see it.","hi":"Developer role और नियम तय करता है; users इसे नहीं देखते।"}},{"q":{"en":"Your code needs to read the AI's answer. You should ask for…","hi":"आपके code को AI का जवाब पढ़ना है। आपको माँगना चाहिए…"},"options":[{"en":"A long essay","hi":"लंबा essay"},{"en":"JSON with exact keys","hi":"Exact keys वाला JSON"},{"en":"Emojis","hi":"Emojis"},{"en":"A poem","hi":"कविता"}],"answer":1,"why":{"en":"A strict, named format is easy and safe to parse.","hi":"पक्का, नाम वाला format पढ़ना आसान और सुरक्षित है।"}},{"q":{"en":"Why wrap a pasted document in <code>&lt;document&gt;</code> tags?","hi":"Paste किए document को <code>&lt;document&gt;</code> tags में क्यों रखें?"},"options":[{"en":"It looks nice","hi":"अच्छा दिखता है"},{"en":"To separate data from instructions","hi":"Data को निर्देशों से अलग करने के लिए"},{"en":"It's required by law","hi":"क़ानूनी ज़रूरत"},{"en":"To save tokens","hi":"Tokens बचाने के लिए"}],"answer":1,"why":{"en":"Clear boundaries stop the model from treating document text as commands.","hi":"साफ़ सीमाएँ model को document के text को आदेश समझने से रोकती हैं।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="ai:prompting"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="how-llms-work.html">← <span class="en">How ChatGPT and Claude work</span><span class="hi">ChatGPT और Claude कैसे काम करते हैं</span></a><span class="btn btn-outline" style="opacity:.55;cursor:default">→ <span class="en">AI tools for study and work (soon)</span><span class="hi">पढ़ाई और काम के लिए AI tools (जल्द)</span></span></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20AI%20module%3A%20Prompting%20that%20actually%20works" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20AI%20module%3A%20Prompting%20that%20actually%20works" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"ai","m":["Artificial Intelligence"],"en":"Computers doing tasks that normally need human intelligence: understanding language, recognising images, making decisions.","hi":"Computers का ऐसे काम करना जिनमें आमतौर पर इंसानी समझ लगती है: भाषा समझना, तस्वीरें पहचानना, फ़ैसले लेना।"},{"s":"ml","m":["machine learning","Machine learning"],"en":"Teaching computers by showing them many examples, instead of writing every rule by hand.","hi":"हर नियम हाथ से लिखने की जगह, बहुत सारे examples दिखाकर computer को सिखाना।"},{"s":"deep-learning","m":["deep learning","Deep learning"],"en":"Machine learning with large neural networks (many layers). Powers modern AI.","hi":"बड़े neural networks (कई layers) वाली machine learning। आज की AI इसी से चलती है।"},{"s":"neural-network","m":["neural network","neural networks"],"en":"A program made of many connected number-crunching units, loosely inspired by the brain.","hi":"बहुत सारी जुड़ी हुई गणना करने वाली units से बना program, दिमाग़ से थोड़ा प्रेरित।"},{"s":"llm","m":["LLM","LLMs"],"en":"An AI trained on huge amounts of text to predict the next token. ChatGPT, Claude and Gemini are LLMs.","hi":"बहुत सारे text पर trained AI जो अगला token predict करता है। ChatGPT, Claude और Gemini LLMs हैं।"},{"s":"generative-ai","m":["generative AI","Generative AI"],"en":"AI that creates new content: text, images, code, audio or video.","hi":"AI जो नया content बनाता है: text, images, code, audio या video।"},{"s":"model","m":["model","models"],"en":"The trained AI itself: a large file of learned numbers (parameters) plus the code that runs it.","hi":"Trained AI ख़ुद: सीखे हुए numbers (parameters) की बड़ी file और उसे चलाने वाला code।"},{"s":"parameters","m":["parameters"],"en":"The numbers a model learned during training. More parameters usually means more capable, and more costly to run.","hi":"Training में model के सीखे हुए numbers। ज़्यादा parameters आमतौर पर ज़्यादा क़ाबिल, और चलाने में ज़्यादा महँगा।"},{"s":"training","m":["training"],"en":"Teaching a model by adjusting its parameters on huge data. Very expensive; done by AI companies.","hi":"बहुत बड़े data पर parameters बदलकर model को सिखाना। बहुत महँगा; AI companies करती हैं।"},{"s":"inference","m":["inference"],"en":"Using a trained model to produce an answer. Every API call is inference.","hi":"Trained model से जवाब निकलवाना। हर API call inference है।"},{"s":"token","m":["token","tokens"],"en":"A small piece of text (part of a word) that an LLM reads and writes. Usage and cost are counted in tokens.","hi":"Text का छोटा टुकड़ा (शब्द का हिस्सा) जिसे LLM पढ़ता और लिखता है। Usage और cost tokens में गिने जाते हैं।"},{"s":"context-window","m":["context window"],"en":"How many tokens the model can see at once: instructions, chat history, documents and its answer together.","hi":"Model एक बार में कितने tokens देख सकता है: निर्देश, chat history, documents और उसका जवाब मिलाकर।"},{"s":"prompt","m":["prompt","prompts"],"en":"The input you give the model: your question, instructions and any data.","hi":"Model को दिया गया input: आपका सवाल, निर्देश और कोई भी data।"},{"s":"system-prompt","m":["system prompt"],"en":"Instructions from the developer that set the AI's role and rules for the whole conversation.","hi":"Developer के निर्देश जो पूरी बातचीत के लिए AI का role और नियम तय करते हैं।"},{"s":"temperature","m":["temperature"],"en":"How random the word choice is. Low = predictable, high = creative.","hi":"शब्द चुनने में कितना random-पन। कम = अनुमानित, ज़्यादा = creative।"},{"s":"hallucination","m":["hallucination","hallucinate"],"en":"When an AI confidently says something false or made up.","hi":"जब AI पूरे भरोसे से कुछ ग़लत या मनगढ़ंत बोल दे।"},{"s":"few-shot","m":["few-shot"],"en":"Showing the model a few examples of the input and output you want.","hi":"Model को आपके चाहे गए input और output के कुछ examples दिखाना।"},{"s":"streaming","m":["streaming"],"en":"Showing the answer word by word as it's generated, instead of waiting for the whole answer.","hi":"पूरे जवाब का इंतज़ार करने की जगह, जवाब को बनते-बनते शब्द-दर-शब्द दिखाना।"},{"s":"api-key","m":["API key"],"en":"A secret password your server uses to call an AI API. Never put it in frontend code or GitHub.","hi":"एक secret password जिससे आपका server AI API call करता है। इसे कभी frontend code या GitHub में मत डालिए।"},{"s":"sdk","m":["SDK"],"en":"A ready-made library that makes calling an API easy in your language.","hi":"एक तैयार library जो आपकी language में API call करना आसान बनाती है।"},{"s":"embedding","m":["embedding","embeddings"],"en":"A list of numbers that represents the meaning of a text. Similar meanings have similar numbers.","hi":"Numbers की list जो text के मतलब को दिखाती है। मिलते-जुलते मतलब के numbers भी मिलते-जुलते होते हैं।"},{"s":"vector","m":["vector","vectors"],"en":"Another word for a list of numbers, like an embedding.","hi":"Numbers की list का दूसरा नाम, जैसे embedding।"},{"s":"cosine-similarity","m":["cosine similarity"],"en":"A score of how close two embeddings are in meaning: near 1 = very similar, near 0 = unrelated.","hi":"दो embeddings मतलब में कितने पास हैं, उसका score: 1 के पास = बहुत मिलते-जुलते, 0 के पास = कोई संबंध नहीं।"},{"s":"semantic-search","m":["semantic search"],"en":"Searching by meaning instead of exact words: \"fees\" also finds \"charges\".","hi":"Exact शब्दों की जगह मतलब से search: \"fees\" से \"charges\" भी मिल जाता है।"},{"s":"vector-db","m":["vector database","vector databases"],"en":"A database that stores embeddings and quickly finds the closest ones. Examples: pgvector, Pinecone, Qdrant.","hi":"Database जो embeddings रखता है और सबसे पास वाले जल्दी ढूँढता है। जैसे pgvector, Pinecone, Qdrant।"},{"s":"pgvector","m":["pgvector"],"en":"An extension that adds vector search to PostgreSQL.","hi":"एक extension जो PostgreSQL में vector search जोड़ता है।"},{"s":"chunking","m":["chunking","chunks","chunk"],"en":"Splitting long documents into small pieces before creating embeddings.","hi":"Embeddings बनाने से पहले लंबे documents को छोटे टुकड़ों में बाँटना।"},{"s":"rag","m":["RAG"],"en":"Retrieval-Augmented Generation: find relevant information first, then give it to the LLM with the question.","hi":"Retrieval-Augmented Generation: पहले सही जानकारी ढूँढो, फिर सवाल के साथ LLM को दो।"},{"s":"grounding","m":["grounded","grounding"],"en":"Making the AI answer only from given sources, so it doesn't make things up.","hi":"AI को सिर्फ़ दिए गए sources से जवाब देने को कहना, ताकि वो बातें न बनाए।"},{"s":"tool-calling","m":["tool calling","function calling"],"en":"The model asks your code to run a function (like checking a database) and uses the result.","hi":"Model आपके code से कोई function चलवाता है (जैसे database check करना) और नतीजा इस्तेमाल करता है।"},{"s":"agent","m":["agent","agents"],"en":"An AI that works in a loop: decides a step, uses tools, checks results, and repeats until the task is done.","hi":"AI जो loop में काम करता है: step तय करता है, tools इस्तेमाल करता है, नतीजे देखता है, और काम पूरा होने तक दोहराता है।"},{"s":"mcp","m":["MCP"],"en":"Model Context Protocol: a standard way to connect AI apps to tools and data sources.","hi":"Model Context Protocol: AI apps को tools और data sources से जोड़ने का standard तरीक़ा।"},{"s":"fine-tuning","m":["fine-tuning","fine-tune"],"en":"Further training a model on your examples to change its style or behaviour.","hi":"अपने examples पर model को और train करना, उसका style या व्यवहार बदलने के लिए।"},{"s":"evals","m":["evals","eval"],"en":"Tests for AI quality: a set of questions with expected answers, scored automatically.","hi":"AI quality के tests: अपेक्षित जवाबों वाले सवालों का set, जो अपने आप score होता है।"},{"s":"prompt-injection","m":["prompt injection"],"en":"When text from a user or document tries to override the AI's instructions.","hi":"जब user या document का text AI के निर्देशों को बदलने की कोशिश करे।"},{"s":"prompt-caching","m":["prompt caching"],"en":"Reusing the processed start of a long prompt across requests, so repeated calls are cheaper and faster.","hi":"लंबे prompt की शुरुआत को requests के बीच दोबारा इस्तेमाल करना, ताकि बार-बार की calls सस्ती और तेज़ हों।"},{"s":"transformer","m":["Transformer","Transformers"],"en":"The neural network design behind modern LLMs. It reads all tokens together and uses attention.","hi":"आज के LLMs के पीछे का neural network design। यह सारे tokens साथ में पढ़ता है और attention इस्तेमाल करता है।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">AI from Zero to Job-Ready</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">AI course by Agam Sahu</span><span class="hi">AI कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>
