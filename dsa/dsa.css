@@ -166,3 +166,21 @@ h2 + .badge { margin: -4px 0 10px; }
 .cache-stats { margin-top: 6px; font-weight: 600; color: var(--text); font-size: .9rem; }
 .lru-label { display: flex; justify-content: space-between; max-width: 160px; font-size: .72rem; color: var(--muted); margin-top: 4px; }
 @media (max-width: 560px) { .servers { grid-template-columns: 1fr; } .flow-row { flex-direction: column; } .flow .arrow { transform: rotate(90deg); } }
+
+/* Glossary tooltips and page */
+.term { border-bottom: 1.5px dotted var(--primary); cursor: help; position: relative; outline: none; }
+.term:hover::after, .term:focus::after {
+  content: attr(data-def); position: absolute; left: 0; top: calc(100% + 6px); z-index: 30;
+  width: max-content; max-width: min(280px, 72vw); white-space: normal; text-align: left;
+  padding: 8px 10px; border-radius: 8px; background: #0f172a; color: #f8fafc;
+  font-size: .82rem; font-weight: 400; line-height: 1.45; box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+}
+.term:focus { background: rgba(37, 99, 235, .1); border-radius: 3px; }
+.gloss-hint { margin-top: 10px; font-size: .86rem; color: var(--muted); }
+.gloss-hint a { color: var(--primary); font-weight: 600; }
+.gloss-search { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font: inherit; margin: 6px 0 10px; }
+.gloss-group h2 { margin-top: 26px; }
+.gloss-item { padding: 12px 0; border-bottom: 1px solid var(--border); scroll-margin-top: 80px; }
+.gloss-item dt { font-weight: 700; color: var(--text); }
+.gloss-item dd { margin: 4px 0 0; color: var(--muted); line-height: 1.6; }
+.gloss-item:target { background: rgba(37, 99, 235, .08); border-radius: 8px; padding-left: 10px; }

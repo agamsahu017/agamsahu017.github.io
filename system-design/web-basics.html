@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How the Web Works: Client, Server, HTTP, API | Kodivo</title>
+  <meta name="description" content="Start system design from zero: client and server, HTTP methods and status codes, REST APIs, JSON, databases and common tools, explained simply." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/web-basics.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/web-basics.html" />
+  <meta property="og:title" content="How the Web Works: Client, Server, HTTP, API | Kodivo" />
+  <meta property="og:description" content="Start system design from zero: client and server, HTTP methods and status codes, REST APIs, JSON, databases and common tools, explained simply." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How the web works (start here)",
+          "item": "https://agamsahu017.github.io/system-design/web-basics.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "How the Web Works: Client, Server, HTTP, API",
+      "description": "Start system design from zero: client and server, HTTP methods and status codes, REST APIs, JSON, databases and common tools, explained simply.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(How%20the%20web%20works%20(start%20here))." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>How the web works (start here)</span></nav>
+        <span class="pill"><span class="en">Module 1 of 18</span><span class="hi">मॉड्यूल 1 / 18</span></span>
+        <h1><span class="en">How the web works (start here)</span><span class="hi">Web कैसे काम करता है (यहाँ से शुरू करें)</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">What really happens between your phone and a server</span><span class="hi">आपके phone और server के बीच असल में क्या होता है</span></li><li><span class="en">HTTP methods and status codes you must know</span><span class="hi">HTTP methods और status codes जो पता होने चाहिए</span></li><li><span class="en">What an API is, and how to design a simple REST API</span><span class="hi">API क्या है, और आसान REST API कैसे design करें</span></li><li><span class="en">The tools every system design answer mentions, in one line each</span><span class="hi">हर system design जवाब में आने वाले tools, एक-एक लाइन में</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#restaurant"><span class="en">Client and server</span><span class="hi">Client और server</span></a><a href="#http"><span class="en">HTTP</span><span class="hi">HTTP</span></a><a href="#api"><span class="en">APIs and JSON</span><span class="hi">APIs और JSON</span></a><a href="#db"><span class="en">Databases</span><span class="hi">Databases</span></a><a href="#tools"><span class="en">Meet the tools</span><span class="hi">Tools को जानिए</span></a><a href="#speed"><span class="en">Latency vs throughput</span><span class="hi">Latency vs throughput</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">Glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">Glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="restaurant">
+        <h2 id="restaurant-h"><span class="en">The restaurant example</span><span class="hi">Restaurant वाला उदाहरण</span></h2>
+        <p class="en">Think of a restaurant. You (the <b>client</b>) don't walk into the kitchen. You tell the <b>waiter</b> what you want. The waiter takes your order to the <b>kitchen</b>, which gets ingredients from the <b>store room</b>, cooks, and sends the food back.</p><p class="hi">एक restaurant सोचिए। आप (<b>client</b>) kitchen में नहीं जाते। आप <b>waiter</b> को बताते हैं कि क्या चाहिए। Waiter order <b>kitchen</b> तक ले जाता है, kitchen <b>store room</b> से सामान लेकर खाना बनाती है, और खाना वापस भेजती है।</p>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">You (client: app or browser)</span><span class="hi">आप (client: app या browser)</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Waiter (API)</span><span class="hi">Waiter (API)</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Kitchen (server)</span><span class="hi">Kitchen (server)</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Store room (database)</span><span class="hi">Store room (database)</span></div></div><figcaption><span class="en">Every app works like this</span><span class="hi">हर app ऐसे ही काम करता है</span></figcaption></figure>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Restaurant</span><span class="hi">Restaurant</span></th><th><span class="en">Software</span><span class="hi">Software</span></th><th><span class="en">Example</span><span class="hi">उदाहरण</span></th></tr></thead><tbody><tr><td><span class="en">You</span><span class="hi">आप</span></td><td>Client</td><td><span class="en">Zomato app on your phone</span><span class="hi">आपके phone पर Zomato app</span></td></tr><tr><td><span class="en">Your order</span><span class="hi">आपका order</span></td><td>Request</td><td><span class="en">"Show restaurants near me"</span><span class="hi">"मेरे पास के restaurants दिखाओ"</span></td></tr><tr><td><span class="en">Waiter</span><span class="hi">Waiter</span></td><td>API</td><td><span class="en"><code>GET /restaurants?near=lucknow</code></span><span class="hi"><code>GET /restaurants?near=lucknow</code></span></td></tr><tr><td><span class="en">Kitchen</span><span class="hi">Kitchen</span></td><td>Server</td><td><span class="en">Node.js code running in the cloud</span><span class="hi">Cloud में चल रहा Node.js code</span></td></tr><tr><td><span class="en">Store room</span><span class="hi">Store room</span></td><td>Database</td><td><span class="en">PostgreSQL with all restaurant data</span><span class="hi">सारे restaurant data वाला PostgreSQL</span></td></tr><tr><td><span class="en">Food on your table</span><span class="hi">आपकी table पर खाना</span></td><td>Response</td><td><span class="en">A list of restaurants in JSON</span><span class="hi">JSON में restaurants की list</span></td></tr></tbody></table></div>
+      </section>
+      <section id="http">
+        <h2 id="http-h"><span class="en">HTTP: how client and server talk</span><span class="hi">HTTP: client और server कैसे बात करते हैं</span></h2>
+        <p class="en">Every request has a <b>method</b> (what you want to do) and a <b>URL</b> (on what). Every response has a <b>status code</b> (how it went) and usually some data.</p><p class="hi">हर request में एक <b>method</b> (क्या करना है) और एक <b>URL</b> (किस पर) होता है। हर response में एक <b>status code</b> (कैसा रहा) और आमतौर पर कुछ data होता है।</p>
+        <h3><span class="en">HTTP methods</span><span class="hi">HTTP methods</span> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span></h3>
+        <div class="table-wrap"><table><thead><tr><th>Method</th><th><span class="en">Meaning</span><span class="hi">मतलब</span></th><th><span class="en">Example</span><span class="hi">उदाहरण</span></th></tr></thead><tbody><tr><td><code>GET</code></td><td><span class="en">Read data</span><span class="hi">Data पढ़ना</span></td><td><code>GET /orders/42</code></td></tr><tr><td><code>POST</code></td><td><span class="en">Create something new</span><span class="hi">कुछ नया बनाना</span></td><td><code>POST /orders</code></td></tr><tr><td><code>PUT</code> / <code>PATCH</code></td><td><span class="en">Update (whole / part)</span><span class="hi">बदलना (पूरा / थोड़ा)</span></td><td><code>PATCH /orders/42</code></td></tr><tr><td><code>DELETE</code></td><td><span class="en">Delete</span><span class="hi">हटाना</span></td><td><code>DELETE /orders/42</code></td></tr></tbody></table></div>
+        <h3><span class="en">Status codes</span><span class="hi">Status codes</span> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span></h3>
+        <div class="table-wrap"><table><thead><tr><th>Code</th><th><span class="en">Meaning</span><span class="hi">मतलब</span></th><th><span class="en">When</span><span class="hi">कब</span></th></tr></thead><tbody><tr><td><b>200</b> OK</td><td><span class="en">Success</span><span class="hi">सफल</span></td><td><span class="en">Data returned</span><span class="hi">Data मिल गया</span></td></tr><tr><td><b>201</b> Created</td><td><span class="en">Created</span><span class="hi">बन गया</span></td><td><span class="en">After a successful POST</span><span class="hi">सफल POST के बाद</span></td></tr><tr><td><b>400</b> Bad Request</td><td><span class="en">Your input is wrong</span><span class="hi">आपका input ग़लत है</span></td><td><span class="en">Missing or invalid field</span><span class="hi">Field ग़ायब या ग़लत</span></td></tr><tr><td><b>401</b> / <b>403</b></td><td><span class="en">Not logged in / not allowed</span><span class="hi">Login नहीं / इजाज़त नहीं</span></td><td><span class="en">No token, or wrong role</span><span class="hi">Token नहीं, या ग़लत role</span></td></tr><tr><td><b>404</b> Not Found</td><td><span class="en">Doesn't exist</span><span class="hi">मौजूद नहीं</span></td><td><span class="en">Wrong id or URL</span><span class="hi">ग़लत id या URL</span></td></tr><tr><td><b>429</b> Too Many Requests</td><td><span class="en">Slow down</span><span class="hi">धीरे करो</span></td><td><span class="en">Rate limit reached</span><span class="hi">Rate limit पूरी</span></td></tr><tr><td><b>500</b> Server Error</td><td><span class="en">Bug on the server</span><span class="hi">Server पर bug</span></td><td><span class="en">Unhandled error</span><span class="hi">बिना संभाली error</span></td></tr><tr><td><b>503</b> Unavailable</td><td><span class="en">Server overloaded or down</span><span class="hi">Server पर ज़्यादा बोझ या बंद</span></td><td><span class="en">During traffic spikes</span><span class="hi">Traffic spike के समय</span></td></tr></tbody></table></div>
+        <div class="idea"><p class="en"><b>Easy rule:</b> 2xx = success, 4xx = the client made a mistake, 5xx = the server made a mistake.</p><p class="hi"><b>आसान नियम:</b> 2xx = सफल, 4xx = client की ग़लती, 5xx = server की ग़लती।</p></div>
+      </section>
+      <section id="api">
+        <h2 id="api-h"><span class="en">APIs and JSON</span><span class="hi">APIs और JSON</span></h2>
+        <p class="en">An <b>API</b> is the list of things your server lets others do. A <b>REST</b> API uses nouns in URLs and HTTP methods for actions. Data travels as <b>JSON</b>.</p><p class="hi"><b>API</b> उन कामों की list है जो आपका server दूसरों को करने देता है। <b>REST</b> API URLs में nouns और काम के लिए HTTP methods इस्तेमाल करती है। Data <b>JSON</b> में जाता है।</p>
+        <pre class="code" data-copy><span class="cm">// A JSON response for GET /users/42</span>
+{
+  <span class="st">"id"</span>: 42,
+  <span class="st">"name"</span>: <span class="st">"Riya Sharma"</span>,
+  <span class="st">"city"</span>: <span class="st">"Lucknow"</span>,
+  <span class="st">"courses"</span>: [<span class="st">"DSA"</span>, <span class="st">"System Design"</span>]
+}</pre>
+        <h3><span class="en">The client side: calling an API from JavaScript</span><span class="hi">Client side: JavaScript से API call करना</span></h3>
+        <pre class="code" data-copy><span class="kw">const</span> res = <span class="kw">await</span> fetch(<span class="st">"https://api.example.com/users/42"</span>);
+<span class="kw">if</span> (res.status === 200) {
+  <span class="kw">const</span> user = <span class="kw">await</span> res.json();
+  console.log(user.name); <span class="cm">// "Riya Sharma"</span>
+}</pre>
+        <h3><span class="en">The server side: a tiny API in Node.js (Express)</span><span class="hi">Server side: Node.js (Express) में छोटी API</span></h3>
+        <pre class="code" data-copy><span class="kw">const</span> express = require(<span class="st">"express"</span>);
+<span class="kw">const</span> app = express();
+app.use(express.json());
+
+<span class="kw">const</span> users = <span class="kw">new</span> Map([[42, { id: 42, name: <span class="st">"Riya Sharma"</span> }]]);
+
+app.get(<span class="st">"/users/:id"</span>, (req, res) =&gt; {
+  <span class="kw">const</span> user = users.get(Number(req.params.id));
+  <span class="kw">if</span> (!user) <span class="kw">return</span> res.status(404).json({ error: <span class="st">"User not found"</span> });
+  res.json(user);                       <span class="cm">// 200 OK</span>
+});
+
+app.post(<span class="st">"/users"</span>, (req, res) =&gt; {
+  <span class="kw">if</span> (!req.body.name) <span class="kw">return</span> res.status(400).json({ error: <span class="st">"name is required"</span> });
+  <span class="kw">const</span> id = users.size + 100;
+  users.set(id, { id, name: req.body.name });
+  res.status(201).json(users.get(id));  <span class="cm">// 201 Created</span>
+});
+
+app.listen(3000);</pre>
+      </section>
+      <section id="db">
+        <h2 id="db-h"><span class="en">Databases in 2 minutes</span><span class="hi">2 मिनट में databases</span></h2>
+        <p class="en">A <b>database</b> stores data safely, even if the server restarts. The most common kind stores data in <b>tables</b>, like an Excel sheet: each <b>row</b> is one record, each <b>column</b> is one field, and the <b>primary key</b> uniquely identifies a row.</p><p class="hi"><b>Database</b> data को सुरक्षित रखता है, भले ही server restart हो जाए। सबसे common तरह का database data को <b>tables</b> में रखता है, Excel sheet जैसा: हर <b>row</b> एक record, हर <b>column</b> एक field, और <b>primary key</b> हर row को अलग पहचान देती है।</p>
+        <div class="table-wrap"><table><thead><tr><th>id (primary key)</th><th>name</th><th>city</th></tr></thead><tbody><tr><td>1</td><td>Aman</td><td>Delhi</td></tr><tr><td>2</td><td>Riya</td><td>Lucknow</td></tr><tr><td>3</td><td>Kabir</td><td>Noida</td></tr></tbody></table></div>
+        <pre class="code" data-copy>-- Read
+SELECT name FROM users WHERE city = <span class="st">'Lucknow'</span>;
+
+-- Create
+INSERT INTO users (name, city) VALUES (<span class="st">'Sara'</span>, <span class="st">'Kanpur'</span>);</pre>
+      </section>
+      <section id="tools">
+        <h2 id="tools-h"><span class="en">Meet the tools (one line each)</span><span class="hi">Tools को जानिए (एक-एक लाइन में)</span></h2>
+        <p class="en">You'll hear these names in every system design answer. You don't need to master them yet. Just know what each one is for.</p><p class="hi">ये नाम आप हर system design जवाब में सुनेंगे। अभी इनमें माहिर होने की ज़रूरत नहीं। बस यह जानिए कि हर एक किस काम का है।</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Tool</span><span class="hi">Tool</span></th><th><span class="en">What it is</span><span class="hi">यह क्या है</span></th><th><span class="en">Use it for</span><span class="hi">इसका इस्तेमाल</span></th></tr></thead><tbody><tr><td>PostgreSQL / MySQL</td><td><span class="en">SQL database</span><span class="hi">SQL database</span></td><td><span class="en">Users, orders, payments</span><span class="hi">Users, orders, payments</span></td></tr><tr><td>MongoDB / DynamoDB / Cassandra</td><td><span class="en">NoSQL database</span><span class="hi">NoSQL database</span></td><td><span class="en">Flexible or huge data: chats, logs, carts</span><span class="hi">Flexible या बहुत बड़ा data: chats, logs, carts</span></td></tr><tr><td>Redis</td><td><span class="en">Super-fast in-memory store</span><span class="hi">बहुत तेज़ in-memory store</span></td><td><span class="en">Cache, sessions, counters</span><span class="hi">Cache, sessions, counters</span></td></tr><tr><td>Kafka / SQS / RabbitMQ</td><td><span class="en">Message queue</span><span class="hi">Message queue</span></td><td><span class="en">Background jobs and events</span><span class="hi">Background jobs और events</span></td></tr><tr><td>S3</td><td><span class="en">File storage in the cloud</span><span class="hi">Cloud में file storage</span></td><td><span class="en">Images, videos, PDFs</span><span class="hi">Images, videos, PDFs</span></td></tr><tr><td>CDN (Cloudflare, CloudFront)</td><td><span class="en">Servers near users</span><span class="hi">Users के पास servers</span></td><td><span class="en">Fast images, videos, CSS, JS</span><span class="hi">तेज़ images, videos, CSS, JS</span></td></tr><tr><td><span class="en">Load balancer (Nginx, AWS ALB)</span><span class="hi">Load balancer (Nginx, AWS ALB)</span></td><td><span class="en">Traffic distributor</span><span class="hi">Traffic बाँटने वाला</span></td><td><span class="en">Spreading requests across servers</span><span class="hi">Requests को servers में बाँटना</span></td></tr><tr><td><span class="en">Elasticsearch</span><span class="hi">Elasticsearch</span></td><td><span class="en">Search engine</span><span class="hi">Search engine</span></td><td><span class="en">Fast text search, filters</span><span class="hi">तेज़ text search, filters</span></td></tr></tbody></table></div>
+      </section>
+      <section id="speed">
+        <h2 id="speed-h"><span class="en">Latency vs throughput</span><span class="hi">Latency vs throughput</span></h2>
+        <ul><li><span class="en"><b>Latency</b> = how long <b>one</b> request takes. Like how long one customer waits for food.</span><span class="hi"><b>Latency</b> = <b>एक</b> request में कितना समय लगता है। जैसे एक ग्राहक खाने के लिए कितनी देर रुकता है।</span></li><li><span class="en"><b>Throughput</b> = how many requests the system handles <b>per second</b>. Like how many customers the restaurant serves per hour.</span><span class="hi"><b>Throughput</b> = system <b>हर second</b> कितनी requests संभालता है। जैसे restaurant एक घंटे में कितने ग्राहकों को खाना देता है।</span></li><li><span class="en">Adding more cooks (servers) raises throughput. Pre-cooking popular dishes (caching) lowers latency.</span><span class="hi">ज़्यादा cooks (servers) से throughput बढ़ता है। Popular dishes पहले से बनाकर रखने (caching) से latency घटती है।</span></li></ul>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Thinking the database lives inside the browser. The client never talks to the database directly: it goes through the server.</span><span class="hi">यह सोचना कि database browser के अंदर है। Client कभी सीधे database से बात नहीं करता: हमेशा server के ज़रिए।</span></li><li><span class="en">Using GET to change data, like <code>GET /deleteUser?id=5</code>. Use DELETE or POST.</span><span class="hi">Data बदलने के लिए GET इस्तेमाल करना, जैसे <code>GET /deleteUser?id=5</code>। DELETE या POST इस्तेमाल कीजिए।</span></li><li><span class="en">Returning 200 for every response, even errors.</span><span class="hi">हर response के लिए 200 लौटाना, errors के लिए भी।</span></li><li><span class="en">Verbs in REST URLs, like <code>/getOrders</code>. Prefer <code>GET /orders</code>.</span><span class="hi">REST URLs में verbs, जैसे <code>/getOrders</code>। <code>GET /orders</code> बेहतर है।</span></li></ul></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Design the REST API for a to-do app: list tasks, add a task, mark it done, and delete it. Give the method, URL and success status code.</span><span class="hi">Exercise 1: एक to-do app की REST API design कीजिए: tasks की list, task जोड़ना, done मार्क करना, और हटाना। Method, URL और success status code बताइए।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><div class="table-wrap"><table><thead><tr><th><span class="en">Action</span><span class="hi">काम</span></th><th>Method + URL</th><th><span class="en">Success code</span><span class="hi">Success code</span></th></tr></thead><tbody><tr><td><span class="en">List tasks</span><span class="hi">Tasks की list</span></td><td><code>GET /tasks</code></td><td>200</td></tr><tr><td><span class="en">Add a task</span><span class="hi">Task जोड़ना</span></td><td><code>POST /tasks</code></td><td>201</td></tr><tr><td><span class="en">Mark as done</span><span class="hi">Done मार्क करना</span></td><td><code>PATCH /tasks/:id</code> <span class="en">with <code>{ "done": true }</code></span><span class="hi">साथ में <code>{ "done": true }</code></span></td><td>200</td></tr><tr><td><span class="en">Delete a task</span><span class="hi">Task हटाना</span></td><td><code>DELETE /tasks/:id</code></td><td><span class="en">204 (no content) or 200</span><span class="hi">204 (no content) या 200</span></td></tr></tbody></table></div></div></details></div>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 2: A user opens a product page that doesn't exist, and another request crashes because of a bug. Which status codes should they get?</span><span class="hi">Exercise 2: एक user ऐसा product page खोलता है जो मौजूद नहीं, और दूसरी request एक bug से crash होती है। उन्हें कौन-से status codes मिलने चाहिए?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">The missing product: <b>404 Not Found</b> (the client asked for something that doesn't exist). The crash: <b>500 Internal Server Error</b> (the server's fault). Never return 200 for either.</p><p class="hi">ग़ायब product: <b>404 Not Found</b> (client ने ऐसी चीज़ माँगी जो है ही नहीं)। Crash: <b>500 Internal Server Error</b> (server की ग़लती)। दोनों में कभी 200 मत लौटाइए।</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"In the restaurant example, the API is like the…","hi":"Restaurant वाले उदाहरण में API किसकी तरह है…"},"options":[{"en":"Customer","hi":"ग्राहक"},{"en":"Waiter","hi":"Waiter"},{"en":"Store room","hi":"Store room"},{"en":"Food","hi":"खाना"}],"answer":1,"why":{"en":"The waiter takes requests to the kitchen and brings responses back, just like an API.","hi":"Waiter requests kitchen तक ले जाता है और जवाब वापस लाता है, बिल्कुल API की तरह।"}},{"q":{"en":"Which method should create a new order?","hi":"नया order बनाने के लिए कौन-सा method?"},"options":["GET","POST","DELETE","HEAD"],"answer":1,"why":{"en":"POST creates something new. GET only reads.","hi":"POST कुछ नया बनाता है। GET सिर्फ़ पढ़ता है।"}},{"q":{"en":"The server has a bug and crashes. Which status code?","hi":"Server में bug है और वो crash होता है। कौन-सा status code?"},"options":["200","404","500","201"],"answer":2,"why":{"en":"5xx codes mean the server made a mistake.","hi":"5xx codes का मतलब है server की ग़लती।"}},{"q":{"en":"What is JSON?","hi":"JSON क्या है?"},"options":[{"en":"A database","hi":"एक database"},{"en":"A text format for sending data","hi":"Data भेजने का एक text format"},{"en":"A programming language","hi":"एक programming language"},{"en":"A server","hi":"एक server"}],"answer":1,"why":{"en":"JSON is a simple text format like { \"name\": \"Riya\" }.","hi":"JSON एक आसान text format है, जैसे { \"name\": \"Riya\" }।"}},{"q":{"en":"Which tool is mainly used as a fast cache?","hi":"कौन-सा tool मुख्य रूप से तेज़ cache के लिए इस्तेमाल होता है?"},"options":["S3","Redis","Kafka","Elasticsearch"],"answer":1,"why":{"en":"Redis keeps data in memory, so reads are very fast.","hi":"Redis data को memory में रखता है, इसलिए reads बहुत तेज़ होते हैं।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:web-basics"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="./"><span class="en">← Roadmap</span><span class="hi">← रोडमैप</span></a><a class="btn btn-outline" href="sd-interview.html">→ <span class="en">How system design interviews work</span><span class="hi">System design interview कैसे होते हैं</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20How%20the%20web%20works%20(start%20here)" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20How%20the%20web%20works%20(start%20here)" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"client","m":["client"],"en":"The app or browser that asks for something, like your phone's WhatsApp or Chrome.","hi":"वो app या browser जो कुछ माँगता है, जैसे आपके phone का WhatsApp या Chrome।"},{"s":"server","m":["server","servers"],"en":"A computer that runs your backend code and answers requests from clients.","hi":"एक computer जो आपका backend code चलाता है और clients की requests का जवाब देता है।"},{"s":"request","m":["request","requests"],"en":"A message from the client to the server asking for data or an action.","hi":"Client से server को भेजा गया message, जिसमें data या कोई काम माँगा जाता है।"},{"s":"response","m":["response"],"en":"The server's reply to a request, usually with data and a status code.","hi":"Request पर server का जवाब, आमतौर पर data और status code के साथ।"},{"s":"http","m":["HTTP","HTTPS"],"en":"The language browsers and servers use to talk. HTTPS is the encrypted, secure version.","hi":"वो भाषा जिसमें browser और server बात करते हैं। HTTPS उसका encrypted, सुरक्षित रूप है।"},{"s":"api","m":["API","APIs"],"en":"A set of URLs (endpoints) your server offers so other programs can ask it for data or actions.","hi":"URLs (endpoints) का एक set जो server देता है, ताकि दूसरे programs उससे data या काम माँग सकें।"},{"s":"endpoint","m":["endpoint","endpoints"],"en":"One URL of an API, like GET /users/42.","hi":"API का एक URL, जैसे GET /users/42।"},{"s":"rest","m":["REST"],"en":"A common style for APIs: URLs name the things (/orders) and HTTP methods say the action (GET, POST).","hi":"APIs का एक common style: URL चीज़ का नाम बताते हैं (/orders) और HTTP methods काम (GET, POST)।"},{"s":"json","m":["JSON"],"en":"A simple text format for data, like { \"name\": \"Riya\" }. Most APIs send JSON.","hi":"Data के लिए एक आसान text format, जैसे { \"name\": \"Riya\" }। ज़्यादातर APIs JSON भेजती हैं।"},{"s":"status-code","m":["status code","status codes"],"en":"A number in the response: 200 = OK, 404 = not found, 500 = server error.","hi":"Response में एक number: 200 = OK, 404 = नहीं मिला, 500 = server error।"},{"s":"dns","m":["DNS"],"en":"The internet's phonebook: turns a name like google.com into an IP address.","hi":"Internet की phonebook: google.com जैसे नाम को IP address में बदलता है।"},{"s":"ip-address","m":["IP address"],"en":"The numeric address of a computer on the internet, like 142.250.183.14.","hi":"Internet पर किसी computer का number वाला address, जैसे 142.250.183.14।"},{"s":"webhook","m":["webhook"],"en":"A URL on your server that another service calls when something happens, like \"payment succeeded\".","hi":"आपके server का एक URL जिसे कोई दूसरी service कुछ होने पर call करती है, जैसे \"payment हो गया\"।"},{"s":"websocket","m":["WebSocket","WebSockets"],"en":"A connection that stays open so the server can push messages instantly, used in chat apps.","hi":"एक connection जो खुला रहता है ताकि server तुरंत messages भेज सके, chat apps में इस्तेमाल होता है।"},{"s":"latency","m":["latency"],"en":"How long one request takes, for example 120 milliseconds. Lower is better.","hi":"एक request में कितना समय लगता है, जैसे 120 milliseconds। जितना कम, उतना अच्छा।"},{"s":"throughput","m":["throughput"],"en":"How many requests a system handles per second.","hi":"System एक second में कितनी requests संभालता है।"},{"s":"qps","m":["QPS"],"en":"Queries (requests) per second. 1,000 QPS = a thousand requests every second.","hi":"Queries (requests) per second। 1,000 QPS = हर second हज़ार requests।"},{"s":"scalability","m":["scalability"],"en":"The ability to handle more users by adding resources.","hi":"Resources बढ़ाकर ज़्यादा users संभालने की क्षमता।"},{"s":"vertical-scaling","m":["vertical scaling","Vertical scaling"],"en":"Making one machine bigger (more CPU and RAM).","hi":"एक ही machine को बड़ा करना (ज़्यादा CPU और RAM)।"},{"s":"horizontal-scaling","m":["horizontal scaling","Horizontal scaling"],"en":"Adding more machines that share the work.","hi":"और machines जोड़ना जो काम बाँट लें।"},{"s":"load-balancer","m":["load balancer","load balancers","Load balancer"],"en":"Sits in front of servers and spreads incoming requests across them.","hi":"Servers के आगे बैठता है और आने वाली requests को उनमें बाँटता है।"},{"s":"stateless","m":["stateless"],"en":"A server that keeps no user data in its own memory between requests, so any server can serve any user.","hi":"ऐसा server जो requests के बीच user का data अपनी memory में नहीं रखता, ताकि कोई भी server किसी भी user को serve कर सके।"},{"s":"session","m":["session","sessions"],"en":"Information that keeps a user logged in across requests.","hi":"वो जानकारी जिससे user requests के बीच logged in रहता है।"},{"s":"jwt","m":["JWT"],"en":"JSON Web Token: a signed token the client sends with each request to prove who it is.","hi":"JSON Web Token: एक signed token जो client हर request के साथ भेजता है यह साबित करने के लिए कि वो कौन है।"},{"s":"spof","m":["single point of failure","SPOF"],"en":"A part with only one copy. If it fails, the whole system fails.","hi":"ऐसा हिस्सा जिसकी सिर्फ़ एक copy हो। वो fail हो, तो पूरा system fail।"},{"s":"bottleneck","m":["bottleneck"],"en":"The slowest part that limits the whole system, like a narrow bottle neck.","hi":"सबसे धीमा हिस्सा जो पूरे system को रोकता है, जैसे बोतल की पतली गर्दन।"},{"s":"monolith","m":["monolith"],"en":"One application containing all features, deployed together. Simple to start with.","hi":"एक ही application जिसमें सारे features हों, एक साथ deploy हो। शुरुआत में आसान।"},{"s":"microservices","m":["microservices"],"en":"Many small services, each owning one feature, deployed separately. Flexible but more complex.","hi":"कई छोटी services, हर एक के पास एक feature, अलग-अलग deploy। Flexible पर ज़्यादा मुश्किल।"},{"s":"database","m":["database","databases"],"en":"Software that stores data safely on disk and lets you search and update it.","hi":"Software जो data को disk पर सुरक्षित रखता है और उसे ढूँढने और बदलने देता है।"},{"s":"sql","m":["SQL"],"en":"A database with tables, columns and relations, like PostgreSQL or MySQL.","hi":"Tables, columns और relations वाला database, जैसे PostgreSQL या MySQL।"},{"s":"nosql","m":["NoSQL"],"en":"A database with a flexible structure (documents, key-value), built to spread across many machines.","hi":"Flexible structure (documents, key-value) वाला database, कई machines पर फैलने के लिए बना।"},{"s":"transaction","m":["transaction","transactions"],"en":"A group of database changes that happen together, or not at all.","hi":"Database के बदलावों का समूह जो साथ में होते हैं, या बिल्कुल नहीं होते।"},{"s":"acid","m":["ACID"],"en":"Promises of a good transaction: all-or-nothing, valid data, no mixing, and saved data isn't lost.","hi":"अच्छे transaction के वादे: पूरा या कुछ नहीं, सही data, आपस में न मिलना, और save हुआ data न खोना।"},{"s":"primary-key","m":["primary key"],"en":"A column that uniquely identifies each row, like user id.","hi":"एक column जो हर row को अलग पहचान देता है, जैसे user id।"},{"s":"index","m":["index","indexes"],"en":"A lookup structure that makes searching a column fast, like a book's index.","hi":"एक lookup structure जो किसी column में ढूँढना तेज़ करता है, जैसे किताब का index।"},{"s":"replica","m":["replica","replicas","replication"],"en":"A copy of a database that stays in sync. Replicas serve reads and can take over on failure.","hi":"Database की copy जो साथ-साथ अपडेट होती रहती है। Replicas reads देते हैं और failure पर काम सँभाल सकते हैं।"},{"s":"replication-lag","m":["replication lag","Replication lag"],"en":"The small delay before a replica receives the latest changes.","hi":"Replica तक ताज़ा बदलाव पहुँचने में लगने वाली छोटी देरी।"},{"s":"sharding","m":["sharding","shard","shards"],"en":"Splitting data across several databases, each holding a part.","hi":"Data को कई databases में बाँटना, हर एक में एक हिस्सा।"},{"s":"shard-key","m":["shard key"],"en":"The field that decides which shard a row goes to, like user_id.","hi":"वो field जो तय करती है कि row किस shard में जाएगी, जैसे user_id।"},{"s":"failover","m":["failover"],"en":"Automatically switching to a backup when the main machine fails.","hi":"Main machine fail होने पर अपने आप backup पर चले जाना।"},{"s":"cache","m":["cache","caching"],"en":"Fast memory that keeps frequently used data so you don't fetch it again from a slow source.","hi":"तेज़ memory जो बार-बार इस्तेमाल होने वाला data रखती है, ताकि धीमी जगह से दोबारा न लाना पड़े।"},{"s":"cache-hit","m":["cache hit","cache miss"],"en":"Hit: the data was in the cache (fast). Miss: it wasn't, so we read the database (slow).","hi":"Hit: data cache में मिल गया (तेज़)। Miss: नहीं मिला, तो database पढ़ा (धीमा)।"},{"s":"ttl","m":["TTL"],"en":"Time to live: how long a cached item is kept before it expires.","hi":"Time to live: cache में रखा item कितनी देर बाद expire होगा।"},{"s":"lru","m":["LRU"],"en":"Least Recently Used: when the cache is full, remove the item unused for the longest time.","hi":"Least Recently Used: cache भरने पर वो item हटाओ जो सबसे लंबे समय से इस्तेमाल नहीं हुआ।"},{"s":"invalidation","m":["invalidation","invalidate"],"en":"Removing or updating cached data when the original data changes.","hi":"Original data बदलने पर cached data को हटाना या अपडेट करना।"},{"s":"cdn","m":["CDN","CDNs"],"en":"Content Delivery Network: servers around the world that keep copies of images, videos and files close to users.","hi":"Content Delivery Network: दुनिया भर के servers जो images, videos और files की copies users के पास रखते हैं।"},{"s":"queue","m":["message queue","queue","queues"],"en":"A waiting line for jobs. The API adds a job and replies fast; a worker does the job later.","hi":"Jobs की एक लाइन। API job जोड़कर जल्दी जवाब देता है; worker बाद में job करता है।"},{"s":"async","m":["async","asynchronous"],"en":"Work that happens in the background, without making the user wait.","hi":"Background में होने वाला काम, बिना user को इंतज़ार कराए।"},{"s":"availability","m":["availability","highly available"],"en":"How much of the time the system is up and working, like 99.9%.","hi":"System कितने समय चालू और काम करता रहता है, जैसे 99.9%।"},{"s":"consistency","m":["consistency","eventual consistency"],"en":"Whether everyone sees the latest data. Eventual consistency means it becomes the same everywhere after a short time.","hi":"क्या सबको ताज़ा data दिखता है। Eventual consistency का मतलब है थोड़ी देर बाद हर जगह एक जैसा हो जाता है।"},{"s":"cap","m":["CAP"],"en":"When the network between servers breaks, you must choose: always correct data (consistency) or always answer (availability).","hi":"Servers के बीच network टूटे, तो चुनना पड़ता है: हमेशा सही data (consistency) या हमेशा जवाब (availability)।"},{"s":"idempotency","m":["idempotency","idempotent"],"en":"Doing the same request twice has the same effect as doing it once. Vital for payments.","hi":"एक ही request दो बार करने का असर एक बार करने जैसा हो। Payments के लिए बहुत ज़रूरी।"},{"s":"rate-limiting","m":["rate limiting","rate limiter"],"en":"Limiting how many requests a user can make, like 100 per minute, to protect the system.","hi":"User कितनी requests कर सकता है उसकी सीमा, जैसे 100 per minute, system को बचाने के लिए।"},{"s":"health-check","m":["health check","health checks"],"en":"A regular ping to see if a server is alive. Unhealthy servers get no traffic.","hi":"Server ज़िंदा है या नहीं, यह देखने के लिए नियमित ping। बीमार servers को traffic नहीं मिलता।"},{"s":"redis","m":["Redis"],"en":"A very fast in-memory store, used for caching, sessions, counters and rate limits.","hi":"बहुत तेज़ in-memory store, caching, sessions, counters और rate limits के लिए।"},{"s":"kafka","m":["Kafka","SQS","RabbitMQ"],"en":"Message queue tools that pass jobs and events between services.","hi":"Message queue tools जो services के बीच jobs और events पहुँचाते हैं।"},{"s":"s3","m":["S3"],"en":"Cloud storage for files like images, videos and PDFs. The database stores only the file's URL.","hi":"Images, videos और PDFs जैसी files के लिए cloud storage। Database सिर्फ़ file का URL रखता है।"},{"s":"postgresql","m":["PostgreSQL","MySQL"],"en":"Popular SQL databases for structured data and transactions.","hi":"Structured data और transactions के लिए popular SQL databases।"},{"s":"mongodb","m":["MongoDB","DynamoDB","Cassandra"],"en":"Popular NoSQL databases for flexible or very large data.","hi":"Flexible या बहुत बड़े data के लिए popular NoSQL databases।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

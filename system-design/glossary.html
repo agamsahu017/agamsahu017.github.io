@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>System Design Glossary: Terms Explained Simply | Kodivo</title>
+  <meta name="description" content="Simple meanings of system design words: QPS, latency, load balancer, replica, sharding, cache, TTL, CDN, Redis, Kafka and more, in English and Hindi." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/glossary.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/glossary.html" />
+  <meta property="og:title" content="System Design Glossary: Terms Explained Simply | Kodivo" />
+  <meta property="og:description" content="Simple meanings of system design words: QPS, latency, load balancer, replica, sharding, cache, TTL, CDN, Redis, Kafka and more, in English and Hindi." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Glossary",
+          "item": "https://agamsahu017.github.io/system-design/glossary.html"
+        }
+      ]
+    },
+    {
+      "@type": "DefinedTermSet",
+      "name": "System design glossary",
+      "url": "https://agamsahu017.github.io/system-design/glossary.html",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "name": "Client",
+          "description": "The app or browser that asks for something, like your phone's WhatsApp or Chrome.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#client"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Server",
+          "description": "A computer that runs your backend code and answers requests from clients.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#server"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Request",
+          "description": "A message from the client to the server asking for data or an action.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#request"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Response",
+          "description": "The server's reply to a request, usually with data and a status code.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#response"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "HTTP / HTTPS",
+          "description": "The language browsers and servers use to talk. HTTPS is the encrypted, secure version.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#http"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "API",
+          "description": "A set of URLs (endpoints) your server offers so other programs can ask it for data or actions.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#api"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Endpoint",
+          "description": "One URL of an API, like GET /users/42.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#endpoint"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "REST",
+          "description": "A common style for APIs: URLs name the things (/orders) and HTTP methods say the action (GET, POST).",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#rest"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "JSON",
+          "description": "A simple text format for data, like { \"name\": \"Riya\" }. Most APIs send JSON.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#json"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Status code",
+          "description": "A number in the response: 200 = OK, 404 = not found, 500 = server error.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#status-code"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "DNS",
+          "description": "The internet's phonebook: turns a name like google.com into an IP address.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#dns"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "IP address",
+          "description": "The numeric address of a computer on the internet, like 142.250.183.14.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#ip-address"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Webhook",
+          "description": "A URL on your server that another service calls when something happens, like \"payment succeeded\".",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#webhook"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "WebSocket",
+          "description": "A connection that stays open so the server can push messages instantly, used in chat apps.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#websocket"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Latency",
+          "description": "How long one request takes, for example 120 milliseconds. Lower is better.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#latency"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Throughput",
+          "description": "How many requests a system handles per second.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#throughput"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "QPS",
+          "description": "Queries (requests) per second. 1,000 QPS = a thousand requests every second.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#qps"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Scalability",
+          "description": "The ability to handle more users by adding resources.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#scalability"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Vertical scaling",
+          "description": "Making one machine bigger (more CPU and RAM).",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#vertical-scaling"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Horizontal scaling",
+          "description": "Adding more machines that share the work.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#horizontal-scaling"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Load balancer",
+          "description": "Sits in front of servers and spreads incoming requests across them.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#load-balancer"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Stateless",
+          "description": "A server that keeps no user data in its own memory between requests, so any server can serve any user.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#stateless"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Session",
+          "description": "Information that keeps a user logged in across requests.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#session"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "JWT",
+          "description": "JSON Web Token: a signed token the client sends with each request to prove who it is.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#jwt"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Single point of failure (SPOF)",
+          "description": "A part with only one copy. If it fails, the whole system fails.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#spof"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Bottleneck",
+          "description": "The slowest part that limits the whole system, like a narrow bottle neck.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#bottleneck"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Monolith",
+          "description": "One application containing all features, deployed together. Simple to start with.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#monolith"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Microservices",
+          "description": "Many small services, each owning one feature, deployed separately. Flexible but more complex.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#microservices"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Database",
+          "description": "Software that stores data safely on disk and lets you search and update it.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#database"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "SQL database",
+          "description": "A database with tables, columns and relations, like PostgreSQL or MySQL.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#sql"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "NoSQL database",
+          "description": "A database with a flexible structure (documents, key-value), built to spread across many machines.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#nosql"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Transaction",
+          "description": "A group of database changes that happen together, or not at all.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#transaction"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "ACID",
+          "description": "Promises of a good transaction: all-or-nothing, valid data, no mixing, and saved data isn't lost.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#acid"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Primary key",
+          "description": "A column that uniquely identifies each row, like user id.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#primary-key"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Index",
+          "description": "A lookup structure that makes searching a column fast, like a book's index.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#index"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Replica / replication",
+          "description": "A copy of a database that stays in sync. Replicas serve reads and can take over on failure.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#replica"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Replication lag",
+          "description": "The small delay before a replica receives the latest changes.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#replication-lag"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Sharding",
+          "description": "Splitting data across several databases, each holding a part.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#sharding"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Shard key",
+          "description": "The field that decides which shard a row goes to, like user_id.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#shard-key"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Failover",
+          "description": "Automatically switching to a backup when the main machine fails.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#failover"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Cache",
+          "description": "Fast memory that keeps frequently used data so you don't fetch it again from a slow source.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#cache"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Cache hit / miss",
+          "description": "Hit: the data was in the cache (fast). Miss: it wasn't, so we read the database (slow).",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#cache-hit"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "TTL",
+          "description": "Time to live: how long a cached item is kept before it expires.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#ttl"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "LRU",
+          "description": "Least Recently Used: when the cache is full, remove the item unused for the longest time.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#lru"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Cache invalidation",
+          "description": "Removing or updating cached data when the original data changes.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#invalidation"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "CDN",
+          "description": "Content Delivery Network: servers around the world that keep copies of images, videos and files close to users.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#cdn"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Message queue",
+          "description": "A waiting line for jobs. The API adds a job and replies fast; a worker does the job later.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#queue"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Asynchronous (async)",
+          "description": "Work that happens in the background, without making the user wait.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#async"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Availability",
+          "description": "How much of the time the system is up and working, like 99.9%.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#availability"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Consistency",
+          "description": "Whether everyone sees the latest data. Eventual consistency means it becomes the same everywhere after a short time.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#consistency"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "CAP theorem",
+          "description": "When the network between servers breaks, you must choose: always correct data (consistency) or always answer (availability).",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#cap"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Idempotency",
+          "description": "Doing the same request twice has the same effect as doing it once. Vital for payments.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#idempotency"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Rate limiting",
+          "description": "Limiting how many requests a user can make, like 100 per minute, to protect the system.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#rate-limiting"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Health check",
+          "description": "A regular ping to see if a server is alive. Unhealthy servers get no traffic.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#health-check"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Redis",
+          "description": "A very fast in-memory store, used for caching, sessions, counters and rate limits.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#redis"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Kafka / SQS / RabbitMQ",
+          "description": "Message queue tools that pass jobs and events between services.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#kafka"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "S3 (object storage)",
+          "description": "Cloud storage for files like images, videos and PDFs. The database stores only the file's URL.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#s3"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "PostgreSQL / MySQL",
+          "description": "Popular SQL databases for structured data and transactions.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#postgresql"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "MongoDB / DynamoDB / Cassandra",
+          "description": "Popular NoSQL databases for flexible or very large data.",
+          "url": "https://agamsahu017.github.io/system-design/glossary.html#mongodb"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20question%20about%20a%20system%20design%20term." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>Glossary</span></nav>
+        <h1><span class="en">System design glossary</span><span class="hi">System design glossary</span></h1>
+        <p class="en">59 words you'll hear in system design, each explained in one or two simple lines. Use the search box to find a word quickly.</p><p class="hi">System design में सुनाई देने वाले 59 शब्द, हर एक का मतलब एक-दो आसान लाइनों में। किसी शब्द को जल्दी ढूँढने के लिए search box इस्तेमाल कीजिए।</p>
+        <input id="gloss-search" class="gloss-search" type="search" placeholder="Search: cache, QPS, replica…" aria-label="Search the glossary" />
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Web basics</span><span class="hi">Web basics</span></h2>
+        <dl>
+          <div class="gloss-item" id="client"><dt>Client</dt><dd><span class="en">The app or browser that asks for something, like your phone's WhatsApp or Chrome.</span><span class="hi">वो app या browser जो कुछ माँगता है, जैसे आपके phone का WhatsApp या Chrome।</span></dd></div>
+          <div class="gloss-item" id="server"><dt>Server</dt><dd><span class="en">A computer that runs your backend code and answers requests from clients.</span><span class="hi">एक computer जो आपका backend code चलाता है और clients की requests का जवाब देता है।</span></dd></div>
+          <div class="gloss-item" id="request"><dt>Request</dt><dd><span class="en">A message from the client to the server asking for data or an action.</span><span class="hi">Client से server को भेजा गया message, जिसमें data या कोई काम माँगा जाता है।</span></dd></div>
+          <div class="gloss-item" id="response"><dt>Response</dt><dd><span class="en">The server's reply to a request, usually with data and a status code.</span><span class="hi">Request पर server का जवाब, आमतौर पर data और status code के साथ।</span></dd></div>
+          <div class="gloss-item" id="http"><dt>HTTP / HTTPS</dt><dd><span class="en">The language browsers and servers use to talk. HTTPS is the encrypted, secure version.</span><span class="hi">वो भाषा जिसमें browser और server बात करते हैं। HTTPS उसका encrypted, सुरक्षित रूप है।</span></dd></div>
+          <div class="gloss-item" id="api"><dt>API</dt><dd><span class="en">A set of URLs (endpoints) your server offers so other programs can ask it for data or actions.</span><span class="hi">URLs (endpoints) का एक set जो server देता है, ताकि दूसरे programs उससे data या काम माँग सकें।</span></dd></div>
+          <div class="gloss-item" id="endpoint"><dt>Endpoint</dt><dd><span class="en">One URL of an API, like GET /users/42.</span><span class="hi">API का एक URL, जैसे GET /users/42।</span></dd></div>
+          <div class="gloss-item" id="rest"><dt>REST</dt><dd><span class="en">A common style for APIs: URLs name the things (/orders) and HTTP methods say the action (GET, POST).</span><span class="hi">APIs का एक common style: URL चीज़ का नाम बताते हैं (/orders) और HTTP methods काम (GET, POST)।</span></dd></div>
+          <div class="gloss-item" id="json"><dt>JSON</dt><dd><span class="en">A simple text format for data, like { "name": "Riya" }. Most APIs send JSON.</span><span class="hi">Data के लिए एक आसान text format, जैसे { "name": "Riya" }। ज़्यादातर APIs JSON भेजती हैं।</span></dd></div>
+          <div class="gloss-item" id="status-code"><dt>Status code</dt><dd><span class="en">A number in the response: 200 = OK, 404 = not found, 500 = server error.</span><span class="hi">Response में एक number: 200 = OK, 404 = नहीं मिला, 500 = server error।</span></dd></div>
+          <div class="gloss-item" id="dns"><dt>DNS</dt><dd><span class="en">The internet's phonebook: turns a name like google.com into an IP address.</span><span class="hi">Internet की phonebook: google.com जैसे नाम को IP address में बदलता है।</span></dd></div>
+          <div class="gloss-item" id="ip-address"><dt>IP address</dt><dd><span class="en">The numeric address of a computer on the internet, like 142.250.183.14.</span><span class="hi">Internet पर किसी computer का number वाला address, जैसे 142.250.183.14।</span></dd></div>
+          <div class="gloss-item" id="webhook"><dt>Webhook</dt><dd><span class="en">A URL on your server that another service calls when something happens, like "payment succeeded".</span><span class="hi">आपके server का एक URL जिसे कोई दूसरी service कुछ होने पर call करती है, जैसे "payment हो गया"।</span></dd></div>
+          <div class="gloss-item" id="websocket"><dt>WebSocket</dt><dd><span class="en">A connection that stays open so the server can push messages instantly, used in chat apps.</span><span class="hi">एक connection जो खुला रहता है ताकि server तुरंत messages भेज सके, chat apps में इस्तेमाल होता है।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Scale and performance</span><span class="hi">Scale और performance</span></h2>
+        <dl>
+          <div class="gloss-item" id="latency"><dt>Latency</dt><dd><span class="en">How long one request takes, for example 120 milliseconds. Lower is better.</span><span class="hi">एक request में कितना समय लगता है, जैसे 120 milliseconds। जितना कम, उतना अच्छा।</span></dd></div>
+          <div class="gloss-item" id="throughput"><dt>Throughput</dt><dd><span class="en">How many requests a system handles per second.</span><span class="hi">System एक second में कितनी requests संभालता है।</span></dd></div>
+          <div class="gloss-item" id="qps"><dt>QPS</dt><dd><span class="en">Queries (requests) per second. 1,000 QPS = a thousand requests every second.</span><span class="hi">Queries (requests) per second। 1,000 QPS = हर second हज़ार requests।</span></dd></div>
+          <div class="gloss-item" id="scalability"><dt>Scalability</dt><dd><span class="en">The ability to handle more users by adding resources.</span><span class="hi">Resources बढ़ाकर ज़्यादा users संभालने की क्षमता।</span></dd></div>
+          <div class="gloss-item" id="vertical-scaling"><dt>Vertical scaling</dt><dd><span class="en">Making one machine bigger (more CPU and RAM).</span><span class="hi">एक ही machine को बड़ा करना (ज़्यादा CPU और RAM)।</span></dd></div>
+          <div class="gloss-item" id="horizontal-scaling"><dt>Horizontal scaling</dt><dd><span class="en">Adding more machines that share the work.</span><span class="hi">और machines जोड़ना जो काम बाँट लें।</span></dd></div>
+          <div class="gloss-item" id="load-balancer"><dt>Load balancer</dt><dd><span class="en">Sits in front of servers and spreads incoming requests across them.</span><span class="hi">Servers के आगे बैठता है और आने वाली requests को उनमें बाँटता है।</span></dd></div>
+          <div class="gloss-item" id="stateless"><dt>Stateless</dt><dd><span class="en">A server that keeps no user data in its own memory between requests, so any server can serve any user.</span><span class="hi">ऐसा server जो requests के बीच user का data अपनी memory में नहीं रखता, ताकि कोई भी server किसी भी user को serve कर सके।</span></dd></div>
+          <div class="gloss-item" id="session"><dt>Session</dt><dd><span class="en">Information that keeps a user logged in across requests.</span><span class="hi">वो जानकारी जिससे user requests के बीच logged in रहता है।</span></dd></div>
+          <div class="gloss-item" id="jwt"><dt>JWT</dt><dd><span class="en">JSON Web Token: a signed token the client sends with each request to prove who it is.</span><span class="hi">JSON Web Token: एक signed token जो client हर request के साथ भेजता है यह साबित करने के लिए कि वो कौन है।</span></dd></div>
+          <div class="gloss-item" id="spof"><dt>Single point of failure (SPOF)</dt><dd><span class="en">A part with only one copy. If it fails, the whole system fails.</span><span class="hi">ऐसा हिस्सा जिसकी सिर्फ़ एक copy हो। वो fail हो, तो पूरा system fail।</span></dd></div>
+          <div class="gloss-item" id="bottleneck"><dt>Bottleneck</dt><dd><span class="en">The slowest part that limits the whole system, like a narrow bottle neck.</span><span class="hi">सबसे धीमा हिस्सा जो पूरे system को रोकता है, जैसे बोतल की पतली गर्दन।</span></dd></div>
+          <div class="gloss-item" id="monolith"><dt>Monolith</dt><dd><span class="en">One application containing all features, deployed together. Simple to start with.</span><span class="hi">एक ही application जिसमें सारे features हों, एक साथ deploy हो। शुरुआत में आसान।</span></dd></div>
+          <div class="gloss-item" id="microservices"><dt>Microservices</dt><dd><span class="en">Many small services, each owning one feature, deployed separately. Flexible but more complex.</span><span class="hi">कई छोटी services, हर एक के पास एक feature, अलग-अलग deploy। Flexible पर ज़्यादा मुश्किल।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Databases</span><span class="hi">Databases</span></h2>
+        <dl>
+          <div class="gloss-item" id="database"><dt>Database</dt><dd><span class="en">Software that stores data safely on disk and lets you search and update it.</span><span class="hi">Software जो data को disk पर सुरक्षित रखता है और उसे ढूँढने और बदलने देता है।</span></dd></div>
+          <div class="gloss-item" id="sql"><dt>SQL database</dt><dd><span class="en">A database with tables, columns and relations, like PostgreSQL or MySQL.</span><span class="hi">Tables, columns और relations वाला database, जैसे PostgreSQL या MySQL।</span></dd></div>
+          <div class="gloss-item" id="nosql"><dt>NoSQL database</dt><dd><span class="en">A database with a flexible structure (documents, key-value), built to spread across many machines.</span><span class="hi">Flexible structure (documents, key-value) वाला database, कई machines पर फैलने के लिए बना।</span></dd></div>
+          <div class="gloss-item" id="transaction"><dt>Transaction</dt><dd><span class="en">A group of database changes that happen together, or not at all.</span><span class="hi">Database के बदलावों का समूह जो साथ में होते हैं, या बिल्कुल नहीं होते।</span></dd></div>
+          <div class="gloss-item" id="acid"><dt>ACID</dt><dd><span class="en">Promises of a good transaction: all-or-nothing, valid data, no mixing, and saved data isn't lost.</span><span class="hi">अच्छे transaction के वादे: पूरा या कुछ नहीं, सही data, आपस में न मिलना, और save हुआ data न खोना।</span></dd></div>
+          <div class="gloss-item" id="primary-key"><dt>Primary key</dt><dd><span class="en">A column that uniquely identifies each row, like user id.</span><span class="hi">एक column जो हर row को अलग पहचान देता है, जैसे user id।</span></dd></div>
+          <div class="gloss-item" id="index"><dt>Index</dt><dd><span class="en">A lookup structure that makes searching a column fast, like a book's index.</span><span class="hi">एक lookup structure जो किसी column में ढूँढना तेज़ करता है, जैसे किताब का index।</span></dd></div>
+          <div class="gloss-item" id="replica"><dt>Replica / replication</dt><dd><span class="en">A copy of a database that stays in sync. Replicas serve reads and can take over on failure.</span><span class="hi">Database की copy जो साथ-साथ अपडेट होती रहती है। Replicas reads देते हैं और failure पर काम सँभाल सकते हैं।</span></dd></div>
+          <div class="gloss-item" id="replication-lag"><dt>Replication lag</dt><dd><span class="en">The small delay before a replica receives the latest changes.</span><span class="hi">Replica तक ताज़ा बदलाव पहुँचने में लगने वाली छोटी देरी।</span></dd></div>
+          <div class="gloss-item" id="sharding"><dt>Sharding</dt><dd><span class="en">Splitting data across several databases, each holding a part.</span><span class="hi">Data को कई databases में बाँटना, हर एक में एक हिस्सा।</span></dd></div>
+          <div class="gloss-item" id="shard-key"><dt>Shard key</dt><dd><span class="en">The field that decides which shard a row goes to, like user_id.</span><span class="hi">वो field जो तय करती है कि row किस shard में जाएगी, जैसे user_id।</span></dd></div>
+          <div class="gloss-item" id="failover"><dt>Failover</dt><dd><span class="en">Automatically switching to a backup when the main machine fails.</span><span class="hi">Main machine fail होने पर अपने आप backup पर चले जाना।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Caching</span><span class="hi">Caching</span></h2>
+        <dl>
+          <div class="gloss-item" id="cache"><dt>Cache</dt><dd><span class="en">Fast memory that keeps frequently used data so you don't fetch it again from a slow source.</span><span class="hi">तेज़ memory जो बार-बार इस्तेमाल होने वाला data रखती है, ताकि धीमी जगह से दोबारा न लाना पड़े।</span></dd></div>
+          <div class="gloss-item" id="cache-hit"><dt>Cache hit / miss</dt><dd><span class="en">Hit: the data was in the cache (fast). Miss: it wasn't, so we read the database (slow).</span><span class="hi">Hit: data cache में मिल गया (तेज़)। Miss: नहीं मिला, तो database पढ़ा (धीमा)।</span></dd></div>
+          <div class="gloss-item" id="ttl"><dt>TTL</dt><dd><span class="en">Time to live: how long a cached item is kept before it expires.</span><span class="hi">Time to live: cache में रखा item कितनी देर बाद expire होगा।</span></dd></div>
+          <div class="gloss-item" id="lru"><dt>LRU</dt><dd><span class="en">Least Recently Used: when the cache is full, remove the item unused for the longest time.</span><span class="hi">Least Recently Used: cache भरने पर वो item हटाओ जो सबसे लंबे समय से इस्तेमाल नहीं हुआ।</span></dd></div>
+          <div class="gloss-item" id="invalidation"><dt>Cache invalidation</dt><dd><span class="en">Removing or updating cached data when the original data changes.</span><span class="hi">Original data बदलने पर cached data को हटाना या अपडेट करना।</span></dd></div>
+          <div class="gloss-item" id="cdn"><dt>CDN</dt><dd><span class="en">Content Delivery Network: servers around the world that keep copies of images, videos and files close to users.</span><span class="hi">Content Delivery Network: दुनिया भर के servers जो images, videos और files की copies users के पास रखते हैं।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Async work</span><span class="hi">Async काम</span></h2>
+        <dl>
+          <div class="gloss-item" id="queue"><dt>Message queue</dt><dd><span class="en">A waiting line for jobs. The API adds a job and replies fast; a worker does the job later.</span><span class="hi">Jobs की एक लाइन। API job जोड़कर जल्दी जवाब देता है; worker बाद में job करता है।</span></dd></div>
+          <div class="gloss-item" id="async"><dt>Asynchronous (async)</dt><dd><span class="en">Work that happens in the background, without making the user wait.</span><span class="hi">Background में होने वाला काम, बिना user को इंतज़ार कराए।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Reliability</span><span class="hi">Reliability</span></h2>
+        <dl>
+          <div class="gloss-item" id="availability"><dt>Availability</dt><dd><span class="en">How much of the time the system is up and working, like 99.9%.</span><span class="hi">System कितने समय चालू और काम करता रहता है, जैसे 99.9%।</span></dd></div>
+          <div class="gloss-item" id="consistency"><dt>Consistency</dt><dd><span class="en">Whether everyone sees the latest data. Eventual consistency means it becomes the same everywhere after a short time.</span><span class="hi">क्या सबको ताज़ा data दिखता है। Eventual consistency का मतलब है थोड़ी देर बाद हर जगह एक जैसा हो जाता है।</span></dd></div>
+          <div class="gloss-item" id="cap"><dt>CAP theorem</dt><dd><span class="en">When the network between servers breaks, you must choose: always correct data (consistency) or always answer (availability).</span><span class="hi">Servers के बीच network टूटे, तो चुनना पड़ता है: हमेशा सही data (consistency) या हमेशा जवाब (availability)।</span></dd></div>
+          <div class="gloss-item" id="idempotency"><dt>Idempotency</dt><dd><span class="en">Doing the same request twice has the same effect as doing it once. Vital for payments.</span><span class="hi">एक ही request दो बार करने का असर एक बार करने जैसा हो। Payments के लिए बहुत ज़रूरी।</span></dd></div>
+          <div class="gloss-item" id="rate-limiting"><dt>Rate limiting</dt><dd><span class="en">Limiting how many requests a user can make, like 100 per minute, to protect the system.</span><span class="hi">User कितनी requests कर सकता है उसकी सीमा, जैसे 100 per minute, system को बचाने के लिए।</span></dd></div>
+          <div class="gloss-item" id="health-check"><dt>Health check</dt><dd><span class="en">A regular ping to see if a server is alive. Unhealthy servers get no traffic.</span><span class="hi">Server ज़िंदा है या नहीं, यह देखने के लिए नियमित ping। बीमार servers को traffic नहीं मिलता।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Tools</span><span class="hi">Tools</span></h2>
+        <dl>
+          <div class="gloss-item" id="redis"><dt>Redis</dt><dd><span class="en">A very fast in-memory store, used for caching, sessions, counters and rate limits.</span><span class="hi">बहुत तेज़ in-memory store, caching, sessions, counters और rate limits के लिए।</span></dd></div>
+          <div class="gloss-item" id="kafka"><dt>Kafka / SQS / RabbitMQ</dt><dd><span class="en">Message queue tools that pass jobs and events between services.</span><span class="hi">Message queue tools जो services के बीच jobs और events पहुँचाते हैं।</span></dd></div>
+          <div class="gloss-item" id="s3"><dt>S3 (object storage)</dt><dd><span class="en">Cloud storage for files like images, videos and PDFs. The database stores only the file's URL.</span><span class="hi">Images, videos और PDFs जैसी files के लिए cloud storage। Database सिर्फ़ file का URL रखता है।</span></dd></div>
+          <div class="gloss-item" id="postgresql"><dt>PostgreSQL / MySQL</dt><dd><span class="en">Popular SQL databases for structured data and transactions.</span><span class="hi">Structured data और transactions के लिए popular SQL databases।</span></dd></div>
+          <div class="gloss-item" id="mongodb"><dt>MongoDB / DynamoDB / Cassandra</dt><dd><span class="en">Popular NoSQL databases for flexible or very large data.</span><span class="hi">Flexible या बहुत बड़े data के लिए popular NoSQL databases।</span></dd></div>
+        </dl>
+      </div>
+      <div class="lesson-nav"><a class="btn btn-outline" href="./"><span class="en">← Roadmap</span><span class="hi">← रोडमैप</span></a><a class="btn btn-primary" href="web-basics.html"><span class="en">Start Module 1 →</span><span class="hi">मॉड्यूल 1 शुरू करें →</span></a></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

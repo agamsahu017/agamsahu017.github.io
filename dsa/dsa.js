@@ -152,6 +152,58 @@
     quizBox.appendChild(score);
   }
 
+  // ---------- glossary: explain hard words on first use (hover or tap) ----------
+  const gData = document.getElementById("glossary-data");
+  if (gData) {
+    const terms = JSON.parse(gData.textContent);
+    const list = [];
+    terms.forEach((t) => t.m.forEach((m) => list.push({ m, t, re: new RegExp(`\\b${m.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, /[A-Z]/.test(m) ? "" : "i") })));
+    list.sort((a, b) => b.m.length - a.m.length);
+    const SKIP = "pre, code, a, button, h1, h2, h3, summary, .table-wrap, .viz, .flow, .q, .term, .toc, .lesson-meta, .badge";
+    ["en", "hi"].forEach((lang) => {
+      const used = new Set();
+      document.querySelectorAll(`.lesson section .${lang}`).forEach((root) => {
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+          acceptNode: (n) => (n.parentElement.closest(SKIP) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
+        });
+        const queue = [];
+        while (walker.nextNode()) queue.push(walker.currentNode);
+        while (queue.length) {
+          const node = queue.shift();
+          let best = null;
+          for (const item of list) {
+            if (used.has(item.t.s)) continue;
+            const hit = item.re.exec(node.nodeValue);
+            if (hit && (!best || hit.index < best.index)) best = { index: hit.index, len: hit[0].length, item };
+          }
+          if (!best) continue;
+          used.add(best.item.t.s);
+          const mid = node.splitText(best.index);
+          const rest = mid.splitText(best.len);
+          const span = document.createElement("span");
+          span.className = "term";
+          span.tabIndex = 0;
+          span.dataset.def = best.item.t[lang];
+          span.textContent = mid.nodeValue;
+          mid.replaceWith(span);
+          queue.unshift(rest);
+        }
+      });
+    });
+  }
+
+  // ---------- glossary page search ----------
+  const gSearch = document.getElementById("gloss-search");
+  if (gSearch) {
+    const items = document.querySelectorAll(".gloss-item");
+    const groups = document.querySelectorAll(".gloss-group");
+    gSearch.addEventListener("input", () => {
+      const qv = gSearch.value.trim().toLowerCase();
+      items.forEach((it) => { it.hidden = qv && !it.textContent.toLowerCase().includes(qv); });
+      groups.forEach((g) => { g.hidden = ![...g.querySelectorAll(".gloss-item")].some((it) => !it.hidden); });
+    });
+  }
+
   // ---------- shared cell renderer ----------
   function renderCells(container, values, showIndex = true) {
     container.innerHTML = values.map((v, i) =>
