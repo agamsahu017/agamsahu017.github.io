@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Web Security for Developers: SQL Injection, XSS | Kodivo</title>
+  <meta name="description" content="Common web security risks for developers: SQL injection with a live demo, broken access control (IDOR), XSS and misconfiguration, with fixes." />
+  <link rel="canonical" href="https://agamsahu017.github.io/security/web-security.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/security/web-security.html" />
+  <meta property="og:title" content="Web Security for Developers: SQL Injection, XSS | Kodivo" />
+  <meta property="og:description" content="Common web security risks for developers: SQL injection with a live demo, broken access control (IDOR), XSS and misconfiguration, with fixes." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Cyber Security from Zero",
+          "item": "https://agamsahu017.github.io/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Web security for developers",
+          "item": "https://agamsahu017.github.io/security/web-security.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Web Security for Developers: SQL Injection, XSS",
+      "description": "Common web security risks for developers: SQL injection with a live demo, broken access control (IDOR), XSS and misconfiguration, with fixes.",
+      "datePublished": "2026-10-30",
+      "dateModified": "2026-10-30",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Cyber Security from Zero",
+        "url": "https://agamsahu017.github.io/security/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Cyber Security</span><span class="hi">Cyber Security</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20cyber%20security%20on%20your%20website%20(Web%20security%20for%20developers)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Cyber Security</a> › <span>Web security for developers</span></nav>
+        <span class="pill"><span class="en">Module 5 of 14</span><span class="hi">मॉड्यूल 5 / 14</span></span>
+        <h1><span class="en">Web security for developers</span><span class="hi">Developers के लिए web security</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🛡️ Security</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Check that the data belongs to the user, never glue input into SQL, never show user text as HTML, and keep secrets and packages under control.</p><p class="hi"><b>एक लाइन में:</b> Check कीजिए कि data user का ही है, input को SQL में कभी मत जोड़िए, user का text HTML की तरह मत दिखाइए, और secrets व packages पर नज़र रखिए।</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Why broken access control (IDOR) is the number one real-world bug</span><span class="hi">Broken access control (IDOR) असली दुनिया का सबसे आम bug क्यों है</span></li><li><span class="en">SQL injection, with a live demo and real code</span><span class="hi">SQL injection, live demo और असली code के साथ</span></li><li><span class="en">XSS and how React and templates protect you</span><span class="hi">XSS और React व templates आपको कैसे बचाते हैं</span></li><li><span class="en">Quick wins: secrets, headers, dependencies</span><span class="hi">जल्दी होने वाले सुधार: secrets, headers, dependencies</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#access"><span class="en">Broken access control</span><span class="hi">Broken access control</span></a><a href="#injection"><span class="en">SQL injection</span><span class="hi">SQL injection</span></a><a href="#xss"><span class="en">XSS</span><span class="hi">XSS</span></a><a href="#quick"><span class="en">Quick wins</span><span class="hi">जल्दी के सुधार</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        
+      </div>
+      <section id="access">
+        <h2 id="access-h"><span class="en">Broken access control (IDOR)</span><span class="hi">Broken access control (IDOR)</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">The most common serious bug in real apps: the API checks that you are <b>logged in</b>, but not that the record is <b>yours</b>. Change <code>/api/orders/1051</code> to <code>/1052</code> and you see a stranger's order. The OWASP Top 10 (the best-known list of web risks) puts broken access control at the top.</p><p class="hi">असली apps का सबसे आम गंभीर bug: API check करती है कि आप <b>logged in</b> हैं, पर यह नहीं कि record <b>आपका</b> है। <code>/api/orders/1051</code> को <code>/1052</code> करिए और किसी अजनबी का order दिख जाता है। OWASP Top 10 (web risks की सबसे मशहूर list) broken access control को सबसे ऊपर रखती है।</p>
+        <pre class="code" data-copy><span class="cm">// UNSAFE: any logged-in user can read any order</span>
+app.get(<span class="st">"/api/orders/:id"</span>, requireLogin, <span class="kw">async</span> (req, res) =&gt; {
+  <span class="kw">const</span> order = <span class="kw">await</span> db.orders.findById(req.params.id);
+  res.json(order);
+});
+
+<span class="cm">// SAFE: the order must belong to the logged-in user</span>
+app.get(<span class="st">"/api/orders/:id"</span>, requireLogin, <span class="kw">async</span> (req, res) =&gt; {
+  <span class="kw">const</span> order = <span class="kw">await</span> db.orders.findOne({ id: req.params.id, userId: req.user.id });
+  <span class="kw">if</span> (!order) <span class="kw">return</span> res.status(404).json({ message: <span class="st">"Order not found"</span> });
+  res.json(order);
+});</pre>
+        <div class="idea"><p class="en">Rule: every query that loads a user's data includes <b>who is asking</b> (user id, or their branch/region for staff). Hiding a button on the frontend is not security.</p><p class="hi">नियम: user का data लाने वाली हर query में <b>कौन पूछ रहा है</b> शामिल हो (user id, या staff के लिए उनकी branch/region)। Frontend पर button छिपाना security नहीं है।</p></div>
+      </section>
+      <section id="injection">
+        <h2 id="injection-h"><span class="en">SQL injection</span><span class="hi">SQL injection</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">If you build SQL by gluing user input into a string, a user can type SQL code instead of data. Try it below: type a normal email, then a quote mark.</p><p class="hi">अगर आप user input को string में जोड़कर SQL बनाते हैं, तो user data की जगह SQL code टाइप कर सकता है। नीचे आज़माइए: पहले normal email टाइप कीजिए, फिर एक quote mark।</p>
+        <div class="viz" id="sqli-viz">
+          <div class="viz-title"><span class="en">Try it: what does the database really receive?</span><span class="hi">ख़ुद देखें: database को असल में क्या मिलता है?</span></div>
+          <div class="viz-controls"><label><span class="en">Email box:</span><span class="hi">Email box:</span> <input type="text" class="wide" value="priya@shop.in" aria-label="Email" /></label></div>
+          <p><b><span class="en">Unsafe (string glued together):</span><span class="hi">Unsafe (string जोड़कर):</span></b></p>
+          <pre class="code sqli-q" data-q="unsafe"></pre>
+          <p><b><span class="en">Safe (placeholder):</span><span class="hi">Safe (placeholder):</span></b></p>
+          <pre class="code sqli-q" data-q="safe"></pre>
+          <div class="viz-msg"></div>
+        </div>
+        <p class="en">Real code on a real (in-memory) database. Save as <code>sqli.mjs</code> and run <code>node sqli.mjs</code> (Node.js 22.5 or newer):</p><p class="hi">असली (in-memory) database पर असली code। <code>sqli.mjs</code> नाम से save कीजिए और <code>node sqli.mjs</code> चलाइए (Node.js 22.5 या नया):</p>
+        <pre class="code" data-copy><span class="cm">// SQL injection: the unsafe way and the safe way, on a tiny in-memory database.</span>
+import { DatabaseSync } from <span class="st">"node:sqlite"</span>;
+
+<span class="kw">const</span> db = <span class="kw">new</span> DatabaseSync(<span class="st">":memory:"</span>);
+db.exec(<span class="st">"CREATE TABLE users (id INTEGER, email TEXT, password_hash TEXT)"</span>);
+db.exec(<span class="st">"INSERT INTO users VALUES (1, 'priya@shop.in', 'x1'), (2, 'rahul@shop.in', 'x2')"</span>);
+
+<span class="kw">const</span> typed = <span class="st">"' OR '1'='1"</span>; <span class="cm">// what an attacker types in the email box</span>
+
+<span class="cm">// UNSAFE: user input is glued into the SQL text</span>
+<span class="kw">const</span> unsafeSql = <span class="st">`SELECT id, email FROM users WHERE email = '${typed}'`</span>;
+console.log(<span class="st">"Unsafe SQL:"</span>, unsafeSql);
+console.log(<span class="st">"Unsafe result:"</span>, db.prepare(unsafeSql).all().length, <span class="st">"users leaked"</span>);
+
+<span class="cm">// SAFE: a placeholder (?) keeps input as data, never as SQL code</span>
+<span class="kw">const</span> safe = db.prepare(<span class="st">"SELECT id, email FROM users WHERE email = ?"</span>).all(typed);
+console.log(<span class="st">"Safe result:"</span>, safe.length, <span class="st">"users"</span>);</pre>
+        <p class="en">Real output:</p><p class="hi">असली output:</p>
+        <pre class="code" data-copy>Unsafe SQL: SELECT id, email FROM users WHERE email = <span class="st">''</span> OR <span class="st">'1'</span>=<span class="st">'1'</span>
+Unsafe result: 2 users leaked
+Safe result: 0 users</pre>
+        <p class="en">ORMs like TypeORM and Prisma use placeholders for you, but raw queries built with string templates are still unsafe. Always pass values as parameters.</p><p class="hi">TypeORM और Prisma जैसे ORMs आपके लिए placeholders इस्तेमाल करते हैं, पर string templates से बनी raw queries अब भी unsafe हैं। Values हमेशा parameters के रूप में भेजिए।</p>
+      </section>
+      <section id="xss">
+        <h2 id="xss-h"><span class="en">XSS: someone else's script on your page</span><span class="hi">XSS: आपके page पर किसी और की script</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Cross-site scripting (XSS) happens when user text (a comment, a name) is shown as HTML, so a script inside it runs for every visitor and can steal their session. React and most template engines <b>escape</b> text by default, so <code>{comment}</code> is safe. The risks are raw HTML (<code>dangerouslySetInnerHTML</code>, <code>innerHTML</code>) and user-supplied links like <code>javascript:...</code>.</p><p class="hi">Cross-site scripting (XSS) तब होता है जब user का text (comment, नाम) HTML की तरह दिखाया जाए, जिससे उसमें छिपी script हर visitor के लिए चलती है और उनका session चुरा सकती है। React और ज़्यादातर template engines text को default रूप से <b>escape</b> करते हैं, इसलिए <code>{comment}</code> सुरक्षित है। ख़तरा raw HTML (<code>dangerouslySetInnerHTML</code>, <code>innerHTML</code>) और <code>javascript:...</code> जैसे user के दिए links में है।</p>
+        <ul><li><span class="en">Show user text as text. If you must allow rich text, clean it with a sanitizer like DOMPurify.</span><span class="hi">User का text, text की तरह दिखाइए। Rich text ज़रूरी हो तो DOMPurify जैसे sanitizer से साफ़ कीजिए।</span></li><li><span class="en">Allow only <code>http:</code> and <code>https:</code> links from users.</span><span class="hi">Users से सिर्फ़ <code>http:</code> और <code>https:</code> links स्वीकार कीजिए।</span></li><li><span class="en">Add a Content Security Policy (CSP) header as a second wall.</span><span class="hi">दूसरी दीवार के रूप में Content Security Policy (CSP) header जोड़िए।</span></li></ul>
+      </section>
+      <section id="quick">
+        <h2 id="quick-h"><span class="en">Quick wins for every project</span><span class="hi">हर project के लिए जल्दी के सुधार</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Do this</span><span class="hi">यह कीजिए</span></th><th><span class="en">Why</span><span class="hi">क्यों</span></th></tr></thead><tbody><tr><td><span class="en">Keep secrets out of git and frontend code</span><span class="hi">Secrets को git और frontend code से बाहर रखिए</span></td><td><span class="en">Bots scan GitHub for keys within minutes</span><span class="hi">Bots minutes में GitHub पर keys ढूँढ लेते हैं</span></td></tr><tr><td><span class="en">Run <code>npm audit</code> and turn on Dependabot</span><span class="hi"><code>npm audit</code> चलाइए और Dependabot चालू कीजिए</span></td><td><span class="en">Old packages with known holes are an easy way in</span><span class="hi">जाने-माने छेद वाले पुराने packages आसान रास्ता हैं</span></td></tr><tr><td><span class="en">Use <code>helmet</code> (Express/NestJS) for security headers</span><span class="hi">Security headers के लिए <code>helmet</code> (Express/NestJS)</span></td><td><span class="en">Blocks clickjacking, sniffing and more with one line</span><span class="hi">एक line से clickjacking, sniffing वग़ैरह रुकते हैं</span></td></tr><tr><td><span class="en">Rate-limit login, OTP and password reset</span><span class="hi">Login, OTP और password reset पर rate limit</span></td><td><span class="en">Stops password guessing and SMS bombing</span><span class="hi">Password guessing और SMS bombing रुकती है</span></td></tr><tr><td><span class="en">Never show stack traces or SQL errors to users</span><span class="hi">Users को stack traces या SQL errors कभी मत दिखाइए</span></td><td><span class="en">They reveal how your system is built</span><span class="hi">ये बता देते हैं कि आपका system कैसे बना है</span></td></tr></tbody></table></div>
+        <p class="en">Go deeper with the free <b>PortSwigger Web Security Academy</b>, which has legal labs for every topic here. Backend developers can also read our <a href="../backend-interview/auth-security.html">auth and security interview questions</a>.</p><p class="hi">Free <b>PortSwigger Web Security Academy</b> से गहराई में जाइए, जिसमें यहाँ के हर topic की क़ानूनी labs हैं। Backend developers हमारे <a href="../backend-interview/auth-security.html">auth और security interview सवाल</a> भी पढ़ सकते हैं।</p>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 3 things</span><span class="hi">ये 3 बातें याद रखिए</span></div><ol><li><span class="en">Logged in ≠ allowed. Every query includes who is asking.</span><span class="hi">Logged in ≠ allowed। हर query में शामिल हो कि कौन पूछ रहा है।</span></li><li><span class="en">SQL values go in placeholders, never in string templates.</span><span class="hi">SQL values placeholders में जाती हैं, string templates में कभी नहीं।</span></li><li><span class="en">Show user text as text; sanitize any HTML you must allow.</span><span class="hi">User का text, text की तरह दिखाइए; ज़रूरी HTML को sanitize कीजिए।</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Review this line in a pull request: <code>db.query("SELECT * FROM leaves WHERE emp_id = " + req.query.emp)</code>. What are the two problems?</span><span class="hi">Exercise 1: Pull request की इस line को review कीजिए: <code>db.query("SELECT * FROM leaves WHERE emp_id = " + req.query.emp)</code>। दो problems क्या हैं?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><ul><li><span class="en"><b>SQL injection:</b> the input is glued into SQL. Use <code>WHERE emp_id = $1</code> with the value as a parameter.</span><span class="hi"><b>SQL injection:</b> input SQL में जोड़ा गया है। <code>WHERE emp_id = $1</code> और value को parameter के रूप में इस्तेमाल कीजिए।</span></li><li><span class="en"><b>Broken access control:</b> any user can read any employee's leaves by changing <code>emp</code>. Check that the requester is that employee or their approver.</span><span class="hi"><b>Broken access control:</b> कोई भी user <code>emp</code> बदलकर किसी की भी छुट्टियाँ पढ़ सकता है। Check कीजिए कि पूछने वाला वही employee या उसका approver है।</span></li></ul></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Changing an id in the URL shows someone else's data. This is…","hi":"URL में id बदलने पर किसी और का data दिखता है। यह है…"},"options":[{"en":"XSS","hi":"XSS"},{"en":"IDOR / broken access control","hi":"IDOR / broken access control"},{"en":"DDoS","hi":"DDoS"},{"en":"Phishing","hi":"Phishing"}],"answer":1,"why":{"en":"The API didn't check ownership.","hi":"API ने ownership check नहीं की।"}},{"q":{"en":"The best fix for SQL injection is…","hi":"SQL injection का सबसे अच्छा इलाज…"},"options":[{"en":"Removing quote marks from input","hi":"Input से quote marks हटाना"},{"en":"Parameterised queries (placeholders)","hi":"Parameterised queries (placeholders)"},{"en":"Hiding the error message","hi":"Error message छिपाना"},{"en":"A longer password","hi":"लंबा password"}],"answer":1,"why":{"en":"Placeholders keep input as data, always.","hi":"Placeholders input को हमेशा data ही रखते हैं।"}},{"q":{"en":"In React, <code>{comment}</code> in JSX is…","hi":"React में JSX के अंदर <code>{comment}</code>…"},"options":[{"en":"Unsafe","hi":"Unsafe"},{"en":"Escaped and safe by default","hi":"Default रूप से escaped और सुरक्षित"},{"en":"Run as a script","hi":"Script की तरह चलता है"},{"en":"Sent to the server","hi":"Server पर भेजा जाता है"}],"answer":1,"why":{"en":"The risk is dangerouslySetInnerHTML, not normal JSX text.","hi":"ख़तरा dangerouslySetInnerHTML में है, normal JSX text में नहीं।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="security:web-security"></button>
+        </div>
+        <div class="lesson-nav"><span class="btn btn-outline" style="opacity:.55;cursor:default">← <span class="en">Linux basics (soon)</span><span class="hi">Linux basics (जल्द)</span></span><a class="btn btn-outline" href="passwords-auth.html">→ <span class="en">Passwords, login and MFA</span><span class="hi">Passwords, login और MFA</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20cyber%20security%20module%3A%20Web%20security%20for%20developers" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20cyber%20security%20module%3A%20Web%20security%20for%20developers" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Cyber Security from Zero</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../security/">Cyber Security</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Cyber security course by Agam Sahu</span><span class="hi">Cyber security कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

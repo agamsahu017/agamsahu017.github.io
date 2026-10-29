@@ -16,7 +16,7 @@
   const HI = new Map([
     // ---------- shared: nav, footer, cities ----------
     ["On this page: <a href=\"#industries\">Industries we serve</a> · <a href=\"#founder\">About the founder</a> · <a href=\"#work\">Our work</a> · <a href=\"#contact\">Contact</a>", "इस पेज पर: <a href=\"#industries\">हम किन इंडस्ट्रीज़ के लिए काम करते हैं</a> · <a href=\"#founder\">फ़ाउंडर के बारे में</a> · <a href=\"#work\">हमारा काम</a> · <a href=\"#contact\">संपर्क</a>"],
-    ["Free courses &amp; guides: <a href=\"dsa/\">DSA in JavaScript</a> · <a href=\"system-design/\">System Design</a> · <a href=\"ai/\">AI Course</a> · <a href=\"cs/\">CS Fundamentals</a> · <a href=\"frontend-interview/\">Frontend Interview</a> · <a href=\"backend-interview/\">Backend Interview</a> · <a href=\"projects/\">Project Ideas</a> · <a href=\"ai-tools-for-productivity.html\">AI Tools</a> · <a href=\"earn-money-from-home-india.html\">Earn from Home</a>", "फ़्री कोर्स और गाइड: <a href=\"dsa/\">JavaScript में DSA</a> · <a href=\"system-design/\">सिस्टम डिज़ाइन</a> · <a href=\"ai/\">AI कोर्स</a> · <a href=\"cs/\">CS Fundamentals</a> · <a href=\"frontend-interview/\">Frontend Interview</a> · <a href=\"backend-interview/\">Backend Interview</a> · <a href=\"projects/\">Project Ideas</a> · <a href=\"ai-tools-for-productivity.html\">AI टूल्स</a> · <a href=\"earn-money-from-home-india.html\">घर से कमाई</a>"],
+    ["Free courses &amp; guides: <a href=\"dsa/\">DSA in JavaScript</a> · <a href=\"system-design/\">System Design</a> · <a href=\"ai/\">AI Course</a> · <a href=\"cs/\">CS Fundamentals</a> · <a href=\"frontend-interview/\">Frontend Interview</a> · <a href=\"backend-interview/\">Backend Interview</a> · <a href=\"security/\">Cyber Security</a> · <a href=\"projects/\">Project Ideas</a> · <a href=\"ai-tools-for-productivity.html\">AI Tools</a> · <a href=\"earn-money-from-home-india.html\">Earn from Home</a>", "फ़्री कोर्स और गाइड: <a href=\"dsa/\">JavaScript में DSA</a> · <a href=\"system-design/\">सिस्टम डिज़ाइन</a> · <a href=\"ai/\">AI कोर्स</a> · <a href=\"cs/\">CS Fundamentals</a> · <a href=\"frontend-interview/\">Frontend Interview</a> · <a href=\"backend-interview/\">Backend Interview</a> · <a href=\"security/\">साइबर सिक्योरिटी</a> · <a href=\"projects/\">Project Ideas</a> · <a href=\"ai-tools-for-productivity.html\">AI टूल्स</a> · <a href=\"earn-money-from-home-india.html\">घर से कमाई</a>"],
     [`Services`, `सर्विसेज़`],
     [`Pricing`, `कीमतें`],
     [`💰 See all packages &amp; prices`, `💰 सभी पैकेज और कीमतें देखें`],
@@ -27,6 +27,7 @@
     [`💡 Resume Project Ideas`, `💡 Resume के लिए Project Ideas`],
     [`⚛️ Frontend Interview Questions (3–10 yrs)`, `⚛️ Frontend Interview सवाल (3–10 साल)`],
     [`🛠️ Backend Interview Questions (3–10 yrs)`, `🛠️ Backend Interview सवाल (3–10 साल)`],
+    [`🛡️ Free Cyber Security Course`, `🛡️ फ़्री Cyber Security कोर्स`],
     [`🏢 AI for your business`, `🏢 आपके बिज़नेस के लिए AI`],
     [`AI Demo`, `AI डेमो`],
     [`Industries`, `इंडस्ट्रीज़`],

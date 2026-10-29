@@ -711,6 +711,65 @@
     render();
   }
 
+  // ---------- Security: spot the fake link ----------
+  const phishViz = document.getElementById("phish-viz");
+  if (phishViz) {
+    // [shown text, is it real?, why (en), why (hi)]. Shown as plain text, never as clickable links.
+    const links = [
+      ["https://www.amazon.in/your-orders", true, "The real domain is amazon.in, right before the first single slash.", "असली domain amazon.in है, पहले single slash से ठीक पहले।"],
+      ["https://amazon-in.offer-sale.shop/login", false, "The real domain here is offer-sale.shop. \"amazon-in\" is just a decoration in front of it.", "यहाँ असली domain offer-sale.shop है। \"amazon-in\" बस उसके आगे सजावट है।"],
+      ["https://www.irctc.co.in/nget/train-search", true, "irctc.co.in is the official IRCTC domain.", "irctc.co.in IRCTC का official domain है।"],
+      ["http://paytm.com.kyc-update.in/verify", false, "Read from the right: the domain is kyc-update.in. Also no https, and \"KYC update\" is a classic scam.", "दाईं तरफ़ से पढ़िए: domain kyc-update.in है। https भी नहीं, और \"KYC update\" पुराना scam है।"],
+      ["https://accounts.google.com/signin", true, "accounts.google.com is a part of google.com, Google's real domain.", "accounts.google.com, Google के असली domain google.com का हिस्सा है।"],
+      ["https://g00gle-security.com/verify-now", false, "Zeros instead of the letter o, plus urgent words like \"verify now\".", "o की जगह zero, और \"verify now\" जैसे जल्दबाज़ी वाले शब्द।"],
+    ];
+    const box = phishViz.querySelector(".phish-list");
+    const msg = phishViz.querySelector(".viz-msg");
+    let score = 0, done = 0;
+    box.innerHTML = links.map(([url], i) =>
+      `<div class="phish-item" data-i="${i}"><code>${url}</code><div class="phish-btns"><button type="button" class="btn btn-outline btn-sm" data-real="1">${both("✅ Real", "✅ असली")}</button><button type="button" class="btn btn-outline btn-sm" data-real="0">${both("🚩 Fake", "🚩 नक़ली")}</button></div><p class="phish-why" hidden></p></div>`).join("");
+    box.addEventListener("click", (ev) => {
+      const b = ev.target.closest("button[data-real]");
+      if (!b) return;
+      const item = b.closest(".phish-item");
+      if (item.dataset.answered) return;
+      const [, real, en, hi] = links[item.dataset.i];
+      const right = (b.dataset.real === "1") === real;
+      item.dataset.answered = "1";
+      item.classList.add(right ? "right" : "wrong");
+      score += right ? 1 : 0; done++;
+      const why = item.querySelector(".phish-why");
+      why.innerHTML = (right ? both("✅ Correct. ", "✅ सही। ") : both("❌ Not quite. ", "❌ सही नहीं। ")) + (real ? both("This one is real. ", "यह असली है। ") : both("This one is fake. ", "यह नक़ली है। ")) + both(en, hi);
+      why.hidden = false;
+      if (done === links.length) setMsg(msg, `You got ${score} of ${links.length}. Tip: find the part just before the first single "/" and read it from the right. That is the real website.`,
+        `आपके ${links.length} में से ${score} सही। Tip: पहले single "/" से ठीक पहले वाला हिस्सा ढूँढिए और उसे दाईं तरफ़ से पढ़िए। वही असली website है।`);
+    });
+  }
+
+  // ---------- Security: SQL injection explorer ----------
+  const sqliViz = document.getElementById("sqli-viz");
+  if (sqliViz) {
+    const input = sqliViz.querySelector("input");
+    const unsafe = sqliViz.querySelector("[data-q=unsafe]");
+    const safe = sqliViz.querySelector("[data-q=safe]");
+    const msg = sqliViz.querySelector(".viz-msg");
+    const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    const update = () => {
+      const v = input.value;
+      unsafe.innerHTML = `SELECT * FROM users WHERE email = '<mark>${esc(v)}</mark>'`;
+      safe.innerHTML = `SELECT * FROM users WHERE email = ?   <span class="cm">-- value: ${esc(JSON.stringify(v))}</span>`;
+      const broke = /'/.test(v);
+      setMsg(msg, broke
+        ? "Look at the unsafe query: your quote mark ended the text early, so the rest became SQL code. With <code>' OR '1'='1</code>, the condition is always true and every user is returned. The safe query still treats your whole input as plain text."
+        : "Normal input looks the same in both. Now type a quote mark, or try: <code>' OR '1'='1</code>",
+        broke
+          ? "Unsafe query देखिए: आपके quote mark ने text जल्दी ख़त्म कर दिया, इसलिए बाक़ी हिस्सा SQL code बन गया। <code>' OR '1'='1</code> के साथ शर्त हमेशा सच है और हर user लौट आता है। Safe query अब भी आपके पूरे input को सिर्फ़ text मानती है।"
+          : "Normal input दोनों में एक जैसा दिखता है। अब एक quote mark टाइप कीजिए, या आज़माइए: <code>' OR '1'='1</code>");
+    };
+    input.addEventListener("input", update);
+    update();
+  }
+
   // ---------- AI: rough token counter ----------
   const tokViz = document.getElementById("token-viz");
   if (tokViz) {

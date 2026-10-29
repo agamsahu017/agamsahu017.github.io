@@ -282,3 +282,15 @@ h2 + .badge { margin: -4px 0 10px; }
 .learn-state { display: grid; gap: 6px; margin-top: 10px; }
 .learn-state .row { display: flex; justify-content: space-between; gap: 10px; padding: 6px 10px; border-radius: 8px; background: var(--bg-alt); font-size: .9rem; color: var(--text); font-variant-numeric: tabular-nums; }
 .viz select { padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font: inherit; }
+
+/* Security course: spot the fake link, SQL injection explorer */
+.phish-list { display: grid; gap: 10px; margin-top: 10px; }
+.phish-item { padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-alt); }
+.phish-item code { display: block; word-break: break-all; font-size: .9rem; }
+.phish-btns { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.phish-item.right { border-color: #10b981; }
+.phish-item.wrong { border-color: #ef4444; }
+.phish-why { margin: 8px 0 0; font-size: .92rem; color: var(--text); }
+.sqli-q { margin-top: 8px; }
+.sqli-q mark { background: rgba(239, 68, 68, .25); color: inherit; border-radius: 3px; padding: 0 2px; }
+.viz input[type="text"].wide { width: 100%; max-width: 420px; }
