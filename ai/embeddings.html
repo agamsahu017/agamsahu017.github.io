@@ -106,6 +106,7 @@
         <span class="pill"><span class="en">Module 6 of 18</span><span class="hi">मॉड्यूल 6 / 18</span></span>
         <h1><span class="en">Embeddings and semantic search</span><span class="hi">Embeddings और semantic search</span></h1>
         <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🤖 AI</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> An embedding turns a sentence into a list of numbers, so sentences with similar meaning end up with similar numbers.</p><p class="hi"><b>एक लाइन में:</b> Embedding एक sentence को numbers की list में बदलता है, ताकि मिलते-जुलते मतलब वाले sentences के numbers भी मिलते-जुलते हों।</p></div>
         <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">What an embedding is: meaning as a list of numbers</span><span class="hi">Embedding क्या है: numbers की list के रूप में मतलब</span></li><li><span class="en">How cosine similarity finds similar meanings</span><span class="hi">Cosine similarity मिलते-जुलते मतलब कैसे ढूँढती है</span></li><li><span class="en">Keyword search vs semantic search</span><span class="hi">Keyword search vs semantic search</span></li><li><span class="en">Create embeddings in JavaScript and search them</span><span class="hi">JavaScript में embeddings बनाना और उनमें search करना</span></li></ul></div>
         <nav class="toc" aria-label="On this page"><a href="#idea"><span class="en">The idea</span><span class="hi">आइडिया</span></a><a href="#similarity"><span class="en">Similarity</span><span class="hi">Similarity</span></a><a href="#vs"><span class="en">Keyword vs semantic</span><span class="hi">Keyword vs semantic</span></a><a href="#code"><span class="en">Build it</span><span class="hi">बनाइए</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
         <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">AI glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">AI glossary</a> में देखिए।</span></p>
@@ -125,7 +126,7 @@
           <div class="viz-title"><span class="en">Try it: search by meaning</span><span class="hi">ख़ुद देखें: मतलब से search</span></div>
           <div class="viz-controls"><select class="wide" aria-label="Question"></select></div>
           <div class="sim-list"></div>
-          <div class="viz-msg"><span class="en">Notice: "Kitna paisa lagega?" matches the fee sentences, even though no word is the same. That's semantic search.</span><span class="hi">ध्यान दीजिए: "Kitna paisa lagega?" fee वाले sentences से मिलता है, जबकि एक भी शब्द एक जैसा नहीं। यही semantic search है।</span></div>
+          <div class="viz-msg"><span class="en">Notice: in this hand-made example, "Kitna paisa lagega?" matches the fee sentences even though no word is the same. That's the idea of semantic search.</span><span class="hi">ध्यान दीजिए: इस हाथ से बने उदाहरण में "Kitna paisa lagega?" fee वाले sentences से मिलता है, जबकि एक भी शब्द एक जैसा नहीं। यही semantic search का idea है।</span></div>
         </div>
         <pre class="code" data-copy><span class="cm">// Cosine similarity between two vectors</span>
 <span class="kw">function</span> cosine(a, b) {
@@ -154,7 +155,7 @@ import { pipeline } from <span class="st">"@huggingface/transformers"</span>;
   (<span class="kw">await</span> extractor(texts, { pooling: <span class="st">"mean"</span>, normalize: <span class="kw">true</span> })).tolist();
 
 <span class="kw">const</span> docs = [
-  <span class="st">"Consultation fee is ₹500."</span>,
+  <span class="st">"Fees: you pay the doctor ₹500 for each visit (consultation charges)."</span>,
   <span class="st">"The clinic is open 9 AM to 9 PM, Monday to Saturday."</span>,
   <span class="st">"Free parking is available behind the building."</span>,
 ];
@@ -170,9 +171,13 @@ import { pipeline } from <span class="st">"@huggingface/transformers"</span>;
     .sort((a, b) =&gt; b.score - a.score);
 }
 
-console.log(<span class="kw">await</span> search(<span class="st">"Kitna paisa lagega?"</span>)); <span class="cm">// the fee sentence comes first</span></pre>
+console.log(<span class="kw">await</span> search(<span class="st">"डॉक्टर की फीस कितनी है?"</span>)); <span class="cm">// the fee sentence comes first</span></pre>
+        <div class="warn"><p class="en"><b>Tested tip:</b> this small free model understands English and Hindi (Devanagari) well, but Hinglish typed in English letters, like "Kitna paisa lagega?", matches less reliably. Write your documents clearly, including the words people actually use ("fees", "charges"), test with real user questions, and try a stronger embedding model if your users type Hinglish.</p><p class="hi"><b>Test किया हुआ tip:</b> यह छोटा free model English और Hindi (देवनागरी) अच्छे से समझता है, पर English अक्षरों में लिखी Hinglish, जैसे "Kitna paisa lagega?", कम भरोसे से मिलती है। Documents साफ़ लिखिए, उनमें वो शब्द रखिए जो लोग सच में बोलते हैं ("fees", "charges"), असली users के सवालों से test कीजिए, और users Hinglish लिखते हों तो बेहतर embedding model आज़माइए।</p></div>
         <p class="en">For thousands of documents, store the vectors in a <b>vector database</b> such as <b>pgvector</b> (PostgreSQL), so the search stays fast. That's the next module: RAG.</p><p class="hi">हज़ारों documents के लिए vectors को <b>vector database</b> में रखिए, जैसे <b>pgvector</b> (PostgreSQL), ताकि search तेज़ रहे। यही अगला module है: RAG।</p>
         <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Comparing embeddings made by two different models. Always use the same model for documents and questions.</span><span class="hi">दो अलग models से बने embeddings की तुलना करना। Documents और सवालों के लिए हमेशा एक ही model इस्तेमाल कीजिए।</span></li><li><span class="en">Embedding a whole 50-page PDF as one vector. Split it into chunks first.</span><span class="hi">पूरे 50 पेज के PDF का एक ही vector बनाना। पहले उसे chunks में बाँटिए।</span></li><li><span class="en">Treating the similarity score as certainty. Set a minimum score and test with real questions.</span><span class="hi">Similarity score को पक्की बात मानना। एक minimum score रखिए और असली सवालों से test कीजिए।</span></li></ul></div>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 3 things</span><span class="hi">ये 3 बातें याद रखिए</span></div><ol><li><span class="en">Similar meaning = similar numbers, even with different words or languages.</span><span class="hi">मिलता-जुलता मतलब = मिलते-जुलते numbers, भले शब्द या भाषा अलग हो।</span></li><li><span class="en">Cosine similarity near 1 = very similar, near 0 = unrelated.</span><span class="hi">Cosine similarity 1 के पास = बहुत मिलता-जुलता, 0 के पास = कोई संबंध नहीं।</span></li><li><span class="en">Use the same embedding model for documents and questions.</span><span class="hi">Documents और सवालों के लिए एक ही embedding model इस्तेमाल कीजिए।</span></li></ol></div>
       </section>
       <section id="practice">
         <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>

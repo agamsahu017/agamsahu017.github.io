@@ -106,8 +106,9 @@
         <span class="pill"><span class="en">Module 7 of 18</span><span class="hi">मॉड्यूल 7 / 18</span></span>
         <h1><span class="en">RAG: AI that answers from your data</span><span class="hi">RAG: AI जो आपके data से जवाब दे</span></h1>
         <div class="lesson-meta"><span>⏱️ <span class="en">35 min read + practice</span><span class="hi">35 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🤖 AI</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> RAG = first find the right information from your own data, then give it to the AI with the question, so it answers from facts instead of guessing.</p><p class="hi"><b>एक लाइन में:</b> RAG = पहले अपने data से सही जानकारी ढूँढो, फिर सवाल के साथ AI को दो, ताकि वो अंदाज़े की जगह facts से जवाब दे।</p></div>
         <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Why LLMs need RAG for your own data</span><span class="hi">आपके अपने data के लिए LLMs को RAG की ज़रूरत क्यों है</span></li><li><span class="en">The two phases: indexing and answering</span><span class="hi">दो phases: indexing और answering</span></li><li><span class="en">A working RAG flow in JavaScript with pgvector and Claude</span><span class="hi">pgvector और Claude के साथ JavaScript में चलता हुआ RAG flow</span></li><li><span class="en">How to make RAG accurate, and how to explain it in interviews</span><span class="hi">RAG को सटीक कैसे बनाएँ, और interview में कैसे समझाएँ</span></li></ul></div>
-        <nav class="toc" aria-label="On this page"><a href="#why"><span class="en">Why RAG</span><span class="hi">RAG क्यों</span></a><a href="#phases"><span class="en">Two phases</span><span class="hi">दो phases</span></a><a href="#code"><span class="en">Code</span><span class="hi">Code</span></a><a href="#quality"><span class="en">Make it accurate</span><span class="hi">सटीक बनाइए</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <nav class="toc" aria-label="On this page"><a href="#why"><span class="en">Why RAG</span><span class="hi">RAG क्यों</span></a><a href="#phases"><span class="en">Two phases</span><span class="hi">दो phases</span></a><a href="#simple"><span class="en">Simple RAG</span><span class="hi">आसान RAG</span></a><a href="#code"><span class="en">With a database</span><span class="hi">Database के साथ</span></a><a href="#quality"><span class="en">Make it accurate</span><span class="hi">सटीक बनाइए</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
         <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">AI glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">AI glossary</a> में देखिए।</span></p>
       </div>
       <section id="why">
@@ -123,9 +124,58 @@
         <figure class="flow"><div class="flow-row"><div class="node"><span class="en">Question</span><span class="hi">सवाल</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Embed question</span><span class="hi">सवाल का embedding</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Find top chunks</span><span class="hi">सबसे पास के chunks</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Prompt = rules + chunks + question</span><span class="hi">Prompt = नियम + chunks + सवाल</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">LLM answers from the chunks</span><span class="hi">LLM chunks से जवाब देता है</span></div></div></figure>
         <div class="table-wrap"><table><thead><tr><th><span class="en">Step</span><span class="hi">Step</span></th><th><span class="en">Good practice</span><span class="hi">अच्छा तरीक़ा</span></th></tr></thead><tbody><tr><td><span class="en">Chunking</span><span class="hi">Chunking</span></td><td><span class="en">A few hundred tokens per chunk; split by headings or FAQ entries; small overlap</span><span class="hi">हर chunk कुछ सौ tokens; headings या FAQ entries से बाँटिए; थोड़ा overlap</span></td></tr><tr><td><span class="en">Retrieval</span><span class="hi">Retrieval</span></td><td><span class="en">Top 3–5 chunks, with a minimum similarity score</span><span class="hi">सबसे ऊपर के 3–5 chunks, एक minimum similarity score के साथ</span></td></tr><tr><td><span class="en">Prompt</span><span class="hi">Prompt</span></td><td><span class="en">"Answer only from the context. If it isn't there, say so."</span><span class="hi">"सिर्फ़ context से जवाब दो। उसमें न हो, तो बता दो।"</span></td></tr><tr><td><span class="en">Answer</span><span class="hi">जवाब</span></td><td><span class="en">Show sources so users can trust and check it</span><span class="hi">Sources दिखाइए ताकि users भरोसा और check कर सकें</span></td></tr></tbody></table></div>
       </section>
+      <section id="simple">
+        <h2 id="simple-h"><span class="en">Step 1: a tiny RAG in one file (no database)</span><span class="hi">Step 1: एक file में छोटा RAG (बिना database)</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Let's build the smallest RAG that works. It keeps 5 clinic facts in a simple list, finds the right ones by meaning, and asks the AI to answer only from them. It uses the <code>ai.js</code> helper from the <a href="llm-api.html">previous module</a>.</p><p class="hi">चलिए सबसे छोटा RAG बनाते हैं जो चले। यह clinic की 5 बातें एक आसान list में रखता है, मतलब से सही बातें ढूँढता है, और AI से सिर्फ़ उन्हीं से जवाब देने को कहता है। यह <a href="llm-api.html">पिछले module</a> की <code>ai.js</code> helper इस्तेमाल करता है।</p>
+        <pre class="code" data-copy>npm install @huggingface/transformers</pre>
+        <pre class="code" data-copy><span class="cm">// rag-simple.js  →  node --env-file=.env rag-simple.js</span>
+import { pipeline } from <span class="st">"@huggingface/transformers"</span>;
+import { askAI } from <span class="st">"./ai.js"</span>;
+
+<span class="cm">// 1. Your knowledge. In a real app this comes from PDFs, a website or a database.</span>
+<span class="kw">const</span> facts = [
+  <span class="st">"Fees: you pay the doctor ₹500 for each visit (consultation charges)."</span>,
+  <span class="st">"Clinic timings: Monday to Saturday 9 AM to 9 PM. On Sunday the clinic is open 10 AM to 1 PM."</span>,
+  <span class="st">"Dr. Mehta, the child specialist (paediatrician), sits on Monday, Wednesday and Friday."</span>,
+  <span class="st">"Free parking is available behind the building."</span>,
+  <span class="st">"Book an appointment on WhatsApp at 98XXXXXXXX."</span>,
+];
+
+<span class="cm">// 2. A free embedding model that runs on your computer (downloads once, ~120 MB).</span>
+<span class="kw">const</span> extractor = <span class="kw">await</span> pipeline(<span class="st">"feature-extraction"</span>, <span class="st">"Xenova/paraphrase-multilingual-MiniLM-L12-v2"</span>);
+<span class="kw">const</span> embed = <span class="kw">async</span> (texts) =&gt; (<span class="kw">await</span> extractor(texts, { pooling: <span class="st">"mean"</span>, normalize: <span class="kw">true</span> })).tolist();
+<span class="kw">const</span> factVectors = <span class="kw">await</span> embed(facts); <span class="cm">// turn every fact into numbers, once</span>
+
+<span class="cm">// 3. Retrieval: find the facts closest in meaning to the question.</span>
+<span class="kw">const</span> similarity = (a, b) =&gt; a.reduce((sum, x, i) =&gt; sum + x * b[i], 0);
+<span class="kw">async</span> <span class="kw">function</span> findFacts(question) {
+  <span class="kw">const</span> [q] = <span class="kw">await</span> embed([question]);
+  <span class="kw">return</span> facts
+    .map((text, i) =&gt; ({ text, score: similarity(q, factVectors[i]) }))
+    .filter((f) =&gt; f.score &gt; 0.3)          <span class="cm">// ignore weak matches</span>
+    .sort((a, b) =&gt; b.score - a.score)
+    .slice(0, 2);                          <span class="cm">// keep the best 2</span>
+}
+
+<span class="cm">// 4. Generation: the AI answers using only the facts we found.</span>
+<span class="kw">async</span> <span class="kw">function</span> answer(question) {
+  <span class="kw">const</span> found = <span class="kw">await</span> findFacts(question);
+  <span class="kw">const</span> info = found.map((f) =&gt; <span class="st">"- "</span> + f.text).join(<span class="st">"\n"</span>) || <span class="st">"(nothing found)"</span>;
+  <span class="kw">return</span> askAI(
+    <span class="st">`Clinic information:\n${info}\n\nQuestion: ${question}`</span>,
+    <span class="st">"You are a clinic receptionist. Answer ONLY from the clinic information. "</span> +
+      <span class="st">"If the answer is not there, say you will confirm with the team. Reply in the user's language."</span>
+  );
+}
+
+console.log(<span class="kw">await</span> answer(<span class="st">"Sunday ko clinic khula hai?"</span>));
+console.log(<span class="kw">await</span> answer(<span class="st">"बच्चों के डॉक्टर कब बैठते हैं?"</span>));
+console.log(<span class="kw">await</span> answer(<span class="st">"Do you do X-rays?"</span>)); <span class="cm">// not in the facts, so it should say it will confirm</span></pre>
+        <p class="en">Run it and notice: the Hinglish and Hindi questions find the right English facts (by meaning, not words), and the X-ray question finds nothing, so the AI gives an honest "I'll confirm" instead of a made-up answer. That is RAG. (We tested these 3 questions with this exact model.)</p><p class="hi">चलाइए और देखिए: Hinglish और Hindi सवाल सही English facts ढूँढ लेते हैं (शब्दों से नहीं, मतलब से), और X-ray वाले सवाल पर कुछ नहीं मिलता, इसलिए AI बनावटी जवाब की जगह ईमानदार "confirm करके बताएँगे" कहता है। यही RAG है। (ये 3 सवाल हमने इसी model से test किए हैं।)</p>
+      </section>
       <section id="code">
-        <h2 id="code-h"><span class="en">RAG in JavaScript</span><span class="hi">JavaScript में RAG</span></h2><span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
-        <p class="en">This uses PostgreSQL with <b>pgvector</b> to store chunks, a local embedding model, and Claude to write the answer. It's the same design as a real WhatsApp clinic bot.</p><p class="hi">यह chunks रखने के लिए <b>pgvector</b> वाला PostgreSQL, एक local embedding model, और जवाब लिखने के लिए Claude इस्तेमाल करता है। यह वही design है जो एक असली WhatsApp clinic bot का होता है।</p>
+        <h2 id="code-h"><span class="en">Step 2: the real version with a database</span><span class="hi">Step 2: Database वाला असली version</span></h2><span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">A list in memory is fine for 5 facts. For thousands of chunks, store them in PostgreSQL with <b>pgvector</b>, so search stays fast. Same idea, bigger scale. This is how a real WhatsApp clinic bot is built.</p><p class="hi">5 बातों के लिए memory की list ठीक है। हज़ारों chunks के लिए उन्हें <b>pgvector</b> वाले PostgreSQL में रखिए, ताकि search तेज़ रहे। वही idea, बड़ा पैमाना। असली WhatsApp clinic bot ऐसे ही बनता है।</p>
         <h3><span class="en">1. The table (run once)</span><span class="hi">1. Table (एक बार चलाइए)</span></h3>
         <pre class="code" data-copy>CREATE EXTENSION IF NOT EXISTS vector;
 
@@ -136,7 +186,16 @@ CREATE TABLE chunks (
   embedding VECTOR(384) NOT NULL    -- 384 numbers <span class="kw">for</span> <span class="kw">this</span> embedding model
 );</pre>
         <h3><span class="en">2. Retrieve the closest chunks</span><span class="hi">2. सबसे पास के chunks निकालें</span></h3>
-        <pre class="code" data-copy><span class="cm">// &lt;=&gt; is pgvector's cosine distance (0 = same meaning), so similarity = 1 - distance</span>
+        <pre class="code" data-copy><span class="cm">// rag-db.js  (npm install pg @huggingface/transformers; DATABASE_URL in .env)</span>
+import pg from <span class="st">"pg"</span>;
+import { pipeline } from <span class="st">"@huggingface/transformers"</span>;
+import { askAI } from <span class="st">"./ai.js"</span>;
+
+<span class="kw">const</span> pool = <span class="kw">new</span> pg.Pool({ connectionString: process.env.DATABASE_URL });
+<span class="kw">const</span> extractor = <span class="kw">await</span> pipeline(<span class="st">"feature-extraction"</span>, <span class="st">"Xenova/paraphrase-multilingual-MiniLM-L12-v2"</span>);
+<span class="kw">const</span> embed = <span class="kw">async</span> (texts) =&gt; (<span class="kw">await</span> extractor(texts, { pooling: <span class="st">"mean"</span>, normalize: <span class="kw">true</span> })).tolist();
+
+<span class="cm">// &lt;=&gt; is pgvector's cosine distance (0 = same meaning), so similarity = 1 - distance</span>
 <span class="kw">async</span> <span class="kw">function</span> retrieve(question, limit = 4) {
   <span class="kw">const</span> [vector] = <span class="kw">await</span> embed([question]);
   <span class="kw">const</span> { rows } = <span class="kw">await</span> pool.query(
@@ -157,27 +216,24 @@ If the answer is not there, say you'll confirm with the team. Never guess.`</spa
     ? chunks.map((c) =&gt; <span class="st">`&lt;chunk source="${c.source}"&gt;\n${c.content}\n&lt;/chunk&gt;`</span>).join(<span class="st">"\n"</span>)
     : <span class="st">"(no relevant information found)"</span>;
 
-  <span class="kw">const</span> response = <span class="kw">await</span> client.beta.messages.create({
-    model: <span class="st">"claude-opus-5-5"</span>,
-    max_tokens: 16000,
-    system: SYSTEM,
-    messages: [{ role: <span class="st">"user"</span>, content: <span class="st">`&lt;context&gt;\n${context}\n&lt;/context&gt;\n\nQuestion: ${question}`</span> }],
-    betas: [<span class="st">"server-side-fallback-2026-07-01"</span>],
-    fallbacks: <span class="st">"default"</span>,
-  });
-
-  <span class="kw">if</span> (response.stop_reason === <span class="st">"refusal"</span>) <span class="kw">return</span> <span class="st">"Sorry, I can't help with that."</span>;
-  <span class="kw">const</span> text = response.content.filter((b) =&gt; b.type === <span class="st">"text"</span>).map((b) =&gt; b.text).join(<span class="st">""</span>);
+  <span class="kw">const</span> text = <span class="kw">await</span> askAI(<span class="st">`&lt;context&gt;\n${context}\n&lt;/context&gt;\n\nQuestion: ${question}`</span>, SYSTEM);
   <span class="kw">return</span> <span class="st">`${text}\n\nSources: ${[...new Set(chunks.map((c) =&gt; c.source))].join(", ")}`</span>;
-}</pre>
+}
+
+console.log(<span class="kw">await</span> answer(<span class="st">"What are the clinic timings on Sunday?"</span>));
+<span class="kw">await</span> pool.end(); <span class="cm">// close the database connection so the script can exit</span></pre>
+        <p class="en">To fill the table, a separate "ingest" script splits your documents into chunks, embeds each chunk with the same <code>embed</code> function, and inserts the rows. Run it once, and again whenever documents change.</p><p class="hi">Table भरने के लिए एक अलग "ingest" script आपके documents को chunks में बाँटती है, हर chunk का उसी <code>embed</code> function से embedding बनाती है, और rows insert करती है। इसे एक बार चलाइए, और documents बदलने पर दोबारा।</p>
       </section>
       <section id="quality">
         <h2 id="quality-h"><span class="en">Making RAG accurate</span><span class="hi">RAG को सटीक बनाना</span></h2>
-        <div class="table-wrap"><table><thead><tr><th><span class="en">Problem</span><span class="hi">Problem</span></th><th><span class="en">Fix</span><span class="hi">हल</span></th></tr></thead><tbody><tr><td><span class="en">Wrong chunks come back</span><span class="hi">ग़लत chunks आते हैं</span></td><td><span class="en">Better chunking (by section), hybrid keyword + vector search, a re-ranking step</span><span class="hi">बेहतर chunking (section से), hybrid keyword + vector search, re-ranking step</span></td></tr><tr><td><span class="en">The answer adds facts not in the chunks</span><span class="hi">जवाब में chunks से बाहर के facts आ जाते हैं</span></td><td><span class="en">Strict "only from context" rule, ask for quotes, show sources</span><span class="hi">पक्का "सिर्फ़ context से" नियम, quotes माँगिए, sources दिखाइए</span></td></tr><tr><td><span class="en">Old information</span><span class="hi">पुरानी जानकारी</span></td><td><span class="en">Re-index when documents change; store dates in the chunk</span><span class="hi">Documents बदलें तो re-index; chunk में तारीख़ रखिए</span></td></tr><tr><td><span class="en">Client A sees Client B's data</span><span class="hi">Client A को Client B का data दिखता है</span></td><td><span class="en">Filter by tenant / client ID in every query</span><span class="hi">हर query में tenant / client ID से filter</span></td></tr><tr><td><span class="en">You don't know if it's good</span><span class="hi">पता नहीं अच्छा है या नहीं</span></td><td><span class="en">Build an eval set: 30–50 real questions with expected answers, and test after every change</span><span class="hi">Eval set बनाइए: 30–50 असली सवाल और अपेक्षित जवाब, और हर बदलाव के बाद test</span></td></tr></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Problem</span><span class="hi">Problem</span></th><th><span class="en">Fix</span><span class="hi">हल</span></th></tr></thead><tbody><tr><td><span class="en">Wrong chunks come back</span><span class="hi">ग़लत chunks आते हैं</span></td><td><span class="en">Better chunking (by section), hybrid keyword + vector search, a re-ranking step</span><span class="hi">बेहतर chunking (section से), hybrid keyword + vector search, re-ranking step</span></td></tr><tr><td><span class="en">The answer adds facts not in the chunks</span><span class="hi">जवाब में chunks से बाहर के facts आ जाते हैं</span></td><td><span class="en">Strict "only from context" rule, ask for quotes, show sources</span><span class="hi">पक्का "सिर्फ़ context से" नियम, quotes माँगिए, sources दिखाइए</span></td></tr><tr><td><span class="en">Users type Hinglish and get poor matches</span><span class="hi">Users Hinglish लिखते हैं और ठीक match नहीं मिलता</span></td><td><span class="en">Write chunks with the words people use, test real questions, use a stronger multilingual embedding model</span><span class="hi">Chunks में वो शब्द रखिए जो लोग बोलते हैं, असली सवालों से test कीजिए, बेहतर multilingual embedding model लीजिए</span></td></tr><tr><td><span class="en">Old information</span><span class="hi">पुरानी जानकारी</span></td><td><span class="en">Re-index when documents change; store dates in the chunk</span><span class="hi">Documents बदलें तो re-index; chunk में तारीख़ रखिए</span></td></tr><tr><td><span class="en">Client A sees Client B's data</span><span class="hi">Client A को Client B का data दिखता है</span></td><td><span class="en">Filter by tenant / client ID in every query</span><span class="hi">हर query में tenant / client ID से filter</span></td></tr><tr><td><span class="en">You don't know if it's good</span><span class="hi">पता नहीं अच्छा है या नहीं</span></td><td><span class="en">Build an eval set: 30–50 real questions with expected answers, and test after every change</span><span class="hi">Eval set बनाइए: 30–50 असली सवाल और अपेक्षित जवाब, और हर बदलाव के बाद test</span></td></tr></tbody></table></div>
         <h3><span class="en">RAG vs fine-tuning (very common interview question)</span><span class="hi">RAG vs fine-tuning (बहुत common interview सवाल)</span></h3>
         <div class="table-wrap"><table><thead><tr><th></th><th>RAG</th><th>Fine-tuning</th></tr></thead><tbody><tr><td><span class="en">Changes</span><span class="hi">बदलता है</span></td><td><span class="en">What the model <b>knows</b> right now (adds facts)</span><span class="hi">Model अभी क्या <b>जानता</b> है (facts जोड़ता है)</span></td><td><span class="en">How the model <b>behaves</b> (style, format)</span><span class="hi">Model कैसा <b>व्यवहार</b> करता है (style, format)</span></td></tr><tr><td><span class="en">Data changes often?</span><span class="hi">Data अक्सर बदलता है?</span></td><td><span class="en">✅ Just re-index</span><span class="hi">✅ बस re-index</span></td><td><span class="en">❌ Retrain each time</span><span class="hi">❌ हर बार retrain</span></td></tr><tr><td><span class="en">Shows sources?</span><span class="hi">Sources दिखाता है?</span></td><td>✅</td><td>❌</td></tr><tr><td><span class="en">Cost to start</span><span class="hi">शुरुआती cost</span></td><td><span class="en">Low</span><span class="hi">कम</span></td><td><span class="en">Higher</span><span class="hi">ज़्यादा</span></td></tr></tbody></table></div>
         <div class="say"><p class="en">🎤 "RAG retrieves relevant chunks using embeddings and vector search, adds them to the prompt as context, and the LLM answers grounded in that context. It reduces hallucination and keeps knowledge fresh without retraining. I'd use fine-tuning only to change style or format, not to add facts."</p><p class="hi">🎤 "RAG retrieves relevant chunks using embeddings and vector search, adds them to the prompt as context, and the LLM answers grounded in that context. It reduces hallucination and keeps knowledge fresh without retraining. I'd use fine-tuning only to change style or format, not to add facts."</p></div>
         <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">No minimum similarity, so unrelated chunks get passed in and confuse the answer.</span><span class="hi">कोई minimum similarity नहीं, जिससे बेमेल chunks जाकर जवाब को उलझाते हैं।</span></li><li><span class="en">No "answer only from context" rule, so the model fills gaps with guesses.</span><span class="hi">"सिर्फ़ context से जवाब" का नियम नहीं, जिससे model ख़ाली जगह अंदाज़ों से भरता है।</span></li><li><span class="en">Mixing different customers' documents without a filter.</span><span class="hi">बिना filter के अलग-अलग customers के documents मिला देना।</span></li><li><span class="en">Never testing with real user questions.</span><span class="hi">असली users के सवालों से कभी test न करना।</span></li></ul></div>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 3 things</span><span class="hi">ये 3 बातें याद रखिए</span></div><ol><li><span class="en">Two phases: indexing (chunk, embed, store) once, and answering (retrieve, then generate) for every question.</span><span class="hi">दो phases: indexing (chunk, embed, store) एक बार, और answering (retrieve, फिर generate) हर सवाल पर।</span></li><li><span class="en">Tell the AI to answer only from the given information, and to say so when it's missing.</span><span class="hi">AI से कहिए कि सिर्फ़ दी गई जानकारी से जवाब दे, और जानकारी न हो तो बता दे।</span></li><li><span class="en">RAG adds knowledge; fine-tuning changes style. Changing data → RAG.</span><span class="hi">RAG जानकारी जोड़ता है; fine-tuning style बदलती है। बदलता data → RAG।</span></li></ol></div>
       </section>
       <section id="practice">
         <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>

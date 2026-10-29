@@ -106,8 +106,9 @@
         <span class="pill"><span class="en">Module 5 of 18</span><span class="hi">मॉड्यूल 5 / 18</span></span>
         <h1><span class="en">Your first AI app in JavaScript</span><span class="hi">JavaScript में आपकी पहली AI app</span></h1>
         <div class="lesson-meta"><span>⏱️ <span class="en">35 min read + practice</span><span class="hi">35 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🤖 AI</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Your app sends a question to an AI service with a secret key, and gets text back; a small helper file makes this a 3-line job.</p><p class="hi"><b>एक लाइन में:</b> आपकी app एक secret key के साथ AI service को सवाल भेजती है और text वापस पाती है; एक छोटी helper file से यह 3 लाइनों का काम बन जाता है।</p></div>
         <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">How an AI-powered app is put together</span><span class="hi">AI वाली app कैसे बनती है</span></li><li><span class="en">Set up Node.js and an API key safely</span><span class="hi">Node.js और API key सुरक्षित तरीक़े से set up करना</span></li><li><span class="en">Send a message, add a system prompt, keep chat history</span><span class="hi">Message भेजना, system prompt जोड़ना, chat history रखना</span></li><li><span class="en">Stream answers, handle errors and estimate costs</span><span class="hi">जवाब stream करना, errors संभालना और cost का अंदाज़ा</span></li></ul></div>
-        <nav class="toc" aria-label="On this page"><a href="#arch"><span class="en">How it fits</span><span class="hi">कैसे जुड़ता है</span></a><a href="#setup"><span class="en">Setup</span><span class="hi">Setup</span></a><a href="#first"><span class="en">First request</span><span class="hi">पहली request</span></a><a href="#system-chat"><span class="en">System prompt and chat</span><span class="hi">System prompt और chat</span></a><a href="#stream"><span class="en">Streaming</span><span class="hi">Streaming</span></a><a href="#cost"><span class="en">Errors and cost</span><span class="hi">Errors और cost</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <nav class="toc" aria-label="On this page"><a href="#arch"><span class="en">How it fits</span><span class="hi">कैसे जुड़ता है</span></a><a href="#setup"><span class="en">Setup from zero</span><span class="hi">Zero से setup</span></a><a href="#helper"><span class="en">The ai.js helper</span><span class="hi">ai.js helper</span></a><a href="#first"><span class="en">First AI app</span><span class="hi">पहली AI app</span></a><a href="#system-chat"><span class="en">Chat with memory</span><span class="hi">याद रखने वाली chat</span></a><a href="#stream"><span class="en">Streaming</span><span class="hi">Streaming</span></a><a href="#cost"><span class="en">Errors and cost</span><span class="hi">Errors और cost</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
         <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">AI glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">AI glossary</a> में देखिए।</span></p>
       </div>
       <section id="arch">
@@ -116,96 +117,114 @@
         <div class="warn"><p class="en"><b>Never put your API key in frontend code, a mobile app, or GitHub.</b> Anyone can read it there and run up your bill. The browser calls <b>your</b> backend; your backend calls the AI API.</p><p class="hi"><b>API key को कभी frontend code, mobile app या GitHub में मत डालिए।</b> वहाँ कोई भी उसे पढ़कर आपका bill बढ़ा सकता है। Browser <b>आपके</b> backend को call करता है; आपका backend AI API को।</p></div>
       </section>
       <section id="setup">
-        <h2 id="setup-h"><span class="en">Setup in 4 steps</span><span class="hi">4 steps में setup</span></h2>
-        <ol><li><span class="en">Install <b>Node.js</b> (LTS) and create a folder for your project.</span><span class="hi"><b>Node.js</b> (LTS) install कीजिए और project के लिए एक folder बनाइए।</span></li><li><span class="en">Get an API key from the Claude Console (console.anthropic.com) and add a small amount of credit.</span><span class="hi">Claude Console (console.anthropic.com) से API key लीजिए और थोड़ा credit डालिए।</span></li><li><span class="en">Save the key in a <code>.env</code> file, and add <code>.env</code> to <code>.gitignore</code> so it never reaches GitHub.</span><span class="hi">Key को <code>.env</code> file में रखिए, और <code>.env</code> को <code>.gitignore</code> में जोड़िए ताकि वो कभी GitHub पर न जाए।</span></li><li><span class="en">Install the official SDK (a ready-made library for calling the API).</span><span class="hi">Official SDK install कीजिए (API call करने की तैयार library)।</span></li></ol>
-        <pre class="code" data-copy># <span class="kw">in</span> your project folder
-npm init -y
-npm install @anthropic-ai/sdk
-
-# .env  (never commit <span class="kw">this</span> file)
-ANTHROPIC_API_KEY=sk-ant-...your-key...</pre>
-        <p class="en">Add <code>"type": "module"</code> to <code>package.json</code> so you can use <code>import</code>. Run files with <code>node --env-file=.env app.js</code>, which loads the key from <code>.env</code>.</p><p class="hi"><code>package.json</code> में <code>"type": "module"</code> जोड़िए ताकि <code>import</code> इस्तेमाल कर सकें। Files को <code>node --env-file=.env app.js</code> से चलाइए, जो <code>.env</code> से key लोड करता है।</p>
+        <h2 id="setup-h"><span class="en">Setup from zero (15 minutes, one time)</span><span class="hi">Zero से setup (15 मिनट, सिर्फ़ एक बार)</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Never written a Node.js program? No problem. Follow these steps exactly.</p><p class="hi">कभी Node.js program नहीं लिखा? कोई बात नहीं। ये steps बिल्कुल ऐसे ही कीजिए।</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Step</span><span class="hi">Step</span></th><th><span class="en">What to do</span><span class="hi">क्या करना है</span></th><th><span class="en">What it means</span><span class="hi">इसका मतलब</span></th></tr></thead><tbody><tr><td>1</td><td><span class="en">Install <b>Node.js</b> (the LTS version) from nodejs.org</span><span class="hi">nodejs.org से <b>Node.js</b> (LTS version) install कीजिए</span></td><td><span class="en">Node.js runs JavaScript on your computer, outside the browser</span><span class="hi">Node.js आपके computer पर, browser के बाहर, JavaScript चलाता है</span></td></tr><tr><td>2</td><td><span class="en">Install <b>VS Code</b> from code.visualstudio.com</span><span class="hi">code.visualstudio.com से <b>VS Code</b> install कीजिए</span></td><td><span class="en">A free editor to write code</span><span class="hi">Code लिखने का मुफ़्त editor</span></td></tr><tr><td>3</td><td><span class="en">Make a folder <code>my-ai-app</code>, open it in VS Code, and open the terminal with <b>Ctrl + `</b></span><span class="hi"><code>my-ai-app</code> नाम का folder बनाइए, उसे VS Code में खोलिए, और <b>Ctrl + `</b> से terminal खोलिए</span></td><td><span class="en">The <b>terminal</b> is where you type commands</span><span class="hi"><b>Terminal</b> वो जगह है जहाँ आप commands लिखते हैं</span></td></tr><tr><td>4</td><td><span class="en">Type the commands below in the terminal</span><span class="hi">नीचे दिए commands terminal में लिखिए</span></td><td><span class="en"><code>npm</code> downloads ready-made code (packages) for you</span><span class="hi"><code>npm</code> आपके लिए तैयार code (packages) download करता है</span></td></tr><tr><td>5</td><td><span class="en">Get an API key from console.anthropic.com and add a little credit</span><span class="hi">console.anthropic.com से API key लीजिए और थोड़ा credit डालिए</span></td><td><span class="en">The key is your secret password for the AI service</span><span class="hi">Key AI service का आपका secret password है</span></td></tr></tbody></table></div>
+        <pre class="code" data-copy>npm init -y
+npm pkg set type=module
+npm install @anthropic-ai/sdk</pre>
+        <p class="en">Now create a file named <code>.env</code> in the folder and put your key in it. Never share this file or upload it to GitHub.</p><p class="hi">अब folder में <code>.env</code> नाम की file बनाइए और उसमें अपनी key लिखिए। यह file कभी किसी को मत दीजिए, न GitHub पर डालिए।</p>
+        <pre class="code" data-copy>ANTHROPIC_API_KEY=sk-ant-...paste-your-key-here...</pre>
+        <div class="idea"><p class="en"><b>What is <code>await</code>?</b> Asking the AI takes a few seconds. <code>await</code> simply means "wait here until the answer comes back, then continue". You'll see it before every AI call.</p><p class="hi"><b><code>await</code> क्या है?</b> AI से पूछने में कुछ seconds लगते हैं। <code>await</code> का मतलब बस इतना है: "जवाब आने तक यहीं रुको, फिर आगे बढ़ो"। हर AI call से पहले यह दिखेगा।</p></div>
       </section>
-      <section id="first">
-        <h2 id="first-h"><span class="en">Your first AI request</span><span class="hi">आपकी पहली AI request</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
-        <pre class="code" data-copy><span class="cm">// app.js  →  run: node --env-file=.env app.js</span>
+      <section id="helper">
+        <h2 id="helper-h"><span class="en">Step 1: one small helper file</span><span class="hi">Step 1: एक छोटी helper file</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Create <code>ai.js</code> and paste this. You write it once and reuse it everywhere. It hides the technical details, so your app code stays short and simple.</p><p class="hi"><code>ai.js</code> बनाइए और इसमें यह paste कीजिए। इसे एक बार लिखिए और हर जगह इस्तेमाल कीजिए। यह technical बातें छिपा देती है, जिससे आपकी app का code छोटा और आसान रहता है।</p>
+        <pre class="code" data-copy><span class="cm">// ai.js - write once, reuse everywhere</span>
 import Anthropic from <span class="st">"@anthropic-ai/sdk"</span>;
 
-<span class="kw">const</span> client = <span class="kw">new</span> Anthropic(); <span class="cm">// reads ANTHROPIC_API_KEY automatically</span>
+<span class="kw">const</span> client = <span class="kw">new</span> Anthropic(); <span class="cm">// reads your key from the .env file</span>
 
-<span class="kw">const</span> response = <span class="kw">await</span> client.beta.messages.create({
-  model: <span class="st">"claude-opus-5-5"</span>,
-  max_tokens: 16000,
-  messages: [{ role: <span class="st">"user"</span>, content: <span class="st">"Explain what an API is to a 10-year-old."</span> }],
-  <span class="cm">// Safety net: if this model declines a request, the API retries it on a</span>
-  <span class="cm">// fallback model automatically.</span>
-  betas: [<span class="st">"server-side-fallback-2026-07-01"</span>],
-  fallbacks: <span class="st">"default"</span>,
-});
-
-<span class="kw">if</span> (response.stop_reason === <span class="st">"refusal"</span>) {
-  console.log(<span class="st">"The request was declined."</span>);
-} <span class="kw">else</span> {
-  <span class="kw">for</span> (<span class="kw">const</span> block <span class="kw">of</span> response.content) {
-    <span class="kw">if</span> (block.type === <span class="st">"text"</span>) console.log(block.text);
-  }
-}
-
-console.log(<span class="st">"Tokens used:"</span>, response.usage.input_tokens, <span class="st">"in,"</span>, response.usage.output_tokens, <span class="st">"out"</span>);</pre>
-        <div class="table-wrap"><table><thead><tr><th><span class="en">Field</span><span class="hi">Field</span></th><th><span class="en">Meaning</span><span class="hi">मतलब</span></th></tr></thead><tbody><tr><td><code>model</code></td><td><span class="en">Which AI model to use</span><span class="hi">कौन-सा AI model इस्तेमाल करना है</span></td></tr><tr><td><code>max_tokens</code></td><td><span class="en">The most tokens the answer may use (a safety cap)</span><span class="hi">जवाब ज़्यादा से ज़्यादा कितने tokens ले सकता है (एक safety सीमा)</span></td></tr><tr><td><code>messages</code></td><td><span class="en">The conversation so far: a list of <code>user</code> and <code>assistant</code> turns</span><span class="hi">अब तक की बातचीत: <code>user</code> और <code>assistant</code> turns की list</span></td></tr><tr><td><code>response.content</code></td><td><span class="en">The answer, as a list of blocks; text blocks hold the words</span><span class="hi">जवाब, blocks की list के रूप में; text blocks में शब्द होते हैं</span></td></tr><tr><td><code>response.usage</code></td><td><span class="en">Tokens used, which decides the cost</span><span class="hi">इस्तेमाल हुए tokens, जिनसे cost तय होती है</span></td></tr><tr><td><code>stop_reason</code></td><td><span class="en">Why it stopped: finished, hit max_tokens, or declined</span><span class="hi">क्यों रुका: पूरा हुआ, max_tokens तक पहुँचा, या मना किया</span></td></tr></tbody></table></div>
-      </section>
-      <section id="system-chat">
-        <h2 id="system-chat-h"><span class="en">Add a system prompt and chat history</span><span class="hi">System prompt और chat history जोड़ें</span></h2>
-        <p class="en">The API doesn't remember anything between calls. To build a chat, keep the conversation in an array and send it every time.</p><p class="hi">API calls के बीच कुछ याद नहीं रखती। Chat बनाने के लिए बातचीत को एक array में रखिए और हर बार भेजिए।</p>
-        <pre class="code" data-copy>import Anthropic from <span class="st">"@anthropic-ai/sdk"</span>;
-
-<span class="kw">const</span> client = <span class="kw">new</span> Anthropic();
-<span class="kw">const</span> SYSTEM = <span class="st">"You are a friendly study buddy for Class 10 students in India. "</span> +
-  <span class="st">"Explain simply, with Indian examples, in 3-5 short lines."</span>;
-<span class="kw">const</span> history = []; <span class="cm">// the whole conversation, in order</span>
-
-<span class="kw">async</span> <span class="kw">function</span> chat(userText) {
-  history.push({ role: <span class="st">"user"</span>, content: userText });
-
-  <span class="kw">const</span> response = <span class="kw">await</span> client.beta.messages.create({
-    model: <span class="st">"claude-opus-5-5"</span>,
-    max_tokens: 16000,
-    system: SYSTEM,
-    messages: history,
+<span class="kw">function</span> settings(messages, system) {
+  <span class="kw">return</span> {
+    model: <span class="st">"claude-opus-5-5"</span>,   <span class="cm">// which AI model to use</span>
+    max_tokens: 16000,              <span class="cm">// the longest answer we allow</span>
+    messages,                       <span class="cm">// the conversation</span>
+    ...(system ? { system } : {}),  <span class="cm">// optional rules for the AI</span>
+    <span class="cm">// Safety net: if this model declines a request, the API tries a fallback model.</span>
     betas: [<span class="st">"server-side-fallback-2026-07-01"</span>],
     fallbacks: <span class="st">"default"</span>,
-  });
+  };
+}
 
-  <span class="kw">if</span> (response.stop_reason === <span class="st">"refusal"</span>) {
-    history.pop(); <span class="cm">// drop the declined question so the chat can continue</span>
-    <span class="kw">return</span> <span class="st">"Sorry, I can't help with that."</span>;
-  }
-  history.push({ role: <span class="st">"assistant"</span>, content: response.content }); <span class="cm">// keep the full reply</span>
+<span class="kw">function</span> textOf(response) {
   <span class="kw">return</span> response.content.filter((b) =&gt; b.type === <span class="st">"text"</span>).map((b) =&gt; b.text).join(<span class="st">""</span>);
 }
 
-console.log(<span class="kw">await</span> chat(<span class="st">"What is photosynthesis?"</span>));
-console.log(<span class="kw">await</span> chat(<span class="st">"Give me one more example."</span>)); <span class="cm">// it knows what "more" refers to</span></pre>
+<span class="cm">// Ask one question. Returns the answer as plain text.</span>
+export <span class="kw">async</span> <span class="kw">function</span> askAI(question, system) {
+  <span class="kw">const</span> response = <span class="kw">await</span> client.beta.messages.create(settings([{ role: <span class="st">"user"</span>, content: question }], system));
+  <span class="kw">if</span> (response.stop_reason === <span class="st">"refusal"</span>) <span class="kw">return</span> <span class="st">"Sorry, I can't help with that."</span>;
+  <span class="kw">return</span> textOf(response);
+}
+
+<span class="cm">// Continue a conversation. "history" is an array that remembers the chat.</span>
+export <span class="kw">async</span> <span class="kw">function</span> chat(history, userText, system) {
+  history.push({ role: <span class="st">"user"</span>, content: userText });
+  <span class="kw">const</span> response = <span class="kw">await</span> client.beta.messages.create(settings(history, system));
+  <span class="kw">if</span> (response.stop_reason === <span class="st">"refusal"</span>) {
+    history.pop(); <span class="cm">// forget the declined question so the chat can continue</span>
+    <span class="kw">return</span> <span class="st">"Sorry, I can't help with that."</span>;
+  }
+  history.push({ role: <span class="st">"assistant"</span>, content: response.content }); <span class="cm">// remember the reply</span>
+  <span class="kw">return</span> textOf(response);
+}
+
+<span class="cm">// Print the answer word by word as it is written (like ChatGPT).</span>
+export <span class="kw">async</span> <span class="kw">function</span> streamAI(question, system) {
+  <span class="kw">const</span> stream = client.beta.messages.stream({ ...settings([{ role: <span class="st">"user"</span>, content: question }], system), max_tokens: 64000 });
+  stream.on(<span class="st">"text"</span>, (text) =&gt; process.stdout.write(text));
+  <span class="kw">const</span> message = <span class="kw">await</span> stream.finalMessage();
+  console.log();
+  <span class="kw">return</span> textOf(message);
+}</pre>
+        <p class="en">You don't need to understand every line of <code>ai.js</code> today. Just know it gives you three easy functions: <code>askAI</code>, <code>chat</code> and <code>streamAI</code>.</p><p class="hi">आज <code>ai.js</code> की हर लाइन समझना ज़रूरी नहीं। बस इतना जानिए कि इससे आपको तीन आसान functions मिलते हैं: <code>askAI</code>, <code>chat</code> और <code>streamAI</code>।</p>
+      </section>
+      <section id="first">
+        <h2 id="first-h"><span class="en">Step 2: your first AI app (3 lines)</span><span class="hi">Step 2: आपकी पहली AI app (3 लाइनें)</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <pre class="code" data-copy><span class="cm">// app.js</span>
+import { askAI } from <span class="st">"./ai.js"</span>;
+
+<span class="kw">const</span> answer = <span class="kw">await</span> askAI(<span class="st">"Explain what an API is to a 10-year-old."</span>);
+console.log(answer);</pre>
+        <p class="en">Run it in the terminal:</p><p class="hi">Terminal में चलाइए:</p>
+        <pre class="code" data-copy>node --env-file=.env app.js</pre>
+        <p class="en">🎉 That's a working AI app. <code>--env-file=.env</code> tells Node to read your API key from the <code>.env</code> file.</p><p class="hi">🎉 यह एक चलती हुई AI app है। <code>--env-file=.env</code> Node को बताता है कि API key <code>.env</code> file से पढ़े।</p>
+        <h3><span class="en">Add rules with a system prompt</span><span class="hi">System prompt से नियम जोड़िए</span></h3>
+        <pre class="code" data-copy><span class="kw">const</span> answer = <span class="kw">await</span> askAI(
+  <span class="st">"What is photosynthesis?"</span>,
+  <span class="st">"You are a friendly tutor for Class 10 students in India. Explain in 3 short lines with an Indian example."</span>
+);</pre>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">If you see this error</span><span class="hi">यह error दिखे तो</span></th><th><span class="en">Fix</span><span class="hi">हल</span></th></tr></thead><tbody><tr><td><code>Cannot use import statement</code></td><td><span class="en">Run <code>npm pkg set type=module</code></span><span class="hi"><code>npm pkg set type=module</code> चलाइए</span></td></tr><tr><td><code>authentication_error</code> / 401</td><td><span class="en">Check the key in <code>.env</code>, and that you ran with <code>--env-file=.env</code></span><span class="hi"><code>.env</code> में key check कीजिए, और कि आपने <code>--env-file=.env</code> के साथ चलाया</span></td></tr><tr><td><code>Cannot find package '@anthropic-ai/sdk'</code></td><td><span class="en">Run <code>npm install @anthropic-ai/sdk</code> inside the project folder</span><span class="hi">Project folder के अंदर <code>npm install @anthropic-ai/sdk</code> चलाइए</span></td></tr><tr><td><span class="en">Credit / billing error</span><span class="hi">Credit / billing error</span></td><td><span class="en">Add credit in the console</span><span class="hi">Console में credit डालिए</span></td></tr></tbody></table></div>
+      </section>
+      <section id="system-chat">
+        <h2 id="system-chat-h"><span class="en">Step 3: a chat that remembers</span><span class="hi">Step 3: याद रखने वाली chat</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">The AI service doesn't remember anything between calls. To build a chat, we keep the conversation in an array called <code>history</code> and send it every time. The <code>chat</code> helper does this for you.</p><p class="hi">AI service calls के बीच कुछ याद नहीं रखती। Chat बनाने के लिए हम बातचीत को <code>history</code> नाम के array में रखते हैं और हर बार भेजते हैं। <code>chat</code> helper यह आपके लिए करता है।</p>
+        <pre class="code" data-copy><span class="cm">// chat.js  →  node --env-file=.env chat.js</span>
+import { chat } from <span class="st">"./ai.js"</span>;
+
+<span class="kw">const</span> RULES = <span class="st">"You are a friendly study buddy. Reply in 2-3 short lines."</span>;
+<span class="kw">const</span> history = []; <span class="cm">// starts empty and grows with every message</span>
+
+console.log(<span class="kw">await</span> chat(history, <span class="st">"What is photosynthesis?"</span>, RULES));
+console.log(<span class="kw">await</span> chat(history, <span class="st">"Give me one more example."</span>, RULES)); <span class="cm">// it knows what "more" means</span></pre>
       </section>
       <section id="stream">
-        <h2 id="stream-h"><span class="en">Streaming: show the answer as it's written</span><span class="hi">Streaming: जवाब लिखते-लिखते दिखाइए</span></h2>
-        <p class="en">Waiting 10 seconds for a full answer feels slow. Streaming shows each piece as soon as it's generated, like ChatGPT.</p><p class="hi">पूरे जवाब के लिए 10 seconds रुकना धीमा लगता है। Streaming हर टुकड़ा बनते ही दिखाता है, ChatGPT की तरह।</p>
-        <pre class="code" data-copy><span class="kw">const</span> stream = client.beta.messages.stream({
-  model: <span class="st">"claude-opus-5-5"</span>,
-  max_tokens: 64000,
-  messages: [{ role: <span class="st">"user"</span>, content: <span class="st">"Write a short story about a robot in Lucknow."</span> }],
-  betas: [<span class="st">"server-side-fallback-2026-07-01"</span>],
-  fallbacks: <span class="st">"default"</span>,
-});
+        <h2 id="stream-h"><span class="en">Step 4: show the answer as it's written</span><span class="hi">Step 4: जवाब लिखते-लिखते दिखाइए</span></h2>
+        <p class="en">Waiting for a long answer feels slow. Streaming prints each piece as soon as it's ready, like ChatGPT.</p><p class="hi">लंबे जवाब का इंतज़ार धीमा लगता है। Streaming हर टुकड़ा तैयार होते ही print करती है, ChatGPT की तरह।</p>
+        <pre class="code" data-copy><span class="cm">// story.js</span>
+import { streamAI } from <span class="st">"./ai.js"</span>;
 
-stream.on(<span class="st">"text"</span>, (text) =&gt; process.stdout.write(text)); <span class="cm">// print as it arrives</span>
-<span class="kw">const</span> message = <span class="kw">await</span> stream.finalMessage();              <span class="cm">// the complete message</span>
-console.log(<span class="st">"\nOutput tokens:"</span>, message.usage.output_tokens);</pre>
+<span class="kw">await</span> streamAI(<span class="st">"Write a 6-line story about a robot who sells chai in Lucknow."</span>);</pre>
       </section>
       <section id="cost">
-        <h2 id="cost-h"><span class="en">Errors and cost</span><span class="hi">Errors और cost</span></h2>
-        <pre class="code" data-copy>try {
-  <span class="kw">const</span> response = <span class="kw">await</span> client.messages.create({ /* ... */ });
+        <h2 id="cost-h"><span class="en">Step 5: errors and cost</span><span class="hi">Step 5: errors और cost</span></h2><span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">Real apps must handle problems, like a wrong key or too many requests at once. Wrap the call in <code>try / catch</code>:</p><p class="hi">असली apps को problems संभालनी पड़ती हैं, जैसे ग़लत key या एक साथ बहुत ज़्यादा requests। Call को <code>try / catch</code> में रखिए:</p>
+        <pre class="code" data-copy>import Anthropic from <span class="st">"@anthropic-ai/sdk"</span>;
+import { askAI } from <span class="st">"./ai.js"</span>;
+
+try {
+  console.log(<span class="kw">await</span> askAI(<span class="st">"Hello!"</span>));
 } catch (error) {
   <span class="kw">if</span> (error instanceof Anthropic.AuthenticationError) {
     console.error(<span class="st">"Wrong API key. Check your .env file."</span>);
@@ -220,30 +239,23 @@ console.log(<span class="st">"\nOutput tokens:"</span>, message.usage.output_tok
         <p class="en"><b>Estimating cost:</b> providers publish a price per million input tokens and per million output tokens. Cost = input tokens × input price + output tokens × output price. Output tokens usually cost several times more than input tokens, so asking for shorter answers saves money. Always check the provider's current pricing page.</p><p class="hi"><b>Cost का अंदाज़ा:</b> providers हर 10 लाख input tokens और हर 10 लाख output tokens की कीमत बताते हैं। Cost = input tokens × input कीमत + output tokens × output कीमत। Output tokens आमतौर पर input से कई गुना महँगे होते हैं, इसलिए छोटे जवाब माँगने से पैसे बचते हैं। Provider का मौजूदा pricing page हमेशा देखिए।</p>
         <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Putting the API key in frontend JavaScript or pushing <code>.env</code> to GitHub.</span><span class="hi">API key को frontend JavaScript में रखना या <code>.env</code> GitHub पर push करना।</span></li><li><span class="en">Reading <code>response.content[0].text</code> without checking the block type or the stop reason.</span><span class="hi">Block type या stop reason check किए बिना <code>response.content[0].text</code> पढ़ना।</span></li><li><span class="en">Forgetting to send the chat history, then wondering why the bot "forgot".</span><span class="hi">Chat history भेजना भूल जाना, फिर सोचना कि bot "भूल" क्यों गया।</span></li><li><span class="en">No spending limit. Set a monthly budget in the provider's console.</span><span class="hi">कोई spending limit नहीं। Provider के console में monthly budget set कीजिए।</span></li></ul></div>
       </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 3 things</span><span class="hi">ये 3 बातें याद रखिए</span></div><ol><li><span class="en">The API key stays on your computer or server, in <code>.env</code>. Never in frontend code or GitHub.</span><span class="hi">API key आपके computer या server पर, <code>.env</code> में रहती है। Frontend code या GitHub में कभी नहीं।</span></li><li><span class="en">The AI forgets everything between calls. A chat works because you send the history every time.</span><span class="hi">AI calls के बीच सब भूल जाता है। Chat इसलिए चलती है क्योंकि आप हर बार history भेजते हैं।</span></li><li><span class="en">You pay per token. Shorter prompts and shorter answers cost less.</span><span class="hi">आप हर token का पैसा देते हैं। छोटे prompts और छोटे जवाब सस्ते पड़ते हैं।</span></li></ol></div>
+      </section>
       <section id="practice">
         <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
-        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Build a command-line "English to Hinglish" translator: the user types a sentence, the app prints the translation. Use a system prompt.</span><span class="hi">Exercise 1: एक command-line "English से Hinglish" translator बनाइए: user sentence लिखे, app अनुवाद print करे। System prompt इस्तेमाल कीजिए।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><pre class="code" data-copy>import readline from <span class="st">"node:readline/promises"</span>;
-import Anthropic from <span class="st">"@anthropic-ai/sdk"</span>;
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Build a command-line "English to Hinglish" translator: the user types a sentence, the app prints the translation. Use a system prompt.</span><span class="hi">Exercise 1: एक command-line "English से Hinglish" translator बनाइए: user sentence लिखे, app अनुवाद print करे। System prompt इस्तेमाल कीजिए।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><pre class="code" data-copy><span class="cm">// translate.js  →  node --env-file=.env translate.js</span>
+import readline from <span class="st">"node:readline/promises"</span>; <span class="cm">// built into Node: reads what you type</span>
+import { askAI } from <span class="st">"./ai.js"</span>;
 
-<span class="kw">const</span> client = <span class="kw">new</span> Anthropic();
+<span class="kw">const</span> RULES = <span class="st">"Translate the user's English sentence into natural, casual Hinglish "</span> +
+  <span class="st">"(Hindi written in English letters). Reply with the translation only."</span>;
 <span class="kw">const</span> rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
 <span class="kw">while</span> (<span class="kw">true</span>) {
   <span class="kw">const</span> text = <span class="kw">await</span> rl.question(<span class="st">"English (or 'exit'): "</span>);
   <span class="kw">if</span> (text.trim().toLowerCase() === <span class="st">"exit"</span>) <span class="kw">break</span>;
-
-  <span class="kw">const</span> response = <span class="kw">await</span> client.beta.messages.create({
-    model: <span class="st">"claude-opus-5-5"</span>,
-    max_tokens: 1000,
-    system: <span class="st">"Translate the user's English sentence into natural, casual Hinglish "</span> +
-      <span class="st">"(Hindi written in English letters). Reply with the translation only."</span>,
-    messages: [{ role: <span class="st">"user"</span>, content: text }],
-    betas: [<span class="st">"server-side-fallback-2026-07-01"</span>],
-    fallbacks: <span class="st">"default"</span>,
-  });
-
-  <span class="kw">const</span> out = response.content.filter((b) =&gt; b.type === <span class="st">"text"</span>).map((b) =&gt; b.text).join(<span class="st">""</span>);
-  console.log(<span class="st">"Hinglish:"</span>, out, <span class="st">"\n"</span>);
+  console.log(<span class="st">"Hinglish:"</span>, <span class="kw">await</span> askAI(text, RULES), <span class="st">"\n"</span>);
 }
 rl.close();</pre></div></details></div>
       </section>
