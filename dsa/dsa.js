@@ -625,6 +625,92 @@
     update();
   }
 
+  // ---------- AI: train a tiny letter-level language model in the browser ----------
+  const gptViz = document.getElementById("gpt-viz");
+  if (gptViz) {
+    const input = gptViz.querySelector("textarea");
+    const pick = gptViz.querySelector("select");
+    const bars = gptViz.querySelector(".bars");
+    const msg = gptViz.querySelector(".viz-msg");
+    let counts = null;
+    const train = () => {
+      const words = input.value.toLowerCase().split(/[\s,]+/).map((w) => w.replace(/[^a-z]/g, "")).filter(Boolean);
+      counts = {};
+      words.forEach((w) => {
+        const chars = [".", ...w, "."];
+        for (let i = 0; i < chars.length - 1; i++) {
+          counts[chars[i]] = counts[chars[i]] || {};
+          counts[chars[i]][chars[i + 1]] = (counts[chars[i]][chars[i + 1]] || 0) + 1;
+        }
+      });
+      const keep = pick.value;
+      pick.innerHTML = Object.keys(counts).filter((c) => c !== ".").sort().map((c) => `<option value="${c}">${c}</option>`).join("");
+      if (counts[keep] && keep !== ".") pick.value = keep;
+      showBars();
+      return words.length;
+    };
+    const showBars = () => {
+      const row = counts[pick.value] || {};
+      const total = Object.values(row).reduce((a, b) => a + b, 0) || 1;
+      bars.innerHTML = Object.entries(row).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([ch, c]) =>
+        `<div class="row"><b>${ch === "." ? both("(end)", "(अंत)") : ch}</b><div class="bar" style="width:${Math.max(2, (c / total) * 100)}%"></div><span class="val">${Math.round((c / total) * 100)}%</span></div>`).join("");
+    };
+    const next = (prev) => {
+      const opts = Object.entries(counts[prev] || {});
+      let r = Math.random() * opts.reduce((s, [, c]) => s + c, 0);
+      for (const [ch, c] of opts) { r -= c; if (r < 0) return ch; }
+      return ".";
+    };
+    const generate = () => {
+      let out = "", ch = ".";
+      for (;;) { ch = next(ch); if (ch === "." || out.length >= 10) break; out += ch; }
+      return out;
+    };
+    gptViz.querySelector("[data-act=train]").addEventListener("click", () => {
+      const n = train();
+      setMsg(msg, `Trained on ${n} words. The model only learned one thing: which letter usually comes after which. Now click Generate.`,
+        `${n} शब्दों पर train हो गया। Model ने बस एक चीज़ सीखी: कौन-सा अक्षर आमतौर पर किसके बाद आता है। अब Generate दबाइए।`);
+    });
+    gptViz.querySelector("[data-act=gen]").addEventListener("click", () => {
+      if (!counts) train();
+      const names = Array.from({ length: 6 }, generate).filter(Boolean).map((n) => n[0].toUpperCase() + n.slice(1));
+      setMsg(msg, `New names: <b>${names.join(", ")}</b>. Some sound real, some are nonsense, because the model looks only one letter back. GPT looks back at thousands of tokens.`,
+        `नए नाम: <b>${names.join(", ")}</b>। कुछ असली लगते हैं, कुछ बेमतलब, क्योंकि model सिर्फ़ एक अक्षर पीछे देखता है। GPT हज़ारों tokens पीछे देखता है।`);
+    });
+    pick.addEventListener("change", showBars);
+    train();
+  }
+
+  // ---------- AI: watch training (gradient descent) learn y = 2x + 1 ----------
+  const learnViz = document.getElementById("learn-viz");
+  if (learnViz) {
+    const data = [[1, 3], [2, 5], [3, 7], [4, 9]];
+    const out = learnViz.querySelector(".learn-state");
+    const msg = learnViz.querySelector(".viz-msg");
+    let w = 0, b = 0, steps = 0;
+    const lossNow = () => data.reduce((s, [x, y]) => s + (w * x + b - y) ** 2, 0) / data.length;
+    const render = () => {
+      out.innerHTML = `<div class="row"><b>${both("Step", "Step")}</b><span>${steps}</span></div>` +
+        `<div class="row"><b>w</b><span>${w.toFixed(3)}</span></div><div class="row"><b>b</b><span>${b.toFixed(3)}</span></div>` +
+        `<div class="row"><b>${both("Error (loss)", "ग़लती (loss)")}</b><span>${lossNow().toFixed(4)}</span></div>` +
+        `<div class="row"><b>${both("Guess for x = 10", "x = 10 का अनुमान")}</b><span>${(w * 10 + b).toFixed(2)} ${both("(right answer: 21)", "(सही जवाब: 21)")}</span></div>`;
+    };
+    const step = (n) => {
+      for (let k = 0; k < n; k++) {
+        let dw = 0, db = 0;
+        data.forEach(([x, y]) => { const e = w * x + b - y; dw += 2 * e * x; db += 2 * e; });
+        w -= (0.05 * dw) / data.length; b -= (0.05 * db) / data.length; steps++;
+      }
+      render();
+      setMsg(msg, lossNow() < 0.001 ? "Learned it: w ≈ 2 and b ≈ 1, only from examples. A real LLM does the same with billions of parameters." : "Each step nudges w and b a little in the direction that reduces the error.",
+        lossNow() < 0.001 ? "सीख गया: w ≈ 2 और b ≈ 1, सिर्फ़ examples से। असली LLM अरबों parameters के साथ यही करता है।" : "हर step w और b को थोड़ा उस दिशा में खिसकाता है जिससे ग़लती कम हो।");
+    };
+    learnViz.querySelector("[data-act=one]").addEventListener("click", () => step(1));
+    learnViz.querySelector("[data-act=many]").addEventListener("click", () => step(100));
+    learnViz.querySelector("[data-act=reset]").addEventListener("click", () => { w = 0; b = 0; steps = 0; render(); setMsg(msg, "Back to w = 0, b = 0: the model knows nothing.", "वापस w = 0, b = 0: model को कुछ नहीं पता।"); });
+    render();
+  }
+
   // ---------- AI: rough token counter ----------
   const tokViz = document.getElementById("token-viz");
   if (tokViz) {

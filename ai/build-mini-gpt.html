@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Build Your Own Mini GPT: Train a Language Model | Kodivo</title>
+  <meta name="description" content="Train a tiny language model in your browser, see how training really works, and get a step-by-step plan to build a mini GPT with nanoGPT or nanochat." />
+  <link rel="canonical" href="https://agamsahu017.github.io/ai/build-mini-gpt.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/ai/build-mini-gpt.html" />
+  <meta property="og:title" content="Build Your Own Mini GPT: Train a Language Model | Kodivo" />
+  <meta property="og:description" content="Train a tiny language model in your browser, see how training really works, and get a step-by-step plan to build a mini GPT with nanoGPT or nanochat." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "AI from Zero to Job-Ready",
+          "item": "https://agamsahu017.github.io/ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Build your own mini GPT",
+          "item": "https://agamsahu017.github.io/ai/build-mini-gpt.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Build Your Own Mini GPT: Train a Language Model",
+      "description": "Train a tiny language model in your browser, see how training really works, and get a step-by-step plan to build a mini GPT with nanoGPT or nanochat.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "AI from Zero to Job-Ready",
+        "url": "https://agamsahu017.github.io/ai/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20AI%20on%20your%20website%20(Build%20your%20own%20mini%20GPT)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">AI</a> › <span>Build your own mini GPT</span></nav>
+        <span class="pill"><span class="en">Module 15 of 19</span><span class="hi">मॉड्यूल 15 / 19</span></span>
+        <h1><span class="en">Build your own mini GPT</span><span class="hi">अपना mini GPT बनाइए</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">30 min read + practice</span><span class="hi">30 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🤖 AI</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Building an LLM = collect text, train a model to predict the next token (base model), then fine-tune it into an assistant. You can do a tiny version for free.</p><p class="hi"><b>एक लाइन में:</b> LLM बनाना = text इकट्ठा करना, model को अगला token predict करना सिखाना (base model), फिर fine-tune करके assistant बनाना। इसका छोटा version आप free में बना सकते हैं।</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">What a base model really is, and why ChatGPT-level models cost crores</span><span class="hi">Base model असल में क्या है, और ChatGPT-level models करोड़ों के क्यों पड़ते हैं</span></li><li><span class="en">Train a tiny language model in your browser, then in 30 lines of JavaScript</span><span class="hi">अपने browser में, फिर JavaScript की 30 lines में एक छोटा language model train करना</span></li><li><span class="en">How training really works: parameters, error (loss) and small corrections</span><span class="hi">Training असल में कैसे होती है: parameters, ग़लती (loss) और छोटे सुधार</span></li><li><span class="en">What GPT adds on top: tokens, attention and many layers</span><span class="hi">GPT ऊपर से क्या जोड़ता है: tokens, attention और कई layers</span></li><li><span class="en">A 4-weekend plan to build a real mini GPT, and when to fine-tune instead</span><span class="hi">असली mini GPT बनाने का 4-weekend plan, और कब fine-tuning बेहतर है</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#big"><span class="en">The big picture</span><span class="hi">बड़ी तस्वीर</span></a><a href="#tiny"><span class="en">Train one now</span><span class="hi">अभी train करें</span></a><a href="#learn"><span class="en">How training works</span><span class="hi">Training कैसे होती है</span></a><a href="#gpt"><span class="en">From tiny to GPT</span><span class="hi">छोटे से GPT तक</span></a><a href="#plan"><span class="en">4-weekend plan</span><span class="hi">4-weekend plan</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">AI glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">AI glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="big">
+        <h2 id="big-h"><span class="en">What does it mean to "build an LLM"?</span><span class="hi">"LLM बनाने" का मतलब क्या है?</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Every LLM starts as a <b>base model</b>: a program that has read a huge amount of text and learned one skill, guessing the next piece of text. Fine-tuning then turns it into a helpful assistant.</p><p class="hi">हर LLM एक <b>base model</b> के रूप में शुरू होता है: एक program जिसने बहुत सारा text पढ़कर एक ही हुनर सीखा है, अगला टुकड़ा अंदाज़ा लगाना। फिर fine-tuning उसे एक मददगार assistant बनाती है।</p>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">Collect text</span><span class="hi">Text इकट्ठा करना</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Pre-training: learn to predict the next token</span><span class="hi">Pre-training: अगला token predict करना सीखना</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Base model</span><span class="hi">Base model</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Fine-tuning: learn to be a helpful assistant</span><span class="hi">Fine-tuning: मददगार assistant बनना सीखना</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Chat model</span><span class="hi">Chat model</span></div></div><figcaption><span class="en">The same two stages for a tiny model and for ChatGPT. Only the size changes.</span><span class="hi">छोटे model और ChatGPT, दोनों के लिए यही दो stages हैं। बस size बदलता है।</span></figcaption></figure>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Size</span><span class="hi">Size</span></th><th><span class="en">What you need</span><span class="hi">क्या चाहिए</span></th><th><span class="en">Rough cost and time</span><span class="hi">मोटा ख़र्च और समय</span></th><th><span class="en">Result</span><span class="hi">नतीजा</span></th></tr></thead><tbody><tr><td><span class="en">Tiny (this page)</span><span class="hi">Tiny (यह page)</span></td><td><span class="en">Your browser or laptop</span><span class="hi">आपका browser या laptop</span></td><td><span class="en">Free, seconds to minutes</span><span class="hi">Free, कुछ seconds से minutes</span></td><td><span class="en">Makes up new names or Shakespeare-like text</span><span class="hi">नए नाम या Shakespeare जैसा text बनाता है</span></td></tr><tr><td><span class="en">Small GPT-2 style</span><span class="hi">छोटा GPT-2 जैसा</span></td><td><span class="en">Free Google Colab or a rented GPU</span><span class="hi">Free Google Colab या किराए का GPU</span></td><td><span class="en">Free to a few thousand rupees, hours</span><span class="hi">Free से कुछ हज़ार रुपये, कुछ घंटे</span></td><td><span class="en">Readable English, little real knowledge</span><span class="hi">पढ़ने लायक English, असली जानकारी कम</span></td></tr><tr><td><span class="en">Mini ChatGPT (nanochat)</span><span class="hi">Mini ChatGPT (nanochat)</span></td><td><span class="en">A rented 8-GPU cloud machine</span><span class="hi">किराए की 8-GPU cloud machine</span></td><td><span class="en">Roughly $100 (about ₹8,000–10,000), ~4 hours</span><span class="hi">लगभग $100 (करीब ₹8,000–10,000), ~4 घंटे</span></td><td><span class="en">Simple chat, like a young child</span><span class="hi">Simple बातचीत, एक छोटे बच्चे जैसी</span></td></tr><tr><td><span class="en">ChatGPT / Claude / Gemini level</span><span class="hi">ChatGPT / Claude / Gemini level</span></td><td><span class="en">Thousands of GPUs, big teams, months</span><span class="hi">हज़ारों GPUs, बड़ी teams, महीनों</span></td><td><span class="en">Thousands of crores of rupees</span><span class="hi">हज़ारों करोड़ रुपये</span></td><td><span class="en">Only large companies can do this</span><span class="hi">सिर्फ़ बड़ी companies कर सकती हैं</span></td></tr></tbody></table></div>
+        <p class="en">Costs are rough estimates and change with GPU prices. The good news: the <b>ideas</b> are the same at every size, so you can learn them for free.</p><p class="hi">ख़र्च मोटे अंदाज़े हैं और GPU की क़ीमतों के साथ बदलते हैं। अच्छी बात: हर size पर <b>ideas</b> वही हैं, इसलिए आप उन्हें free में सीख सकते हैं।</p>
+      </section>
+      <section id="tiny">
+        <h2 id="tiny-h"><span class="en">Train a tiny language model, right now</span><span class="hi">अभी एक छोटा language model train कीजिए</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">The simplest language model looks at <b>one letter</b> and guesses the next one. To train it, we just count: in our training names, which letter comes after which? To generate, we pick the next letter using those counts, again and again.</p><p class="hi">सबसे simple language model <b>एक अक्षर</b> देखकर अगला अंदाज़ा लगाता है। इसे train करने के लिए हम बस गिनते हैं: हमारे training नामों में कौन-सा अक्षर किसके बाद आता है? Generate करने के लिए उन्हीं गिनतियों से अगला अक्षर चुनते हैं, बार-बार।</p>
+        <div class="viz" id="gpt-viz">
+          <div class="viz-title"><span class="en">Try it: train on names, then generate new ones</span><span class="hi">ख़ुद देखें: नामों पर train कीजिए, फिर नए नाम बनवाइए</span></div>
+          <textarea aria-label="Training names">Aarav, Aditi, Ananya, Arjun, Diya, Ishaan, Kabir, Kavya, Meera, Neha, Priya, Rahul, Riya, Rohan, Saanvi, Sneha, Tanvi, Vihaan, Aisha, Advik, Krish, Myra, Pari, Reyansh, Shaurya, Siya, Tara, Vivaan, Zoya, Anika</textarea>
+          <div class="viz-controls"><button type="button" class="btn btn-outline" data-act="train"><span class="en">1. Train</span><span class="hi">1. Train करें</span></button><button type="button" class="btn btn-primary" data-act="gen"><span class="en">2. Generate names</span><span class="hi">2. नाम बनवाएँ</span></button><label><span class="en">Letters that come after</span><span class="hi">इसके बाद आने वाले अक्षर</span> <select aria-label="Letter"></select></label></div>
+          <div class="bars"></div>
+          <div class="viz-msg"><span class="en">Change the names (try cities or dishes), train again, and generate.</span><span class="hi">नाम बदलिए (शहर या पकवान आज़माइए), फिर से train कीजिए, और generate कीजिए।</span></div>
+        </div>
+        <p class="en">The same model in plain JavaScript. Save it as <code>mini-gpt.js</code> and run <code>node mini-gpt.js</code>:</p><p class="hi">यही model simple JavaScript में। इसे <code>mini-gpt.js</code> नाम से save कीजिए और <code>node mini-gpt.js</code> चलाइए:</p>
+        <pre class="code" data-copy><span class="cm">// A tiny character-level language model (a "bigram" model).</span>
+<span class="kw">const</span> names = [<span class="st">"aarav"</span>, <span class="st">"aditi"</span>, <span class="st">"ananya"</span>, <span class="st">"arjun"</span>, <span class="st">"diya"</span>, <span class="st">"ishaan"</span>, <span class="st">"kabir"</span>, <span class="st">"kavya"</span>, <span class="st">"meera"</span>,
+  <span class="st">"neha"</span>, <span class="st">"priya"</span>, <span class="st">"rahul"</span>, <span class="st">"riya"</span>, <span class="st">"rohan"</span>, <span class="st">"saanvi"</span>, <span class="st">"sneha"</span>, <span class="st">"tanvi"</span>, <span class="st">"vihaan"</span>];
+
+<span class="cm">// 1. Training: count which letter comes after which. "." marks the start and end of a name.</span>
+<span class="kw">const</span> counts = {};
+<span class="kw">for</span> (<span class="kw">const</span> name <span class="kw">of</span> names) {
+  <span class="kw">const</span> chars = [<span class="st">"."</span>, ...name, <span class="st">"."</span>];
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; chars.length - 1; i++) {
+    <span class="kw">const</span> a = chars[i], b = chars[i + 1];
+    counts[a] ??= {};
+    counts[a][b] = (counts[a][b] ?? 0) + 1;
+  }
+}
+console.log(<span class="st">"Letters after 'v':"</span>, counts[<span class="st">"v"</span>]);
+
+<span class="cm">// 2. Generating: pick the next letter in proportion to how often it was seen.</span>
+<span class="kw">function</span> nextChar(prev) {
+  <span class="kw">const</span> options = Object.entries(counts[prev]);
+  <span class="kw">const</span> total = options.reduce((sum, [, c]) =&gt; sum + c, 0);
+  <span class="kw">let</span> r = Math.random() * total;
+  <span class="kw">for</span> (<span class="kw">const</span> [ch, c] <span class="kw">of</span> options) {
+    r -= c;
+    <span class="kw">if</span> (r &lt; 0) <span class="kw">return</span> ch;
+  }
+  <span class="kw">return</span> <span class="st">"."</span>;
+}
+
+<span class="kw">function</span> generateName() {
+  <span class="kw">let</span> name = <span class="st">""</span>, ch = <span class="st">"."</span>;
+  <span class="kw">while</span> (<span class="kw">true</span>) {
+    ch = nextChar(ch);
+    <span class="kw">if</span> (ch === <span class="st">"."</span> || name.length &gt;= 10) <span class="kw">break</span>;
+    name += ch;
+  }
+  <span class="kw">return</span> name;
+}
+
+<span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; 5; i++) console.log(generateName());</pre>
+        <p class="en">One real run printed this (your names will be different, because picking is random):</p><p class="hi">एक असली run ने यह print किया (आपके नाम अलग होंगे, क्योंकि चुनाव random है):</p>
+        <pre class="code" data-copy>Letters after <span class="st">'v'</span>: { <span class="st">'.'</span>: 1, y: 1, i: 3 }
+aa
+kabihan
+tirohunvya
+ka
+ka</pre>
+        <div class="idea"><p class="en"><b>Training</b> = turning examples into numbers (here, the counts). <b>Generating</b> = using those numbers to pick the next piece, one step at a time. GPT does exactly this, with much smarter numbers.</p><p class="hi"><b>Training</b> = examples को numbers में बदलना (यहाँ, गिनतियाँ)। <b>Generating</b> = उन numbers से अगला टुकड़ा चुनना, एक-एक step। GPT बिल्कुल यही करता है, बहुत ज़्यादा समझदार numbers के साथ।</p></div>
+      </section>
+      <section id="learn">
+        <h2 id="learn-h"><span class="en">How real models learn: guess, check, nudge</span><span class="hi">असली models कैसे सीखते हैं: अंदाज़ा, जाँच, सुधार</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Counting works for one letter, but not for long sentences. Real models instead have <b>parameters</b> (numbers) that start random. Training repeats three steps millions of times:</p><p class="hi">एक अक्षर के लिए गिनती काम करती है, पर लंबे वाक्यों के लिए नहीं। असली models में <b>parameters</b> (numbers) होते हैं जो random शुरू होते हैं। Training तीन steps को लाखों बार दोहराती है:</p>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">Guess with current numbers</span><span class="hi">मौजूदा numbers से अंदाज़ा</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Measure the error (loss)</span><span class="hi">ग़लती (loss) नापना</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Nudge every number to reduce the error</span><span class="hi">हर number को थोड़ा खिसकाना ताकि ग़लती घटे</span></div></div><figcaption><span class="en">This loop is called gradient descent. It is how every neural network learns.</span><span class="hi">इस loop को gradient descent कहते हैं। हर neural network ऐसे ही सीखता है।</span></figcaption></figure>
+        <p class="en">The smallest possible example: a model with just <b>2 parameters</b> (w and b) learns the rule y = 2x + 1 only from 4 examples. Press the buttons and watch the error fall:</p><p class="hi">सबसे छोटा example: सिर्फ़ <b>2 parameters</b> (w और b) वाला model सिर्फ़ 4 examples से y = 2x + 1 का नियम सीखता है। Buttons दबाइए और ग़लती घटती देखिए:</p>
+        <div class="viz" id="learn-viz">
+          <div class="viz-title"><span class="en">Try it: watch a model learn</span><span class="hi">ख़ुद देखें: model को सीखते देखिए</span></div>
+          <div class="viz-controls"><button type="button" class="btn btn-outline" data-act="one"><span class="en">Train 1 step</span><span class="hi">1 step train करें</span></button><button type="button" class="btn btn-primary" data-act="many"><span class="en">Train 100 steps</span><span class="hi">100 steps train करें</span></button><button type="button" class="btn btn-outline" data-act="reset"><span class="en">Reset</span><span class="hi">Reset</span></button></div>
+          <div class="learn-state"></div>
+          <div class="viz-msg"><span class="en">Examples: x = 1, 2, 3, 4 → y = 3, 5, 7, 9. The model is never told the rule.</span><span class="hi">Examples: x = 1, 2, 3, 4 → y = 3, 5, 7, 9। Model को नियम कभी नहीं बताया जाता।</span></div>
+        </div>
+        <pre class="code" data-copy><span class="cm">// How training really works: learn y = 2x + 1 just from examples.</span>
+<span class="kw">const</span> data = [[1, 3], [2, 5], [3, 7], [4, 9]]; <span class="cm">// (x, y) pairs</span>
+<span class="kw">let</span> w = 0, b = 0;   <span class="cm">// the model's two parameters, starting at 0</span>
+<span class="kw">const</span> lr = 0.05;    <span class="cm">// learning rate: how big each correction is</span>
+
+<span class="kw">for</span> (<span class="kw">let</span> step = 1; step &lt;= 1000; step++) {
+  <span class="kw">let</span> dw = 0, db = 0, loss = 0;
+  <span class="kw">for</span> (<span class="kw">const</span> [x, y] <span class="kw">of</span> data) {
+    <span class="kw">const</span> guess = w * x + b;  <span class="cm">// the model's prediction</span>
+    <span class="kw">const</span> error = guess - y;  <span class="cm">// how wrong it is</span>
+    loss += error * error;
+    dw += 2 * error * x;      <span class="cm">// which way to nudge w</span>
+    db += 2 * error;          <span class="cm">// which way to nudge b</span>
+  }
+  w -= (lr * dw) / data.length; <span class="cm">// nudge both to reduce the error</span>
+  b -= (lr * db) / data.length;
+  <span class="kw">if</span> ([1, 10, 100, 1000].includes(step)) {
+    console.log(<span class="st">`step ${step}: w=${w.toFixed(3)} b=${b.toFixed(3)} loss=${(loss / data.length).toFixed(4)}`</span>);
+  }
+}</pre>
+        <p class="en">Real output:</p><p class="hi">असली output:</p>
+        <pre class="code" data-copy>step 1: w=1.750 b=0.600 loss=41.0000
+step 10: w=2.084 b=0.754 loss=0.0105
+step 100: w=2.022 b=0.937 loss=0.0007
+step 1000: w=2.000 b=1.000 loss=0.0000</pre>
+        <p class="en">An LLM is the same idea at a huge scale: instead of 2 parameters, it has <b>billions</b>, and instead of "guess y", the task is "guess the next token". That's why training needs so much data, so many GPUs and so much money.</p><p class="hi">LLM भी यही idea है, बहुत बड़े पैमाने पर: 2 parameters की जगह <b>अरबों</b>, और "y का अंदाज़ा" की जगह "अगले token का अंदाज़ा"। इसीलिए training में इतना data, इतने GPUs और इतना पैसा लगता है।</p>
+      </section>
+      <section id="gpt">
+        <h2 id="gpt-h"><span class="en">From our tiny model to GPT</span><span class="hi">हमारे छोटे model से GPT तक</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">Our model only sees one letter, so it can't learn that "Ish" usually becomes "Ishaan". GPT fixes this with a few big ideas:</p><p class="hi">हमारा model सिर्फ़ एक अक्षर देखता है, इसलिए वो नहीं सीख सकता कि "Ish" अक्सर "Ishaan" बनता है। GPT इसे कुछ बड़े ideas से ठीक करता है:</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Idea</span><span class="hi">Idea</span></th><th><span class="en">Our tiny model</span><span class="hi">हमारा छोटा model</span></th><th><span class="en">GPT</span><span class="hi">GPT</span></th></tr></thead><tbody><tr><td><span class="en">Unit of text</span><span class="hi">Text की इकाई</span></td><td><span class="en">One letter</span><span class="hi">एक अक्षर</span></td><td><span class="en">Tokens (word pieces)</span><span class="hi">Tokens (शब्दों के टुकड़े)</span></td></tr><tr><td><span class="en">How far it looks back</span><span class="hi">कितना पीछे देखता है</span></td><td><span class="en">1 letter</span><span class="hi">1 अक्षर</span></td><td><span class="en">Thousands of tokens (the context window)</span><span class="hi">हज़ारों tokens (context window)</span></td></tr><tr><td><span class="en">What it stores</span><span class="hi">क्या याद रखता है</span></td><td><span class="en">A table of counts</span><span class="hi">गिनतियों की table</span></td><td><span class="en">Billions of learned parameters</span><span class="hi">अरबों सीखे हुए parameters</span></td></tr><tr><td><span class="en">How it decides what matters</span><span class="hi">कैसे तय करता है कि क्या ज़रूरी है</span></td><td><span class="en">It can't</span><span class="hi">नहीं कर सकता</span></td><td><span class="en"><b>Attention</b>: each token looks at earlier tokens and weighs the important ones</span><span class="hi"><b>Attention</b>: हर token पिछले tokens को देखकर ज़रूरी वालों को ज़्यादा वज़न देता है</span></td></tr><tr><td><span class="en">Depth</span><span class="hi">गहराई</span></td><td><span class="en">One step</span><span class="hi">एक step</span></td><td><span class="en">Many stacked layers (a Transformer)</span><span class="hi">कई layers एक के ऊपर एक (Transformer)</span></td></tr></tbody></table></div>
+        <div class="idea"><p class="en"><b>Attention in one line:</b> in "Priya gave Rahul her book because <u>she</u> was leaving", attention helps the model link "she" to "Priya", not to "Rahul" or "book".</p><p class="hi"><b>Attention एक line में:</b> "Priya gave Rahul her book because <u>she</u> was leaving" में attention model को "she" को "Priya" से जोड़ने में मदद करता है, "Rahul" या "book" से नहीं।</p></div>
+        <p class="en">You don't need to code attention yourself to understand it. The plan below uses ready-made code that you read and run.</p><p class="hi">Attention समझने के लिए उसे ख़ुद code करना ज़रूरी नहीं। नीचे का plan तैयार code इस्तेमाल करता है जिसे आप पढ़ते और चलाते हैं।</p>
+      </section>
+      <section id="plan">
+        <h2 id="plan-h"><span class="en">Build a real mini GPT: a 4-weekend plan</span><span class="hi">असली mini GPT बनाइए: 4-weekend plan</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">You need basic Python. These free projects are by Andrej Karpathy (an OpenAI co-founder and former head of AI at Tesla), made exactly for learning.</p><p class="hi">थोड़ा Python आना चाहिए। ये free projects Andrej Karpathy (OpenAI के co-founder और Tesla के पूर्व AI head) के हैं, ख़ास सीखने के लिए बनाए गए।</p>
+        <ol><li><span class="en"><b>Weekend 1:</b> watch his YouTube video <b>"Let's build GPT: from scratch, in code, spelled out"</b> (about 2 hours) and code along in Google Colab.</span><span class="hi"><b>Weekend 1:</b> उनका YouTube video <b>"Let's build GPT: from scratch, in code, spelled out"</b> (लगभग 2 घंटे) देखिए और Google Colab में साथ-साथ code कीजिए।</span></li><li><span class="en"><b>Weekend 2:</b> clone <b>nanoGPT</b> from GitHub and train the small Shakespeare model. It runs even on a laptop CPU with the small settings from the project's README.</span><span class="hi"><b>Weekend 2:</b> GitHub से <b>nanoGPT</b> clone कीजिए और छोटा Shakespeare model train कीजिए। Project के README की छोटी settings के साथ ये laptop के CPU पर भी चलता है।</span></li><li><span class="en"><b>Weekend 3:</b> train it on your own text: old WhatsApp-style chats you wrote, Hindi poems, or your notes. Compare results as you change model size and training steps.</span><span class="hi"><b>Weekend 3:</b> अपने text पर train कीजिए: आपकी लिखी पुरानी chats, Hindi कविताएँ, या आपके notes। Model size और training steps बदलते हुए नतीजे compare कीजिए।</span></li><li><span class="en"><b>Weekend 4:</b> read <b>nanochat</b>, which goes all the way to a small ChatGPT (pre-training, fine-tuning and a chat web page). Running it fully needs a rented multi-GPU machine, so read the code first and run it only if you want to spend about $100.</span><span class="hi"><b>Weekend 4:</b> <b>nanochat</b> पढ़िए, जो एक छोटे ChatGPT तक पूरा ले जाता है (pre-training, fine-tuning और chat web page)। इसे पूरा चलाने के लिए किराए की multi-GPU machine चाहिए, इसलिए पहले code पढ़िए और चलाइए तभी जब लगभग $100 ख़र्च करना चाहें।</span></li></ol>
+        <p class="en">The nanoGPT quick start, from its README:</p><p class="hi">nanoGPT का quick start, उसके README से:</p>
+        <pre class="code" data-copy># inside the nanoGPT folder (Python + PyTorch installed)
+python data/shakespeare_char/prepare.py
+python train.py config/train_shakespeare_char.py   # GPU, or add the README's CPU settings
+python sample.py --out_dir=out-shakespeare-char</pre>
+        <h3><span class="en">Most useful for work: fine-tune instead</span><span class="hi">काम के लिए सबसे उपयोगी: fine-tuning</span></h3>
+        <p class="en">Building from zero teaches you how LLMs work. For a real product, it's smarter to <b>fine-tune</b> a strong open model (like Llama, Qwen or Gemma) on your own examples, for example Hindi support replies for a business. Techniques like LoRA make this possible on a free Colab GPU for small models. See <b>Hugging Face</b> and <b>Unsloth</b> tutorials, and first check our <a href="fine-tuning.html">fine-tuning vs RAG vs prompting</a> module, because often RAG or better prompts are enough.</p><p class="hi">Zero से बनाना सिखाता है कि LLMs कैसे काम करते हैं। असली product के लिए किसी अच्छे open model (जैसे Llama, Qwen या Gemma) को अपने examples पर <b>fine-tune</b> करना ज़्यादा समझदारी है, जैसे किसी business के Hindi support जवाब। LoRA जैसी techniques से छोटे models के लिए यह free Colab GPU पर भी हो जाता है। <b>Hugging Face</b> और <b>Unsloth</b> के tutorials देखिए, और पहले हमारा <a href="fine-tuning.html">fine-tuning vs RAG vs prompting</a> module पढ़िए, क्योंकि अक्सर RAG या बेहतर prompts ही काफ़ी होते हैं।</p>
+        <div class="say"><p class="en">🎤 Resume line: "Trained a character-level GPT from scratch with nanoGPT on a custom Hindi dataset; compared model sizes and training steps on validation loss."</p><p class="hi">🎤 Resume line: "Trained a character-level GPT from scratch with nanoGPT on a custom Hindi dataset; compared model sizes and training steps on validation loss."</p></div>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Trying to build a ChatGPT competitor alone. Build small to learn; fine-tune for products.</span><span class="hi">अकेले ChatGPT जैसा बनाने की कोशिश। सीखने के लिए छोटा बनाइए; products के लिए fine-tune कीजिए।</span></li><li><span class="en">Renting expensive GPUs before the small version works on your laptop or Colab.</span><span class="hi">छोटा version laptop या Colab पर चलने से पहले ही महँगे GPUs किराए पर लेना।</span></li><li><span class="en">Training on other people's private data. Use your own text or openly licensed datasets.</span><span class="hi">दूसरों के private data पर train करना। अपना text या openly licensed datasets इस्तेमाल कीजिए।</span></li></ul></div>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 4 things</span><span class="hi">ये 4 बातें याद रखिए</span></div><ol><li><span class="en">A base model only predicts the next token; fine-tuning makes it an assistant.</span><span class="hi">Base model सिर्फ़ अगला token predict करता है; fine-tuning उसे assistant बनाती है।</span></li><li><span class="en">Training = guess → measure the error → nudge the parameters, repeated millions of times.</span><span class="hi">Training = अंदाज़ा → ग़लती नापना → parameters खिसकाना, लाखों बार।</span></li><li><span class="en">GPT adds tokens, a long context, attention and many layers to the same idea.</span><span class="hi">GPT इसी idea में tokens, लंबा context, attention और कई layers जोड़ता है।</span></li><li><span class="en">Learn with nanoGPT and nanochat; for products, fine-tune an open model or use RAG.</span><span class="hi">nanoGPT और nanochat से सीखिए; products के लिए open model fine-tune कीजिए या RAG इस्तेमाल कीजिए।</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: In the demo above, train on 30 Indian city names instead of people's names. What changes in the generated output, and why?</span><span class="hi">Exercise 1: ऊपर के demo में लोगों के नामों की जगह 30 भारतीय शहरों के नामों पर train कीजिए। Generate हुए output में क्या बदलता है, और क्यों?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">The new words start to look like city names (you may see endings like "-pur", "-abad" or "-garh"), because the counts now come from city names. <b>A model can only learn what is in its training data.</b> That is why data quality matters so much for real LLMs too.</p><p class="hi">नए शब्द शहरों जैसे दिखने लगते हैं ("-pur", "-abad" या "-garh" जैसे endings आ सकते हैं), क्योंकि अब गिनतियाँ शहरों के नामों से आती हैं। <b>Model वही सीख सकता है जो उसके training data में है।</b> इसीलिए असली LLMs के लिए भी data की quality बहुत ज़रूरी है।</p></div></details></div>
+    <div class="exercise"><p class="q-text"><span class="en">Exercise 2: A company wants an AI that answers customer questions in Hindi about its products. Should it build its own base model?</span><span class="hi">Exercise 2: एक company अपने products के बारे में Hindi में customer सवालों के जवाब देने वाला AI चाहती है। क्या उसे अपना base model बनाना चाहिए?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">No. Building a base model costs a fortune and gives a weak result. Start with an existing strong model plus <b>RAG</b> over the product documents. If the tone or format still isn't right, <b>fine-tune</b> an open model on a few hundred good example answers.</p><p class="hi">नहीं। Base model बनाना बहुत महँगा है और नतीजा कमज़ोर आता है। पहले किसी मौजूदा अच्छे model के साथ product documents पर <b>RAG</b> से शुरू कीजिए। अगर tone या format फिर भी ठीक न हो, तो किसी open model को कुछ सौ अच्छे example जवाबों पर <b>fine-tune</b> कीजिए।</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"What does a base model learn during pre-training?","hi":"Pre-training में base model क्या सीखता है?"},"options":[{"en":"To follow instructions politely","hi":"शिष्टता से निर्देश मानना"},{"en":"To predict the next token","hi":"अगला token predict करना"},{"en":"To search the internet","hi":"Internet search करना"},{"en":"Company rules","hi":"Company के नियम"}],"answer":1,"why":{"en":"Pre-training teaches only next-token prediction. Fine-tuning adds assistant behaviour.","hi":"Pre-training सिर्फ़ अगला token predict करना सिखाती है। Fine-tuning assistant वाला व्यवहार जोड़ती है।"}},{"q":{"en":"In our tiny model, what is \"training\"?","hi":"हमारे छोटे model में \"training\" क्या है?"},"options":[{"en":"Downloading ChatGPT","hi":"ChatGPT download करना"},{"en":"Counting which letter follows which","hi":"गिनना कि कौन-सा अक्षर किसके बाद आता है"},{"en":"Writing rules by hand","hi":"हाथ से नियम लिखना"},{"en":"Buying a GPU","hi":"GPU ख़रीदना"}],"answer":1,"why":{"en":"The counts are the model's learned numbers.","hi":"गिनतियाँ ही model के सीखे हुए numbers हैं।"}},{"q":{"en":"What is \"loss\"?","hi":"\"Loss\" क्या है?"},"options":[{"en":"Money spent on GPUs","hi":"GPUs पर ख़र्च हुआ पैसा"},{"en":"A number for how wrong the model's guesses are","hi":"एक number जो बताता है model के अंदाज़े कितने ग़लत हैं"},{"en":"Deleted data","hi":"Delete हुआ data"},{"en":"A type of token","hi":"एक तरह का token"}],"answer":1,"why":{"en":"Training keeps nudging parameters to make the loss smaller.","hi":"Training parameters को खिसकाती रहती है ताकि loss छोटा हो।"}},{"q":{"en":"What lets GPT link \"she\" to the right person in a long sentence?","hi":"लंबे वाक्य में \"she\" को सही व्यक्ति से जोड़ने में GPT की मदद क्या करता है?"},"options":[{"en":"Temperature","hi":"Temperature"},{"en":"Attention","hi":"Attention"},{"en":"Counting letters","hi":"अक्षर गिनना"},{"en":"A bigger font","hi":"बड़ा font"}],"answer":1,"why":{"en":"Attention lets each token weigh the earlier tokens that matter.","hi":"Attention हर token को ज़रूरी पिछले tokens को ज़्यादा वज़न देने देता है।"}},{"q":{"en":"For a company's Hindi support bot, the smartest first step is…","hi":"किसी company के Hindi support bot के लिए सबसे समझदार पहला कदम…"},"options":[{"en":"Train a new base model","hi":"नया base model train करना"},{"en":"Use an existing model with RAG, and fine-tune only if needed","hi":"मौजूदा model के साथ RAG, और ज़रूरत हो तभी fine-tune"},{"en":"Rent 1,000 GPUs","hi":"1,000 GPUs किराए पर लेना"},{"en":"Write if-else rules","hi":"if-else नियम लिखना"}],"answer":1,"why":{"en":"Base models from scratch are for learning or for very large companies.","hi":"Zero से base models सीखने के लिए या बहुत बड़ी companies के लिए हैं।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="ai:build-mini-gpt"></button>
+        </div>
+        <div class="lesson-nav"><span class="btn btn-outline" style="opacity:.55;cursor:default">← <span class="en">Fine-tuning vs RAG vs prompting (soon)</span><span class="hi">Fine-tuning vs RAG vs prompting (जल्द)</span></span><span class="btn btn-outline" style="opacity:.55;cursor:default">→ <span class="en">Transformers and attention (interview theory) (soon)</span><span class="hi">Transformers और attention (interview theory) (जल्द)</span></span></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20AI%20module%3A%20Build%20your%20own%20mini%20GPT" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20AI%20module%3A%20Build%20your%20own%20mini%20GPT" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"ai","m":["Artificial Intelligence"],"en":"Computers doing tasks that normally need human intelligence: understanding language, recognising images, making decisions.","hi":"Computers का ऐसे काम करना जिनमें आमतौर पर इंसानी समझ लगती है: भाषा समझना, तस्वीरें पहचानना, फ़ैसले लेना।"},{"s":"ml","m":["machine learning","Machine learning"],"en":"Teaching computers by showing them many examples, instead of writing every rule by hand.","hi":"हर नियम हाथ से लिखने की जगह, बहुत सारे examples दिखाकर computer को सिखाना।"},{"s":"deep-learning","m":["deep learning","Deep learning"],"en":"Machine learning with large neural networks (many layers). Powers modern AI.","hi":"बड़े neural networks (कई layers) वाली machine learning। आज की AI इसी से चलती है।"},{"s":"neural-network","m":["neural network","neural networks"],"en":"A program made of many connected number-crunching units, loosely inspired by the brain.","hi":"बहुत सारी जुड़ी हुई गणना करने वाली units से बना program, दिमाग़ से थोड़ा प्रेरित।"},{"s":"llm","m":["LLM","LLMs"],"en":"An AI trained on huge amounts of text to predict the next token. ChatGPT, Claude and Gemini are LLMs.","hi":"बहुत सारे text पर trained AI जो अगला token predict करता है। ChatGPT, Claude और Gemini LLMs हैं।"},{"s":"generative-ai","m":["generative AI","Generative AI"],"en":"AI that creates new content: text, images, code, audio or video.","hi":"AI जो नया content बनाता है: text, images, code, audio या video।"},{"s":"model","m":["model","models"],"en":"The trained AI itself: a large file of learned numbers (parameters) plus the code that runs it.","hi":"Trained AI ख़ुद: सीखे हुए numbers (parameters) की बड़ी file और उसे चलाने वाला code।"},{"s":"parameters","m":["parameters"],"en":"The numbers a model learned during training. More parameters usually means more capable, and more costly to run.","hi":"Training में model के सीखे हुए numbers। ज़्यादा parameters आमतौर पर ज़्यादा क़ाबिल, और चलाने में ज़्यादा महँगा।"},{"s":"training","m":["training"],"en":"Teaching a model by adjusting its parameters on huge data. Very expensive; done by AI companies.","hi":"बहुत बड़े data पर parameters बदलकर model को सिखाना। बहुत महँगा; AI companies करती हैं।"},{"s":"inference","m":["inference"],"en":"Using a trained model to produce an answer. Every API call is inference.","hi":"Trained model से जवाब निकलवाना। हर API call inference है।"},{"s":"token","m":["token","tokens"],"en":"A small piece of text (part of a word) that an LLM reads and writes. Usage and cost are counted in tokens.","hi":"Text का छोटा टुकड़ा (शब्द का हिस्सा) जिसे LLM पढ़ता और लिखता है। Usage और cost tokens में गिने जाते हैं।"},{"s":"context-window","m":["context window"],"en":"How many tokens the model can see at once: instructions, chat history, documents and its answer together.","hi":"Model एक बार में कितने tokens देख सकता है: निर्देश, chat history, documents और उसका जवाब मिलाकर।"},{"s":"prompt","m":["prompt","prompts"],"en":"The input you give the model: your question, instructions and any data.","hi":"Model को दिया गया input: आपका सवाल, निर्देश और कोई भी data।"},{"s":"system-prompt","m":["system prompt"],"en":"Instructions from the developer that set the AI's role and rules for the whole conversation.","hi":"Developer के निर्देश जो पूरी बातचीत के लिए AI का role और नियम तय करते हैं।"},{"s":"temperature","m":["temperature"],"en":"How random the word choice is. Low = predictable, high = creative.","hi":"शब्द चुनने में कितना random-पन। कम = अनुमानित, ज़्यादा = creative।"},{"s":"hallucination","m":["hallucination","hallucinate"],"en":"When an AI confidently says something false or made up.","hi":"जब AI पूरे भरोसे से कुछ ग़लत या मनगढ़ंत बोल दे।"},{"s":"few-shot","m":["few-shot"],"en":"Showing the model a few examples of the input and output you want.","hi":"Model को आपके चाहे गए input और output के कुछ examples दिखाना।"},{"s":"streaming","m":["streaming"],"en":"Showing the answer word by word as it's generated, instead of waiting for the whole answer.","hi":"पूरे जवाब का इंतज़ार करने की जगह, जवाब को बनते-बनते शब्द-दर-शब्द दिखाना।"},{"s":"api-key","m":["API key"],"en":"A secret password your server uses to call an AI API. Never put it in frontend code or GitHub.","hi":"एक secret password जिससे आपका server AI API call करता है। इसे कभी frontend code या GitHub में मत डालिए।"},{"s":"sdk","m":["SDK"],"en":"A ready-made library that makes calling an API easy in your language.","hi":"एक तैयार library जो आपकी language में API call करना आसान बनाती है।"},{"s":"embedding","m":["embedding","embeddings"],"en":"A list of numbers that represents the meaning of a text. Similar meanings have similar numbers.","hi":"Numbers की list जो text के मतलब को दिखाती है। मिलते-जुलते मतलब के numbers भी मिलते-जुलते होते हैं।"},{"s":"vector","m":["vector","vectors"],"en":"Another word for a list of numbers, like an embedding.","hi":"Numbers की list का दूसरा नाम, जैसे embedding।"},{"s":"cosine-similarity","m":["cosine similarity"],"en":"A score of how close two embeddings are in meaning: near 1 = very similar, near 0 = unrelated.","hi":"दो embeddings मतलब में कितने पास हैं, उसका score: 1 के पास = बहुत मिलते-जुलते, 0 के पास = कोई संबंध नहीं।"},{"s":"semantic-search","m":["semantic search"],"en":"Searching by meaning instead of exact words: \"fees\" also finds \"charges\".","hi":"Exact शब्दों की जगह मतलब से search: \"fees\" से \"charges\" भी मिल जाता है।"},{"s":"vector-db","m":["vector database","vector databases"],"en":"A database that stores embeddings and quickly finds the closest ones. Examples: pgvector, Pinecone, Qdrant.","hi":"Database जो embeddings रखता है और सबसे पास वाले जल्दी ढूँढता है। जैसे pgvector, Pinecone, Qdrant।"},{"s":"pgvector","m":["pgvector"],"en":"An extension that adds vector search to PostgreSQL.","hi":"एक extension जो PostgreSQL में vector search जोड़ता है।"},{"s":"chunking","m":["chunking","chunks","chunk"],"en":"Splitting long documents into small pieces before creating embeddings.","hi":"Embeddings बनाने से पहले लंबे documents को छोटे टुकड़ों में बाँटना।"},{"s":"rag","m":["RAG"],"en":"Retrieval-Augmented Generation: find relevant information first, then give it to the LLM with the question.","hi":"Retrieval-Augmented Generation: पहले सही जानकारी ढूँढो, फिर सवाल के साथ LLM को दो।"},{"s":"grounding","m":["grounded","grounding"],"en":"Making the AI answer only from given sources, so it doesn't make things up.","hi":"AI को सिर्फ़ दिए गए sources से जवाब देने को कहना, ताकि वो बातें न बनाए।"},{"s":"tool-calling","m":["tool calling","function calling"],"en":"The model asks your code to run a function (like checking a database) and uses the result.","hi":"Model आपके code से कोई function चलवाता है (जैसे database check करना) और नतीजा इस्तेमाल करता है।"},{"s":"agent","m":["agent","agents"],"en":"An AI that works in a loop: decides a step, uses tools, checks results, and repeats until the task is done.","hi":"AI जो loop में काम करता है: step तय करता है, tools इस्तेमाल करता है, नतीजे देखता है, और काम पूरा होने तक दोहराता है।"},{"s":"mcp","m":["MCP"],"en":"Model Context Protocol: a standard way to connect AI apps to tools and data sources.","hi":"Model Context Protocol: AI apps को tools और data sources से जोड़ने का standard तरीक़ा।"},{"s":"fine-tuning","m":["fine-tuning","fine-tune"],"en":"Further training a model on your examples to change its style or behaviour.","hi":"अपने examples पर model को और train करना, उसका style या व्यवहार बदलने के लिए।"},{"s":"evals","m":["evals","eval"],"en":"Tests for AI quality: a set of questions with expected answers, scored automatically.","hi":"AI quality के tests: अपेक्षित जवाबों वाले सवालों का set, जो अपने आप score होता है।"},{"s":"prompt-injection","m":["prompt injection"],"en":"When text from a user or document tries to override the AI's instructions.","hi":"जब user या document का text AI के निर्देशों को बदलने की कोशिश करे।"},{"s":"prompt-caching","m":["prompt caching"],"en":"Reusing the processed start of a long prompt across requests, so repeated calls are cheaper and faster.","hi":"लंबे prompt की शुरुआत को requests के बीच दोबारा इस्तेमाल करना, ताकि बार-बार की calls सस्ती और तेज़ हों।"},{"s":"transformer","m":["Transformer","Transformers"],"en":"The neural network design behind modern LLMs. It reads all tokens together and uses attention.","hi":"आज के LLMs के पीछे का neural network design। यह सारे tokens साथ में पढ़ता है और attention इस्तेमाल करता है।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">AI from Zero to Job-Ready</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">AI course by Agam Sahu</span><span class="hi">AI कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>
