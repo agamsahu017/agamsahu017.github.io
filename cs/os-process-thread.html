@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Process vs Thread, Concurrency and Race Conditions | Kodivo</title>
+  <meta name="description" content="Operating system basics for interviews: program vs process vs thread, context switching, concurrency vs parallelism, race conditions and locks, with code." />
+  <link rel="canonical" href="https://agamsahu017.github.io/cs/os-process-thread.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/cs/os-process-thread.html" />
+  <meta property="og:title" content="Process vs Thread, Concurrency and Race Conditions | Kodivo" />
+  <meta property="og:description" content="Operating system basics for interviews: program vs process vs thread, context switching, concurrency vs parallelism, race conditions and locks, with code." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "CS Fundamentals for Interviews",
+          "item": "https://agamsahu017.github.io/cs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Processes, threads and concurrency",
+          "item": "https://agamsahu017.github.io/cs/os-process-thread.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Process vs Thread, Concurrency and Race Conditions",
+      "description": "Operating system basics for interviews: program vs process vs thread, context switching, concurrency vs parallelism, race conditions and locks, with code.",
+      "datePublished": "2026-10-30",
+      "dateModified": "2026-10-30",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "CS Fundamentals for Interviews",
+        "url": "https://agamsahu017.github.io/cs/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">CS Fundamentals</span><span class="hi">CS Fundamentals</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20CS%20Fundamentals%20on%20your%20website%20(Processes%2C%20threads%20and%20concurrency)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">CS Fundamentals</a> › <span>Processes, threads and concurrency</span></nav>
+        <span class="pill"><span class="en">Module 11 of 25</span><span class="hi">मॉड्यूल 11 / 25</span></span>
+        <h1><span class="en">Processes, threads and concurrency</span><span class="hi">Processes, threads और concurrency</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>📚 CS Fundamentals</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> A process is a running program with its own memory; threads are workers inside it that share that memory, which is fast but can cause race conditions.</p><p class="hi"><b>एक लाइन में:</b> Process अपनी memory वाला चलता हुआ program है; threads उसके अंदर के workers हैं जो वो memory बाँटते हैं, जो तेज़ है पर race conditions पैदा कर सकता है।</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Program vs process vs thread, with a simple example</span><span class="hi">Program vs process vs thread, आसान उदाहरण के साथ</span></li><li><span class="en">Context switching, concurrency and parallelism</span><span class="hi">Context switching, concurrency और parallelism</span></li><li><span class="en">What a race condition is, shown with real code</span><span class="hi">Race condition क्या है, असली code से</span></li><li><span class="en">Locks, and the interview answers to remember</span><span class="hi">Locks, और याद रखने वाले interview जवाब</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#basics"><span class="en">Program, process, thread</span><span class="hi">Program, process, thread</span></a><a href="#concurrency"><span class="en">Concurrency</span><span class="hi">Concurrency</span></a><a href="#race"><span class="en">Race conditions</span><span class="hi">Race conditions</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">Glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">Glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="basics">
+        <h2 id="basics-h"><span class="en">Program, process and thread</span><span class="hi">Program, process और thread</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Think of a restaurant. The <b>recipe book</b> is a program (just instructions on disk). A running <b>kitchen</b> using that recipe is a process: it has its own space and ingredients (memory). The <b>cooks</b> inside the kitchen are threads: they work at the same time and share the same ingredients.</p><p class="hi">एक restaurant सोचिए। <b>Recipe book</b> एक program है (disk पर सिर्फ़ निर्देश)। उस recipe से चलती <b>kitchen</b> एक process है: उसकी अपनी जगह और सामान (memory) है। Kitchen के अंदर के <b>cooks</b> threads हैं: वो एक साथ काम करते हैं और वही सामान बाँटते हैं।</p>
+        <div class="table-wrap"><table><thead><tr><th></th><th>Process</th><th>Thread</th></tr></thead><tbody><tr><td><span class="en">What</span><span class="hi">क्या</span></td><td><span class="en">A running program</span><span class="hi">चलता हुआ program</span></td><td><span class="en">A worker inside a process</span><span class="hi">Process के अंदर का worker</span></td></tr><tr><td><span class="en">Memory</span><span class="hi">Memory</span></td><td><span class="en">Its own, separate</span><span class="hi">अपनी, अलग</span></td><td><span class="en">Shared with other threads of the same process</span><span class="hi">उसी process के दूसरे threads के साथ साझा</span></td></tr><tr><td><span class="en">Creating / switching</span><span class="hi">बनाना / switch करना</span></td><td><span class="en">Slower, heavier</span><span class="hi">धीमा, भारी</span></td><td><span class="en">Faster, lighter</span><span class="hi">तेज़, हल्का</span></td></tr><tr><td><span class="en">If one crashes</span><span class="hi">एक crash हो तो</span></td><td><span class="en">Others are safe</span><span class="hi">बाक़ी सुरक्षित</span></td><td><span class="en">Can bring down the whole process</span><span class="hi">पूरा process गिरा सकता है</span></td></tr><tr><td><span class="en">Talk to each other</span><span class="hi">आपस में बात</span></td><td><span class="en">Inter-process communication (pipes, sockets)</span><span class="hi">Inter-process communication (pipes, sockets)</span></td><td><span class="en">Directly through shared memory</span><span class="hi">सीधे shared memory से</span></td></tr></tbody></table></div>
+        <p class="en">Example: Chrome runs each tab as a separate <b>process</b>, so one crashing tab doesn't close the others.</p><p class="hi">उदाहरण: Chrome हर tab को अलग <b>process</b> की तरह चलाता है, इसलिए एक tab crash हो तो बाक़ी बंद नहीं होते।</p>
+      </section>
+      <section id="concurrency">
+        <h2 id="concurrency-h"><span class="en">Context switching, concurrency and parallelism</span><span class="hi">Context switching, concurrency और parallelism</span></h2>
+        <ul><li><span class="en"><b>Context switch:</b> the CPU pauses one task, saves its state, and loads another. Done thousands of times a second, it makes many programs look like they run together. Each switch has a small cost.</span><span class="hi"><b>Context switch:</b> CPU एक task रोकता है, उसकी हालत save करता है, और दूसरा load करता है। एक second में हज़ारों बार होने से कई programs साथ चलते लगते हैं। हर switch की थोड़ी cost होती है।</span></li><li><span class="en"><b>Concurrency:</b> dealing with many tasks by switching between them. One cook handling three orders, a bit of each.</span><span class="hi"><b>Concurrency:</b> बीच-बीच में switch करके कई tasks संभालना। एक cook तीन orders, थोड़ा-थोड़ा हर एक।</span></li><li><span class="en"><b>Parallelism:</b> really doing tasks at the same instant on multiple CPU cores. Three cooks, one order each.</span><span class="hi"><b>Parallelism:</b> कई CPU cores पर सच में एक ही पल tasks करना। तीन cooks, हर एक का एक order।</span></li></ul>
+        <div class="idea"><p class="en"><b>Node.js note:</b> your JavaScript runs on one main thread with an event loop. It's great at concurrency (waiting for many network calls), but heavy CPU work blocks everything. For that, use worker threads or separate processes.</p><p class="hi"><b>Node.js note:</b> आपकी JavaScript एक main thread पर event loop के साथ चलती है। यह concurrency में बढ़िया है (कई network calls का इंतज़ार), पर भारी CPU काम सब कुछ रोक देता है। उसके लिए worker threads या अलग processes इस्तेमाल कीजिए।</p></div>
+      </section>
+      <section id="race">
+        <h2 id="race-h"><span class="en">Race condition: when sharing goes wrong</span><span class="hi">Race condition: जब बाँटना ग़लत हो जाए</span></h2>
+        <p class="en">Two tasks read the same value, both change it, and one overwrites the other. Classic example: two withdrawals from the same bank account at the same time.</p><p class="hi">दो tasks एक ही value पढ़ते हैं, दोनों उसे बदलते हैं, और एक दूसरे को overwrite कर देता है। Classic उदाहरण: एक ही bank account से एक साथ दो withdrawals।</p>
+        <pre class="code" data-copy><span class="cm">// You can run this in Node.js. Balance 1000, withdraw 300 and 500 at the same time.</span>
+<span class="kw">let</span> balance = 1000;
+<span class="kw">const</span> wait = (ms) =&gt; <span class="kw">new</span> Promise((r) =&gt; setTimeout(r, ms));
+
+<span class="kw">async</span> <span class="kw">function</span> withdraw(amount) {
+  <span class="kw">const</span> current = balance;      <span class="cm">// 1. read</span>
+  <span class="kw">await</span> wait(10);               <span class="cm">// 2. something slow, like a database call</span>
+  balance = current - amount;   <span class="cm">// 3. write</span>
+}
+
+<span class="kw">await</span> Promise.all([withdraw(300), withdraw(500)]);
+console.log(balance); <span class="cm">// expected 200, but prints 500: one withdrawal was lost!</span></pre>
+        <p class="en">Both withdrawals read 1000 before either wrote. The second write wiped out the first. This happens in databases, threads and async code alike.</p><p class="hi">दोनों withdrawals ने किसी के लिखने से पहले 1000 पढ़ा। दूसरे write ने पहले को मिटा दिया। यह databases, threads और async code, सब में होता है।</p>
+        <h3><span class="en">The fix: a lock (only one at a time)</span><span class="hi">हल: एक lock (एक बार में एक)</span></h3>
+        <pre class="code" data-copy>balance = 1000;
+<span class="kw">let</span> lock = Promise.resolve();
+
+<span class="kw">function</span> safeWithdraw(amount) {
+  <span class="cm">// wait for the previous withdrawal to finish, then run this one</span>
+  lock = lock.then(<span class="kw">async</span> () =&gt; {
+    <span class="kw">const</span> current = balance;
+    <span class="kw">await</span> wait(10);
+    balance = current - amount;
+  });
+  <span class="kw">return</span> lock;
+}
+
+<span class="kw">await</span> Promise.all([safeWithdraw(300), safeWithdraw(500)]);
+console.log(balance); <span class="cm">// 200 ✅</span></pre>
+        <p class="en">We ran both snippets: the first prints 500, the fixed one prints 200. In threads, the same idea is a <b>mutex</b>. In databases, it's a transaction with row locking, or an atomic update like <code>UPDATE accounts SET balance = balance - 300 WHERE id = 1</code>.</p><p class="hi">हमने दोनों snippets चलाए: पहला 500 print करता है, ठीक किया हुआ 200। Threads में यही idea <b>mutex</b> है। Databases में row locking वाला transaction, या <code>UPDATE accounts SET balance = balance - 300 WHERE id = 1</code> जैसा atomic update।</p>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Saying threads have separate memory. Threads share their process's memory; processes are separate.</span><span class="hi">यह कहना कि threads की memory अलग होती है। Threads अपने process की memory बाँटते हैं; processes अलग होते हैं।</span></li><li><span class="en">Mixing up concurrency (switching) and parallelism (truly simultaneous).</span><span class="hi">Concurrency (switch करना) और parallelism (सच में एक साथ) में गड़बड़।</span></li><li><span class="en">Thinking JavaScript is free of race conditions because it's single-threaded. Async code can still interleave.</span><span class="hi">यह सोचना कि JavaScript single-threaded है इसलिए race conditions नहीं होतीं। Async code फिर भी बीच में घुल-मिल सकता है।</span></li></ul></div>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 3 things</span><span class="hi">ये 3 बातें याद रखिए</span></div><ol><li><span class="en">Process = running program with its own memory. Thread = worker inside it, sharing memory.</span><span class="hi">Process = अपनी memory वाला चलता program। Thread = उसके अंदर का worker, memory बाँटता है।</span></li><li><span class="en">Concurrency = switching between tasks; parallelism = truly at the same time.</span><span class="hi">Concurrency = tasks के बीच switch; parallelism = सच में एक साथ।</span></li><li><span class="en">Shared data + no lock = race condition. Fix with locks, transactions or atomic updates.</span><span class="hi">Shared data + कोई lock नहीं = race condition। Locks, transactions या atomic updates से ठीक कीजिए।</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: A ticket booking site sometimes sells the same seat to two people. Explain why, and give two fixes.</span><span class="hi">Exercise 1: एक ticket booking site कभी-कभी एक ही seat दो लोगों को बेच देती है। क्यों, समझाइए, और दो हल दीजिए।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><ul><li><span class="en"><b>Why:</b> a race condition. Both requests checked "is seat 12 free?" before either saved the booking.</span><span class="hi"><b>क्यों:</b> race condition। दोनों requests ने booking save होने से पहले "seat 12 ख़ाली है?" check किया।</span></li><li><span class="en"><b>Fix 1:</b> an atomic update: <code>UPDATE seats SET status = 'BOOKED', user_id = 7 WHERE id = 12 AND status = 'FREE'</code>, and treat "0 rows updated" as "already taken".</span><span class="hi"><b>हल 1:</b> atomic update: <code>UPDATE seats SET status = 'BOOKED', user_id = 7 WHERE id = 12 AND status = 'FREE'</code>, और "0 rows updated" को "पहले ही बिक गई" मानिए।</span></li><li><span class="en"><b>Fix 2:</b> lock the row inside a transaction (<code>SELECT … FOR UPDATE</code>), or a unique constraint so the database itself refuses a second booking.</span><span class="hi"><b>हल 2:</b> transaction के अंदर row lock कीजिए (<code>SELECT … FOR UPDATE</code>), या unique constraint ताकि database ख़ुद दूसरी booking मना कर दे।</span></li></ul></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Threads of the same process…","hi":"एक ही process के threads…"},"options":[{"en":"Have completely separate memory","hi":"की memory पूरी अलग होती है"},{"en":"Share the process's memory","hi":"process की memory बाँटते हैं"},{"en":"Run on different computers","hi":"अलग computers पर चलते हैं"},{"en":"Can't run together","hi":"साथ नहीं चल सकते"}],"answer":1,"why":{"en":"Sharing memory makes threads fast to communicate, and risky without locks.","hi":"Memory बाँटने से threads जल्दी बात कर पाते हैं, और lock के बिना जोखिम भी है।"}},{"q":{"en":"Chrome runs each tab as a separate process. Main benefit?","hi":"Chrome हर tab को अलग process में चलाता है। मुख्य फ़ायदा?"},"options":[{"en":"Uses less memory","hi":"कम memory"},{"en":"One crashing tab doesn't kill the others","hi":"एक tab crash हो तो बाक़ी बचे रहते हैं"},{"en":"Faster typing","hi":"तेज़ typing"},{"en":"No internet needed","hi":"Internet नहीं चाहिए"}],"answer":1,"why":{"en":"Processes are isolated from each other.","hi":"Processes एक-दूसरे से अलग रहते हैं।"}},{"q":{"en":"One cook juggling three orders is…","hi":"एक cook का तीन orders संभालना है…"},"options":["Parallelism","Concurrency","Deadlock","Paging"],"answer":1,"why":{"en":"Switching between tasks = concurrency.","hi":"Tasks के बीच switch करना = concurrency।"}},{"q":{"en":"Two updates read the same balance and one overwrites the other. This is…","hi":"दो updates एक ही balance पढ़ते हैं और एक दूसरे को overwrite करता है। यह है…"},"options":[{"en":"A deadlock","hi":"Deadlock"},{"en":"A race condition","hi":"Race condition"},{"en":"A page fault","hi":"Page fault"},{"en":"Normal behaviour","hi":"सामान्य व्यवहार"}],"answer":1,"why":{"en":"The result depends on timing: a race condition.","hi":"नतीजा timing पर निर्भर है: race condition।"}},{"q":{"en":"A simple fix for a race on shared data is…","hi":"Shared data पर race का आसान हल है…"},"options":[{"en":"A lock / mutex","hi":"Lock / mutex"},{"en":"More threads","hi":"और threads"},{"en":"A faster CPU","hi":"तेज़ CPU"},{"en":"Removing the database","hi":"Database हटाना"}],"answer":0,"why":{"en":"Only one task at a time enters the critical section.","hi":"एक बार में सिर्फ़ एक task critical section में जाता है।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="cs:os-process-thread"></button>
+        </div>
+        <div class="lesson-nav"><span class="btn btn-outline" style="opacity:.55;cursor:default">← <span class="en">Top SQL interview queries (soon)</span><span class="hi">Top SQL interview queries (जल्द)</span></span><span class="btn btn-outline" style="opacity:.55;cursor:default">→ <span class="en">CPU scheduling (soon)</span><span class="hi">CPU scheduling (जल्द)</span></span></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20CS%20Fundamentals%20module%3A%20Processes%2C%20threads%20and%20concurrency" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20CS%20Fundamentals%20module%3A%20Processes%2C%20threads%20and%20concurrency" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"ip","m":["IP address","IP addresses"],"en":"The address of a device on a network, like 142.250.183.14.","hi":"Network पर किसी device का address, जैसे 142.250.183.14।"},{"s":"dns","m":["DNS"],"en":"The internet's phonebook: turns a name like google.com into an IP address.","hi":"Internet की phonebook: google.com जैसे नाम को IP address में बदलता है।"},{"s":"tcp","m":["TCP"],"en":"A protocol that delivers data reliably and in order, re-sending anything lost.","hi":"एक protocol जो data को भरोसे से और सही क्रम में पहुँचाता है, खोया data दोबारा भेजता है।"},{"s":"udp","m":["UDP"],"en":"A fast protocol with no delivery guarantee. Used for video calls, games and DNS.","hi":"एक तेज़ protocol जिसमें पहुँचने की गारंटी नहीं। Video calls, games और DNS में इस्तेमाल।"},{"s":"port","m":["port","ports"],"en":"A number that tells which program on a computer should receive the data, like 443 for HTTPS.","hi":"एक number जो बताता है कि computer का कौन-सा program data लेगा, जैसे HTTPS के लिए 443।"},{"s":"http","m":["HTTP","HTTPS"],"en":"The language of the web between browser and server. HTTPS is the encrypted version.","hi":"Browser और server के बीच web की भाषा। HTTPS उसका encrypted रूप है।"},{"s":"tls","m":["TLS"],"en":"The encryption that puts the S in HTTPS. It proves the site's identity with a certificate.","hi":"वो encryption जिससे HTTPS में S आता है। यह certificate से site की पहचान साबित करता है।"},{"s":"handshake","m":["handshake"],"en":"A few setup messages before real data, like TCP's SYN, SYN-ACK, ACK.","hi":"असली data से पहले setup वाले कुछ messages, जैसे TCP का SYN, SYN-ACK, ACK।"},{"s":"packet","m":["packet","packets"],"en":"A small piece of data sent over a network. Big data is split into many packets.","hi":"Network पर भेजा गया data का छोटा टुकड़ा। बड़ा data कई packets में बँटता है।"},{"s":"router","m":["router","routers"],"en":"A device that forwards packets between networks, like your Wi-Fi router.","hi":"एक device जो networks के बीच packets आगे भेजता है, जैसे आपका Wi-Fi router।"},{"s":"latency","m":["latency"],"en":"The delay for data to travel, usually in milliseconds.","hi":"Data के पहुँचने में लगने वाली देरी, आमतौर पर milliseconds में।"},{"s":"dbms","m":["DBMS"],"en":"Database Management System: software that stores and manages data, like MySQL or PostgreSQL.","hi":"Database Management System: data रखने और संभालने वाला software, जैसे MySQL या PostgreSQL।"},{"s":"sql","m":["SQL"],"en":"Structured Query Language: the language to read and change data in relational databases.","hi":"Structured Query Language: relational databases में data पढ़ने और बदलने की भाषा।"},{"s":"primary-key","m":["primary key"],"en":"A column that uniquely identifies each row and can't be empty.","hi":"एक column जो हर row को अलग पहचान देता है और ख़ाली नहीं हो सकता।"},{"s":"foreign-key","m":["foreign key"],"en":"A column that points to the primary key of another table, linking the two.","hi":"एक column जो दूसरी table की primary key की ओर इशारा करके दोनों को जोड़ता है।"},{"s":"join","m":["JOIN","join"],"en":"Combining rows from two tables using a related column.","hi":"किसी जुड़े column से दो tables की rows को मिलाना।"},{"s":"null","m":["NULL"],"en":"\"No value\" or unknown. Not the same as 0 or an empty string.","hi":"\"कोई value नहीं\" या अनजान। 0 या ख़ाली string के बराबर नहीं।"},{"s":"index","m":["index"],"en":"A lookup structure that makes searching a column fast, like a book's index.","hi":"एक lookup structure जो column में ढूँढना तेज़ करता है, जैसे किताब का index।"},{"s":"normalization","m":["normalization"],"en":"Organising tables so the same fact isn't stored in many places.","hi":"Tables को ऐसे सजाना कि एक ही बात कई जगह न रखी जाए।"},{"s":"transaction","m":["transaction","transactions"],"en":"A group of changes that succeed together or not at all.","hi":"बदलावों का समूह जो या तो साथ में सफल हों या बिल्कुल न हों।"},{"s":"acid","m":["ACID"],"en":"Atomicity, Consistency, Isolation, Durability: the promises of a reliable transaction.","hi":"Atomicity, Consistency, Isolation, Durability: भरोसेमंद transaction के वादे।"},{"s":"process","m":["process","processes"],"en":"A running program, with its own memory.","hi":"चलता हुआ program, अपनी अलग memory के साथ।"},{"s":"thread","m":["thread","threads"],"en":"A worker inside a process. Threads of one process share its memory.","hi":"Process के अंदर का एक worker। एक process के threads उसकी memory बाँटते हैं।"},{"s":"context-switch","m":["context switch"],"en":"The CPU saving one task's state and loading another's. It has a small cost.","hi":"CPU का एक task की हालत save करके दूसरे की load करना। इसकी थोड़ी cost होती है।"},{"s":"concurrency","m":["concurrency"],"en":"Handling many tasks by switching between them, not necessarily at the same instant.","hi":"बीच-बीच में switch करके कई tasks संभालना, ज़रूरी नहीं कि एक ही पल में।"},{"s":"parallelism","m":["parallelism"],"en":"Really running tasks at the same time on multiple CPU cores.","hi":"कई CPU cores पर सच में एक ही समय tasks चलाना।"},{"s":"race-condition","m":["race condition","race conditions"],"en":"A bug where the result depends on which task runs first, like two withdrawals overwriting each other.","hi":"ऐसा bug जिसमें नतीजा इस पर निर्भर हो कि कौन-सा task पहले चला, जैसे दो withdrawals एक-दूसरे को overwrite कर दें।"},{"s":"mutex","m":["mutex","lock"],"en":"Lets only one task enter a critical section at a time.","hi":"एक बार में सिर्फ़ एक task को critical section में जाने देता है।"},{"s":"deadlock","m":["deadlock"],"en":"Two or more tasks waiting for each other forever.","hi":"दो या ज़्यादा tasks हमेशा के लिए एक-दूसरे का इंतज़ार करते रहें।"},{"s":"kernel","m":["kernel"],"en":"The core of the operating system that controls CPU, memory and devices.","hi":"Operating system का मुख्य हिस्सा जो CPU, memory और devices को control करता है।"},{"s":"class","m":["class","classes"],"en":"A blueprint for creating objects.","hi":"Objects बनाने का नक़्शा (blueprint)।"},{"s":"object","m":["object","objects"],"en":"A real thing created from a class, with its own data.","hi":"Class से बनी असली चीज़, अपने data के साथ।"},{"s":"encapsulation","m":["encapsulation"],"en":"Keeping data private and changing it only through methods.","hi":"Data को private रखना और सिर्फ़ methods से बदलना।"},{"s":"abstraction","m":["abstraction"],"en":"Showing only what's needed and hiding complex details.","hi":"सिर्फ़ ज़रूरी चीज़ दिखाना और मुश्किल details छिपाना।"},{"s":"inheritance","m":["inheritance"],"en":"A class reusing another class's code: \"a Car is a Vehicle\".","hi":"एक class का दूसरी class का code दोबारा इस्तेमाल करना: \"Car एक Vehicle है\"।"},{"s":"polymorphism","m":["polymorphism"],"en":"One method name, different behaviour depending on the object.","hi":"एक method का नाम, object के हिसाब से अलग व्यवहार।"},{"s":"interface","m":["interface","interfaces"],"en":"A contract listing methods a class must provide.","hi":"एक contract जो बताता है कि class को कौन-से methods देने ही होंगे।"},{"s":"sdlc","m":["SDLC"],"en":"Software Development Life Cycle: plan, design, build, test, release, maintain.","hi":"Software Development Life Cycle: plan, design, build, test, release, maintain।"},{"s":"agile","m":["Agile"],"en":"Building software in small steps with frequent feedback, instead of one big plan.","hi":"एक बड़े plan की जगह छोटे-छोटे steps और बार-बार feedback के साथ software बनाना।"},{"s":"star","m":["STAR"],"en":"Situation, Task, Action, Result: a way to tell a story in interviews.","hi":"Situation, Task, Action, Result: interview में कहानी बताने का तरीक़ा।"},{"s":"cost-price","m":["cost price"],"en":"The price at which something is bought.","hi":"वो कीमत जिस पर चीज़ ख़रीदी गई।"},{"s":"selling-price","m":["selling price"],"en":"The price at which something is sold.","hi":"वो कीमत जिस पर चीज़ बेची गई।"},{"s":"marked-price","m":["marked price"],"en":"The price printed on the tag, before any discount.","hi":"Tag पर छपी कीमत, discount से पहले।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">CS Fundamentals for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">CS fundamentals course by Agam Sahu</span><span class="hi">CS fundamentals कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

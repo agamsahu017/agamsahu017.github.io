@@ -204,3 +204,8 @@ h2 + .badge { margin: -4px 0 10px; }
 .remember { padding: 16px 18px; border-radius: 14px; background: var(--bg-alt); border: 1px solid var(--border); border-left: 4px solid #16a34a; }
 .remember ol { margin: 0; }
 .remember li { color: var(--text); }
+
+/* CS course: SQL result tables */
+.result-label { margin: 8px 0 -6px; font-size: .85rem; font-weight: 600; color: var(--muted); }
+.sql-tables { align-items: start; gap: 14px; }
+.sql-tables .table-wrap table { min-width: 0; }

@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CS Fundamentals Glossary: Networks, DBMS, OS, OOPS | Kodivo</title>
+  <meta name="description" content="Simple meanings of CS interview words: DNS, TCP, primary key, JOIN, ACID, process, thread, deadlock, polymorphism and more, in English and Hindi." />
+  <link rel="canonical" href="https://agamsahu017.github.io/cs/glossary.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/cs/glossary.html" />
+  <meta property="og:title" content="CS Fundamentals Glossary: Networks, DBMS, OS, OOPS | Kodivo" />
+  <meta property="og:description" content="Simple meanings of CS interview words: DNS, TCP, primary key, JOIN, ACID, process, thread, deadlock, polymorphism and more, in English and Hindi." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "CS Fundamentals for Interviews",
+          "item": "https://agamsahu017.github.io/cs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Glossary",
+          "item": "https://agamsahu017.github.io/cs/glossary.html"
+        }
+      ]
+    },
+    {
+      "@type": "DefinedTermSet",
+      "name": "CS fundamentals glossary",
+      "url": "https://agamsahu017.github.io/cs/glossary.html",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "name": "IP address",
+          "description": "The address of a device on a network, like 142.250.183.14.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#ip"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "DNS",
+          "description": "The internet's phonebook: turns a name like google.com into an IP address.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#dns"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "TCP",
+          "description": "A protocol that delivers data reliably and in order, re-sending anything lost.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#tcp"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "UDP",
+          "description": "A fast protocol with no delivery guarantee. Used for video calls, games and DNS.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#udp"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Port",
+          "description": "A number that tells which program on a computer should receive the data, like 443 for HTTPS.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#port"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "HTTP / HTTPS",
+          "description": "The language of the web between browser and server. HTTPS is the encrypted version.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#http"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "TLS",
+          "description": "The encryption that puts the S in HTTPS. It proves the site's identity with a certificate.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#tls"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Handshake",
+          "description": "A few setup messages before real data, like TCP's SYN, SYN-ACK, ACK.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#handshake"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Packet",
+          "description": "A small piece of data sent over a network. Big data is split into many packets.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#packet"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Router",
+          "description": "A device that forwards packets between networks, like your Wi-Fi router.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#router"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Latency",
+          "description": "The delay for data to travel, usually in milliseconds.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#latency"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "DBMS",
+          "description": "Database Management System: software that stores and manages data, like MySQL or PostgreSQL.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#dbms"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "SQL",
+          "description": "Structured Query Language: the language to read and change data in relational databases.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#sql"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Primary key",
+          "description": "A column that uniquely identifies each row and can't be empty.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#primary-key"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Foreign key",
+          "description": "A column that points to the primary key of another table, linking the two.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#foreign-key"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "JOIN",
+          "description": "Combining rows from two tables using a related column.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#join"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "NULL",
+          "description": "\"No value\" or unknown. Not the same as 0 or an empty string.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#null"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Index",
+          "description": "A lookup structure that makes searching a column fast, like a book's index.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#index"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Normalization",
+          "description": "Organising tables so the same fact isn't stored in many places.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#normalization"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Transaction",
+          "description": "A group of changes that succeed together or not at all.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#transaction"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "ACID",
+          "description": "Atomicity, Consistency, Isolation, Durability: the promises of a reliable transaction.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#acid"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Process",
+          "description": "A running program, with its own memory.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#process"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Thread",
+          "description": "A worker inside a process. Threads of one process share its memory.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#thread"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Context switch",
+          "description": "The CPU saving one task's state and loading another's. It has a small cost.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#context-switch"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Concurrency",
+          "description": "Handling many tasks by switching between them, not necessarily at the same instant.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#concurrency"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Parallelism",
+          "description": "Really running tasks at the same time on multiple CPU cores.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#parallelism"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Race condition",
+          "description": "A bug where the result depends on which task runs first, like two withdrawals overwriting each other.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#race-condition"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Mutex / lock",
+          "description": "Lets only one task enter a critical section at a time.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#mutex"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Deadlock",
+          "description": "Two or more tasks waiting for each other forever.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#deadlock"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Kernel",
+          "description": "The core of the operating system that controls CPU, memory and devices.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#kernel"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Class",
+          "description": "A blueprint for creating objects.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#class"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Object",
+          "description": "A real thing created from a class, with its own data.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#object"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Encapsulation",
+          "description": "Keeping data private and changing it only through methods.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#encapsulation"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Abstraction",
+          "description": "Showing only what's needed and hiding complex details.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#abstraction"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Inheritance",
+          "description": "A class reusing another class's code: \"a Car is a Vehicle\".",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#inheritance"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Polymorphism",
+          "description": "One method name, different behaviour depending on the object.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#polymorphism"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Interface",
+          "description": "A contract listing methods a class must provide.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#interface"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "SDLC",
+          "description": "Software Development Life Cycle: plan, design, build, test, release, maintain.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#sdlc"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Agile",
+          "description": "Building software in small steps with frequent feedback, instead of one big plan.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#agile"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "STAR method",
+          "description": "Situation, Task, Action, Result: a way to tell a story in interviews.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#star"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Cost price (CP)",
+          "description": "The price at which something is bought.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#cost-price"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Selling price (SP)",
+          "description": "The price at which something is sold.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#selling-price"
+        },
+        {
+          "@type": "DefinedTerm",
+          "name": "Marked price (MP)",
+          "description": "The price printed on the tag, before any discount.",
+          "url": "https://agamsahu017.github.io/cs/glossary.html#marked-price"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">CS Fundamentals</span><span class="hi">CS Fundamentals</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20question%20about%20a%20CS%20term." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">CS Fundamentals</a> › <span>Glossary</span></nav>
+        <h1><span class="en">CS fundamentals glossary</span><span class="hi">CS fundamentals glossary</span></h1>
+        <p class="en">43 words from networks, DBMS, OS, OOPS, software engineering and aptitude, each in one or two simple lines.</p><p class="hi">Networks, DBMS, OS, OOPS, software engineering और aptitude के 43 शब्द, हर एक एक-दो आसान लाइनों में।</p>
+        <input id="gloss-search" class="gloss-search" type="search" placeholder="Search: TCP, JOIN, thread…" aria-label="Search the glossary" />
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Computer Networks</span><span class="hi">Computer Networks</span></h2>
+        <dl>
+          <div class="gloss-item" id="ip"><dt>IP address</dt><dd><span class="en">The address of a device on a network, like 142.250.183.14.</span><span class="hi">Network पर किसी device का address, जैसे 142.250.183.14।</span></dd></div>
+          <div class="gloss-item" id="dns"><dt>DNS</dt><dd><span class="en">The internet's phonebook: turns a name like google.com into an IP address.</span><span class="hi">Internet की phonebook: google.com जैसे नाम को IP address में बदलता है।</span></dd></div>
+          <div class="gloss-item" id="tcp"><dt>TCP</dt><dd><span class="en">A protocol that delivers data reliably and in order, re-sending anything lost.</span><span class="hi">एक protocol जो data को भरोसे से और सही क्रम में पहुँचाता है, खोया data दोबारा भेजता है।</span></dd></div>
+          <div class="gloss-item" id="udp"><dt>UDP</dt><dd><span class="en">A fast protocol with no delivery guarantee. Used for video calls, games and DNS.</span><span class="hi">एक तेज़ protocol जिसमें पहुँचने की गारंटी नहीं। Video calls, games और DNS में इस्तेमाल।</span></dd></div>
+          <div class="gloss-item" id="port"><dt>Port</dt><dd><span class="en">A number that tells which program on a computer should receive the data, like 443 for HTTPS.</span><span class="hi">एक number जो बताता है कि computer का कौन-सा program data लेगा, जैसे HTTPS के लिए 443।</span></dd></div>
+          <div class="gloss-item" id="http"><dt>HTTP / HTTPS</dt><dd><span class="en">The language of the web between browser and server. HTTPS is the encrypted version.</span><span class="hi">Browser और server के बीच web की भाषा। HTTPS उसका encrypted रूप है।</span></dd></div>
+          <div class="gloss-item" id="tls"><dt>TLS</dt><dd><span class="en">The encryption that puts the S in HTTPS. It proves the site's identity with a certificate.</span><span class="hi">वो encryption जिससे HTTPS में S आता है। यह certificate से site की पहचान साबित करता है।</span></dd></div>
+          <div class="gloss-item" id="handshake"><dt>Handshake</dt><dd><span class="en">A few setup messages before real data, like TCP's SYN, SYN-ACK, ACK.</span><span class="hi">असली data से पहले setup वाले कुछ messages, जैसे TCP का SYN, SYN-ACK, ACK।</span></dd></div>
+          <div class="gloss-item" id="packet"><dt>Packet</dt><dd><span class="en">A small piece of data sent over a network. Big data is split into many packets.</span><span class="hi">Network पर भेजा गया data का छोटा टुकड़ा। बड़ा data कई packets में बँटता है।</span></dd></div>
+          <div class="gloss-item" id="router"><dt>Router</dt><dd><span class="en">A device that forwards packets between networks, like your Wi-Fi router.</span><span class="hi">एक device जो networks के बीच packets आगे भेजता है, जैसे आपका Wi-Fi router।</span></dd></div>
+          <div class="gloss-item" id="latency"><dt>Latency</dt><dd><span class="en">The delay for data to travel, usually in milliseconds.</span><span class="hi">Data के पहुँचने में लगने वाली देरी, आमतौर पर milliseconds में।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">DBMS and SQL</span><span class="hi">DBMS और SQL</span></h2>
+        <dl>
+          <div class="gloss-item" id="dbms"><dt>DBMS</dt><dd><span class="en">Database Management System: software that stores and manages data, like MySQL or PostgreSQL.</span><span class="hi">Database Management System: data रखने और संभालने वाला software, जैसे MySQL या PostgreSQL।</span></dd></div>
+          <div class="gloss-item" id="sql"><dt>SQL</dt><dd><span class="en">Structured Query Language: the language to read and change data in relational databases.</span><span class="hi">Structured Query Language: relational databases में data पढ़ने और बदलने की भाषा।</span></dd></div>
+          <div class="gloss-item" id="primary-key"><dt>Primary key</dt><dd><span class="en">A column that uniquely identifies each row and can't be empty.</span><span class="hi">एक column जो हर row को अलग पहचान देता है और ख़ाली नहीं हो सकता।</span></dd></div>
+          <div class="gloss-item" id="foreign-key"><dt>Foreign key</dt><dd><span class="en">A column that points to the primary key of another table, linking the two.</span><span class="hi">एक column जो दूसरी table की primary key की ओर इशारा करके दोनों को जोड़ता है।</span></dd></div>
+          <div class="gloss-item" id="join"><dt>JOIN</dt><dd><span class="en">Combining rows from two tables using a related column.</span><span class="hi">किसी जुड़े column से दो tables की rows को मिलाना।</span></dd></div>
+          <div class="gloss-item" id="null"><dt>NULL</dt><dd><span class="en">"No value" or unknown. Not the same as 0 or an empty string.</span><span class="hi">"कोई value नहीं" या अनजान। 0 या ख़ाली string के बराबर नहीं।</span></dd></div>
+          <div class="gloss-item" id="index"><dt>Index</dt><dd><span class="en">A lookup structure that makes searching a column fast, like a book's index.</span><span class="hi">एक lookup structure जो column में ढूँढना तेज़ करता है, जैसे किताब का index।</span></dd></div>
+          <div class="gloss-item" id="normalization"><dt>Normalization</dt><dd><span class="en">Organising tables so the same fact isn't stored in many places.</span><span class="hi">Tables को ऐसे सजाना कि एक ही बात कई जगह न रखी जाए।</span></dd></div>
+          <div class="gloss-item" id="transaction"><dt>Transaction</dt><dd><span class="en">A group of changes that succeed together or not at all.</span><span class="hi">बदलावों का समूह जो या तो साथ में सफल हों या बिल्कुल न हों।</span></dd></div>
+          <div class="gloss-item" id="acid"><dt>ACID</dt><dd><span class="en">Atomicity, Consistency, Isolation, Durability: the promises of a reliable transaction.</span><span class="hi">Atomicity, Consistency, Isolation, Durability: भरोसेमंद transaction के वादे।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Operating Systems</span><span class="hi">Operating Systems</span></h2>
+        <dl>
+          <div class="gloss-item" id="process"><dt>Process</dt><dd><span class="en">A running program, with its own memory.</span><span class="hi">चलता हुआ program, अपनी अलग memory के साथ।</span></dd></div>
+          <div class="gloss-item" id="thread"><dt>Thread</dt><dd><span class="en">A worker inside a process. Threads of one process share its memory.</span><span class="hi">Process के अंदर का एक worker। एक process के threads उसकी memory बाँटते हैं।</span></dd></div>
+          <div class="gloss-item" id="context-switch"><dt>Context switch</dt><dd><span class="en">The CPU saving one task's state and loading another's. It has a small cost.</span><span class="hi">CPU का एक task की हालत save करके दूसरे की load करना। इसकी थोड़ी cost होती है।</span></dd></div>
+          <div class="gloss-item" id="concurrency"><dt>Concurrency</dt><dd><span class="en">Handling many tasks by switching between them, not necessarily at the same instant.</span><span class="hi">बीच-बीच में switch करके कई tasks संभालना, ज़रूरी नहीं कि एक ही पल में।</span></dd></div>
+          <div class="gloss-item" id="parallelism"><dt>Parallelism</dt><dd><span class="en">Really running tasks at the same time on multiple CPU cores.</span><span class="hi">कई CPU cores पर सच में एक ही समय tasks चलाना।</span></dd></div>
+          <div class="gloss-item" id="race-condition"><dt>Race condition</dt><dd><span class="en">A bug where the result depends on which task runs first, like two withdrawals overwriting each other.</span><span class="hi">ऐसा bug जिसमें नतीजा इस पर निर्भर हो कि कौन-सा task पहले चला, जैसे दो withdrawals एक-दूसरे को overwrite कर दें।</span></dd></div>
+          <div class="gloss-item" id="mutex"><dt>Mutex / lock</dt><dd><span class="en">Lets only one task enter a critical section at a time.</span><span class="hi">एक बार में सिर्फ़ एक task को critical section में जाने देता है।</span></dd></div>
+          <div class="gloss-item" id="deadlock"><dt>Deadlock</dt><dd><span class="en">Two or more tasks waiting for each other forever.</span><span class="hi">दो या ज़्यादा tasks हमेशा के लिए एक-दूसरे का इंतज़ार करते रहें।</span></dd></div>
+          <div class="gloss-item" id="kernel"><dt>Kernel</dt><dd><span class="en">The core of the operating system that controls CPU, memory and devices.</span><span class="hi">Operating system का मुख्य हिस्सा जो CPU, memory और devices को control करता है।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">OOPS</span><span class="hi">OOPS</span></h2>
+        <dl>
+          <div class="gloss-item" id="class"><dt>Class</dt><dd><span class="en">A blueprint for creating objects.</span><span class="hi">Objects बनाने का नक़्शा (blueprint)।</span></dd></div>
+          <div class="gloss-item" id="object"><dt>Object</dt><dd><span class="en">A real thing created from a class, with its own data.</span><span class="hi">Class से बनी असली चीज़, अपने data के साथ।</span></dd></div>
+          <div class="gloss-item" id="encapsulation"><dt>Encapsulation</dt><dd><span class="en">Keeping data private and changing it only through methods.</span><span class="hi">Data को private रखना और सिर्फ़ methods से बदलना।</span></dd></div>
+          <div class="gloss-item" id="abstraction"><dt>Abstraction</dt><dd><span class="en">Showing only what's needed and hiding complex details.</span><span class="hi">सिर्फ़ ज़रूरी चीज़ दिखाना और मुश्किल details छिपाना।</span></dd></div>
+          <div class="gloss-item" id="inheritance"><dt>Inheritance</dt><dd><span class="en">A class reusing another class's code: "a Car is a Vehicle".</span><span class="hi">एक class का दूसरी class का code दोबारा इस्तेमाल करना: "Car एक Vehicle है"।</span></dd></div>
+          <div class="gloss-item" id="polymorphism"><dt>Polymorphism</dt><dd><span class="en">One method name, different behaviour depending on the object.</span><span class="hi">एक method का नाम, object के हिसाब से अलग व्यवहार।</span></dd></div>
+          <div class="gloss-item" id="interface"><dt>Interface</dt><dd><span class="en">A contract listing methods a class must provide.</span><span class="hi">एक contract जो बताता है कि class को कौन-से methods देने ही होंगे।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Software Engineering</span><span class="hi">Software Engineering</span></h2>
+        <dl>
+          <div class="gloss-item" id="sdlc"><dt>SDLC</dt><dd><span class="en">Software Development Life Cycle: plan, design, build, test, release, maintain.</span><span class="hi">Software Development Life Cycle: plan, design, build, test, release, maintain।</span></dd></div>
+          <div class="gloss-item" id="agile"><dt>Agile</dt><dd><span class="en">Building software in small steps with frequent feedback, instead of one big plan.</span><span class="hi">एक बड़े plan की जगह छोटे-छोटे steps और बार-बार feedback के साथ software बनाना।</span></dd></div>
+          <div class="gloss-item" id="star"><dt>STAR method</dt><dd><span class="en">Situation, Task, Action, Result: a way to tell a story in interviews.</span><span class="hi">Situation, Task, Action, Result: interview में कहानी बताने का तरीक़ा।</span></dd></div>
+        </dl>
+      </div>
+      <div class="gloss-group">
+        <h2><span class="en">Aptitude</span><span class="hi">Aptitude</span></h2>
+        <dl>
+          <div class="gloss-item" id="cost-price"><dt>Cost price (CP)</dt><dd><span class="en">The price at which something is bought.</span><span class="hi">वो कीमत जिस पर चीज़ ख़रीदी गई।</span></dd></div>
+          <div class="gloss-item" id="selling-price"><dt>Selling price (SP)</dt><dd><span class="en">The price at which something is sold.</span><span class="hi">वो कीमत जिस पर चीज़ बेची गई।</span></dd></div>
+          <div class="gloss-item" id="marked-price"><dt>Marked price (MP)</dt><dd><span class="en">The price printed on the tag, before any discount.</span><span class="hi">Tag पर छपी कीमत, discount से पहले।</span></dd></div>
+        </dl>
+      </div>
+      <div class="lesson-nav"><a class="btn btn-outline" href="./"><span class="en">← Roadmap</span><span class="hi">← रोडमैप</span></a></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">CS Fundamentals for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">CS fundamentals course by Agam Sahu</span><span class="hi">CS fundamentals कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

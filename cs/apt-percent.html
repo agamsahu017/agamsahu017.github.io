@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Percentages, Profit and Loss: Aptitude Shortcuts | Kodivo</title>
+  <meta name="description" content="Aptitude made easy: percentage shortcuts, successive change, profit and loss, discounts and marked price, with solved examples and practice." />
+  <link rel="canonical" href="https://agamsahu017.github.io/cs/apt-percent.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/cs/apt-percent.html" />
+  <meta property="og:title" content="Percentages, Profit and Loss: Aptitude Shortcuts | Kodivo" />
+  <meta property="og:description" content="Aptitude made easy: percentage shortcuts, successive change, profit and loss, discounts and marked price, with solved examples and practice." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "CS Fundamentals for Interviews",
+          "item": "https://agamsahu017.github.io/cs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Percentages, profit and loss",
+          "item": "https://agamsahu017.github.io/cs/apt-percent.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Percentages, Profit and Loss: Aptitude Shortcuts",
+      "description": "Aptitude made easy: percentage shortcuts, successive change, profit and loss, discounts and marked price, with solved examples and practice.",
+      "datePublished": "2026-10-30",
+      "dateModified": "2026-10-30",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "CS Fundamentals for Interviews",
+        "url": "https://agamsahu017.github.io/cs/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">CS Fundamentals</span><span class="hi">CS Fundamentals</span></a>
+        <a href="../dsa/"><span class="en">DSA Course</span><span class="hi">DSA कोर्स</span></a>
+        <a href="../ai/"><span class="en">AI Course</span><span class="hi">AI कोर्स</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20CS%20Fundamentals%20on%20your%20website%20(Percentages%2C%20profit%20and%20loss)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">CS Fundamentals</a> › <span>Percentages, profit and loss</span></nav>
+        <span class="pill"><span class="en">Module 21 of 25</span><span class="hi">मॉड्यूल 21 / 25</span></span>
+        <h1><span class="en">Percentages, profit and loss</span><span class="hi">Percentages, profit और loss</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">30 min read + practice</span><span class="hi">30 मिनट पढ़ाई + प्रैक्टिस</span></span><span>📚 CS Fundamentals</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Percent means "out of 100"; most profit, loss and discount questions are just percentage change on the right base.</p><p class="hi"><b>एक लाइन में:</b> Percent का मतलब "100 में से"; ज़्यादातर profit, loss और discount के सवाल सही base पर percentage change ही होते हैं।</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Fast percentage calculation with fractions</span><span class="hi">Fractions से तेज़ percentage हिसाब</span></li><li><span class="en">Percentage change and the successive change shortcut</span><span class="hi">Percentage change और successive change का shortcut</span></li><li><span class="en">Profit, loss, discount and marked price</span><span class="hi">Profit, loss, discount और marked price</span></li><li><span class="en">Solved examples and practice like placement tests</span><span class="hi">Placement tests जैसे हल किए उदाहरण और प्रैक्टिस</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#basics"><span class="en">Percent basics</span><span class="hi">Percent basics</span></a><a href="#change"><span class="en">Percentage change</span><span class="hi">Percentage change</span></a><a href="#profit"><span class="en">Profit and loss</span><span class="hi">Profit और loss</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">Glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">Glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="basics">
+        <h2 id="basics-h"><span class="en">Percent basics and fraction shortcuts</span><span class="hi">Percent basics और fraction shortcuts</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en"><b>x% of y</b> = (x ÷ 100) × y. Example: 20% of 450 = 0.2 × 450 = <b>90</b>. Tip: x% of y = y% of x, so 8% of 50 = 50% of 8 = 4.</p><p class="hi"><b>y का x%</b> = (x ÷ 100) × y। उदाहरण: 450 का 20% = 0.2 × 450 = <b>90</b>। Tip: y का x% = x का y%, इसलिए 50 का 8% = 8 का 50% = 4।</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Fraction</span><span class="hi">Fraction</span></th><th>%</th><th><span class="en">Fraction</span><span class="hi">Fraction</span></th><th>%</th></tr></thead><tbody><tr><td>1/2</td><td>50%</td><td>1/6</td><td>16.67%</td></tr><tr><td>1/3</td><td>33.33%</td><td>1/8</td><td>12.5%</td></tr><tr><td>1/4</td><td>25%</td><td>1/10</td><td>10%</td></tr><tr><td>1/5</td><td>20%</td><td>1/12</td><td>8.33%</td></tr><tr><td>3/4</td><td>75%</td><td>1/20</td><td>5%</td></tr></tbody></table></div>
+        <p class="en">Learn this table: 12.5% of 640 is just 640 ÷ 8 = 80. No multiplication needed.</p><p class="hi">यह table याद कर लीजिए: 640 का 12.5% बस 640 ÷ 8 = 80 है। Multiplication की ज़रूरत नहीं।</p>
+      </section>
+      <section id="change">
+        <h2 id="change-h"><span class="en">Percentage change</span><span class="hi">Percentage change</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <div class="idea"><p class="en"><b>% change = (new − old) ÷ old × 100.</b> Always divide by the <b>old</b> (starting) value.</p><p class="hi"><b>% change = (new − old) ÷ old × 100।</b> हमेशा <b>पुरानी</b> (शुरू की) value से भाग दीजिए।</p></div>
+        <ul><li><span class="en">Price goes 400 → 500: increase = 100 ÷ 400 = <b>25%</b>.</span><span class="hi">Price 400 → 500: बढ़ोतरी = 100 ÷ 400 = <b>25%</b>।</span></li><li><span class="en">Price goes back 500 → 400: decrease = 100 ÷ 500 = <b>20%</b>. Not 25%, because the base changed!</span><span class="hi">Price वापस 500 → 400: कमी = 100 ÷ 500 = <b>20%</b>। 25% नहीं, क्योंकि base बदल गया!</span></li></ul>
+        <h3><span class="en">Successive change shortcut</span><span class="hi">लगातार बदलाव का shortcut</span></h3>
+        <div class="idea"><p class="en">Two changes of a% and b% one after another = <b>a + b + (a × b ÷ 100)</b>. Use minus signs for decreases.</p><p class="hi">a% और b% के दो बदलाव एक के बाद एक = <b>a + b + (a × b ÷ 100)</b>। कमी के लिए minus लगाइए।</p></div>
+        <ul><li><span class="en">+20% then −20%: 20 − 20 + (20 × −20 ÷ 100) = <b>−4%</b> (a net loss, not zero).</span><span class="hi">+20% फिर −20%: 20 − 20 + (20 × −20 ÷ 100) = <b>−4%</b> (कुल नुक़सान, zero नहीं)।</span></li><li><span class="en">Salary +10% two years in a row: 10 + 10 + 1 = <b>21%</b>.</span><span class="hi">Salary लगातार दो साल +10%: 10 + 10 + 1 = <b>21%</b>।</span></li></ul>
+      </section>
+      <section id="profit">
+        <h2 id="profit-h"><span class="en">Profit, loss and discount</span><span class="hi">Profit, loss और discount</span></h2>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Term</span><span class="hi">शब्द</span></th><th><span class="en">Formula</span><span class="hi">Formula</span></th></tr></thead><tbody><tr><td><span class="en">Profit</span><span class="hi">Profit</span></td><td>SP − CP</td></tr><tr><td>Profit %</td><td><span class="en">(Profit ÷ CP) × 100 (always on cost price)</span><span class="hi">(Profit ÷ CP) × 100 (हमेशा cost price पर)</span></td></tr><tr><td>Loss %</td><td>(Loss ÷ CP) × 100</td></tr><tr><td><span class="en">Discount</span><span class="hi">Discount</span></td><td><span class="en">MP − SP (discount is on the marked price)</span><span class="hi">MP − SP (discount marked price पर)</span></td></tr><tr><td><span class="en">SP after discount</span><span class="hi">Discount के बाद SP</span></td><td>MP × (100 − discount%) ÷ 100</td></tr></tbody></table></div>
+        <h3><span class="en">Solved examples</span><span class="hi">हल किए उदाहरण</span></h3>
+        <ul><li><span class="en">Bought for ₹800, sold for ₹1000. Profit = 200, profit % = 200 ÷ 800 = <b>25%</b>.</span><span class="hi">₹800 में ख़रीदा, ₹1000 में बेचा। Profit = 200, profit % = 200 ÷ 800 = <b>25%</b>।</span></li><li><span class="en">Marked price ₹1200, 25% discount → SP = 1200 × 0.75 = <b>₹900</b>. If cost price was ₹750, profit = 150 ÷ 750 = <b>20%</b>.</span><span class="hi">Marked price ₹1200, 25% discount → SP = 1200 × 0.75 = <b>₹900</b>। Cost price ₹750 था, तो profit = 150 ÷ 750 = <b>20%</b>।</span></li><li><span class="en">A shopkeeper marks goods 40% above cost and gives 10% discount. Take CP = 100 → MP = 140 → SP = 140 × 0.9 = 126 → profit <b>26%</b>.</span><span class="hi">दुकानदार cost से 40% ऊपर mark करता है और 10% discount देता है। CP = 100 मानिए → MP = 140 → SP = 140 × 0.9 = 126 → profit <b>26%</b>।</span></li></ul>
+        <div class="idea"><p class="en"><b>Trick:</b> when no amount is given, assume CP = 100. The answer in rupees becomes the answer in percent.</p><p class="hi"><b>Trick:</b> जब कोई रक़म न दी हो, CP = 100 मान लीजिए। Rupees में आया जवाब ही percent में जवाब बन जाता है।</p></div>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Calculating profit % on the selling price. It's always on the cost price.</span><span class="hi">Profit % selling price पर निकालना। यह हमेशा cost price पर होता है।</span></li><li><span class="en">Thinking +20% then −20% gives back the same number.</span><span class="hi">यह सोचना कि +20% फिर −20% से वही number वापस आता है।</span></li><li><span class="en">Adding two discounts directly: 20% + 10% is not 30%, it's 28%.</span><span class="hi">दो discounts सीधे जोड़ना: 20% + 10% का मतलब 30% नहीं, 28% है।</span></li></ul></div>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 3 things</span><span class="hi">ये 3 बातें याद रखिए</span></div><ol><li><span class="en">% change = (new − old) ÷ old × 100. The base is always the old value.</span><span class="hi">% change = (new − old) ÷ old × 100। Base हमेशा पुरानी value है।</span></li><li><span class="en">Successive changes: a + b + ab/100.</span><span class="hi">लगातार बदलाव: a + b + ab/100।</span></li><li><span class="en">Profit % on CP, discount % on MP. When nothing is given, take CP = 100.</span><span class="hi">Profit % CP पर, discount % MP पर। कुछ न दिया हो तो CP = 100 मानिए।</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: ₹5,000 grows by 10% every year. What is it after 3 years?</span><span class="hi">Exercise 1: ₹5,000 हर साल 10% बढ़ता है। 3 साल बाद कितना होगा?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">5000 × 1.1 × 1.1 × 1.1 = <b>₹6,655</b>.</p><p class="hi">5000 × 1.1 × 1.1 × 1.1 = <b>₹6,655</b>।</p></div></details></div>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 2: Petrol price rises 20%. By what percent must you reduce use to keep spending the same?</span><span class="hi">Exercise 2: Petrol की कीमत 20% बढ़ती है। ख़र्च उतना ही रखने के लिए use कितने percent घटाना होगा?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">Reduction = 20 ÷ 120 × 100 = <b>16.67%</b> (that is, 1/6).</p><p class="hi">कमी = 20 ÷ 120 × 100 = <b>16.67%</b> (यानी 1/6)।</p></div></details></div>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 3: An item's price rises 15%, then is discounted 10%. Net change?</span><span class="hi">Exercise 3: एक चीज़ की कीमत 15% बढ़ती है, फिर 10% discount मिलता है। कुल बदलाव?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">15 − 10 + (15 × −10 ÷ 100) = 5 − 1.5 = <b>+3.5%</b>.</p><p class="hi">15 − 10 + (15 × −10 ÷ 100) = 5 − 1.5 = <b>+3.5%</b>।</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"15% of 240 = ?","hi":"240 का 15% = ?"},"options":["32","36","38","40"],"answer":1,"why":{"en":"0.15 × 240 = 36 (or 10% = 24, 5% = 12, total 36).","hi":"0.15 × 240 = 36 (या 10% = 24, 5% = 12, कुल 36)।"}},{"q":{"en":"Price rises 25%. To keep spending the same, reduce use by…","hi":"कीमत 25% बढ़ती है। ख़र्च वही रखने के लिए use कितना घटाएँ…"},"options":["25%","20%","15%","30%"],"answer":1,"why":{"en":"25 ÷ 125 × 100 = 20%.","hi":"25 ÷ 125 × 100 = 20%।"}},{"q":{"en":"A value rises 30% and then falls 30%. Net change?","hi":"एक value 30% बढ़ती है फिर 30% घटती है। कुल बदलाव?"},"options":["0%","−9%","+9%","−3%"],"answer":1,"why":{"en":"30 − 30 + (30 × −30 ÷ 100) = −9%.","hi":"30 − 30 + (30 × −30 ÷ 100) = −9%।"}},{"q":{"en":"Sold for ₹960 at a 20% loss. Cost price?","hi":"20% loss पर ₹960 में बेचा। Cost price?"},"options":["₹1,100","₹1,152","₹1,200","₹1,250"],"answer":2,"why":{"en":"SP = 80% of CP, so CP = 960 ÷ 0.8 = 1200.","hi":"SP = CP का 80%, इसलिए CP = 960 ÷ 0.8 = 1200।"}},{"q":{"en":"Two successive discounts of 20% and 10% equal a single discount of…","hi":"20% और 10% के लगातार दो discounts एक discount के बराबर हैं…"},"options":["30%","28%","25%","32%"],"answer":1,"why":{"en":"Pay 0.8 × 0.9 = 0.72 of the price, so discount = 28%.","hi":"कीमत का 0.8 × 0.9 = 0.72 देना है, इसलिए discount = 28%।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="cs:apt-percent"></button>
+        </div>
+        <div class="lesson-nav"><span class="btn btn-outline" style="opacity:.55;cursor:default">← <span class="en">Behavioural and HR questions (soon)</span><span class="hi">Behavioural और HR सवाल (जल्द)</span></span><span class="btn btn-outline" style="opacity:.55;cursor:default">→ <span class="en">Time and work, speed and distance (soon)</span><span class="hi">Time और work, speed और distance (जल्द)</span></span></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20CS%20Fundamentals%20module%3A%20Percentages%2C%20profit%20and%20loss" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20CS%20Fundamentals%20module%3A%20Percentages%2C%20profit%20and%20loss" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"ip","m":["IP address","IP addresses"],"en":"The address of a device on a network, like 142.250.183.14.","hi":"Network पर किसी device का address, जैसे 142.250.183.14।"},{"s":"dns","m":["DNS"],"en":"The internet's phonebook: turns a name like google.com into an IP address.","hi":"Internet की phonebook: google.com जैसे नाम को IP address में बदलता है।"},{"s":"tcp","m":["TCP"],"en":"A protocol that delivers data reliably and in order, re-sending anything lost.","hi":"एक protocol जो data को भरोसे से और सही क्रम में पहुँचाता है, खोया data दोबारा भेजता है।"},{"s":"udp","m":["UDP"],"en":"A fast protocol with no delivery guarantee. Used for video calls, games and DNS.","hi":"एक तेज़ protocol जिसमें पहुँचने की गारंटी नहीं। Video calls, games और DNS में इस्तेमाल।"},{"s":"port","m":["port","ports"],"en":"A number that tells which program on a computer should receive the data, like 443 for HTTPS.","hi":"एक number जो बताता है कि computer का कौन-सा program data लेगा, जैसे HTTPS के लिए 443।"},{"s":"http","m":["HTTP","HTTPS"],"en":"The language of the web between browser and server. HTTPS is the encrypted version.","hi":"Browser और server के बीच web की भाषा। HTTPS उसका encrypted रूप है।"},{"s":"tls","m":["TLS"],"en":"The encryption that puts the S in HTTPS. It proves the site's identity with a certificate.","hi":"वो encryption जिससे HTTPS में S आता है। यह certificate से site की पहचान साबित करता है।"},{"s":"handshake","m":["handshake"],"en":"A few setup messages before real data, like TCP's SYN, SYN-ACK, ACK.","hi":"असली data से पहले setup वाले कुछ messages, जैसे TCP का SYN, SYN-ACK, ACK।"},{"s":"packet","m":["packet","packets"],"en":"A small piece of data sent over a network. Big data is split into many packets.","hi":"Network पर भेजा गया data का छोटा टुकड़ा। बड़ा data कई packets में बँटता है।"},{"s":"router","m":["router","routers"],"en":"A device that forwards packets between networks, like your Wi-Fi router.","hi":"एक device जो networks के बीच packets आगे भेजता है, जैसे आपका Wi-Fi router।"},{"s":"latency","m":["latency"],"en":"The delay for data to travel, usually in milliseconds.","hi":"Data के पहुँचने में लगने वाली देरी, आमतौर पर milliseconds में।"},{"s":"dbms","m":["DBMS"],"en":"Database Management System: software that stores and manages data, like MySQL or PostgreSQL.","hi":"Database Management System: data रखने और संभालने वाला software, जैसे MySQL या PostgreSQL।"},{"s":"sql","m":["SQL"],"en":"Structured Query Language: the language to read and change data in relational databases.","hi":"Structured Query Language: relational databases में data पढ़ने और बदलने की भाषा।"},{"s":"primary-key","m":["primary key"],"en":"A column that uniquely identifies each row and can't be empty.","hi":"एक column जो हर row को अलग पहचान देता है और ख़ाली नहीं हो सकता।"},{"s":"foreign-key","m":["foreign key"],"en":"A column that points to the primary key of another table, linking the two.","hi":"एक column जो दूसरी table की primary key की ओर इशारा करके दोनों को जोड़ता है।"},{"s":"join","m":["JOIN","join"],"en":"Combining rows from two tables using a related column.","hi":"किसी जुड़े column से दो tables की rows को मिलाना।"},{"s":"null","m":["NULL"],"en":"\"No value\" or unknown. Not the same as 0 or an empty string.","hi":"\"कोई value नहीं\" या अनजान। 0 या ख़ाली string के बराबर नहीं।"},{"s":"index","m":["index"],"en":"A lookup structure that makes searching a column fast, like a book's index.","hi":"एक lookup structure जो column में ढूँढना तेज़ करता है, जैसे किताब का index।"},{"s":"normalization","m":["normalization"],"en":"Organising tables so the same fact isn't stored in many places.","hi":"Tables को ऐसे सजाना कि एक ही बात कई जगह न रखी जाए।"},{"s":"transaction","m":["transaction","transactions"],"en":"A group of changes that succeed together or not at all.","hi":"बदलावों का समूह जो या तो साथ में सफल हों या बिल्कुल न हों।"},{"s":"acid","m":["ACID"],"en":"Atomicity, Consistency, Isolation, Durability: the promises of a reliable transaction.","hi":"Atomicity, Consistency, Isolation, Durability: भरोसेमंद transaction के वादे।"},{"s":"process","m":["process","processes"],"en":"A running program, with its own memory.","hi":"चलता हुआ program, अपनी अलग memory के साथ।"},{"s":"thread","m":["thread","threads"],"en":"A worker inside a process. Threads of one process share its memory.","hi":"Process के अंदर का एक worker। एक process के threads उसकी memory बाँटते हैं।"},{"s":"context-switch","m":["context switch"],"en":"The CPU saving one task's state and loading another's. It has a small cost.","hi":"CPU का एक task की हालत save करके दूसरे की load करना। इसकी थोड़ी cost होती है।"},{"s":"concurrency","m":["concurrency"],"en":"Handling many tasks by switching between them, not necessarily at the same instant.","hi":"बीच-बीच में switch करके कई tasks संभालना, ज़रूरी नहीं कि एक ही पल में।"},{"s":"parallelism","m":["parallelism"],"en":"Really running tasks at the same time on multiple CPU cores.","hi":"कई CPU cores पर सच में एक ही समय tasks चलाना।"},{"s":"race-condition","m":["race condition","race conditions"],"en":"A bug where the result depends on which task runs first, like two withdrawals overwriting each other.","hi":"ऐसा bug जिसमें नतीजा इस पर निर्भर हो कि कौन-सा task पहले चला, जैसे दो withdrawals एक-दूसरे को overwrite कर दें।"},{"s":"mutex","m":["mutex","lock"],"en":"Lets only one task enter a critical section at a time.","hi":"एक बार में सिर्फ़ एक task को critical section में जाने देता है।"},{"s":"deadlock","m":["deadlock"],"en":"Two or more tasks waiting for each other forever.","hi":"दो या ज़्यादा tasks हमेशा के लिए एक-दूसरे का इंतज़ार करते रहें।"},{"s":"kernel","m":["kernel"],"en":"The core of the operating system that controls CPU, memory and devices.","hi":"Operating system का मुख्य हिस्सा जो CPU, memory और devices को control करता है।"},{"s":"class","m":["class","classes"],"en":"A blueprint for creating objects.","hi":"Objects बनाने का नक़्शा (blueprint)।"},{"s":"object","m":["object","objects"],"en":"A real thing created from a class, with its own data.","hi":"Class से बनी असली चीज़, अपने data के साथ।"},{"s":"encapsulation","m":["encapsulation"],"en":"Keeping data private and changing it only through methods.","hi":"Data को private रखना और सिर्फ़ methods से बदलना।"},{"s":"abstraction","m":["abstraction"],"en":"Showing only what's needed and hiding complex details.","hi":"सिर्फ़ ज़रूरी चीज़ दिखाना और मुश्किल details छिपाना।"},{"s":"inheritance","m":["inheritance"],"en":"A class reusing another class's code: \"a Car is a Vehicle\".","hi":"एक class का दूसरी class का code दोबारा इस्तेमाल करना: \"Car एक Vehicle है\"।"},{"s":"polymorphism","m":["polymorphism"],"en":"One method name, different behaviour depending on the object.","hi":"एक method का नाम, object के हिसाब से अलग व्यवहार।"},{"s":"interface","m":["interface","interfaces"],"en":"A contract listing methods a class must provide.","hi":"एक contract जो बताता है कि class को कौन-से methods देने ही होंगे।"},{"s":"sdlc","m":["SDLC"],"en":"Software Development Life Cycle: plan, design, build, test, release, maintain.","hi":"Software Development Life Cycle: plan, design, build, test, release, maintain।"},{"s":"agile","m":["Agile"],"en":"Building software in small steps with frequent feedback, instead of one big plan.","hi":"एक बड़े plan की जगह छोटे-छोटे steps और बार-बार feedback के साथ software बनाना।"},{"s":"star","m":["STAR"],"en":"Situation, Task, Action, Result: a way to tell a story in interviews.","hi":"Situation, Task, Action, Result: interview में कहानी बताने का तरीक़ा।"},{"s":"cost-price","m":["cost price"],"en":"The price at which something is bought.","hi":"वो कीमत जिस पर चीज़ ख़रीदी गई।"},{"s":"selling-price","m":["selling price"],"en":"The price at which something is sold.","hi":"वो कीमत जिस पर चीज़ बेची गई।"},{"s":"marked-price","m":["marked price"],"en":"The price printed on the tag, before any discount.","hi":"Tag पर छपी कीमत, discount से पहले।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">CS Fundamentals for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">CS fundamentals course by Agam Sahu</span><span class="hi">CS fundamentals कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>
