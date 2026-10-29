@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Threat Intelligence and Dark Web Monitoring Basics | Kodivo</title>
+  <meta name="description" content="How companies legally track leaks, scams and attackers, including on the dark web: sources, workflow, leaked-password checks in Node.js, and careers." />
+  <link rel="canonical" href="https://agamsahu017.github.io/security/threat-intel.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/security/threat-intel.html" />
+  <meta property="og:title" content="Threat Intelligence and Dark Web Monitoring Basics | Kodivo" />
+  <meta property="og:description" content="How companies legally track leaks, scams and attackers, including on the dark web: sources, workflow, leaked-password checks in Node.js, and careers." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Cyber Security from Zero",
+          "item": "https://agamsahu017.github.io/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Threat intelligence and dark web monitoring",
+          "item": "https://agamsahu017.github.io/security/threat-intel.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Threat Intelligence and Dark Web Monitoring Basics",
+      "description": "How companies legally track leaks, scams and attackers, including on the dark web: sources, workflow, leaked-password checks in Node.js, and careers.",
+      "datePublished": "2026-10-30",
+      "dateModified": "2026-10-30",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Cyber Security from Zero",
+        "url": "https://agamsahu017.github.io/security/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Cyber Security</span><span class="hi">Cyber Security</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20cyber%20security%20on%20your%20website%20(Threat%20intelligence%20and%20dark%20web%20monitoring)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Cyber Security</a> › <span>Threat intelligence and dark web monitoring</span></nav>
+        <span class="pill"><span class="en">Module 10 of 14</span><span class="hi">मॉड्यूल 10 / 14</span></span>
+        <h1><span class="en">Threat intelligence and dark web monitoring</span><span class="hi">Threat intelligence और dark web monitoring</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">20 min read + practice</span><span class="hi">20 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🛡️ Security</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Threat intelligence turns information about leaks, scams and attackers into actions, and professionals gather it legally, mostly through trusted tools, never by buying data.</p><p class="hi"><b>एक लाइन में:</b> Threat intelligence leaks, scams और attackers की जानकारी को कार्रवाई में बदलती है, और professionals इसे क़ानूनी तरीक़े से, ज़्यादातर भरोसेमंद tools से जुटाते हैं, data ख़रीदकर कभी नहीं।</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">What threat intelligence is, and the questions it answers</span><span class="hi">Threat intelligence क्या है, और यह किन सवालों के जवाब देती है</span></li><li><span class="en">What companies look for on the dark web, and how they do it safely</span><span class="hi">Companies dark web पर क्या ढूँढती हैं, और सुरक्षित तरीक़े से कैसे</span></li><li><span class="en">Check whether a password was leaked, without sending it (real code)</span><span class="hi">बिना भेजे check कीजिए कि password leak हुआ या नहीं (असली code)</span></li><li><span class="en">How to start a career in threat intelligence</span><span class="hi">Threat intelligence में career कैसे शुरू करें</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#what"><span class="en">What it is</span><span class="hi">यह क्या है</span></a><a href="#dark"><span class="en">Dark web monitoring</span><span class="hi">Dark web monitoring</span></a><a href="#legal-tools"><span class="en">Legal tools</span><span class="hi">क़ानूनी tools</span></a><a href="#career"><span class="en">Career</span><span class="hi">Career</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        
+      </div>
+      <section id="what">
+        <h2 id="what-h"><span class="en">What is threat intelligence?</span><span class="hi">Threat intelligence क्या है?</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Threat intelligence means collecting information about attackers, scams and leaks, and turning it into <b>decisions</b>: what to block, what to fix first, who to warn. It answers questions like:</p><p class="hi">Threat intelligence का मतलब है attackers, scams और leaks की जानकारी इकट्ठा करके उसे <b>फ़ैसलों</b> में बदलना: क्या block करें, पहले क्या ठीक करें, किसे सावधान करें। यह ऐसे सवालों के जवाब देती है:</p>
+        <ul><li><span class="en">Are our customers' or employees' passwords for sale anywhere?</span><span class="hi">क्या हमारे customers या employees के passwords कहीं बिक रहे हैं?</span></li><li><span class="en">Is a fake website pretending to be our brand?</span><span class="hi">क्या कोई नक़ली website हमारे brand का नाटक कर रही है?</span></li><li><span class="en">Which attack is hitting banks like ours this month, and are we protected?</span><span class="hi">इस महीने हमारे जैसे banks पर कौन-सा attack हो रहा है, और क्या हम सुरक्षित हैं?</span></li></ul>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">Collect</span><span class="hi">इकट्ठा करना</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Filter the noise</span><span class="hi">शोर हटाना</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Analyse: is it real? does it affect us?</span><span class="hi">जाँच: क्या यह सच है? क्या हम पर असर है?</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Act: block, fix, warn</span><span class="hi">कार्रवाई: block, ठीक, सावधान</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Report</span><span class="hi">Report</span></div></div><figcaption><span class="en">The intelligence cycle. Information that leads to no action is just noise.</span><span class="hi">Intelligence cycle। जिस जानकारी से कोई कार्रवाई न हो, वो बस शोर है।</span></figcaption></figure>
+      </section>
+      <section id="dark">
+        <h2 id="dark-h"><span class="en">What companies look for on the dark web</span><span class="hi">Companies dark web पर क्या ढूँढती हैं</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">They look for</span><span class="hi">वो ढूँढते हैं</span></th><th><span class="en">Why it matters</span><span class="hi">क्यों ज़रूरी</span></th></tr></thead><tbody><tr><td><span class="en">Leaked usernames and passwords of employees or customers</span><span class="hi">Employees या customers के leaked usernames और passwords</span></td><td><span class="en">Force password resets before attackers log in</span><span class="hi">Attackers के login से पहले password reset करवाना</span></td></tr><tr><td><span class="en">Data dumps from a breach</span><span class="hi">Breach से निकला data</span></td><td><span class="en">Confirm what leaked, inform people and regulators</span><span class="hi">पक्का करना कि क्या leak हुआ, लोगों और regulators को बताना</span></td></tr><tr><td><span class="en">Someone selling access to the company's network</span><span class="hi">कोई company के network का access बेच रहा हो</span></td><td><span class="en">Often an early warning before a ransomware attack</span><span class="hi">अक्सर ransomware attack से पहले की चेतावनी</span></td></tr><tr><td><span class="en">Ransomware gangs' leak sites</span><span class="hi">Ransomware gangs की leak sites</span></td><td><span class="en">Shows which companies were hit and what was stolen</span><span class="hi">दिखाता है किन companies पर हमला हुआ और क्या चुराया गया</span></td></tr><tr><td><span class="en">Mentions of the brand, fake apps and phishing kits</span><span class="hi">Brand का ज़िक्र, नक़ली apps और phishing kits</span></td><td><span class="en">Take down scams before customers are cheated</span><span class="hi">Customers के ठगे जाने से पहले scams हटवाना</span></td></tr></tbody></table></div>
+        <h3><span class="en">How professionals do it safely</span><span class="hi">Professionals इसे सुरक्षित तरीक़े से कैसे करते हैं</span></h3>
+        <ul><li><span class="en">With the employer's written approval and legal guidance.</span><span class="hi">Employer की लिखित मंज़ूरी और legal guidance के साथ।</span></li><li><span class="en">Mostly through specialist vendors' tools and data feeds, not by browsing personally.</span><span class="hi">ज़्यादातर specialist vendors के tools और data feeds से, ख़ुद browse करके नहीं।</span></li><li><span class="en">When direct access is needed: an isolated machine, no personal accounts, nothing downloaded or bought, and no talking to criminals.</span><span class="hi">जब सीधे access चाहिए: अलग machine, कोई personal account नहीं, कुछ download या ख़रीदना नहीं, और अपराधियों से बात नहीं।</span></li><li><span class="en">Findings go to the security team, the legal team and, when needed, to CERT-In or the police.</span><span class="hi">जो मिले वो security team, legal team और ज़रूरत हो तो CERT-In या police को जाता है।</span></li></ul>
+        <div class="warn"><p class="en">Never buy leaked data, "to check it" or for research. Buying it is illegal, funds criminals, and is often a scam itself.</p><p class="hi">Leaked data कभी मत ख़रीदिए, "check करने" या research के लिए भी नहीं। ख़रीदना ग़ैरक़ानूनी है, अपराधियों को पैसा देता है, और अक्सर ख़ुद scam होता है।</p></div>
+      </section>
+      <section id="legal-tools">
+        <h2 id="legal-tools-h"><span class="en">Legal tools you can use today</span><span class="hi">क़ानूनी tools जो आप आज इस्तेमाल कर सकते हैं</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Tool / source</span><span class="hi">Tool / source</span></th><th><span class="en">What it gives you</span><span class="hi">क्या देता है</span></th></tr></thead><tbody><tr><td><span class="en">Have I Been Pwned</span><span class="hi">Have I Been Pwned</span></td><td><span class="en">Check if your email appeared in known breaches; companies can monitor their own domain</span><span class="hi">देखिए आपका email किसी जाने-माने breach में आया या नहीं; companies अपने domain पर नज़र रख सकती हैं</span></td></tr><tr><td><span class="en">CERT-In advisories</span><span class="hi">CERT-In advisories</span></td><td><span class="en">India's official alerts about active attacks and vulnerabilities</span><span class="hi">Active attacks और कमज़ोरियों पर भारत के official alerts</span></td></tr><tr><td><span class="en">MITRE ATT&amp;CK</span><span class="hi">MITRE ATT&amp;CK</span></td><td><span class="en">A free catalogue of how attackers operate, used to describe and detect attacks</span><span class="hi">Attackers कैसे काम करते हैं इसकी free list, attacks को समझाने और पकड़ने में काम आती है</span></td></tr><tr><td><span class="en">Security news and vendor reports</span><span class="hi">Security news और vendor reports</span></td><td><span class="en">Trends, new scams and attacks in your industry</span><span class="hi">आपकी industry में trends, नए scams और attacks</span></td></tr></tbody></table></div>
+        <p class="en">Here is real threat intelligence in code: check whether a password appears in known leaks using the free <b>Pwned Passwords</b> API. Only the first 5 characters of the password's hash are sent, so the password itself never leaves your computer. Save as <code>pwned.mjs</code> and run <code>node pwned.mjs</code>:</p><p class="hi">Code में असली threat intelligence: free <b>Pwned Passwords</b> API से check कीजिए कि कोई password जाने-माने leaks में है या नहीं। Password के hash के सिर्फ़ पहले 5 characters भेजे जाते हैं, इसलिए password ख़ुद आपके computer से बाहर नहीं जाता। <code>pwned.mjs</code> नाम से save कीजिए और <code>node pwned.mjs</code> चलाइए:</p>
+        <pre class="code" data-copy><span class="cm">// Has this password appeared in a known data leak? Uses the free Pwned Passwords API.</span>
+<span class="cm">// Only the first 5 characters of the password's SHA-1 hash are sent, never the password.</span>
+import { createHash } from <span class="st">"node:crypto"</span>;
+
+<span class="kw">async</span> <span class="kw">function</span> timesLeaked(password) {
+  <span class="kw">const</span> hash = createHash(<span class="st">"sha1"</span>).update(password).digest(<span class="st">"hex"</span>).toUpperCase();
+  <span class="kw">const</span> prefix = hash.slice(0, 5);   <span class="cm">// sent to the API</span>
+  <span class="kw">const</span> suffix = hash.slice(5);      <span class="cm">// kept on your computer</span>
+  <span class="kw">const</span> res = <span class="kw">await</span> fetch(<span class="st">`https://api.pwnedpasswords.com/range/${prefix}`</span>);
+  <span class="kw">const</span> text = <span class="kw">await</span> res.text();     <span class="cm">// hundreds of lines like "SUFFIX:COUNT"</span>
+  <span class="kw">for</span> (<span class="kw">const</span> line <span class="kw">of</span> text.split(<span class="st">"\n"</span>)) {
+    <span class="kw">const</span> [s, count] = line.trim().split(<span class="st">":"</span>);
+    <span class="kw">if</span> (s === suffix) <span class="kw">return</span> Number(count);
+  }
+  <span class="kw">return</span> 0;
+}
+
+<span class="kw">for</span> (<span class="kw">const</span> pw <span class="kw">of</span> [<span class="st">"password123"</span>, <span class="st">"Chai@2026"</span>, <span class="st">"x7#Kp!q2Lm9$wR4zT"</span>]) {
+  <span class="kw">const</span> n = <span class="kw">await</span> timesLeaked(pw);
+  console.log(<span class="st">`${pw}: ${n &gt; 0 ? `</span>found <span class="kw">in</span> leaks ${n.toLocaleString(<span class="st">"en-IN"</span>)} times<span class="st">` : "not found in known leaks"}`</span>);
+}</pre>
+        <p class="en">Output from a real run on 30 October 2026 (the numbers grow as new leaks are added):</p><p class="hi">30 अक्टूबर 2026 के एक असली run का output (नए leaks जुड़ने से numbers बढ़ते रहते हैं):</p>
+        <pre class="code" data-copy>password123: found <span class="kw">in</span> leaks 22,66,543 times
+Chai@2026: not found <span class="kw">in</span> known leaks
+x7#Kp!q2Lm9$wR4zT: not found <span class="kw">in</span> known leaks</pre>
+        <div class="idea"><p class="en">Developers can use this at sign-up and password change: "This password has appeared in a data leak. Please choose another." This exact check is a real security improvement you can add to your app this week.</p><p class="hi">Developers इसे sign-up और password बदलने पर इस्तेमाल कर सकते हैं: "यह password एक data leak में आ चुका है। कृपया दूसरा चुनिए।" यही check एक असली security सुधार है जो आप इसी हफ़्ते अपनी app में जोड़ सकते हैं।</p></div>
+      </section>
+      <section id="career">
+        <h2 id="career-h"><span class="en">A career in threat intelligence</span><span class="hi">Threat intelligence में career</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">This is usually not a first job. Most people come from a SOC analyst, fraud, or application security role. Useful skills:</p><p class="hi">यह आमतौर पर पहली job नहीं होती। ज़्यादातर लोग SOC analyst, fraud, या application security role से आते हैं। काम की skills:</p>
+        <ul><li><span class="en">Security basics, networking and Linux (see the <a href="career.html">career roadmap</a>).</span><span class="hi">Security basics, networking और Linux (<a href="career.html">career roadmap</a> देखिए)।</span></li><li><span class="en">Research and clear writing: a good analyst turns messy information into a 1-page brief a manager can act on.</span><span class="hi">Research और साफ़ लिखना: अच्छा analyst उलझी जानकारी को 1 page की brief में बदलता है जिस पर manager कार्रवाई कर सके।</span></li><li><span class="en">Scripting (Python or Node.js) to collect and filter data automatically.</span><span class="hi">Data अपने आप इकट्ठा और filter करने के लिए scripting (Python या Node.js)।</span></li><li><span class="en">Knowing MITRE ATT&amp;CK, and reading Indian and global security advisories regularly.</span><span class="hi">MITRE ATT&amp;CK की जानकारी, और भारतीय व global security advisories नियमित पढ़ना।</span></li></ul>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Exploring the dark web alone "to learn". It exposes you to malware, scams and legal trouble, and teaches little.</span><span class="hi">"सीखने के लिए" अकेले dark web घूमना। इससे malware, scams और क़ानूनी परेशानी का ख़तरा है, और सीख कम मिलती है।</span></li><li><span class="en">Collecting lots of data without a question to answer. Start with "what decision will this help?"</span><span class="hi">बिना किसी सवाल के ढेर सारा data इकट्ठा करना। शुरुआत कीजिए "इससे कौन-सा फ़ैसला होगा?" से।</span></li></ul></div>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 3 things</span><span class="hi">ये 3 बातें याद रखिए</span></div><ol><li><span class="en">Collect → filter → analyse → act → report.</span><span class="hi">इकट्ठा → filter → जाँच → कार्रवाई → report।</span></li><li><span class="en">Dark web monitoring looks for leaked credentials, data dumps, access sales and brand abuse.</span><span class="hi">Dark web monitoring leaked credentials, data dumps, access की बिक्री और brand के ग़लत इस्तेमाल को ढूँढती है।</span></li><li><span class="en">Use legal sources: Have I Been Pwned, CERT-In, MITRE ATT&CK, vendor tools. Never buy leaked data.</span><span class="hi">क़ानूनी sources इस्तेमाल कीजिए: Have I Been Pwned, CERT-In, MITRE ATT&CK, vendor tools। Leaked data कभी मत ख़रीदिए।</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Your company's monitoring tool reports: "120 employee email and password pairs found in a leak." What do you do, in order?</span><span class="hi">Exercise 1: आपकी company का monitoring tool बताता है: "एक leak में 120 employees के email और password मिले।" आप क्रम से क्या करेंगे?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><ul><li><span class="en">Check which accounts are still active, and whether the passwords look current (without logging in to any account).</span><span class="hi">देखिए कौन-से accounts अभी active हैं, और क्या passwords मौजूदा लगते हैं (किसी account में login किए बिना)।</span></li><li><span class="en">Force password resets for those accounts and make sure MFA is on.</span><span class="hi">उन accounts के password reset करवाइए और पक्का कीजिए कि MFA चालू है।</span></li><li><span class="en">Look at login logs for suspicious sign-ins since the leak date.</span><span class="hi">Leak की तारीख़ से संदिग्ध sign-ins के लिए login logs देखिए।</span></li><li><span class="en">Find the source (a third-party site breach, malware on a laptop) and write a short report for management.</span><span class="hi">Source ढूँढिए (किसी third-party site का breach, laptop पर malware) और management के लिए छोटी report लिखिए।</span></li></ul></div></details></div>
+    <div class="exercise"><p class="q-text"><span class="en">Exercise 2: Try it on yourself: check your own email address on Have I Been Pwned. If it appears, what should you change?</span><span class="hi">Exercise 2: ख़ुद पर आज़माइए: Have I Been Pwned पर अपना email check कीजिए। अगर दिखे, तो क्या बदलना चाहिए?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">Change the password on the leaked site and on <b>every other site where you used the same password</b>, turn on MFA (an authenticator app is best), and start using a password manager so every site gets a different password.</p><p class="hi">Leak वाली site पर और <b>हर उस site पर जहाँ वही password इस्तेमाल किया था</b>, password बदलिए, MFA चालू कीजिए (authenticator app सबसे अच्छा), और password manager इस्तेमाल करना शुरू कीजिए ताकि हर site का password अलग हो।</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"The main goal of threat intelligence is…","hi":"Threat intelligence का मुख्य मक़सद है…"},"options":[{"en":"Collecting as much data as possible","hi":"जितना हो सके उतना data इकट्ठा करना"},{"en":"Turning information into decisions and actions","hi":"जानकारी को फ़ैसलों और कार्रवाई में बदलना"},{"en":"Hacking attackers back","hi":"Attackers को वापस hack करना"},{"en":"Buying leaked databases","hi":"Leaked databases ख़रीदना"}],"answer":1,"why":{"en":"Information that leads to no action is just noise.","hi":"जिस जानकारी से कार्रवाई न हो, वो बस शोर है।"}},{"q":{"en":"In our Pwned Passwords code, what is sent to the API?","hi":"हमारे Pwned Passwords code में API को क्या भेजा जाता है?"},"options":[{"en":"The full password","hi":"पूरा password"},{"en":"The full hash","hi":"पूरा hash"},{"en":"Only the first 5 characters of the hash","hi":"Hash के सिर्फ़ पहले 5 characters"},{"en":"Your email","hi":"आपका email"}],"answer":2,"why":{"en":"This trick (k-anonymity) keeps the password private.","hi":"यह तरीक़ा (k-anonymity) password को private रखता है।"}},{"q":{"en":"Someone selling access to your company's network on the dark web is often…","hi":"Dark web पर कोई आपकी company के network का access बेच रहा हो, तो यह अक्सर…"},"options":[{"en":"Harmless","hi":"बेअसर"},{"en":"An early warning of a ransomware attack","hi":"Ransomware attack की शुरुआती चेतावनी"},{"en":"A marketing offer","hi":"Marketing offer"},{"en":"A job offer","hi":"Job offer"}],"answer":1,"why":{"en":"Access sellers often supply ransomware gangs.","hi":"Access बेचने वाले अक्सर ransomware gangs को सप्लाई करते हैं।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="security:threat-intel"></button>
+        </div>
+        <div class="lesson-nav"><span class="btn btn-outline" style="opacity:.55;cursor:default">← <span class="en">Cloud and Docker security (soon)</span><span class="hi">Cloud और Docker security (जल्द)</span></span><span class="btn btn-outline" style="opacity:.55;cursor:default">→ <span class="en">Incident response (soon)</span><span class="hi">Incident response (जल्द)</span></span></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20cyber%20security%20module%3A%20Threat%20intelligence%20and%20dark%20web%20monitoring" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20cyber%20security%20module%3A%20Threat%20intelligence%20and%20dark%20web%20monitoring" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Cyber Security from Zero</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../security/">Cyber Security</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Cyber security course by Agam Sahu</span><span class="hi">Cyber security कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>
