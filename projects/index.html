@@ -265,6 +265,11 @@
     <section class="section alt" id="ideas">
       <div class="container">
         <div class="section-head"><span class="eyebrow"><span class="en">Pick your level</span><span class="hi">अपना level चुनिए</span></span><h2><span class="en">28 project ideas</span><span class="hi">28 project ideas</span></h2><p><span class="en">Filter by experience and area. Open a card to see the full plan.</span><span class="hi">Experience और area से filter कीजिए। पूरा plan देखने के लिए card खोलिए।</span></p></div>
+        <div class="future-legend">
+          <p class="en"><b>Future outlook (2026–2030)</b>, our honest best guess, not a promise:</p><p class="hi"><b>आगे का अनुमान (2026–2030)</b>, हमारा ईमानदार अंदाज़ा, कोई वादा नहीं:</p>
+          <ul><li><span class="en"><b>🟢 Long-lasting:</b> solves an old, real problem (money, reliability, data). The skills stay useful whatever the tools.</span><span class="hi"><b>🟢 लंबे समय तक:</b> पुरानी, असली problem हल करता है (पैसा, reliability, data)। Tools चाहे बदलें, skills काम आती रहेंगी।</span></li><li><span class="en"><b>🟡 Evolving:</b> the need stays, but the tools change fast (mostly AI). Focus on the lasting part each card mentions.</span><span class="hi"><b>🟡 बदलता रहेगा:</b> ज़रूरत रहेगी, पर tools तेज़ी से बदलते हैं (ज़्यादातर AI)। हर card में बताए टिकने वाले हिस्से पर ध्यान दीजिए।</span></li><li><span class="en"><b>🟠 Getting common:</b> still fine for freshers, but many people build it. Add real users, numbers or one deep feature to stand out.</span><span class="hi"><b>🟠 आम हो रहा है:</b> freshers के लिए अब भी ठीक, पर बहुत लोग बनाते हैं। अलग दिखने के लिए असली users, numbers या एक गहरा feature जोड़िए।</span></li></ul>
+          <p class="reviewed"><span class="en">Last reviewed: October 2026. We update this list regularly.</span><span class="hi">आख़िरी review: अक्टूबर 2026। हम यह list नियमित रूप से अपडेट करते हैं।</span></p>
+        </div>
         <div class="idea-filters">
           <div class="chips-row" data-filter="level">
             <button type="button" class="fchip active" data-value="all"><span class="en">All levels</span><span class="hi">सारे levels</span> (28)</button>
@@ -284,15 +289,22 @@
             <button type="button" class="fchip" data-value="india"><span class="en">Made for India</span><span class="hi">भारत के लिए</span></button>
             <button type="button" class="fchip" data-value="mobile"><span class="en">Mobile & offline</span><span class="hi">Mobile और offline</span></button>
           </div>
+          <div class="chips-row" data-filter="future">
+            <button type="button" class="fchip active" data-value="all"><span class="en">Any outlook</span><span class="hi">कोई भी outlook</span></button>
+            <button type="button" class="fchip" data-value="long"><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span> (18)</button>
+            <button type="button" class="fchip" data-value="evolving"><span class="en">🟡 Evolving</span><span class="hi">🟡 बदलता रहेगा</span> (7)</button>
+            <button type="button" class="fchip" data-value="common"><span class="en">🟠 Getting common</span><span class="hi">🟠 आम हो रहा है</span> (3)</button>
+          </div>
           <input type="search" id="idea-search" class="gloss-search" placeholder="Search: AI, payments, real-time, RAG…" aria-label="Search project ideas" />
           <p class="idea-count" aria-live="polite"></p>
         </div>
         <div class="idea-grid">
-        <article class="idea-card" id="ai-study-buddy" data-level="fresher" data-domains="ai" data-text="ai study buddy for your own notes upload notes or pdfs, ask questions, get answers with page citations, and auto-generated quizzes. rag embeddings vector db prompt design auth">
+        <article class="idea-card" id="ai-study-buddy" data-level="fresher" data-domains="ai" data-future="evolving" data-text="ai study buddy for your own notes upload notes or pdfs, ask questions, get answers with page citations, and auto-generated quizzes. rag embeddings vector db prompt design auth">
           <div class="idea-top"><span class="lvl lvl-fresher"><span class="en">Fresher (0–1 yr)</span><span class="hi">Fresher (0–1 साल)</span></span><span class="chip-sm"><span class="en">AI / LLM</span><span class="hi">AI / LLM</span></span></div>
           <h3>AI study buddy for your own notes</h3>
           <p class="en">Upload notes or PDFs, ask questions, get answers with page citations, and auto-generated quizzes.</p><p class="hi">Notes या PDFs upload करो, सवाल पूछो, page citations के साथ जवाब पाओ, और अपने आप बने quizzes।</p>
           <p class="idea-why">⭐ <span class="en">Shows practical RAG (the most asked AI skill) on a problem every student understands.</span><span class="hi">हर student समझने वाली problem पर practical RAG दिखाता है (सबसे ज़्यादा माँगी जाने वाली AI skill)।</span></p>
+          <p class="future fut-evolving"><b><span class="en">🟡 Evolving</span><span class="hi">🟡 बदलता रहेगा</span></b> · <span class="en">The need lasts, but RAG tools are getting easier and more common every year. Real users and an accuracy test make it stand out.</span><span class="hi">ज़रूरत बनी रहेगी, पर RAG tools हर साल आसान और आम हो रहे हैं। असली users और accuracy test इसे अलग बनाते हैं।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -311,11 +323,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="upi-expense-splitter" data-level="fresher" data-domains="fintech india" data-text="group expense splitter with upi settle-up splitwise for indian groups: add expenses, see who owes whom, and settle with a tap using upi links. data modelling algorithms money handling mobile-friendly ui">
+        <article class="idea-card" id="upi-expense-splitter" data-level="fresher" data-domains="fintech india" data-future="common" data-text="group expense splitter with upi settle-up splitwise for indian groups: add expenses, see who owes whom, and settle with a tap using upi links. data modelling algorithms money handling mobile-friendly ui">
           <div class="idea-top"><span class="lvl lvl-fresher"><span class="en">Fresher (0–1 yr)</span><span class="hi">Fresher (0–1 साल)</span></span><span class="chip-sm"><span class="en">Fintech & payments</span><span class="hi">Fintech और payments</span></span><span class="chip-sm"><span class="en">Made for India</span><span class="hi">भारत के लिए</span></span></div>
           <h3>Group expense splitter with UPI settle-up</h3>
           <p class="en">Splitwise for Indian groups: add expenses, see who owes whom, and settle with a tap using UPI links.</p><p class="hi">Indian groups के लिए Splitwise: ख़र्च जोड़ो, देखो किसे किसको देना है, और UPI link से एक tap में चुकाओ।</p>
           <p class="idea-why">⭐ <span class="en">Real users (your friends) from day one, a classic algorithm (minimise transactions), and India-specific payments.</span><span class="hi">पहले दिन से असली users (आपके दोस्त), एक classic algorithm (कम से कम transactions), और भारत-ख़ास payments।</span></p>
+          <p class="future fut-common"><b><span class="en">🟠 Getting common</span><span class="hi">🟠 आम हो रहा है</span></b> · <span class="en">Many people build expense apps. Real users, the debt-simplification algorithm and bill scanning keep it interesting.</span><span class="hi">Expense apps बहुत लोग बनाते हैं। असली users, debt simplification algorithm और bill scanning इसे दिलचस्प रखते हैं।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -334,11 +347,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="job-tracker-ai-match" data-level="fresher" data-domains="ai saas" data-text="job application tracker with ai resume match track applications on a board, and get a match score plus missing keywords for each job description. structured llm outputs crud + drag-and-drop background jobs">
+        <article class="idea-card" id="job-tracker-ai-match" data-level="fresher" data-domains="ai saas" data-future="common" data-text="job application tracker with ai resume match track applications on a board, and get a match score plus missing keywords for each job description. structured llm outputs crud + drag-and-drop background jobs">
           <div class="idea-top"><span class="lvl lvl-fresher"><span class="en">Fresher (0–1 yr)</span><span class="hi">Fresher (0–1 साल)</span></span><span class="chip-sm"><span class="en">AI / LLM</span><span class="hi">AI / LLM</span></span><span class="chip-sm"><span class="en">SaaS & B2B</span><span class="hi">SaaS और B2B</span></span></div>
           <h3>Job application tracker with AI resume match</h3>
           <p class="en">Track applications on a board, and get a match score plus missing keywords for each job description.</p><p class="hi">Applications को board पर track करो, और हर job description के लिए match score और छूटे keywords पाओ।</p>
           <p class="idea-why">⭐ <span class="en">Every recruiter instantly gets the use case, and it shows LLM output you can validate (structured JSON).</span><span class="hi">हर recruiter तुरंत समझ जाता है, और यह validate करने लायक़ LLM output (structured JSON) दिखाता है।</span></p>
+          <p class="future fut-common"><b><span class="en">🟠 Getting common</span><span class="hi">🟠 आम हो रहा है</span></b> · <span class="en">Easy to build with AI coding tools, so it's becoming common. Validated JSON output and real usage make it count.</span><span class="hi">AI coding tools से बनाना आसान है, इसलिए आम हो रहा है। Validated JSON output और असली इस्तेमाल से इसकी क़ीमत बनती है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -357,11 +371,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="slot-booking-whatsapp" data-level="fresher" data-domains="india saas" data-text="appointment booking for a local business online slot booking for a clinic, salon or coaching centre, with no double bookings and whatsapp reminders. concurrency transactions date/time handling deployment">
+        <article class="idea-card" id="slot-booking-whatsapp" data-level="fresher" data-domains="india saas" data-future="long" data-text="appointment booking for a local business online slot booking for a clinic, salon or coaching centre, with no double bookings and whatsapp reminders. concurrency transactions date/time handling deployment">
           <div class="idea-top"><span class="lvl lvl-fresher"><span class="en">Fresher (0–1 yr)</span><span class="hi">Fresher (0–1 साल)</span></span><span class="chip-sm"><span class="en">Made for India</span><span class="hi">भारत के लिए</span></span><span class="chip-sm"><span class="en">SaaS & B2B</span><span class="hi">SaaS और B2B</span></span></div>
           <h3>Appointment booking for a local business</h3>
           <p class="en">Online slot booking for a clinic, salon or coaching centre, with no double bookings and WhatsApp reminders.</p><p class="hi">Clinic, salon या coaching centre के लिए online slot booking, बिना double booking और WhatsApp reminders के साथ।</p>
           <p class="idea-why">⭐ <span class="en">Solves a real local problem, and the hard part (two people booking the same slot) is a classic interview topic.</span><span class="hi">एक असली local problem हल करता है, और मुश्किल हिस्सा (एक ही slot दो लोग बुक करें) classic interview topic है।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Preventing double bookings is a timeless concurrency problem, and local businesses will keep needing it.</span><span class="hi">Double booking रोकना हमेशा रहने वाली concurrency problem है, और local businesses को इसकी ज़रूरत बनी रहेगी।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -380,11 +395,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="sms-finance-dashboard" data-level="fresher" data-domains="fintech india mobile" data-text="privacy-first spending tracker from bank sms reads bank sms on the phone, categorises spending, and shows monthly insights, without data leaving the device. parsing / regex mobile storage data visualisation privacy">
+        <article class="idea-card" id="sms-finance-dashboard" data-level="fresher" data-domains="fintech india mobile" data-future="evolving" data-text="privacy-first spending tracker from bank sms reads bank sms on the phone, categorises spending, and shows monthly insights, without data leaving the device. parsing / regex mobile storage data visualisation privacy">
           <div class="idea-top"><span class="lvl lvl-fresher"><span class="en">Fresher (0–1 yr)</span><span class="hi">Fresher (0–1 साल)</span></span><span class="chip-sm"><span class="en">Fintech & payments</span><span class="hi">Fintech और payments</span></span><span class="chip-sm"><span class="en">Made for India</span><span class="hi">भारत के लिए</span></span><span class="chip-sm"><span class="en">Mobile & offline</span><span class="hi">Mobile और offline</span></span></div>
           <h3>Privacy-first spending tracker from bank SMS</h3>
           <p class="en">Reads bank SMS on the phone, categorises spending, and shows monthly insights, without data leaving the device.</p><p class="hi">Phone पर bank SMS पढ़कर ख़र्च को categories में बाँटता है और monthly insights दिखाता है, बिना data device से बाहर गए।</p>
           <p class="idea-why">⭐ <span class="en">Very relatable, shows parsing messy real text, and "privacy by design" is a strong talking point.</span><span class="hi">सबके काम का, गड़बड़ असली text parse करना दिखाता है, और "privacy by design" एक मज़बूत बात है।</span></p>
+          <p class="future fut-evolving"><b><span class="en">🟡 Evolving</span><span class="hi">🟡 बदलता रहेगा</span></b> · <span class="en">Privacy-first design stays valuable, but bank data access in India may move to account aggregator APIs.</span><span class="hi">Privacy-first design क़ीमती रहेगा, पर भारत में bank data access account aggregator APIs की ओर जा सकता है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -403,11 +419,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="website-auditor" data-level="fresher" data-domains="devtools" data-text="website accessibility and performance auditor enter a url and get a report on accessibility issues, slow assets and seo basics, with fixes. headless browsers web standards background jobs reporting">
+        <article class="idea-card" id="website-auditor" data-level="fresher" data-domains="devtools" data-future="long" data-text="website accessibility and performance auditor enter a url and get a report on accessibility issues, slow assets and seo basics, with fixes. headless browsers web standards background jobs reporting">
           <div class="idea-top"><span class="lvl lvl-fresher"><span class="en">Fresher (0–1 yr)</span><span class="hi">Fresher (0–1 साल)</span></span><span class="chip-sm"><span class="en">Developer tools</span><span class="hi">Developer tools</span></span></div>
           <h3>Website accessibility and performance auditor</h3>
           <p class="en">Enter a URL and get a report on accessibility issues, slow assets and SEO basics, with fixes.</p><p class="hi">URL डालो और accessibility की कमियों, धीमे assets और SEO basics की report पाओ, हल के साथ।</p>
           <p class="idea-why">⭐ <span class="en">Accessibility and performance are increasingly expected skills, and the tool is useful to real site owners.</span><span class="hi">Accessibility और performance की माँग बढ़ रही है, और यह tool असली site owners के काम आता है।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Accessibility and performance rules keep growing in importance, including legal requirements in many countries.</span><span class="hi">Accessibility और performance के नियमों का महत्व बढ़ता जा रहा है, कई देशों में क़ानूनी ज़रूरत भी।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -426,11 +443,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="link-analytics" data-level="fresher" data-domains="saas data" data-text="short links and qr codes with analytics create short links and qr codes for posters or campaigns, and see clicks by day, device and city. system design basics caching privacy rate limiting">
+        <article class="idea-card" id="link-analytics" data-level="fresher" data-domains="saas data" data-future="common" data-text="short links and qr codes with analytics create short links and qr codes for posters or campaigns, and see clicks by day, device and city. system design basics caching privacy rate limiting">
           <div class="idea-top"><span class="lvl lvl-fresher"><span class="en">Fresher (0–1 yr)</span><span class="hi">Fresher (0–1 साल)</span></span><span class="chip-sm"><span class="en">SaaS & B2B</span><span class="hi">SaaS और B2B</span></span><span class="chip-sm"><span class="en">Data & search</span><span class="hi">Data और search</span></span></div>
           <h3>Short links and QR codes with analytics</h3>
           <p class="en">Create short links and QR codes for posters or campaigns, and see clicks by day, device and city.</p><p class="hi">Posters या campaigns के लिए short links और QR codes बनाओ, और दिन, device और शहर के हिसाब से clicks देखो।</p>
           <p class="idea-why">⭐ <span class="en">A classic system design question turned into a real product, with analytics and abuse protection.</span><span class="hi">Classic system design सवाल को असली product बनाना, analytics और abuse protection के साथ।</span></p>
+          <p class="future fut-common"><b><span class="en">🟠 Getting common</span><span class="hi">🟠 आम हो रहा है</span></b> · <span class="en">A classic, so many people have built it. Add real analytics, abuse protection and load-test numbers to stand out.</span><span class="hi">Classic है, इसलिए बहुत लोगों ने बनाया है। अलग दिखने के लिए असली analytics, abuse protection और load-test numbers जोड़िए।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -449,11 +467,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="gst-billing-saas" data-level="junior" data-domains="saas india fintech" data-text="multi-tenant gst billing for small shops invoices, stock and gst reports for many shops in one app, each seeing only its own data. multi-tenancy rbac audit logging pdf generation">
+        <article class="idea-card" id="gst-billing-saas" data-level="junior" data-domains="saas india fintech" data-future="long" data-text="multi-tenant gst billing for small shops invoices, stock and gst reports for many shops in one app, each seeing only its own data. multi-tenancy rbac audit logging pdf generation">
           <div class="idea-top"><span class="lvl lvl-junior"><span class="en">Junior (1–3 yrs)</span><span class="hi">Junior (1–3 साल)</span></span><span class="chip-sm"><span class="en">SaaS & B2B</span><span class="hi">SaaS और B2B</span></span><span class="chip-sm"><span class="en">Made for India</span><span class="hi">भारत के लिए</span></span><span class="chip-sm"><span class="en">Fintech & payments</span><span class="hi">Fintech और payments</span></span></div>
           <h3>Multi-tenant GST billing for small shops</h3>
           <p class="en">Invoices, stock and GST reports for many shops in one app, each seeing only its own data.</p><p class="hi">एक app में कई दुकानों के लिए invoices, stock और GST reports, हर दुकान को सिर्फ़ अपना data दिखे।</p>
           <p class="idea-why">⭐ <span class="en">Multi-tenancy, roles and audit logs are exactly what B2B companies build every day.</span><span class="hi">Multi-tenancy, roles और audit logs वही हैं जो B2B companies रोज़ बनाती हैं।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Multi-tenancy, roles and audit logs are core B2B skills that don't go out of date.</span><span class="hi">Multi-tenancy, roles और audit logs B2B की मूल skills हैं जो पुरानी नहीं होतीं।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -472,11 +491,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="realtime-chat" data-level="junior" data-domains="realtime" data-text="real-time chat with presence and read receipts one-to-one and group chat with typing indicators, online status, read receipts and offline delivery. websockets pub/sub message ordering pagination">
+        <article class="idea-card" id="realtime-chat" data-level="junior" data-domains="realtime" data-future="long" data-text="real-time chat with presence and read receipts one-to-one and group chat with typing indicators, online status, read receipts and offline delivery. websockets pub/sub message ordering pagination">
           <div class="idea-top"><span class="lvl lvl-junior"><span class="en">Junior (1–3 yrs)</span><span class="hi">Junior (1–3 साल)</span></span><span class="chip-sm"><span class="en">Real-time</span><span class="hi">Real-time</span></span></div>
           <h3>Real-time chat with presence and read receipts</h3>
           <p class="en">One-to-one and group chat with typing indicators, online status, read receipts and offline delivery.</p><p class="hi">One-to-one और group chat, typing indicators, online status, read receipts और offline delivery के साथ।</p>
           <p class="idea-why">⭐ <span class="en">Real-time systems are in demand, and it maps directly to the "design WhatsApp" interview question.</span><span class="hi">Real-time systems की माँग है, और यह सीधे "WhatsApp design करो" वाले interview सवाल से जुड़ता है।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Real-time messaging, ordering and offline delivery stay relevant, and it maps to a classic interview question.</span><span class="hi">Real-time messaging, ordering और offline delivery relevant रहते हैं, और यह classic interview सवाल से जुड़ता है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -495,11 +515,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="webhook-relay" data-level="junior" data-domains="devtools saas" data-text="reliable webhook delivery service a service that sends webhooks for other apps, with signatures, retries, a dead-letter queue and a dashboard. queues retries &amp; backoff security (hmac) observability">
+        <article class="idea-card" id="webhook-relay" data-level="junior" data-domains="devtools saas" data-future="long" data-text="reliable webhook delivery service a service that sends webhooks for other apps, with signatures, retries, a dead-letter queue and a dashboard. queues retries &amp; backoff security (hmac) observability">
           <div class="idea-top"><span class="lvl lvl-junior"><span class="en">Junior (1–3 yrs)</span><span class="hi">Junior (1–3 साल)</span></span><span class="chip-sm"><span class="en">Developer tools</span><span class="hi">Developer tools</span></span><span class="chip-sm"><span class="en">SaaS & B2B</span><span class="hi">SaaS और B2B</span></span></div>
           <h3>Reliable webhook delivery service</h3>
           <p class="en">A service that sends webhooks for other apps, with signatures, retries, a dead-letter queue and a dashboard.</p><p class="hi">दूसरी apps के लिए webhooks भेजने वाली service, signatures, retries, dead-letter queue और dashboard के साथ।</p>
           <p class="idea-why">⭐ <span class="en">Shows reliability engineering (retries, backoff, idempotency) that payment and SaaS companies care about.</span><span class="hi">Reliability engineering (retries, backoff, idempotency) दिखाता है, जिसकी payment और SaaS companies परवाह करती हैं।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Retries, backoff, signatures and idempotency are timeless reliability skills.</span><span class="hi">Retries, backoff, signatures और idempotency हमेशा काम आने वाली reliability skills हैं।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -518,11 +539,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="event-ticketing" data-level="junior" data-domains="fintech realtime" data-text="event ticketing with seat holds and payments pick seats on a map, hold them for 10 minutes, pay, and get a qr ticket, with no seat sold twice. concurrency payments idempotency expiring locks">
+        <article class="idea-card" id="event-ticketing" data-level="junior" data-domains="fintech realtime" data-future="long" data-text="event ticketing with seat holds and payments pick seats on a map, hold them for 10 minutes, pay, and get a qr ticket, with no seat sold twice. concurrency payments idempotency expiring locks">
           <div class="idea-top"><span class="lvl lvl-junior"><span class="en">Junior (1–3 yrs)</span><span class="hi">Junior (1–3 साल)</span></span><span class="chip-sm"><span class="en">Fintech & payments</span><span class="hi">Fintech और payments</span></span><span class="chip-sm"><span class="en">Real-time</span><span class="hi">Real-time</span></span></div>
           <h3>Event ticketing with seat holds and payments</h3>
           <p class="en">Pick seats on a map, hold them for 10 minutes, pay, and get a QR ticket, with no seat sold twice.</p><p class="hi">Map पर seats चुनो, 10 मिनट hold करो, payment करो, और QR ticket पाओ, कोई seat दो बार न बिके।</p>
           <p class="idea-why">⭐ <span class="en">Covers concurrency, expiring holds and payment idempotency: the "design BookMyShow" question, built for real.</span><span class="hi">Concurrency, expire होने वाले holds और payment idempotency: "BookMyShow design करो" सवाल, सच में बना हुआ।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Concurrency plus payments is a hard, lasting problem in every booking business.</span><span class="hi">Concurrency और payments, हर booking business की मुश्किल और लंबे समय तक रहने वाली problem है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -541,11 +563,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="whatsapp-support-bot" data-level="junior" data-domains="ai india" data-text="ai support bot on whatsapp with human handover a whatsapp assistant for a small business that answers from its faqs and hands tricky chats to a human. rag webhooks queues human-in-the-loop">
+        <article class="idea-card" id="whatsapp-support-bot" data-level="junior" data-domains="ai india" data-future="evolving" data-text="ai support bot on whatsapp with human handover a whatsapp assistant for a small business that answers from its faqs and hands tricky chats to a human. rag webhooks queues human-in-the-loop">
           <div class="idea-top"><span class="lvl lvl-junior"><span class="en">Junior (1–3 yrs)</span><span class="hi">Junior (1–3 साल)</span></span><span class="chip-sm"><span class="en">AI / LLM</span><span class="hi">AI / LLM</span></span><span class="chip-sm"><span class="en">Made for India</span><span class="hi">भारत के लिए</span></span></div>
           <h3>AI support bot on WhatsApp with human handover</h3>
           <p class="en">A WhatsApp assistant for a small business that answers from its FAQs and hands tricky chats to a human.</p><p class="hi">छोटे business के लिए WhatsApp assistant जो उसकी FAQs से जवाब दे और मुश्किल chats इंसान को सौंप दे।</p>
           <p class="idea-why">⭐ <span class="en">WhatsApp is how India does business; combining RAG, a messaging API and handover is very employable.</span><span class="hi">भारत में business WhatsApp पर चलता है; RAG, messaging API और handover का मेल नौकरी के लिए बहुत काम का है।</span></p>
+          <p class="future fut-evolving"><b><span class="en">🟡 Evolving</span><span class="hi">🟡 बदलता रहेगा</span></b> · <span class="en">Businesses will keep automating WhatsApp support, but the AI tools and providers will change. The handover and accuracy design is what lasts.</span><span class="hi">Businesses WhatsApp support automate करते रहेंगे, पर AI tools और providers बदलेंगे। Handover और accuracy का design ही टिकता है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -564,11 +587,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="api-rate-limiter" data-level="junior" data-domains="devtools" data-text="api gateway with rate limiting and keys a gateway in front of apis that issues keys, enforces rate limits and shows usage per customer. rate limiting algorithms caching proxies metrics">
+        <article class="idea-card" id="api-rate-limiter" data-level="junior" data-domains="devtools" data-future="long" data-text="api gateway with rate limiting and keys a gateway in front of apis that issues keys, enforces rate limits and shows usage per customer. rate limiting algorithms caching proxies metrics">
           <div class="idea-top"><span class="lvl lvl-junior"><span class="en">Junior (1–3 yrs)</span><span class="hi">Junior (1–3 साल)</span></span><span class="chip-sm"><span class="en">Developer tools</span><span class="hi">Developer tools</span></span></div>
           <h3>API gateway with rate limiting and keys</h3>
           <p class="en">A gateway in front of APIs that issues keys, enforces rate limits and shows usage per customer.</p><p class="hi">APIs के आगे एक gateway जो keys देता है, rate limits लागू करता है और हर customer का usage दिखाता है।</p>
           <p class="idea-why">⭐ <span class="en">Every API company needs this, and it shows algorithms (token bucket) plus distributed state.</span><span class="hi">हर API company को इसकी ज़रूरत है, और यह algorithms (token bucket) और distributed state दिखाता है।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Every API needs rate limiting; the algorithms and distributed-state ideas don't change.</span><span class="hi">हर API को rate limiting चाहिए; algorithms और distributed-state के ideas नहीं बदलते।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -587,11 +611,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="invoice-ocr-review" data-level="junior" data-domains="ai fintech" data-text="invoice reader with a human review queue upload invoices (pdf or photo), ai extracts the fields, and a reviewer approves or fixes them. document ai structured outputs workflow ui validation">
+        <article class="idea-card" id="invoice-ocr-review" data-level="junior" data-domains="ai fintech" data-future="evolving" data-text="invoice reader with a human review queue upload invoices (pdf or photo), ai extracts the fields, and a reviewer approves or fixes them. document ai structured outputs workflow ui validation">
           <div class="idea-top"><span class="lvl lvl-junior"><span class="en">Junior (1–3 yrs)</span><span class="hi">Junior (1–3 साल)</span></span><span class="chip-sm"><span class="en">AI / LLM</span><span class="hi">AI / LLM</span></span><span class="chip-sm"><span class="en">Fintech & payments</span><span class="hi">Fintech और payments</span></span></div>
           <h3>Invoice reader with a human review queue</h3>
           <p class="en">Upload invoices (PDF or photo), AI extracts the fields, and a reviewer approves or fixes them.</p><p class="hi">Invoices (PDF या photo) upload करो, AI fields निकालता है, और reviewer उन्हें approve या ठीक करता है।</p>
           <p class="idea-why">⭐ <span class="en">Document AI is one of the most common real business uses of LLMs, and the review step shows good judgement.</span><span class="hi">Document AI, LLMs का सबसे आम असली business इस्तेमाल है, और review step अच्छी समझ दिखाता है।</span></p>
+          <p class="future fut-evolving"><b><span class="en">🟡 Evolving</span><span class="hi">🟡 बदलता रहेगा</span></b> · <span class="en">Document AI demand is growing, but models get better fast. The validation and human-review workflow is the lasting part.</span><span class="hi">Document AI की माँग बढ़ रही है, पर models तेज़ी से बेहतर हो रहे हैं। Validation और human-review workflow ही टिकने वाला हिस्सा है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -610,11 +635,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="job-scheduler" data-level="mid" data-domains="devtools" data-text="distributed job scheduler schedule one-off and cron jobs, run them across many workers, retry failures, and see every run. distributed locks idempotency failure handling observability">
+        <article class="idea-card" id="job-scheduler" data-level="mid" data-domains="devtools" data-future="long" data-text="distributed job scheduler schedule one-off and cron jobs, run them across many workers, retry failures, and see every run. distributed locks idempotency failure handling observability">
           <div class="idea-top"><span class="lvl lvl-mid"><span class="en">Mid-level (3–6 yrs)</span><span class="hi">Mid-level (3–6 साल)</span></span><span class="chip-sm"><span class="en">Developer tools</span><span class="hi">Developer tools</span></span></div>
           <h3>Distributed job scheduler</h3>
           <p class="en">Schedule one-off and cron jobs, run them across many workers, retry failures, and see every run.</p><p class="hi">एक बार और cron jobs schedule करो, कई workers पर चलाओ, failures retry करो, और हर run देखो।</p>
           <p class="idea-why">⭐ <span class="en">Distributed coordination, leases and exactly-once myths are deep topics that set mid-level engineers apart.</span><span class="hi">Distributed coordination, leases और exactly-once की ग़लतफ़हमियाँ गहरे topics हैं जो mid-level engineers को अलग करते हैं।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Distributed coordination and failure handling are deep, lasting engineering skills.</span><span class="hi">Distributed coordination और failure handling गहरी, लंबे समय तक काम आने वाली engineering skills हैं।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -633,11 +659,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="llm-gateway" data-level="mid" data-domains="ai devtools" data-text="llm gateway with routing, caching and cost tracking one endpoint for all ai calls in a company: model routing, fallbacks, caching, budgets and cost per team. platform engineering caching cost control security">
+        <article class="idea-card" id="llm-gateway" data-level="mid" data-domains="ai devtools" data-future="evolving" data-text="llm gateway with routing, caching and cost tracking one endpoint for all ai calls in a company: model routing, fallbacks, caching, budgets and cost per team. platform engineering caching cost control security">
           <div class="idea-top"><span class="lvl lvl-mid"><span class="en">Mid-level (3–6 yrs)</span><span class="hi">Mid-level (3–6 साल)</span></span><span class="chip-sm"><span class="en">AI / LLM</span><span class="hi">AI / LLM</span></span><span class="chip-sm"><span class="en">Developer tools</span><span class="hi">Developer tools</span></span></div>
           <h3>LLM gateway with routing, caching and cost tracking</h3>
           <p class="en">One endpoint for all AI calls in a company: model routing, fallbacks, caching, budgets and cost per team.</p><p class="hi">Company की सारी AI calls के लिए एक endpoint: model routing, fallbacks, caching, budgets और हर team की cost।</p>
           <p class="idea-why">⭐ <span class="en">Companies are now controlling AI cost and reliability centrally; this is a hot platform skill.</span><span class="hi">Companies अब AI cost और reliability को एक जगह से control कर रही हैं; यह एक hot platform skill है।</span></p>
+          <p class="future fut-evolving"><b><span class="en">🟡 Evolving</span><span class="hi">🟡 बदलता रहेगा</span></b> · <span class="en">Ready-made gateways are appearing, so building one is less unique over time. Cost control and reliability thinking still matter.</span><span class="hi">तैयार gateways आ रहे हैं, इसलिए ख़ुद बनाना समय के साथ कम अनोखा होगा। Cost control और reliability की सोच फिर भी मायने रखती है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -656,11 +683,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="hybrid-product-search" data-level="mid" data-domains="data ai" data-text="hybrid product search (keyword + semantic) search a product catalogue by meaning and keywords, with filters, typo tolerance and relevance tuning. search engines embeddings relevance evaluation indexing pipelines">
+        <article class="idea-card" id="hybrid-product-search" data-level="mid" data-domains="data ai" data-future="long" data-text="hybrid product search (keyword + semantic) search a product catalogue by meaning and keywords, with filters, typo tolerance and relevance tuning. search engines embeddings relevance evaluation indexing pipelines">
           <div class="idea-top"><span class="lvl lvl-mid"><span class="en">Mid-level (3–6 yrs)</span><span class="hi">Mid-level (3–6 साल)</span></span><span class="chip-sm"><span class="en">Data & search</span><span class="hi">Data और search</span></span><span class="chip-sm"><span class="en">AI / LLM</span><span class="hi">AI / LLM</span></span></div>
           <h3>Hybrid product search (keyword + semantic)</h3>
           <p class="en">Search a product catalogue by meaning and keywords, with filters, typo tolerance and relevance tuning.</p><p class="hi">Product catalogue को मतलब और keywords से search करो, filters, typo tolerance और relevance tuning के साथ।</p>
           <p class="idea-why">⭐ <span class="en">Search quality directly drives revenue in e-commerce; hybrid search with measured relevance is rare and valuable.</span><span class="hi">E-commerce में search quality सीधे revenue बढ़ाती है; नापी गई relevance वाली hybrid search दुर्लभ और क़ीमती है।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Search quality drives revenue, and measuring relevance is a lasting skill even as tools change.</span><span class="hi">Search quality से revenue बढ़ता है, और relevance नापना tools बदलने पर भी काम आने वाली skill है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -679,11 +707,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="notification-platform" data-level="mid" data-domains="saas realtime" data-text="multi-channel notification platform send email, sms, push and whatsapp from one api, with templates, user preferences and quiet hours. queues priorities templating reliability">
+        <article class="idea-card" id="notification-platform" data-level="mid" data-domains="saas realtime" data-future="long" data-text="multi-channel notification platform send email, sms, push and whatsapp from one api, with templates, user preferences and quiet hours. queues priorities templating reliability">
           <div class="idea-top"><span class="lvl lvl-mid"><span class="en">Mid-level (3–6 yrs)</span><span class="hi">Mid-level (3–6 साल)</span></span><span class="chip-sm"><span class="en">SaaS & B2B</span><span class="hi">SaaS और B2B</span></span><span class="chip-sm"><span class="en">Real-time</span><span class="hi">Real-time</span></span></div>
           <h3>Multi-channel notification platform</h3>
           <p class="en">Send email, SMS, push and WhatsApp from one API, with templates, user preferences and quiet hours.</p><p class="hi">एक API से email, SMS, push और WhatsApp भेजो, templates, user preferences और quiet hours के साथ।</p>
           <p class="idea-why">⭐ <span class="en">Every product needs it; it covers queues, priorities, provider failover and user experience.</span><span class="hi">हर product को इसकी ज़रूरत है; इसमें queues, priorities, provider failover और user experience सब आता है।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Every product sends notifications; queues, priorities and failover remain core skills.</span><span class="hi">हर product notifications भेजता है; queues, priorities और failover मूल skills बनी रहेंगी।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -702,11 +731,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="ai-agent-approvals" data-level="mid" data-domains="ai saas" data-text="ai agent that automates a workflow, with approvals an agent that reads requests, calls internal tools (crm, sheets, email) and asks a human before risky actions. tool calling agent design safety auditability">
+        <article class="idea-card" id="ai-agent-approvals" data-level="mid" data-domains="ai saas" data-future="evolving" data-text="ai agent that automates a workflow, with approvals an agent that reads requests, calls internal tools (crm, sheets, email) and asks a human before risky actions. tool calling agent design safety auditability">
           <div class="idea-top"><span class="lvl lvl-mid"><span class="en">Mid-level (3–6 yrs)</span><span class="hi">Mid-level (3–6 साल)</span></span><span class="chip-sm"><span class="en">AI / LLM</span><span class="hi">AI / LLM</span></span><span class="chip-sm"><span class="en">SaaS & B2B</span><span class="hi">SaaS और B2B</span></span></div>
           <h3>AI agent that automates a workflow, with approvals</h3>
           <p class="en">An agent that reads requests, calls internal tools (CRM, sheets, email) and asks a human before risky actions.</p><p class="hi">एक agent जो requests पढ़ता है, internal tools (CRM, sheets, email) call करता है और जोखिम वाले काम से पहले इंसान से पूछता है।</p>
           <p class="idea-why">⭐ <span class="en">Agents are the next wave; doing it safely (approvals, audit, limits) is what companies will actually hire for.</span><span class="hi">Agents अगली लहर हैं; इन्हें सुरक्षित तरीक़े से (approvals, audit, limits) बनाना ही वो skill है जिसके लिए companies hire करेंगी।</span></p>
+          <p class="future fut-evolving"><b><span class="en">🟡 Evolving</span><span class="hi">🟡 बदलता रहेगा</span></b> · <span class="en">Likely to grow in importance, but agent frameworks change quickly. Safety, approvals and audit trails are the lasting ideas.</span><span class="hi">महत्व बढ़ने की संभावना है, पर agent frameworks तेज़ी से बदलते हैं। Safety, approvals और audit trails टिकने वाले ideas हैं।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -725,11 +755,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="offline-field-app" data-level="mid" data-domains="mobile india" data-text="offline-first field data collection app field workers fill forms with photos and gps without internet; data syncs safely when they're back online. offline-first sync &amp; conflicts mobile storage bandwidth optimisation">
+        <article class="idea-card" id="offline-field-app" data-level="mid" data-domains="mobile india" data-future="long" data-text="offline-first field data collection app field workers fill forms with photos and gps without internet; data syncs safely when they're back online. offline-first sync &amp; conflicts mobile storage bandwidth optimisation">
           <div class="idea-top"><span class="lvl lvl-mid"><span class="en">Mid-level (3–6 yrs)</span><span class="hi">Mid-level (3–6 साल)</span></span><span class="chip-sm"><span class="en">Mobile & offline</span><span class="hi">Mobile और offline</span></span><span class="chip-sm"><span class="en">Made for India</span><span class="hi">भारत के लिए</span></span></div>
           <h3>Offline-first field data collection app</h3>
           <p class="en">Field workers fill forms with photos and GPS without internet; data syncs safely when they're back online.</p><p class="hi">Field workers बिना internet के photos और GPS के साथ forms भरें; online आने पर data सुरक्षित sync हो।</p>
           <p class="idea-why">⭐ <span class="en">Huge need in Indian government, NGO, agri and logistics work; sync and conflict resolution are hard, valued skills.</span><span class="hi">भारतीय सरकारी, NGO, agri और logistics काम में बहुत ज़रूरत; sync और conflict resolution मुश्किल और क़ीमती skills हैं।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Low-connectivity work isn't going away, and sync with conflict resolution is hard to get right.</span><span class="hi">कम connectivity वाला काम ख़त्म नहीं होगा, और conflict resolution के साथ sync सही करना मुश्किल है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -748,11 +779,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="double-entry-ledger" data-level="mid" data-domains="fintech" data-text="double-entry ledger and reconciliation a wallet/ledger service where every rupee moves as balanced entries, with daily reconciliation against the bank. financial correctness transactions idempotency auditing">
+        <article class="idea-card" id="double-entry-ledger" data-level="mid" data-domains="fintech" data-future="long" data-text="double-entry ledger and reconciliation a wallet/ledger service where every rupee moves as balanced entries, with daily reconciliation against the bank. financial correctness transactions idempotency auditing">
           <div class="idea-top"><span class="lvl lvl-mid"><span class="en">Mid-level (3–6 yrs)</span><span class="hi">Mid-level (3–6 साल)</span></span><span class="chip-sm"><span class="en">Fintech & payments</span><span class="hi">Fintech और payments</span></span></div>
           <h3>Double-entry ledger and reconciliation</h3>
           <p class="en">A wallet/ledger service where every rupee moves as balanced entries, with daily reconciliation against the bank.</p><p class="hi">Wallet/ledger service जहाँ हर रुपया balanced entries में चलता है, और bank से रोज़ reconciliation होता है।</p>
           <p class="idea-why">⭐ <span class="en">Fintech is a top employer, and correct money handling (immutability, idempotency, reconciliation) is rare knowledge.</span><span class="hi">Fintech बड़ा employer है, और पैसे को सही संभालना (immutability, idempotency, reconciliation) दुर्लभ ज्ञान है।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Accounting rules are centuries old. Correct money handling will always be in demand.</span><span class="hi">Accounting के नियम सदियों पुराने हैं। पैसे को सही संभालने की माँग हमेशा रहेगी।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -771,11 +803,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="ai-eval-platform" data-level="senior" data-domains="ai devtools" data-text="ai evaluation and guardrails platform test datasets, automatic graders and dashboards so teams know if a prompt or model change made their ai better or worse. evaluation design platform engineering ci integration ai safety">
+        <article class="idea-card" id="ai-eval-platform" data-level="senior" data-domains="ai devtools" data-future="evolving" data-text="ai evaluation and guardrails platform test datasets, automatic graders and dashboards so teams know if a prompt or model change made their ai better or worse. evaluation design platform engineering ci integration ai safety">
           <div class="idea-top"><span class="lvl lvl-senior"><span class="en">Senior (6–10 yrs)</span><span class="hi">Senior (6–10 साल)</span></span><span class="chip-sm"><span class="en">AI / LLM</span><span class="hi">AI / LLM</span></span><span class="chip-sm"><span class="en">Developer tools</span><span class="hi">Developer tools</span></span></div>
           <h3>AI evaluation and guardrails platform</h3>
           <p class="en">Test datasets, automatic graders and dashboards so teams know if a prompt or model change made their AI better or worse.</p><p class="hi">Test datasets, automatic graders और dashboards, ताकि teams जानें कि prompt या model बदलने से AI बेहतर हुआ या बुरा।</p>
           <p class="idea-why">⭐ <span class="en">Measuring AI quality is the biggest gap in companies shipping AI; it shows senior judgement and platform thinking.</span><span class="hi">AI quality नापना AI ship करने वाली companies की सबसे बड़ी कमी है; यह senior समझ और platform सोच दिखाता है।</span></p>
+          <p class="future fut-evolving"><b><span class="en">🟡 Evolving</span><span class="hi">🟡 बदलता रहेगा</span></b> · <span class="en">Likely to matter more as AI spreads, but expect tools in this space to mature quickly. Evaluation thinking is the lasting skill.</span><span class="hi">AI फैलने के साथ इसकी अहमियत बढ़ने की संभावना है, पर इस क्षेत्र के tools जल्दी परिपक्व होंगे। Evaluation की सोच ही टिकने वाली skill है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -794,11 +827,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="cdc-data-pipeline" data-level="senior" data-domains="data" data-text="change-data-capture pipeline to analytics stream every database change into an analytics store in near real time, with schema changes and data quality checks. streaming data modelling reliability operations">
+        <article class="idea-card" id="cdc-data-pipeline" data-level="senior" data-domains="data" data-future="long" data-text="change-data-capture pipeline to analytics stream every database change into an analytics store in near real time, with schema changes and data quality checks. streaming data modelling reliability operations">
           <div class="idea-top"><span class="lvl lvl-senior"><span class="en">Senior (6–10 yrs)</span><span class="hi">Senior (6–10 साल)</span></span><span class="chip-sm"><span class="en">Data & search</span><span class="hi">Data और search</span></span></div>
           <h3>Change-data-capture pipeline to analytics</h3>
           <p class="en">Stream every database change into an analytics store in near real time, with schema changes and data quality checks.</p><p class="hi">Database के हर बदलाव को लगभग real time में analytics store तक stream करो, schema changes और data quality checks के साथ।</p>
           <p class="idea-why">⭐ <span class="en">Real-time data platforms are core to modern companies; handling schema evolution and backfills is senior work.</span><span class="hi">Real-time data platforms आज की companies की नींव हैं; schema evolution और backfills संभालना senior काम है।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Moving data reliably between systems is a lasting need; schema changes and backfills are always hard.</span><span class="hi">Systems के बीच data भरोसे से ले जाना हमेशा की ज़रूरत है; schema changes और backfills हमेशा मुश्किल रहते हैं।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -817,11 +851,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="internal-dev-platform" data-level="senior" data-domains="devtools saas" data-text="internal developer platform with preview environments new services from a template in minutes, ci/cd by default, and a temporary preview environment for every pull request. ci/cd infrastructure as code developer experience leadership">
+        <article class="idea-card" id="internal-dev-platform" data-level="senior" data-domains="devtools saas" data-future="long" data-text="internal developer platform with preview environments new services from a template in minutes, ci/cd by default, and a temporary preview environment for every pull request. ci/cd infrastructure as code developer experience leadership">
           <div class="idea-top"><span class="lvl lvl-senior"><span class="en">Senior (6–10 yrs)</span><span class="hi">Senior (6–10 साल)</span></span><span class="chip-sm"><span class="en">Developer tools</span><span class="hi">Developer tools</span></span><span class="chip-sm"><span class="en">SaaS & B2B</span><span class="hi">SaaS और B2B</span></span></div>
           <h3>Internal developer platform with preview environments</h3>
           <p class="en">New services from a template in minutes, CI/CD by default, and a temporary preview environment for every pull request.</p><p class="hi">Template से कुछ मिनटों में नई services, default CI/CD, और हर pull request के लिए एक temporary preview environment।</p>
           <p class="idea-why">⭐ <span class="en">Platform engineering multiplies a whole team's speed; it shows leadership-level impact.</span><span class="hi">Platform engineering पूरी team की रफ़्तार कई गुना करता है; यह leadership-level असर दिखाता है।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Making a whole team faster is a lasting senior skill, whatever the tools.</span><span class="hi">पूरी team को तेज़ बनाना हमेशा काम आने वाली senior skill है, tools चाहे जो हों।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -840,11 +875,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="fraud-detection" data-level="senior" data-domains="fintech data ai" data-text="real-time fraud and anomaly detection score every transaction in milliseconds using rules plus a model, with a review queue and feedback loop. streaming ml in production low latency risk">
+        <article class="idea-card" id="fraud-detection" data-level="senior" data-domains="fintech data ai" data-future="long" data-text="real-time fraud and anomaly detection score every transaction in milliseconds using rules plus a model, with a review queue and feedback loop. streaming ml in production low latency risk">
           <div class="idea-top"><span class="lvl lvl-senior"><span class="en">Senior (6–10 yrs)</span><span class="hi">Senior (6–10 साल)</span></span><span class="chip-sm"><span class="en">Fintech & payments</span><span class="hi">Fintech और payments</span></span><span class="chip-sm"><span class="en">Data & search</span><span class="hi">Data और search</span></span><span class="chip-sm"><span class="en">AI / LLM</span><span class="hi">AI / LLM</span></span></div>
           <h3>Real-time fraud and anomaly detection</h3>
           <p class="en">Score every transaction in milliseconds using rules plus a model, with a review queue and feedback loop.</p><p class="hi">हर transaction को milliseconds में rules और model से score करो, review queue और feedback loop के साथ।</p>
           <p class="idea-why">⭐ <span class="en">Combines streaming, ML, low latency and business risk: exactly the senior fintech and e-commerce profile.</span><span class="hi">Streaming, ML, कम latency और business risk का मेल: बिल्कुल senior fintech और e-commerce profile।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Fraud keeps growing with digital payments, and low-latency risk systems stay in demand.</span><span class="hi">Digital payments के साथ fraud बढ़ता रहता है, और कम latency वाले risk systems की माँग बनी रहती है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -863,11 +899,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="zero-downtime-migration" data-level="senior" data-domains="saas data" data-text="zero-downtime migration case study plan and run a big migration (database, monolith to services, or cloud) with no downtime, and write it up. migration strategy risk management feature flags communication">
+        <article class="idea-card" id="zero-downtime-migration" data-level="senior" data-domains="saas data" data-future="long" data-text="zero-downtime migration case study plan and run a big migration (database, monolith to services, or cloud) with no downtime, and write it up. migration strategy risk management feature flags communication">
           <div class="idea-top"><span class="lvl lvl-senior"><span class="en">Senior (6–10 yrs)</span><span class="hi">Senior (6–10 साल)</span></span><span class="chip-sm"><span class="en">SaaS & B2B</span><span class="hi">SaaS और B2B</span></span><span class="chip-sm"><span class="en">Data & search</span><span class="hi">Data और search</span></span></div>
           <h3>Zero-downtime migration case study</h3>
           <p class="en">Plan and run a big migration (database, monolith to services, or cloud) with no downtime, and write it up.</p><p class="hi">एक बड़ा migration (database, monolith से services, या cloud) बिना downtime plan करो और चलाओ, और उसका write-up लिखो।</p>
           <p class="idea-why">⭐ <span class="en">Seniors are hired to change running systems safely; a documented migration is powerful proof.</span><span class="hi">Seniors चलते systems को सुरक्षित बदलने के लिए hire होते हैं; documented migration ताक़तवर सबूत है।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Every company changes running systems; doing it safely is a timeless senior skill.</span><span class="hi">हर company चलते systems बदलती है; इसे सुरक्षित करना हमेशा की senior skill है।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -886,11 +923,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="multi-region-saas" data-level="senior" data-domains="saas" data-text="multi-region, multi-tenant saas architecture run a saas in two regions with tenant data residency, failover, and per-tenant rate limits and cost tracking. architecture compliance reliability cost management">
+        <article class="idea-card" id="multi-region-saas" data-level="senior" data-domains="saas" data-future="long" data-text="multi-region, multi-tenant saas architecture run a saas in two regions with tenant data residency, failover, and per-tenant rate limits and cost tracking. architecture compliance reliability cost management">
           <div class="idea-top"><span class="lvl lvl-senior"><span class="en">Senior (6–10 yrs)</span><span class="hi">Senior (6–10 साल)</span></span><span class="chip-sm"><span class="en">SaaS & B2B</span><span class="hi">SaaS और B2B</span></span></div>
           <h3>Multi-region, multi-tenant SaaS architecture</h3>
           <p class="en">Run a SaaS in two regions with tenant data residency, failover, and per-tenant rate limits and cost tracking.</p><p class="hi">Tenant data residency, failover, और हर tenant की rate limits और cost tracking के साथ SaaS को दो regions में चलाओ।</p>
           <p class="idea-why">⭐ <span class="en">Data residency (including India's DPDP Act) and global reliability are real board-level concerns.</span><span class="hi">Data residency (भारत के DPDP Act सहित) और global reliability असली board-level चिंताएँ हैं।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Data residency laws and global reliability needs are increasing, not decreasing.</span><span class="hi">Data residency क़ानून और global reliability की ज़रूरतें बढ़ रही हैं, घट नहीं रहीं।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -909,11 +947,12 @@
             </div>
           </details>
         </article>
-        <article class="idea-card" id="open-source-sdk" data-level="senior" data-domains="devtools" data-text="an open-source library or sdk others actually use build and maintain a focused library or sdk that solves one painful problem, with docs, tests and releases. api design documentation community maintenance">
+        <article class="idea-card" id="open-source-sdk" data-level="senior" data-domains="devtools" data-future="long" data-text="an open-source library or sdk others actually use build and maintain a focused library or sdk that solves one painful problem, with docs, tests and releases. api design documentation community maintenance">
           <div class="idea-top"><span class="lvl lvl-senior"><span class="en">Senior (6–10 yrs)</span><span class="hi">Senior (6–10 साल)</span></span><span class="chip-sm"><span class="en">Developer tools</span><span class="hi">Developer tools</span></span></div>
           <h3>An open-source library or SDK others actually use</h3>
           <p class="en">Build and maintain a focused library or SDK that solves one painful problem, with docs, tests and releases.</p><p class="hi">एक focused library या SDK बनाओ और संभालो जो एक परेशान करने वाली problem हल करे, docs, tests और releases के साथ।</p>
           <p class="idea-why">⭐ <span class="en">Public adoption (stars, downloads, contributors) is proof no resume line can fake.</span><span class="hi">Public adoption (stars, downloads, contributors) ऐसा सबूत है जिसे कोई resume line नकली नहीं बना सकती।</span></p>
+          <p class="future fut-long"><b><span class="en">🟢 Long-lasting</span><span class="hi">🟢 लंबे समय तक</span></b> · <span class="en">Public adoption is proof that never goes out of date.</span><span class="hi">Public adoption ऐसा सबूत है जो कभी पुराना नहीं होता।</span></p>
           <details>
             <summary><span class="en">See features, skills and resume line</span><span class="hi">Features, skills और resume line देखें</span></summary>
             <div class="idea-body">
@@ -959,13 +998,14 @@
     <script>
     (function () {
       const cards = [...document.querySelectorAll(".idea-card")];
-      const state = { level: "all", domain: "all", q: "" };
+      const state = { level: "all", domain: "all", future: "all", q: "" };
       const count = document.querySelector(".idea-count");
       function apply() {
         let shown = 0;
         cards.forEach((c) => {
           const ok = (state.level === "all" || c.dataset.level === state.level) &&
             (state.domain === "all" || c.dataset.domains.split(" ").includes(state.domain)) &&
+            (state.future === "all" || c.dataset.future === state.future) &&
             (!state.q || c.dataset.text.includes(state.q));
           c.hidden = !ok;
           if (ok) shown++;

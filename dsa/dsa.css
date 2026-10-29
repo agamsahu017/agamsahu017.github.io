@@ -232,3 +232,10 @@ h2 + .badge { margin: -4px 0 10px; }
 .idea-body ul { padding-left: 20px; display: grid; gap: 4px; color: var(--muted); font-size: .9rem; }
 .idea-body .skills { display: flex; flex-wrap: wrap; gap: 6px; }
 .idea-body .bullet { font-style: italic; color: var(--text) !important; background: var(--bg-alt); border-left: 3px solid var(--primary); padding: 8px 12px; border-radius: 8px; }
+.future { margin-top: 8px; font-size: .86rem !important; padding: 8px 10px; border-radius: 10px; background: var(--bg-alt); border-left: 3px solid var(--border); }
+.future b { color: var(--text); }
+.fut-long { border-left-color: #16a34a; } .fut-evolving { border-left-color: #eab308; } .fut-common { border-left-color: #f97316; }
+.future-legend { max-width: 980px; margin: 0 auto 18px; padding: 14px 18px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); }
+.future-legend p, .future-legend li { color: var(--muted); font-size: .92rem; }
+.future-legend ul { padding-left: 20px; display: grid; gap: 4px; margin: 6px 0; }
+.future-legend .reviewed { font-size: .82rem; margin-top: 6px; }
