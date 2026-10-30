@@ -331,3 +331,16 @@ h2 + .badge { margin: -4px 0 10px; }
 .job-empty { color: var(--muted); }
 :root[data-theme="dark"] .jt.india-ok { color: #6ee7b7; }
 .lesson .job-foot .btn-primary { color: #fff; }
+.my-profile { margin: 14px 0 4px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--primary); background: var(--bg-alt); }
+.my-profile summary { cursor: pointer; font-weight: 700; color: var(--text); }
+.mp-hint { font-weight: 400; font-size: .85rem; color: var(--muted); }
+.mp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 14px; margin-top: 12px; }
+.mp-grid label { display: grid; gap: 4px; font-size: .9rem; color: var(--text); }
+.mp-grid select, .mp-grid input { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font: inherit; }
+.mp-wide { grid-column: 1 / -1; }
+.mp-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+.lesson .mp-actions .btn-primary { color: #fff; }
+.mp-msg { font-size: .88rem; color: var(--text); word-break: break-all; }
+.job-match { margin: 0 0 8px; font-size: .9rem; color: #047857; }
+:root[data-theme="dark"] .job-match { color: #6ee7b7; }
+.job-save[aria-pressed="true"] { border-color: #f59e0b; color: #b45309; }

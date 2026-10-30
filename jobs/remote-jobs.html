@@ -85,10 +85,26 @@
         <h1>Live remote developer and QA jobs</h1>
         <p>Fresh remote jobs from <a href="https://remotive.com" target="_blank" rel="noopener">Remotive</a>, <a href="https://remoteok.com" target="_blank" rel="noopener">Remote OK</a> and <a href="https://jobicy.com" target="_blank" rel="noopener">Jobicy</a>, filtered to developer and QA roles. Tick <b>Open to India</b> to hide jobs limited to other countries.</p>
         <div class="warn"><p>Kodivo doesn't post or verify these jobs. Always apply on the original website, read the location rules in the full post, and <b>never pay anyone to get a job</b>. Experience level is estimated from the job title.</p></div>
+        <details class="my-profile" id="my-profile">
+          <summary>🎯 My job profile <span class="mp-hint">(show the jobs that fit you first · saved only in this browser)</span></summary>
+          <div class="mp-grid">
+            <label>Experience <select id="p-exp"><option value="">Not set</option><option value="0-1">0–1 years (fresher)</option><option value="1-3">1–3 years</option><option value="3-6">3–6 years</option><option value="6-10">6–10 years</option><option value="10+">10+ years</option></select></label>
+            <label>Role <select id="p-role"><option value="">Any</option><option value="dev">Developer</option><option value="qa">QA / testing</option></select></label>
+            <label class="mp-wide">My skills <input type="text" id="p-skills" placeholder="react, node, nestjs, typescript, postgres, aws" /></label>
+            <label class="mp-wide">Hide jobs with these words <input type="text" id="p-avoid" placeholder="php, wordpress, crypto" /></label>
+          </div>
+          <div class="mp-actions">
+            <button type="button" class="btn btn-primary btn-sm" id="p-save">Save and show my matches</button>
+            <button type="button" class="btn btn-outline btn-sm" id="p-link">Copy my link</button>
+            <button type="button" class="btn btn-outline btn-sm" id="p-clear">Clear profile</button>
+            <span class="mp-msg" id="p-msg" aria-live="polite"></span>
+          </div>
+        </details>
         <div class="job-filters">
           <label>Role <select id="f-role"><option value="all">Developer + QA</option><option value="dev">Developer</option><option value="qa">QA / testing</option></select></label>
           <label>Level <select id="f-level"><option value="all">Any level</option><option value="junior">Fresher / junior</option><option value="mid">Mid level</option><option value="senior">Senior / lead</option></select></label>
           <label class="job-check"><input type="checkbox" id="f-india" checked /> Open to India</label>
+          <label class="job-check"><input type="checkbox" id="f-saved" /> ⭐ Saved only</label>
           <input type="search" id="f-q" placeholder="Search: react, node, playwright…" aria-label="Search jobs" />
         </div>
         <p class="job-status"><span id="job-status"></span> <span id="job-updated" class="job-date"></span></p>
