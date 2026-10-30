@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live Remote Developer and QA Jobs Open to India | Kodivo</title>
+  <meta name="description" content="Live remote developer and QA jobs from Remotive, Remote OK and Jobicy, with filters for role, experience level and jobs open to candidates in India." />
+  <link rel="canonical" href="https://agamsahu017.github.io/jobs/remote-jobs.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/jobs/remote-jobs.html" />
+  <meta property="og:title" content="Live Remote Developer and QA Jobs Open to India | Kodivo" />
+  <meta property="og:description" content="Live remote developer and QA jobs from Remotive, Remote OK and Jobicy, with filters for role, experience level and jobs open to candidates in India." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Jobs",
+          "item": "https://agamsahu017.github.io/jobs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Remote jobs",
+          "item": "https://agamsahu017.github.io/jobs/remote-jobs.html"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "name": "Live Remote Developer and QA Jobs Open to India",
+      "description": "Live remote developer and QA jobs from Remotive, Remote OK and Jobicy, with filters for role, experience level and jobs open to candidates in India.",
+      "url": "https://agamsahu017.github.io/jobs/remote-jobs.html",
+      "inLanguage": "en"
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Jobs</span><span class="hi">Jobs</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20looking%20for%20a%20developer%2FQA%20job." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Jobs</a> › <span>Remote jobs</span></nav>
+        <h1>Live remote developer and QA jobs</h1>
+        <p>Fresh remote jobs from <a href="https://remotive.com" target="_blank" rel="noopener">Remotive</a>, <a href="https://remoteok.com" target="_blank" rel="noopener">Remote OK</a> and <a href="https://jobicy.com" target="_blank" rel="noopener">Jobicy</a>, filtered to developer and QA roles. Tick <b>Open to India</b> to hide jobs limited to other countries.</p>
+        <div class="warn"><p>Kodivo doesn't post or verify these jobs. Always apply on the original website, read the location rules in the full post, and <b>never pay anyone to get a job</b>. Experience level is estimated from the job title.</p></div>
+        <div class="job-filters">
+          <label>Role <select id="f-role"><option value="all">Developer + QA</option><option value="dev">Developer</option><option value="qa">QA / testing</option></select></label>
+          <label>Level <select id="f-level"><option value="all">Any level</option><option value="junior">Fresher / junior</option><option value="mid">Mid level</option><option value="senior">Senior / lead</option></select></label>
+          <label class="job-check"><input type="checkbox" id="f-india" checked /> Open to India</label>
+          <input type="search" id="f-q" placeholder="Search: react, node, playwright…" aria-label="Search jobs" />
+        </div>
+        <p class="job-status"><span id="job-status"></span> <span id="job-updated" class="job-date"></span></p>
+      </div>
+      <div id="job-list" class="job-list"></div>
+      <div class="lesson-nav"><button type="button" class="btn btn-outline" id="job-more" hidden>Show more jobs</button></div>
+      <div class="say"><p>New to remote job hunting? Read the <a href="./#remote">remote jobs guide</a>, prepare with our <a href="../frontend-interview/">frontend</a> and <a href="../backend-interview/">backend</a> interview questions, and learn to spot <a href="./#scams">fake job offers</a>.</p></div>
+      <p class="job-credit">Job data: <a href="https://remotive.com" target="_blank" rel="noopener">Remotive</a> (listings delayed by 24 hours), <a href="https://remoteok.com" target="_blank" rel="noopener">Remote OK</a> and <a href="https://jobicy.com" target="_blank" rel="noopener">Jobicy</a>, through their free public APIs. Loaded in your browser and refreshed every 6 hours.</p>
+    </div>
+    <script src="jobs.js"></script>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Developer and QA Jobs Guide</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../security/">Cyber Security</a> · <a href="../jobs/">Jobs</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Job guide by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Job guide by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

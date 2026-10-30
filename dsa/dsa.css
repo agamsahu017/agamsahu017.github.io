@@ -305,3 +305,29 @@ h2 + .badge { margin: -4px 0 10px; }
 .cb-state.halfopen { background: #f59e0b; }
 .cb-log { display: grid; gap: 4px; font-size: .88rem; color: var(--text); min-height: 1.4em; }
 .cb-log div { padding: 4px 8px; border-radius: 6px; background: var(--bg-alt); }
+
+/* Jobs: live remote jobs board */
+.job-filters { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; margin: 14px 0 6px; }
+.job-filters label { display: flex; gap: 6px; align-items: center; font-size: .92rem; color: var(--text); }
+.job-filters select, .job-filters input[type="search"] { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font: inherit; }
+.job-filters input[type="search"] { flex: 1 1 220px; }
+.job-check input { accent-color: var(--primary); width: 18px; height: 18px; }
+.job-status { font-size: .92rem; color: var(--muted); }
+.job-list { display: grid; gap: 12px; }
+.job { padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border); background: var(--surface); }
+.job-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.job-top h3 { margin: 0; font-size: 1.02rem; line-height: 1.4; }
+.job-top h3 a { color: var(--text); }
+.job-top h3 a:hover { color: var(--primary); }
+.job-date { font-size: .8rem; color: var(--muted); white-space: nowrap; }
+.job-co { margin: 4px 0 8px; color: var(--muted); font-size: .92rem; }
+.job-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.jt { font-size: .75rem; font-weight: 600; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-alt); color: var(--muted); }
+.jt.india-ok { color: #047857; border-color: #10b981; }
+.jt.india-no { color: var(--accent-text); border-color: var(--accent-text); }
+.job-text { margin: 8px 0 0; font-size: .9rem; }
+.job-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; }
+.job-src, .job-credit { font-size: .82rem; color: var(--muted); }
+.job-empty { color: var(--muted); }
+:root[data-theme="dark"] .jt.india-ok { color: #6ee7b7; }
+.lesson .job-foot .btn-primary { color: #fff; }
