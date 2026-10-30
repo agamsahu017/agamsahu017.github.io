@@ -854,6 +854,57 @@
     update();
   }
 
+  // ---------- Security: token bucket rate limiter ----------
+  const rateViz = document.getElementById("rate-viz");
+  if (rateViz) {
+    const CAP = 5;
+    const tokensEl = rateViz.querySelector(".rate-tokens");
+    const log = rateViz.querySelector(".rate-log");
+    const msg = rateViz.querySelector(".viz-msg");
+    let tokens = CAP, last = Date.now(), sent = 0, blocked = 0;
+    const refill = () => {
+      const now = Date.now();
+      tokens = Math.min(CAP, tokens + (now - last) / 1000);
+      last = now;
+    };
+    const draw = () => {
+      refill();
+      tokensEl.innerHTML = Array.from({ length: CAP }, (_, i) => `<span class="${i < Math.floor(tokens) ? "full" : ""}"></span>`).join("") +
+        `<b>${both(`${Math.floor(tokens)} of ${CAP} tokens left`, `${CAP} में से ${Math.floor(tokens)} tokens बचे`)}</b>`;
+    };
+    const send = () => {
+      refill();
+      const ok = tokens >= 1;
+      if (ok) tokens -= 1;
+      sent++; blocked += ok ? 0 : 1;
+      const tag = document.createElement("b");
+      tag.className = ok ? "ok" : "no";
+      tag.textContent = ok ? "200 OK" : "429";
+      log.prepend(tag);
+      while (log.children.length > 20) log.lastChild.remove();
+      return ok;
+    };
+    const explain = () => setMsg(msg, blocked
+      ? `${sent} requests sent, ${blocked} blocked with <b>429 Too Many Requests</b>. Wait a few seconds: one token comes back every second, so a normal user hardly notices, but a bot can't go fast.`
+      : `${sent} requests sent, none blocked yet. Click fast, or let the bot fire 10 at once.`,
+      blocked
+        ? `${sent} requests भेजी गईं, ${blocked} को <b>429 Too Many Requests</b> से रोका गया। कुछ seconds रुकिए: हर second एक token लौटता है, इसलिए normal user को पता भी नहीं चलता, पर bot तेज़ नहीं चल पाता।`
+        : `${sent} requests भेजी गईं, अभी तक कोई नहीं रुकी। जल्दी-जल्दी click कीजिए, या bot से एक साथ 10 भेजिए।`);
+    rateViz.addEventListener("click", (ev) => {
+      const b = ev.target.closest("button[data-act]");
+      if (!b) return;
+      if (b.dataset.act === "one") send();
+      if (b.dataset.act === "bot") for (let i = 0; i < 10; i++) send();
+      if (b.dataset.act === "reset") { tokens = CAP; last = Date.now(); sent = 0; blocked = 0; log.innerHTML = ""; }
+      draw();
+      if (b.dataset.act === "reset") setMsg(msg, "Send a request to start.", "शुरू करने के लिए एक request भेजिए।");
+      else explain();
+    });
+    setInterval(draw, 500);
+    draw();
+    setMsg(msg, "Send a request to start.", "शुरू करने के लिए एक request भेजिए।");
+  }
+
   // ---------- AI: rough token counter ----------
   const tokViz = document.getElementById("token-viz");
   if (tokViz) {

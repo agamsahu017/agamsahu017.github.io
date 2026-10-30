@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>API Security for Developers: JWT, Rate Limits | Kodivo</title>
+  <meta name="description" content="API security in simple English and Hindi: OWASP API Top 10, JWT, ownership checks, input validation, rate limits and secrets, with real code." />
+  <link rel="canonical" href="https://agamsahu017.github.io/security/api-security.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/security/api-security.html" />
+  <meta property="og:title" content="API Security for Developers: JWT, Rate Limits | Kodivo" />
+  <meta property="og:description" content="API security in simple English and Hindi: OWASP API Top 10, JWT, ownership checks, input validation, rate limits and secrets, with real code." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Cyber Security from Zero",
+          "item": "https://agamsahu017.github.io/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "API security",
+          "item": "https://agamsahu017.github.io/security/api-security.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "API Security for Developers: JWT, Rate Limits",
+      "description": "API security in simple English and Hindi: OWASP API Top 10, JWT, ownership checks, input validation, rate limits and secrets, with real code.",
+      "datePublished": "2026-10-30",
+      "dateModified": "2026-10-30",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Cyber Security from Zero",
+        "url": "https://agamsahu017.github.io/security/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Cyber Security</span><span class="hi">Cyber Security</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20cyber%20security%20on%20your%20website%20(API%20security)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Cyber Security</a> › <span>API security</span></nav>
+        <span class="pill"><span class="en">Module 8 of 15</span><span class="hi">मॉड्यूल 8 / 15</span></span>
+        <h1><span class="en">API security</span><span class="hi">API security</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">30 min read + practice</span><span class="hi">30 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🛡️ Security</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Check every request on the server: who they are (verified token), whether this record, action and field are theirs, whether the input is sane, and how often they are calling, and keep keys out of code.</p><p class="hi"><b>एक लाइन में:</b> हर request server पर check कीजिए: वे कौन हैं (verified token), क्या यह record, काम और field उनका है, input ठीक है या नहीं, और वे कितनी बार call कर रहे हैं, और keys को code से बाहर रखिए।</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Why attackers skip your app and call the API directly</span><span class="hi">Attackers आपकी app छोड़कर सीधे API को call क्यों करते हैं</span></li><li><span class="en">The OWASP API Security Top 10 in plain words</span><span class="hi">OWASP API Security Top 10 आसान शब्दों में</span></li><li><span class="en">JWT done right, with a live forged-token demo</span><span class="hi">JWT सही तरीक़े से, नक़ली token वाले live demo के साथ</span></li><li><span class="en">Ownership checks, mass assignment and input validation</span><span class="hi">Ownership checks, mass assignment और input validation</span></li><li><span class="en">Rate limits you can play with, and keeping API keys secret</span><span class="hi">Rate limits जिनसे आप खेल सकते हैं, और API keys को secret रखना</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#why"><span class="en">Why APIs</span><span class="hi">APIs क्यों</span></a><a href="#top10"><span class="en">OWASP API Top 10</span><span class="hi">OWASP API Top 10</span></a><a href="#jwt"><span class="en">Tokens and JWT</span><span class="hi">Tokens और JWT</span></a><a href="#authz"><span class="en">Authorization</span><span class="hi">Authorization</span></a><a href="#validate"><span class="en">Input validation</span><span class="hi">Input validation</span></a><a href="#rate"><span class="en">Rate limits</span><span class="hi">Rate limits</span></a><a href="#secrets"><span class="en">Secrets and config</span><span class="hi">Secrets और config</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        
+      </div>
+      <section id="why">
+        <h2 id="why-h"><span class="en">Why APIs are the main target</span><span class="hi">APIs सबसे बड़ा निशाना क्यों हैं</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Your React app, your Android app and your partners all talk to the same API. The screen hides buttons and checks forms, but an attacker doesn't use your screen. They open the browser's Network tab, copy the request, and replay it with Postman or <code>curl</code>, changing ids, fields and limits. <b>So every rule must be checked on the server.</b></p><p class="hi">आपकी React app, Android app और partners सब एक ही API से बात करते हैं। Screen buttons छिपाती है और forms check करती है, पर attacker आपकी screen इस्तेमाल नहीं करता। वह browser का Network tab खोलता है, request copy करता है, और Postman या <code>curl</code> से ids, fields और limits बदलकर दोबारा भेजता है। <b>इसलिए हर नियम server पर check होना चाहिए।</b></p>
+        <div class="idea"><p class="en">Think of the API as a bank counter. The form at the entrance helps honest customers, but the cashier still checks your ID, your account and your balance before handing over money.</p><p class="hi">API को bank counter समझिए। दरवाज़े पर रखा form ईमानदार customers की मदद करता है, पर cashier पैसा देने से पहले आपकी ID, account और balance फिर भी check करता है।</p></div>
+        <p class="en">Every request should pass these gates, in this order:</p><p class="hi">हर request को इन दरवाज़ों से, इसी क्रम में, गुज़रना चाहिए:</p>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">HTTPS only</span><span class="hi">सिर्फ़ HTTPS</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Rate limit<br><small>too many?</small></span><span class="hi">Rate limit<br><small>बहुत ज़्यादा?</small></span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Authentication<br><small>who are you?</small></span><span class="hi">Authentication<br><small>आप कौन हैं?</small></span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Validation<br><small>is the input sane?</small></span><span class="hi">Validation<br><small>input ठीक है?</small></span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Authorization<br><small>is this record and action allowed for you?</small></span><span class="hi">Authorization<br><small>यह record और काम आपके लिए allowed है?</small></span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Response<br><small>only the fields needed</small></span><span class="hi">Response<br><small>सिर्फ़ ज़रूरी fields</small></span></div></div><figcaption><span class="en">Skipping any one gate is how most real API breaches happen.</span><span class="hi">किसी एक भी दरवाज़े को छोड़ देना ही ज़्यादातर असली API breaches की वजह है।</span></figcaption></figure>
+      </section>
+      <section id="top10">
+        <h2 id="top10-h"><span class="en">The OWASP API Security Top 10, in plain words</span><span class="hi">OWASP API Security Top 10, आसान शब्दों में</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">OWASP is a non-profit that publishes the best-known lists of security risks. Its API list (2023 edition) is what interviewers and security reviewers refer to.</p><p class="hi">OWASP एक non-profit है जो security risks की सबसे मशहूर lists छापता है। इसकी API list (2023 edition) को ही interviewers और security reviewers मानते हैं।</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">#</span><span class="hi">#</span></th><th><span class="en">Risk</span><span class="hi">Risk</span></th><th><span class="en">In plain words</span><span class="hi">आसान शब्दों में</span></th></tr></thead><tbody><tr><td><span class="en">1</span><span class="hi">1</span></td><td><span class="en">Broken Object Level Authorization (BOLA)</span><span class="hi">Broken Object Level Authorization (BOLA)</span></td><td><span class="en">Change <code>/orders/1051</code> to <code>/1052</code> and see someone else's order</span><span class="hi"><code>/orders/1051</code> को <code>/1052</code> करिए और किसी और का order दिख जाए</span></td></tr><tr><td><span class="en">2</span><span class="hi">2</span></td><td><span class="en">Broken Authentication</span><span class="hi">Broken Authentication</span></td><td><span class="en">Weak login, tokens that never expire, or tokens that aren't checked properly</span><span class="hi">कमज़ोर login, कभी expire न होने वाले tokens, या ठीक से check न होने वाले tokens</span></td></tr><tr><td><span class="en">3</span><span class="hi">3</span></td><td><span class="en">Broken Object Property Level Authorization</span><span class="hi">Broken Object Property Level Authorization</span></td><td><span class="en">The user can read or change a field they shouldn't, like <code>role</code> or <code>walletBalance</code></span><span class="hi">User ऐसा field पढ़ या बदल सके जो उसे नहीं करना चाहिए, जैसे <code>role</code> या <code>walletBalance</code></span></td></tr><tr><td><span class="en">4</span><span class="hi">4</span></td><td><span class="en">Unrestricted Resource Consumption</span><span class="hi">Unrestricted Resource Consumption</span></td><td><span class="en">No rate limit or size limit, so one user can flood the API, the SMS bill or the database</span><span class="hi">कोई rate limit या size limit नहीं, तो एक user API, SMS का bill या database भर सकता है</span></td></tr><tr><td><span class="en">5</span><span class="hi">5</span></td><td><span class="en">Broken Function Level Authorization</span><span class="hi">Broken Function Level Authorization</span></td><td><span class="en">A normal user calls an admin endpoint like <code>DELETE /admin/users/9</code> and it works</span><span class="hi">Normal user <code>DELETE /admin/users/9</code> जैसा admin endpoint call करे और वह चल जाए</span></td></tr><tr><td><span class="en">6</span><span class="hi">6</span></td><td><span class="en">Unrestricted Access to Sensitive Business Flows</span><span class="hi">Unrestricted Access to Sensitive Business Flows</span></td><td><span class="en">Bots grab every Tatkal-style slot, coupon or limited sale item because nothing stops automation</span><span class="hi">Bots हर Tatkal जैसा slot, coupon या limited sale item उठा लें क्योंकि automation को कुछ नहीं रोकता</span></td></tr><tr><td><span class="en">7</span><span class="hi">7</span></td><td><span class="en">Server-Side Request Forgery (SSRF)</span><span class="hi">Server-Side Request Forgery (SSRF)</span></td><td><span class="en">"Fetch this image URL" is used to make your server call its own internal systems</span><span class="hi">"यह image URL fetch करो" से आपके server को उसके अपने internal systems call करवाना</span></td></tr><tr><td><span class="en">8</span><span class="hi">8</span></td><td><span class="en">Security Misconfiguration</span><span class="hi">Security Misconfiguration</span></td><td><span class="en">Open CORS, debug mode on, stack traces in errors, default passwords</span><span class="hi">खुला CORS, debug mode चालू, errors में stack traces, default passwords</span></td></tr><tr><td><span class="en">9</span><span class="hi">9</span></td><td><span class="en">Improper Inventory Management</span><span class="hi">Improper Inventory Management</span></td><td><span class="en">An old <code>/v1</code> or test API is still live and nobody remembers it</span><span class="hi">पुरानी <code>/v1</code> या test API अब भी चालू है और किसी को याद नहीं</span></td></tr><tr><td><span class="en">10</span><span class="hi">10</span></td><td><span class="en">Unsafe Consumption of APIs</span><span class="hi">Unsafe Consumption of APIs</span></td><td><span class="en">Trusting data from a partner or third-party API without checking it</span><span class="hi">Partner या third-party API के data पर बिना check किए भरोसा</span></td></tr></tbody></table></div>
+        <div class="idea"><p class="en">Notice that 1, 3 and 5 are all "authorization": checking what this user may do. That is the biggest theme in API security.</p><p class="hi">ध्यान दीजिए कि 1, 3 और 5 तीनों "authorization" हैं: यह check करना कि यह user क्या कर सकता है। API security की सबसे बड़ी बात यही है।</p></div>
+      </section>
+      <section id="jwt">
+        <h2 id="jwt-h"><span class="en">Authentication: tokens and JWT done right</span><span class="hi">Authentication: tokens और JWT सही तरीक़े से</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Most APIs use a <b>JWT</b> (JSON Web Token) as the login pass. It has three parts separated by dots: header, payload and signature. The payload is only <b>encoded</b>, like writing in a different script, not locked. Anyone can read it. The signature is the tamper seal: if one letter of the payload changes, the seal no longer matches.</p><p class="hi">ज़्यादातर APIs login pass के रूप में <b>JWT</b> (JSON Web Token) इस्तेमाल करती हैं। इसके तीन हिस्से dots से अलग होते हैं: header, payload और signature। Payload सिर्फ़ <b>encode</b> होता है, जैसे किसी दूसरी लिपि में लिखना, ताला नहीं लगा होता। उसे कोई भी पढ़ सकता है। Signature tamper seal है: payload का एक भी अक्षर बदला तो seal मेल नहीं खाती।</p>
+        <p class="en">Real code with only Node.js built-ins. Save as <code>jwt.mjs</code> and run <code>node jwt.mjs</code>:</p><p class="hi">सिर्फ़ Node.js built-ins वाला असली code। <code>jwt.mjs</code> नाम से save कीजिए और <code>node jwt.mjs</code> चलाइए:</p>
+        <pre class="code" data-copy><span class="cm">// A JWT is readable by anyone, but it can't be changed without the secret.</span>
+import { createHmac, timingSafeEqual } from <span class="st">"node:crypto"</span>;
+
+<span class="kw">const</span> SECRET = <span class="st">"keep-this-in-env-not-in-code"</span>; <span class="cm">// demo only</span>
+<span class="kw">const</span> b64 = (obj) =&gt; Buffer.from(JSON.stringify(obj)).toString(<span class="st">"base64url"</span>);
+<span class="kw">const</span> sign = (data) =&gt; createHmac(<span class="st">"sha256"</span>, SECRET).update(data).digest(<span class="st">"base64url"</span>);
+
+<span class="kw">function</span> makeToken(payload) {
+  <span class="kw">const</span> head = b64({ alg: <span class="st">"HS256"</span>, typ: <span class="st">"JWT"</span> });
+  <span class="kw">const</span> body = b64(payload);
+  <span class="kw">return</span> <span class="st">`${head}.${body}.${sign(`</span>${head}.${body}<span class="st">`)}`</span>;
+}
+
+<span class="kw">function</span> verify(token) {
+  <span class="kw">const</span> [head, body, sig] = token.split(<span class="st">"."</span>);
+  <span class="kw">const</span> header = JSON.parse(Buffer.from(head, <span class="st">"base64url"</span>));
+  <span class="kw">if</span> (header.alg !== <span class="st">"HS256"</span>) <span class="kw">return</span> <span class="st">"rejected: wrong algorithm"</span>;      <span class="cm">// pin the algorithm</span>
+  <span class="kw">const</span> good = Buffer.from(sign(<span class="st">`${head}.${body}`</span>));
+  <span class="kw">const</span> given = Buffer.from(sig || <span class="st">""</span>);
+  <span class="kw">if</span> (good.length !== given.length || !timingSafeEqual(good, given)) <span class="kw">return</span> <span class="st">"rejected: bad signature"</span>;
+  <span class="kw">const</span> payload = JSON.parse(Buffer.from(body, <span class="st">"base64url"</span>));
+  <span class="kw">if</span> (payload.exp &lt; Date.now() / 1000) <span class="kw">return</span> <span class="st">"rejected: expired"</span>;
+  <span class="kw">return</span> <span class="st">`ok, user ${payload.sub} with role ${payload.role}`</span>;
+}
+
+<span class="kw">const</span> token = makeToken({ sub: <span class="st">"u42"</span>, role: <span class="st">"user"</span>, exp: Math.floor(Date.now() / 1000) + 900 });
+
+<span class="cm">// 1. Anyone can read the payload. It is only encoded, not encrypted.</span>
+console.log(<span class="st">"Payload:"</span>, Buffer.from(token.split(<span class="st">"."</span>)[1], <span class="st">"base64url"</span>).toString());
+
+<span class="cm">// 2. The real token works.</span>
+console.log(<span class="st">"Real token:"</span>, verify(token));
+
+<span class="cm">// 3. An attacker edits the payload to become admin, keeping the old signature.</span>
+<span class="kw">const</span> [h, , s] = token.split(<span class="st">"."</span>);
+<span class="kw">const</span> forged = <span class="st">`${h}.${b64({ sub: "u42", role: "admin", exp: 9999999999 })}.${s}`</span>;
+console.log(<span class="st">"Edited token:"</span>, verify(forged));
+
+<span class="cm">// 4. An attacker says "no signature needed" (the old alg: none trick).</span>
+<span class="kw">const</span> none = <span class="st">`${b64({ alg: "none", typ: "JWT" })}.${b64({ sub: "u42", role: "admin" })}.`</span>;
+console.log(<span class="st">"alg none token:"</span>, verify(none));</pre>
+        <p class="en">Real output (the <code>exp</code> number depends on when you run it):</p><p class="hi">असली output (<code>exp</code> का number इस पर निर्भर है कि आप कब चलाते हैं):</p>
+        <pre class="code" data-copy>Payload: {<span class="st">"sub"</span>:<span class="st">"u42"</span>,<span class="st">"role"</span>:<span class="st">"user"</span>,<span class="st">"exp"</span>:1793393422}
+Real token: ok, user u42 with role user
+Edited token: rejected: bad signature
+alg none token: rejected: wrong algorithm</pre>
+        <p class="en">In real projects, use a tested library (<code>jose</code>, <code>jsonwebtoken</code>, <code>@nestjs/jwt</code>) or let Keycloak, Auth0 or Cognito issue tokens. The rules stay the same:</p><p class="hi">असली projects में tested library (<code>jose</code>, <code>jsonwebtoken</code>, <code>@nestjs/jwt</code>) इस्तेमाल कीजिए या tokens Keycloak, Auth0 या Cognito से बनवाइए। नियम वही रहते हैं:</p>
+        <ul><li><span class="en"><b>Always verify</b> the signature, never just decode. Pin the allowed algorithm.</span><span class="hi"><b>हमेशा verify</b> कीजिए, सिर्फ़ decode नहीं। Allowed algorithm तय कर दीजिए।</span></li><li><span class="en"><b>Short life:</b> access tokens for about 5 to 15 minutes, with a refresh token to get a new one.</span><span class="hi"><b>छोटी उम्र:</b> access tokens लगभग 5 से 15 minute के, नया पाने के लिए refresh token के साथ।</span></li><li><span class="en"><b>Nothing secret in the payload:</b> no passwords, Aadhaar or PAN numbers. Anyone holding the token can read it.</span><span class="hi"><b>Payload में कुछ secret नहीं:</b> कोई password, Aadhaar या PAN number नहीं। Token जिसके पास है, वह पढ़ सकता है।</span></li><li><span class="en">Check <code>exp</code>, and for tokens from an identity provider also check <code>iss</code> (who issued it) and <code>aud</code> (who it is for).</span><span class="hi"><code>exp</code> check कीजिए, और identity provider वाले tokens में <code>iss</code> (किसने बनाया) और <code>aud</code> (किसके लिए है) भी।</span></li></ul>
+      </section>
+      <section id="authz">
+        <h2 id="authz-h"><span class="en">Authorization: right user, right record, right field</span><span class="hi">Authorization: सही user, सही record, सही field</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">A valid token only says <b>who</b> is calling. Three more questions decide what they may do:</p><p class="hi">Valid token सिर्फ़ बताता है कि <b>कौन</b> call कर रहा है। वह क्या कर सकता है, यह तीन और सवाल तय करते हैं:</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Question</span><span class="hi">सवाल</span></th><th><span class="en">OWASP risk if you forget</span><span class="hi">भूलने पर OWASP risk</span></th><th><span class="en">Fix</span><span class="hi">इलाज</span></th></tr></thead><tbody><tr><td><span class="en">Is this <b>record</b> theirs?</span><span class="hi">क्या यह <b>record</b> उनका है?</span></td><td><span class="en">BOLA (#1)</span><span class="hi">BOLA (#1)</span></td><td><span class="en">Put the user id in the query: <code>WHERE id = $1 AND user_id = $2</code></span><span class="hi">Query में user id डालिए: <code>WHERE id = $1 AND user_id = $2</code></span></td></tr><tr><td><span class="en">Is this <b>action</b> allowed for their role?</span><span class="hi">क्या यह <b>काम</b> उनके role के लिए allowed है?</span></td><td><span class="en">Function level (#5)</span><span class="hi">Function level (#5)</span></td><td><span class="en">A role guard on every admin route, deny by default</span><span class="hi">हर admin route पर role guard, default में मना</span></td></tr><tr><td><span class="en">Can they read or change this <b>field</b>?</span><span class="hi">क्या वे यह <b>field</b> पढ़ या बदल सकते हैं?</span></td><td><span class="en">Property level (#3)</span><span class="hi">Property level (#3)</span></td><td><span class="en">Allowlist of editable fields; response DTOs that leave out private fields</span><span class="hi">बदलने लायक fields की allowlist; ऐसे response DTOs जो private fields छोड़ दें</span></td></tr></tbody></table></div>
+        <h3><span class="en">Mass assignment: the field nobody meant to allow</span><span class="hi">Mass assignment: वह field जिसे किसी ने allow नहीं करना चाहा था</span></h3>
+        <p class="en">An "update profile" API copies the whole request body into the database row. The form only has a name box, but the attacker adds <code>role</code> and <code>walletBalance</code> to the request. Save as <code>mass.mjs</code>:</p><p class="hi">एक "update profile" API पूरी request body को database row में copy कर देती है। Form में सिर्फ़ name का box है, पर attacker request में <code>role</code> और <code>walletBalance</code> जोड़ देता है। <code>mass.mjs</code> नाम से save कीजिए:</p>
+        <pre class="code" data-copy><span class="cm">// Mass assignment: copying the whole request body into the database row.</span>
+<span class="kw">const</span> user = { id: 7, name: <span class="st">"Rahul"</span>, email: <span class="st">"rahul@shop.in"</span>, role: <span class="st">"user"</span>, walletBalance: 0 };
+<span class="kw">const</span> body = { name: <span class="st">"Rahul K"</span>, role: <span class="st">"admin"</span>, walletBalance: 50000 }; <span class="cm">// sent by the user</span>
+
+<span class="cm">// UNSAFE: every field the user sends is saved</span>
+<span class="kw">const</span> unsafe = { ...user, ...body };
+console.log(<span class="st">"Unsafe:"</span>, unsafe.role, unsafe.walletBalance);
+
+<span class="cm">// SAFE: only fields on an allowlist can be changed</span>
+<span class="kw">const</span> EDITABLE = [<span class="st">"name"</span>];
+<span class="kw">const</span> changes = Object.fromEntries(Object.entries(body).filter(([k]) =&gt; EDITABLE.includes(k)));
+<span class="kw">const</span> safe = { ...user, ...changes };
+console.log(<span class="st">"Safe:"</span>, safe.role, safe.walletBalance, safe.name);</pre>
+        <p class="en">Real output:</p><p class="hi">असली output:</p>
+        <pre class="code" data-copy>Unsafe: admin 50000
+Safe: user 0 Rahul K</pre>
+        <p class="en">Same idea for responses: don't return the whole entity with <code>passwordHash</code>, internal notes or other users' phone numbers. Return a response object with only the fields the screen needs.</p><p class="hi">Responses के लिए भी यही: पूरी entity <code>passwordHash</code>, internal notes या दूसरे users के phone numbers के साथ मत लौटाइए। सिर्फ़ उन fields वाला response object लौटाइए जो screen को चाहिए।</p>
+      </section>
+      <section id="validate">
+        <h2 id="validate-h"><span class="en">Input validation: check shape, type and size</span><span class="hi">Input validation: shape, type और size check कीजिए</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Treat every request as written by a stranger. Before your logic runs, check that each field has the right type, a sensible length or range, and that no unknown fields came in. In NestJS this is a DTO with <code>class-validator</code> plus a global <code>ValidationPipe</code> (this code is type-checked against NestJS 10):</p><p class="hi">हर request को किसी अजनबी की लिखी मानिए। आपका logic चलने से पहले check कीजिए कि हर field का type सही है, लंबाई या range ठीक है, और कोई अनजान field नहीं आया। NestJS में यह <code>class-validator</code> वाला DTO और global <code>ValidationPipe</code> है (यह code NestJS 10 पर type-check किया गया है):</p>
+        <pre class="code" data-copy>import { ValidationPipe } from <span class="st">"@nestjs/common"</span>;
+import { NestFactory } from <span class="st">"@nestjs/core"</span>;
+import { IsEmail, IsInt, IsOptional, IsString, Length, Max, Min } from <span class="st">"class-validator"</span>;
+
+<span class="cm">// Only these fields are accepted. Anything else in the body is rejected.</span>
+export <span class="kw">class</span> UpdateProfileDto {
+  @IsString() @Length(2, 60) name!: string;
+  @IsOptional() @IsEmail() email?: string;
+  @IsOptional() @IsInt() @Min(1) @Max(100) pageSize?: number;
+}
+
+export <span class="kw">async</span> <span class="kw">function</span> bootstrap(AppModule: any) {
+  <span class="kw">const</span> app = <span class="kw">await</span> NestFactory.create(AppModule);
+  app.useGlobalPipes(<span class="kw">new</span> ValidationPipe({
+    whitelist: <span class="kw">true</span>,              <span class="cm">// strip fields that are not in the DTO</span>
+    forbidNonWhitelisted: <span class="kw">true</span>,   <span class="cm">// or reject the request with 400</span>
+    transform: <span class="kw">true</span>,
+  }));
+  <span class="kw">await</span> app.listen(3000);
+}</pre>
+        <ul><li><span class="en"><b>Cap everything:</b> page size (<code>?limit=100000</code> can pull your whole table), body size, upload size and file type.</span><span class="hi"><b>हर चीज़ की सीमा:</b> page size (<code>?limit=100000</code> पूरी table खींच सकता है), body size, upload size और file type।</span></li><li><span class="en"><b>Allowlist, don't blocklist:</b> say what is allowed (digits only, these 3 statuses) instead of trying to list every bad input.</span><span class="hi"><b>Allowlist, blocklist नहीं:</b> हर ख़राब input गिनाने की जगह बताइए कि क्या allowed है (सिर्फ़ digits, ये 3 statuses)।</span></li><li><span class="en"><b>URLs from users</b> (webhooks, "import from link"): allow only <code>https</code> and known hosts, and block internal addresses, to avoid SSRF.</span><span class="hi"><b>Users के दिए URLs</b> (webhooks, "link से import"): सिर्फ़ <code>https</code> और जाने-पहचाने hosts allow कीजिए, और internal addresses block कीजिए, ताकि SSRF न हो।</span></li><li><span class="en">Validation stops bad shapes; it does not replace parameterised SQL or ownership checks. You need all of them.</span><span class="hi">Validation ग़लत shape रोकता है; यह parameterised SQL या ownership checks की जगह नहीं लेता। सब चाहिए।</span></li></ul>
+      </section>
+      <section id="rate">
+        <h2 id="rate-h"><span class="en">Rate limits: stop floods and guessing</span><span class="hi">Rate limits: बाढ़ और guessing रोकिए</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Without limits, a bot can try 10,000 OTPs, send 50,000 SMS on your bill, or scrape every product. The most common method is the <b>token bucket</b>: each user (or IP) gets a bucket of tokens. Every request uses one token, and tokens slowly refill. Empty bucket means HTTP <b>429 Too Many Requests</b>. Play with it:</p><p class="hi">Limits के बिना bot 10,000 OTPs आज़मा सकता है, आपके bill पर 50,000 SMS भेज सकता है, या हर product scrape कर सकता है। सबसे आम तरीक़ा <b>token bucket</b> है: हर user (या IP) को tokens की एक बाल्टी मिलती है। हर request एक token लेती है, और tokens धीरे-धीरे भरते हैं। बाल्टी ख़ाली मतलब HTTP <b>429 Too Many Requests</b>। इससे खेलिए:</p>
+        <div class="viz" id="rate-viz">
+          <div class="viz-title"><span class="en">Try it: 5 tokens in the bucket, 1 refills every second</span><span class="hi">ख़ुद देखें: बाल्टी में 5 tokens, हर second 1 भरता है</span></div>
+          <div class="viz-controls">
+            <button type="button" class="btn btn-primary" data-act="one"><span class="en">📨 Send 1 request</span><span class="hi">📨 1 request भेजें</span></button>
+            <button type="button" class="btn btn-outline" data-act="bot"><span class="en">🤖 Bot: 10 at once</span><span class="hi">🤖 Bot: एक साथ 10</span></button>
+            <button type="button" class="btn btn-outline" data-act="reset"><span class="en">↺ Reset</span><span class="hi">↺ Reset</span></button>
+          </div>
+          <div class="rate-tokens" aria-label="Tokens left"></div>
+          <div class="rate-log" aria-live="polite"></div>
+          <div class="viz-msg"></div>
+        </div>
+        <p class="en">The same idea in code, with time simulated so the output is fixed. Save as <code>ratelimit.mjs</code>:</p><p class="hi">यही बात code में, time को simulate करके ताकि output तय रहे। <code>ratelimit.mjs</code> नाम से save कीजिए:</p>
+        <pre class="code" data-copy><span class="cm">// Token bucket rate limiter: 5 requests in a burst, then 1 more every second.</span>
+<span class="kw">function</span> makeLimiter({ capacity, refillPerSec }) {
+  <span class="kw">const</span> buckets = <span class="kw">new</span> Map(); <span class="cm">// key: user id or IP</span>
+  <span class="kw">return</span> <span class="kw">function</span> allow(key, now) {
+    <span class="kw">const</span> b = buckets.get(key) ?? { tokens: capacity, last: now };
+    b.tokens = Math.min(capacity, b.tokens + ((now - b.last) / 1000) * refillPerSec);
+    b.last = now;
+    buckets.set(key, b);
+    <span class="kw">if</span> (b.tokens &lt; 1) <span class="kw">return</span> <span class="kw">false</span>; <span class="cm">// answer with HTTP 429 Too Many Requests</span>
+    b.tokens -= 1;
+    <span class="kw">return</span> <span class="kw">true</span>;
+  };
+}
+
+<span class="kw">const</span> allow = makeLimiter({ capacity: 5, refillPerSec: 1 });
+
+<span class="cm">// A bot sends 8 login attempts in the same second</span>
+<span class="kw">const</span> burst = Array.from({ length: 8 }, () =&gt; (allow(<span class="st">"bot-ip"</span>, 0) ? 200 : 429));
+console.log(<span class="st">"Bot, 8 requests at once:"</span>, burst.join(<span class="st">" "</span>));
+
+<span class="cm">// 3 seconds later, 3 tokens have refilled</span>
+<span class="kw">const</span> later = Array.from({ length: 4 }, () =&gt; (allow(<span class="st">"bot-ip"</span>, 3000) ? 200 : 429));
+console.log(<span class="st">"Same bot, 3 seconds later:"</span>, later.join(<span class="st">" "</span>));
+
+<span class="cm">// A normal user has their own bucket and is not affected</span>
+console.log(<span class="st">"Normal user:"</span>, allow(<span class="st">"priya"</span>, 0) ? 200 : 429);</pre>
+        <p class="en">Real output:</p><p class="hi">असली output:</p>
+        <pre class="code" data-copy>Bot, 8 requests at once: 200 200 200 200 200 429 429 429
+Same bot, 3 seconds later: 200 200 200 429
+Normal user: 200</pre>
+        <ul><li><span class="en">This in-memory version works for one server. With several servers, keep the counters in <b>Redis</b> so all servers share them. In NestJS, the official <code>@nestjs/throttler</code> package does this, and an API gateway or Nginx can limit before requests even reach your code.</span><span class="hi">यह in-memory version एक server के लिए चलता है। कई servers हों तो counters <b>Redis</b> में रखिए ताकि सब servers share करें। NestJS में official <code>@nestjs/throttler</code> package यह करता है, और API gateway या Nginx requests के आपके code तक पहुँचने से पहले ही limit लगा सकते हैं।</span></li><li><span class="en">Use stricter limits on costly or risky endpoints: login, OTP, password reset, search, export and anything that sends SMS or email.</span><span class="hi">महँगे या risky endpoints पर कड़ी limits: login, OTP, password reset, search, export और जो कुछ भी SMS या email भेजता है।</span></li><li><span class="en">Limit by user id when logged in, and by IP (plus phone number for OTP) when not.</span><span class="hi">Logged in हो तो user id से limit, न हो तो IP से (और OTP के लिए phone number से भी)।</span></li></ul>
+      </section>
+      <section id="secrets">
+        <h2 id="secrets-h"><span class="en">API keys, CORS and other settings</span><span class="hi">API keys, CORS और दूसरी settings</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Do this</span><span class="hi">यह कीजिए</span></th><th><span class="en">Why</span><span class="hi">क्यों</span></th></tr></thead><tbody><tr><td><span class="en">Keep API keys and DB passwords in environment variables or a secret manager (AWS Secrets Manager, Vault)</span><span class="hi">API keys और DB passwords environment variables या secret manager (AWS Secrets Manager, Vault) में रखिए</span></td><td><span class="en">Code is shared, copied and pushed to git. Bots scan GitHub for keys within minutes.</span><span class="hi">Code share, copy और git पर push होता है। Bots minutes में GitHub पर keys ढूँढ लेते हैं।</span></td></tr><tr><td><span class="en">Never put a secret key in React or mobile code</span><span class="hi">Secret key कभी React या mobile code में मत डालिए</span></td><td><span class="en">Anything shipped to the browser or phone can be read. Call paid APIs (payments, AI, SMS) from your backend.</span><span class="hi">Browser या phone तक जाने वाली हर चीज़ पढ़ी जा सकती है। Paid APIs (payments, AI, SMS) को backend से call कीजिए।</span></td></tr><tr><td><span class="en">If a key leaks, <b>rotate it first</b>, then clean git history</span><span class="hi">Key leak हो तो <b>पहले उसे बदलिए</b>, फिर git history साफ़ कीजिए</span></td><td><span class="en">Deleting the commit doesn't help; copies already exist</span><span class="hi">Commit हटाने से कुछ नहीं होता; copies पहले ही बन चुकी हैं</span></td></tr><tr><td><span class="en">Set CORS to your own domains, not <code>*</code> with credentials</span><span class="hi">CORS को अपने domains पर set कीजिए, credentials के साथ <code>*</code> नहीं</span></td><td><span class="en">CORS only controls which websites' browser code can read responses. It is not authentication: Postman and bots ignore it.</span><span class="hi">CORS सिर्फ़ तय करता है कि किन websites का browser code responses पढ़ सकता है। यह authentication नहीं है: Postman और bots इसे नहीं मानते।</span></td></tr><tr><td><span class="en">HTTPS everywhere, including internal calls where possible</span><span class="hi">हर जगह HTTPS, जहाँ हो सके internal calls में भी</span></td><td><span class="en">Tokens in plain HTTP can be read on public Wi-Fi</span><span class="hi">Plain HTTP में tokens public Wi-Fi पर पढ़े जा सकते हैं</span></td></tr><tr><td><span class="en">Generic error messages; details only in server logs</span><span class="hi">Generic error messages; details सिर्फ़ server logs में</span></td><td><span class="en">Stack traces and SQL errors show attackers how your system is built</span><span class="hi">Stack traces और SQL errors attackers को बता देते हैं कि system कैसे बना है</span></td></tr><tr><td><span class="en">Keep a list of every API and version; switch off old ones and Swagger in production</span><span class="hi">हर API और version की list रखिए; पुरानी APIs और production में Swagger बंद कीजिए</span></td><td><span class="en">Forgotten <code>/v1</code> endpoints often lack the newer checks</span><span class="hi">भूले हुए <code>/v1</code> endpoints में अक्सर नए checks नहीं होते</span></td></tr><tr><td><span class="en">Log who did what (user, action, record id), never tokens or passwords</span><span class="hi">किसने क्या किया log कीजिए (user, action, record id), tokens या passwords कभी नहीं</span></td><td><span class="en">You need an audit trail after an incident, not a second leak</span><span class="hi">Incident के बाद audit trail चाहिए, दूसरा leak नहीं</span></td></tr></tbody></table></div>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Checking roles only in the frontend (hidden buttons, hidden menu).</span><span class="hi">Roles सिर्फ़ frontend में check करना (छिपे buttons, छिपा menu)।</span></li><li><span class="en">Using <code>jwt.decode()</code> where <code>jwt.verify()</code> was needed.</span><span class="hi">जहाँ <code>jwt.verify()</code> चाहिए था वहाँ <code>jwt.decode()</code> इस्तेमाल करना।</span></li><li><span class="en">Saving <code>req.body</code> straight into the database.</span><span class="hi"><code>req.body</code> को सीधे database में save करना।</span></li><li><span class="en">Rate-limiting login but forgetting OTP, password reset and export.</span><span class="hi">Login पर rate limit लगाना पर OTP, password reset और export भूल जाना।</span></li><li><span class="en">Thinking CORS protects the API from attackers.</span><span class="hi">यह सोचना कि CORS API को attackers से बचाता है।</span></li></ul></div>
+        <div class="warn"><p class="en"><b>The golden rule:</b> only test systems you own, or where you have <b>written permission</b> (your own lab, practice sites made for hacking, or a company's official bug bounty program). Accessing someone else's account or system without permission is a crime under India's IT Act, even if you "only looked".</p><p class="hi"><b>सुनहरा नियम:</b> सिर्फ़ वही systems test कीजिए जो आपके अपने हैं, या जहाँ <b>लिखित permission</b> है (आपकी अपनी lab, hacking सीखने के लिए बनी practice sites, या किसी company का official bug bounty program)। बिना permission किसी और का account या system खोलना भारत के IT Act के तहत अपराध है, चाहे आपने "सिर्फ़ देखा" हो।</p></div>
+        <p class="en">Practice legally on deliberately vulnerable apps such as OWASP crAPI and the API labs in the free PortSwigger Web Security Academy. Backend developers can also read our <a href="../backend-interview/auth-security.html">auth and security interview questions</a>.</p><p class="hi">जानबूझकर कमज़ोर बनाई गई apps जैसे OWASP crAPI और free PortSwigger Web Security Academy की API labs पर क़ानूनी practice कीजिए। Backend developers हमारे <a href="../backend-interview/auth-security.html">auth और security interview सवाल</a> भी पढ़ सकते हैं।</p>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 4 things</span><span class="hi">ये 4 बातें याद रखिए</span></div><ol><li><span class="en">Attackers skip your UI. Every rule lives on the server.</span><span class="hi">Attackers आपकी UI छोड़ देते हैं। हर नियम server पर होता है।</span></li><li><span class="en">A JWT is readable by anyone. Verify the signature, pin the algorithm, keep it short-lived.</span><span class="hi">JWT कोई भी पढ़ सकता है। Signature verify कीजिए, algorithm तय कीजिए, उम्र छोटी रखिए।</span></li><li><span class="en">Right user, right record, right field: BOLA, function level and property level checks.</span><span class="hi">सही user, सही record, सही field: BOLA, function level और property level checks।</span></li><li><span class="en">Rate-limit login, OTP, reset and export; use Redis when you have more than one server.</span><span class="hi">Login, OTP, reset और export पर rate limit; एक से ज़्यादा server हों तो Redis।</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Review this NestJS handler: <code>@Patch('users/:id') update(@Param('id') id: string, @Body() body: any) { return this.repo.update(id, body); }</code>. List the problems.</span><span class="hi">Exercise 1: इस NestJS handler को review कीजिए: <code>@Patch('users/:id') update(@Param('id') id: string, @Body() body: any) { return this.repo.update(id, body); }</code>। Problems गिनाइए।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><ul><li><span class="en"><b>BOLA:</b> any logged-in user can update any user by changing <code>:id</code>. Check that <code>id</code> is the caller's own id, or that the caller is an admin.</span><span class="hi"><b>BOLA:</b> कोई भी logged-in user <code>:id</code> बदलकर किसी भी user को update कर सकता है। Check कीजिए कि <code>id</code> caller की अपनी id है, या caller admin है।</span></li><li><span class="en"><b>Mass assignment:</b> <code>body: any</code> is saved as it is, so <code>role</code> or <code>isActive</code> can be changed. Use a DTO with only the editable fields and <code>whitelist: true</code>.</span><span class="hi"><b>Mass assignment:</b> <code>body: any</code> जैसा है वैसा save होता है, तो <code>role</code> या <code>isActive</code> बदला जा सकता है। सिर्फ़ बदलने लायक fields वाला DTO और <code>whitelist: true</code> इस्तेमाल कीजिए।</span></li><li><span class="en"><b>No validation:</b> lengths and formats are not checked.</span><span class="hi"><b>Validation नहीं:</b> लंबाई और format check नहीं होते।</span></li><li><span class="en"><b>No guard visible:</b> make sure an auth guard runs on this route (or globally).</span><span class="hi"><b>कोई guard नहीं दिखता:</b> पक्का कीजिए कि इस route पर (या globally) auth guard चलता है।</span></li></ul></div></details></div>
+    <div class="exercise"><p class="q-text"><span class="en">Exercise 2: Your OTP endpoint has no limit and a 6-digit OTP is valid for 10 minutes. What can go wrong, and what limits would you add?</span><span class="hi">Exercise 2: आपके OTP endpoint पर कोई limit नहीं है और 6 अंकों का OTP 10 minute तक valid है। क्या ग़लत हो सकता है, और आप कौन सी limits जोड़ेंगे?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">A bot can try all 1,000,000 codes and log in as anyone, and it can also request OTPs nonstop and run up your SMS bill. Add: at most 3 to 5 wrong tries per OTP (then it expires), a limit on OTP sends per phone number and per IP (for example 3 per 10 minutes), a shorter validity like 5 minutes, and alerts when limits are hit often.</p><p class="hi">Bot सभी 10,00,000 codes आज़माकर किसी के भी नाम से login कर सकता है, और लगातार OTP मँगवाकर आपका SMS bill भी बढ़ा सकता है। जोड़िए: हर OTP पर ज़्यादा से ज़्यादा 3 से 5 ग़लत कोशिशें (फिर वह expire), हर phone number और IP पर OTP भेजने की limit (जैसे 10 minute में 3), 5 minute जैसी छोटी validity, और limits बार-बार टकराने पर alerts।</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"A user changes <code>/api/invoices/881</code> to <code>/882</code> and sees another company's invoice. Which OWASP API risk is this?","hi":"एक user <code>/api/invoices/881</code> को <code>/882</code> करता है और दूसरी company का invoice देख लेता है। यह कौन सा OWASP API risk है?"},"options":[{"en":"SSRF","hi":"SSRF"},{"en":"BOLA (broken object level authorization)","hi":"BOLA (broken object level authorization)"},{"en":"Security misconfiguration","hi":"Security misconfiguration"},{"en":"Rate limiting","hi":"Rate limiting"}],"answer":1,"why":{"en":"The API didn't check that the record belongs to the caller.","hi":"API ने check नहीं किया कि record caller का है।"}},{"q":{"en":"What is true about a JWT payload?","hi":"JWT payload के बारे में क्या सही है?"},"options":[{"en":"It is encrypted, so it is safe to store PAN numbers","hi":"यह encrypted है, इसलिए PAN numbers रखना सुरक्षित है"},{"en":"Anyone can read it; the signature only stops changes","hi":"इसे कोई भी पढ़ सकता है; signature सिर्फ़ बदलाव रोकता है"},{"en":"Only the server can read it","hi":"सिर्फ़ server पढ़ सकता है"},{"en":"It can't expire","hi":"यह expire नहीं हो सकता"}],"answer":1,"why":{"en":"It is base64url-encoded, not encrypted.","hi":"यह base64url-encoded है, encrypted नहीं।"}},{"q":{"en":"A request has an extra field <code>\"role\": \"admin\"</code> and the user becomes admin. This is…","hi":"Request में एक extra field <code>\"role\": \"admin\"</code> है और user admin बन जाता है। यह है…"},"options":[{"en":"Mass assignment (property level authorization)","hi":"Mass assignment (property level authorization)"},{"en":"XSS","hi":"XSS"},{"en":"DDoS","hi":"DDoS"},{"en":"Phishing","hi":"Phishing"}],"answer":0,"why":{"en":"Fix it with an allowlist DTO and whitelist: true.","hi":"Allowlist DTO और whitelist: true से ठीक कीजिए।"}},{"q":{"en":"Your API runs on 4 servers behind a load balancer. Where should rate-limit counters live?","hi":"आपकी API load balancer के पीछे 4 servers पर चलती है। Rate-limit counters कहाँ होने चाहिए?"},"options":[{"en":"In each server's memory","hi":"हर server की memory में"},{"en":"In a shared store like Redis (or at the gateway)","hi":"Redis जैसे shared store में (या gateway पर)"},{"en":"In the browser's localStorage","hi":"Browser के localStorage में"},{"en":"In the JWT","hi":"JWT में"}],"answer":1,"why":{"en":"Otherwise each server allows the full limit, so the real limit becomes 4 times bigger.","hi":"वरना हर server पूरी limit देगा, और असली limit 4 गुना हो जाएगी।"}},{"q":{"en":"Does a strict CORS setting stop an attacker using Postman?","hi":"क्या सख़्त CORS setting Postman इस्तेमाल करने वाले attacker को रोकती है?"},"options":[{"en":"Yes, always","hi":"हाँ, हमेशा"},{"en":"No, CORS is enforced only by browsers","hi":"नहीं, CORS सिर्फ़ browsers लागू करते हैं"},{"en":"Only on HTTPS","hi":"सिर्फ़ HTTPS पर"},{"en":"Only for POST","hi":"सिर्फ़ POST के लिए"}],"answer":1,"why":{"en":"CORS protects users' browsers, not your API. You still need authentication and authorization.","hi":"CORS users के browsers को बचाता है, आपकी API को नहीं। Authentication और authorization फिर भी चाहिए।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="security:api-security"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="passwords-auth.html">← <span class="en">Passwords, login and MFA</span><span class="hi">Passwords, login और MFA</span></a><span class="btn btn-outline" style="opacity:.55;cursor:default">→ <span class="en">Cryptography basics (soon)</span><span class="hi">Cryptography basics (जल्द)</span></span></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20cyber%20security%20module%3A%20API%20security" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20cyber%20security%20module%3A%20API%20security" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Cyber Security from Zero</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../security/">Cyber Security</a> · <a href="../jobs/">Jobs</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Cyber security course by Agam Sahu</span><span class="hi">Cyber security कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

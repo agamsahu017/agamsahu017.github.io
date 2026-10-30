@@ -344,3 +344,11 @@ h2 + .badge { margin: -4px 0 10px; }
 .job-match { margin: 0 0 8px; font-size: .9rem; color: #047857; }
 :root[data-theme="dark"] .job-match { color: #6ee7b7; }
 .job-save[aria-pressed="true"] { border-color: #f59e0b; color: #b45309; }
+.rate-tokens { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 6px 0 4px; }
+.rate-tokens > span { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--primary); }
+.rate-tokens > span.full { background: var(--primary); }
+.rate-tokens b { font-size: .88rem; margin-left: 4px; }
+.rate-log { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; min-height: 26px; }
+.rate-log b { padding: 2px 8px; border-radius: 6px; font-size: .8rem; }
+.rate-log b.ok { background: rgba(16, 185, 129, .2); }
+.rate-log b.no { background: rgba(239, 68, 68, .25); }
