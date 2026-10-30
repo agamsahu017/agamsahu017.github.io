@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Microservices vs Monolith, Explained Simply | Kodivo</title>
+  <meta name="description" content="Microservices made simple: when to use them, API gateway, database per service, sync vs async calls and the saga pattern, with real code." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/microservices.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/microservices.html" />
+  <meta property="og:title" content="Microservices vs Monolith, Explained Simply | Kodivo" />
+  <meta property="og:description" content="Microservices made simple: when to use them, API gateway, database per service, sync vs async calls and the saga pattern, with real code." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Microservices, simply",
+          "item": "https://agamsahu017.github.io/system-design/microservices.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Microservices vs Monolith, Explained Simply",
+      "description": "Microservices made simple: when to use them, API gateway, database per service, sync vs async calls and the saga pattern, with real code.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(Microservices%2C%20simply)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>Microservices, simply</span></nav>
+        <span class="pill"><span class="en">Module 10 of 20</span><span class="hi">मॉड्यूल 10 / 20</span></span>
+        <h1><span class="en">Microservices, simply</span><span class="hi">Microservices, आसान भाषा में</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Microservices split one app into independently deployed services that own their data. They help big teams and uneven load, but cost complexity, so start with a modular monolith.</p><p class="hi"><b>एक लाइन में:</b> Microservices एक app को अलग-अलग deploy होने वाली services में बाँटते हैं जो अपना data रखती हैं। ये बड़ी teams और असमान load में मदद करते हैं, पर जटिलता बढ़ाते हैं, इसलिए modular monolith से शुरू कीजिए।</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Monolith vs microservices, with an everyday picture</span><span class="hi">Monolith vs microservices, रोज़ की तस्वीर से</span></li><li><span class="en">When microservices help, and when they hurt</span><span class="hi">Microservices कब मदद करते हैं, और कब नुक़सान</span></li><li><span class="en">The building blocks: API gateway, database per service, events</span><span class="hi">Building blocks: API gateway, हर service का अपना database, events</span></li><li><span class="en">Transactions across services: the saga pattern, with real code</span><span class="hi">Services के बीच transactions: saga pattern, असली code के साथ</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#what"><span class="en">Monolith vs microservices</span><span class="hi">Monolith vs microservices</span></a><a href="#blocks"><span class="en">Building blocks</span><span class="hi">Building blocks</span></a><a href="#saga"><span class="en">Saga pattern</span><span class="hi">Saga pattern</span></a><a href="#when"><span class="en">When to split</span><span class="hi">कब अलग करें</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">Glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">Glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="what">
+        <h2 id="what-h"><span class="en">Monolith vs microservices</span><span class="hi">Monolith vs microservices</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">A <b>monolith</b> is like a small dhaba where one kitchen makes everything. A <b>microservices</b> system is like a food court: separate counters for dosa, chaat and juice, each with its own staff and stock, working together.</p><p class="hi"><b>Monolith</b> एक छोटे ढाबे जैसा है जहाँ एक ही रसोई सब बनाती है। <b>Microservices</b> system एक food court जैसा है: dosa, chaat और juice के अलग counters, हर एक का अपना staff और सामान, जो साथ मिलकर काम करते हैं।</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en"></span><span class="hi"></span></th><th><span class="en">Monolith</span><span class="hi">Monolith</span></th><th><span class="en">Microservices</span><span class="hi">Microservices</span></th></tr></thead><tbody><tr><td><span class="en">Code</span><span class="hi">Code</span></td><td><span class="en">One app, one deploy</span><span class="hi">एक app, एक deploy</span></td><td><span class="en">Many small apps, deployed separately</span><span class="hi">कई छोटी apps, अलग-अलग deploy</span></td></tr><tr><td><span class="en">Database</span><span class="hi">Database</span></td><td><span class="en">Usually one shared database</span><span class="hi">आमतौर पर एक shared database</span></td><td><span class="en">Each service owns its data</span><span class="hi">हर service का अपना data</span></td></tr><tr><td><span class="en">Good at</span><span class="hi">किसमें अच्छा</span></td><td><span class="en">Simple to build, test, debug and deploy</span><span class="hi">बनाना, test, debug और deploy करना आसान</span></td><td><span class="en">Teams work and deploy independently; scale only the busy part</span><span class="hi">Teams अलग-अलग काम और deploy करें; सिर्फ़ busy हिस्सा scale करें</span></td></tr><tr><td><span class="en">Hard parts</span><span class="hi">मुश्किल हिस्से</span></td><td><span class="en">Gets messy if not organised in modules</span><span class="hi">Modules में न बँटे तो उलझ जाता है</span></td><td><span class="en">Network failures, data consistency, tracing, much more DevOps</span><span class="hi">Network failures, data consistency, tracing, बहुत ज़्यादा DevOps</span></td></tr></tbody></table></div>
+        <div class="idea"><p class="en"><b>Start with a modular monolith</b>: one app with clean modules (NestJS modules are perfect for this). Split out a service only when a team or a heavy feature truly needs to deploy or scale on its own.</p><p class="hi"><b>Modular monolith से शुरू कीजिए</b>: साफ़ modules वाली एक app (NestJS modules इसके लिए बढ़िया हैं)। कोई service तभी अलग कीजिए जब किसी team या भारी feature को सच में अलग deploy या scale करना हो।</p></div>
+      </section>
+      <section id="blocks">
+        <h2 id="blocks-h"><span class="en">The building blocks</span><span class="hi">Building blocks</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">Mobile and web apps</span><span class="hi">Mobile और web apps</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">API gateway: login check, rate limit, routing</span><span class="hi">API gateway: login check, rate limit, routing</span></div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node"><span class="en">User service + its DB</span><span class="hi">User service + उसका DB</span></div><div class="node"><span class="en">Order service + its DB</span><span class="hi">Order service + उसका DB</span></div><div class="node"><span class="en">Payment service + its DB</span><span class="hi">Payment service + उसका DB</span></div></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Event bus (Kafka / RabbitMQ)</span><span class="hi">Event bus (Kafka / RabbitMQ)</span></div></div><figcaption><span class="en">Clients talk to one gateway; services own their data and share events.</span><span class="hi">Clients एक gateway से बात करते हैं; services अपना data रखती हैं और events share करती हैं।</span></figcaption></figure>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Block</span><span class="hi">Block</span></th><th><span class="en">Job</span><span class="hi">काम</span></th></tr></thead><tbody><tr><td><span class="en"><b>API gateway</b></span><span class="hi"><b>API gateway</b></span></td><td><span class="en">One front door: checks tokens, rate-limits, sends each request to the right service</span><span class="hi">एक मुख्य दरवाज़ा: tokens check, rate limit, हर request को सही service तक भेजना</span></td></tr><tr><td><span class="en"><b>Database per service</b></span><span class="hi"><b>हर service का database</b></span></td><td><span class="en">Services never read each other's tables; they ask through APIs or events. This keeps them independent</span><span class="hi">Services एक-दूसरे की tables नहीं पढ़तीं; APIs या events से पूछती हैं। इससे वो स्वतंत्र रहती हैं</span></td></tr><tr><td><span class="en"><b>Sync calls</b> (REST / gRPC)</span><span class="hi"><b>Sync calls</b> (REST / gRPC)</span></td><td><span class="en">When you need an answer now. Always with timeouts and circuit breakers (see <a href="reliability.html">reliability</a>)</span><span class="hi">जब जवाब अभी चाहिए। हमेशा timeouts और circuit breakers के साथ (देखिए <a href="reliability.html">reliability</a>)</span></td></tr><tr><td><span class="en"><b>Async events</b></span><span class="hi"><b>Async events</b></span></td><td><span class="en">"Order placed" is published; billing, stock and email react on their own (see <a href="queues.html">queues</a>)</span><span class="hi">"Order placed" publish होता है; billing, stock और email अपने आप react करते हैं (देखिए <a href="queues.html">queues</a>)</span></td></tr><tr><td><span class="en"><b>Observability</b></span><span class="hi"><b>Observability</b></span></td><td><span class="en">Logs with a request id, metrics and distributed tracing, so you can follow one request across services</span><span class="hi">Request id वाले logs, metrics और distributed tracing, ताकि एक request को services के पार follow कर सकें</span></td></tr></tbody></table></div>
+      </section>
+      <section id="saga">
+        <h2 id="saga-h"><span class="en">Transactions across services: the saga pattern</span><span class="hi">Services के बीच transactions: saga pattern</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">In a monolith, one database transaction can reserve stock and charge the card together. Across services there is no single transaction. A <b>saga</b> does each step in its own service, and if a later step fails, it runs <b>compensating</b> steps to undo the earlier ones, like releasing reserved stock.</p><p class="hi">Monolith में एक database transaction stock reserve और card charge साथ में कर सकता है। Services के पार कोई एक transaction नहीं होता। <b>Saga</b> हर step अपनी service में करता है, और अगर बाद का step fail हो, तो पहले वाले steps को undo करने के लिए <b>compensating</b> steps चलाता है, जैसे reserve किया stock छोड़ना।</p>
+        <pre class="code" data-copy><span class="cm">// Saga: each service does its own step; if a later step fails, earlier steps are undone.</span>
+<span class="kw">const</span> log = (m) =&gt; console.log(m);
+<span class="kw">const</span> services = {
+  reserveStock: () =&gt; log(<span class="st">"Inventory: 1 phone reserved"</span>),
+  releaseStock: () =&gt; log(<span class="st">"Inventory: reservation released (compensation)"</span>),
+  chargeCard: (ok) =&gt; { <span class="kw">if</span> (!ok) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">"card declined"</span>); log(<span class="st">"Payment: ₹15,000 charged"</span>); },
+  createShipment: () =&gt; log(<span class="st">"Shipping: shipment created"</span>),
+};
+
+<span class="kw">function</span> placeOrder(cardOk) {
+  log(<span class="st">`--- order (card ok: ${cardOk}) ---`</span>);
+  services.reserveStock();
+  try {
+    services.chargeCard(cardOk);
+  } catch (e) {
+    log(<span class="st">`Payment failed: ${e.message}`</span>);
+    services.releaseStock(); <span class="cm">// undo the earlier step</span>
+    <span class="kw">return</span> <span class="st">"ORDER CANCELLED"</span>;
+  }
+  services.createShipment();
+  <span class="kw">return</span> <span class="st">"ORDER CONFIRMED"</span>;
+}
+
+log(placeOrder(<span class="kw">true</span>));
+log(placeOrder(<span class="kw">false</span>));</pre>
+        <p class="en">Real output:</p><p class="hi">असली output:</p>
+        <pre class="code" data-copy>--- order (card ok: <span class="kw">true</span>) ---
+Inventory: 1 phone reserved
+Payment: ₹15,000 charged
+Shipping: shipment created
+ORDER CONFIRMED
+--- order (card ok: <span class="kw">false</span>) ---
+Inventory: 1 phone reserved
+Payment failed: card declined
+Inventory: reservation released (compensation)
+ORDER CANCELLED</pre>
+        <p class="en">In real systems each step is a separate service, steps talk through events or calls, and every step is idempotent because messages can arrive twice. To publish an event reliably together with a database change, use the <b>outbox pattern</b>: save the event in the same database transaction, and a separate process sends it.</p><p class="hi">असली systems में हर step अलग service है, steps events या calls से बात करते हैं, और हर step idempotent होता है क्योंकि messages दो बार आ सकते हैं। Database change के साथ भरोसे से event publish करने के लिए <b>outbox pattern</b> इस्तेमाल कीजिए: event को उसी database transaction में save कीजिए, और एक अलग process उसे भेजता है।</p>
+      </section>
+      <section id="when">
+        <h2 id="when-h"><span class="en">When should you split a service out?</span><span class="hi">Service कब अलग करनी चाहिए?</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Good reasons ✅</span><span class="hi">अच्छी वजहें ✅</span></th><th><span class="en">Bad reasons ❌</span><span class="hi">ग़लत वजहें ❌</span></th></tr></thead><tbody><tr><td><span class="en">A separate team needs to release on its own schedule</span><span class="hi">किसी अलग team को अपने schedule पर release करना है</span></td><td><span class="en">"Big companies use microservices"</span><span class="hi">"बड़ी companies microservices इस्तेमाल करती हैं"</span></td></tr><tr><td><span class="en">One part has very different load (report generation, video processing)</span><span class="hi">एक हिस्से का load बहुत अलग है (report generation, video processing)</span></td><td><span class="en">To make the resume look good</span><span class="hi">Resume अच्छा दिखाने के लिए</span></td></tr><tr><td><span class="en">A part needs different tech or strict isolation (payments)</span><span class="hi">एक हिस्से को अलग tech या सख़्त अलगाव चाहिए (payments)</span></td><td><span class="en">The monolith is messy (fix the modules first)</span><span class="hi">Monolith उलझा है (पहले modules ठीक कीजिए)</span></td></tr></tbody></table></div>
+        <p class="en">To move away from a monolith safely, use the <b>strangler pattern</b>: put a gateway in front, move one feature at a time to a new service, route its traffic there, and slowly "strangle" the old code. Never a big-bang rewrite.</p><p class="hi">Monolith से सुरक्षित तरीक़े से हटने के लिए <b>strangler pattern</b> इस्तेमाल कीजिए: आगे एक gateway रखिए, एक-एक feature नई service में ले जाइए, उसका traffic वहाँ भेजिए, और धीरे-धीरे पुराने code को "strangle" कीजिए। कभी एक झटके में पूरा rewrite नहीं।</p>
+        <div class="say"><p class="en">🎤 "I'd start with a modular monolith. I'd split out the report service first, because its heavy load affected the main APIs. It owns its data, receives events through a queue, and the gateway routes to it."</p><p class="hi">🎤 "I'd start with a modular monolith. I'd split out the report service first, because its heavy load affected the main APIs. It owns its data, receives events through a queue, and the gateway routes to it."</p></div>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Services sharing one database. Then they are not independent, just a distributed monolith.</span><span class="hi">Services का एक ही database share करना। फिर वो स्वतंत्र नहीं, बस एक बँटा हुआ monolith हैं।</span></li><li><span class="en">Long chains of sync calls (A calls B calls C calls D). One slow service slows everything.</span><span class="hi">Sync calls की लंबी chains (A, B को; B, C को; C, D को call करे)। एक धीमी service सबको धीमा कर देती है।</span></li><li><span class="en">No request id or tracing, so nobody can find where a request failed.</span><span class="hi">न request id न tracing, इसलिए कोई नहीं ढूँढ पाता कि request कहाँ fail हुई।</span></li></ul></div>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 4 things</span><span class="hi">ये 4 बातें याद रखिए</span></div><ol><li><span class="en">Modular monolith first; split only for team independence or very different load.</span><span class="hi">पहले modular monolith; सिर्फ़ team की आज़ादी या बहुत अलग load के लिए अलग कीजिए।</span></li><li><span class="en">Each service owns its database. Talk through APIs or events.</span><span class="hi">हर service का अपना database। APIs या events से बात।</span></li><li><span class="en">Cross-service transactions use a saga with compensating steps.</span><span class="hi">Services के पार transactions के लिए compensating steps वाला saga।</span></li><li><span class="en">Strangler pattern for migration; never a big-bang rewrite.</span><span class="hi">Migration के लिए strangler pattern; कभी एक झटके में rewrite नहीं।</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: An e-commerce monolith in NCR has 4 developers. The CTO wants 12 microservices. What do you advise?</span><span class="hi">Exercise 1: NCR की एक e-commerce monolith पर 4 developers हैं। CTO 12 microservices चाहते हैं। आप क्या सलाह देंगे?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">With 4 developers, 12 services means more deploys, networks and dashboards than people to look after them. Better: clean up the monolith into clear modules (orders, payments, catalog, users), add a queue for slow work, and split out one service only where there's a real reason, such as heavy report generation. Revisit when the team grows.</p><p class="hi">4 developers के लिए 12 services का मतलब है देखभाल करने वालों से ज़्यादा deploys, networks और dashboards। बेहतर: monolith को साफ़ modules (orders, payments, catalog, users) में बाँटिए, धीमे काम के लिए queue जोड़िए, और सिर्फ़ वहाँ service अलग कीजिए जहाँ असली वजह हो, जैसे भारी report generation। Team बढ़ने पर फिर सोचिए।</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Best first architecture for a new product with one small team?","hi":"एक छोटी team वाले नए product के लिए सबसे अच्छा पहला architecture?"},"options":[{"en":"20 microservices","hi":"20 microservices"},{"en":"A modular monolith","hi":"Modular monolith"},{"en":"One file","hi":"एक file"},{"en":"Serverless only","hi":"सिर्फ़ serverless"}],"answer":1,"why":{"en":"Simple to build and run; split later if needed.","hi":"बनाना और चलाना आसान; ज़रूरत हो तो बाद में बाँटिए।"}},{"q":{"en":"In microservices, each service should…","hi":"Microservices में हर service को…"},"options":[{"en":"Share one big database","hi":"एक बड़ा database share करना चाहिए"},{"en":"Own its own data","hi":"अपना data ख़ुद रखना चाहिए"},{"en":"Have no database","hi":"कोई database नहीं रखना चाहिए"},{"en":"Read other services' tables","hi":"दूसरी services की tables पढ़नी चाहिए"}],"answer":1,"why":{"en":"Shared databases tie services together.","hi":"Shared databases services को आपस में बाँध देते हैं।"}},{"q":{"en":"Payment fails after stock was reserved in another service. A saga will…","hi":"दूसरी service में stock reserve होने के बाद payment fail हुआ। Saga…"},"options":[{"en":"Ignore it","hi":"अनदेखा करेगा"},{"en":"Run a compensating step to release the stock","hi":"Stock छोड़ने के लिए compensating step चलाएगा"},{"en":"Roll back the whole database","hi":"पूरा database rollback करेगा"},{"en":"Restart all services","hi":"सारी services restart करेगा"}],"answer":1,"why":{"en":"Compensation undoes earlier steps.","hi":"Compensation पहले के steps undo करता है।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:microservices"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="reliability.html">← <span class="en">Rate limiting and reliability</span><span class="hi">Rate limiting और reliability</span></a><span class="btn btn-outline" style="opacity:.55;cursor:default">→ <span class="en">Design a URL shortener (soon)</span><span class="hi">URL shortener design करें (जल्द)</span></span></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Microservices%2C%20simply" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Microservices%2C%20simply" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"client","m":["client"],"en":"The app or browser that asks for something, like your phone's WhatsApp or Chrome.","hi":"वो app या browser जो कुछ माँगता है, जैसे आपके phone का WhatsApp या Chrome।"},{"s":"server","m":["server","servers"],"en":"A computer that runs your backend code and answers requests from clients.","hi":"एक computer जो आपका backend code चलाता है और clients की requests का जवाब देता है।"},{"s":"request","m":["request","requests"],"en":"A message from the client to the server asking for data or an action.","hi":"Client से server को भेजा गया message, जिसमें data या कोई काम माँगा जाता है।"},{"s":"response","m":["response"],"en":"The server's reply to a request, usually with data and a status code.","hi":"Request पर server का जवाब, आमतौर पर data और status code के साथ।"},{"s":"http","m":["HTTP","HTTPS"],"en":"The language browsers and servers use to talk. HTTPS is the encrypted, secure version.","hi":"वो भाषा जिसमें browser और server बात करते हैं। HTTPS उसका encrypted, सुरक्षित रूप है।"},{"s":"api","m":["API","APIs"],"en":"A set of URLs (endpoints) your server offers so other programs can ask it for data or actions.","hi":"URLs (endpoints) का एक set जो server देता है, ताकि दूसरे programs उससे data या काम माँग सकें।"},{"s":"endpoint","m":["endpoint","endpoints"],"en":"One URL of an API, like GET /users/42.","hi":"API का एक URL, जैसे GET /users/42।"},{"s":"rest","m":["REST"],"en":"A common style for APIs: URLs name the things (/orders) and HTTP methods say the action (GET, POST).","hi":"APIs का एक common style: URL चीज़ का नाम बताते हैं (/orders) और HTTP methods काम (GET, POST)।"},{"s":"json","m":["JSON"],"en":"A simple text format for data, like { \"name\": \"Riya\" }. Most APIs send JSON.","hi":"Data के लिए एक आसान text format, जैसे { \"name\": \"Riya\" }। ज़्यादातर APIs JSON भेजती हैं।"},{"s":"status-code","m":["status code","status codes"],"en":"A number in the response: 200 = OK, 404 = not found, 500 = server error.","hi":"Response में एक number: 200 = OK, 404 = नहीं मिला, 500 = server error।"},{"s":"dns","m":["DNS"],"en":"The internet's phonebook: turns a name like google.com into an IP address.","hi":"Internet की phonebook: google.com जैसे नाम को IP address में बदलता है।"},{"s":"ip-address","m":["IP address"],"en":"The numeric address of a computer on the internet, like 142.250.183.14.","hi":"Internet पर किसी computer का number वाला address, जैसे 142.250.183.14।"},{"s":"webhook","m":["webhook"],"en":"A URL on your server that another service calls when something happens, like \"payment succeeded\".","hi":"आपके server का एक URL जिसे कोई दूसरी service कुछ होने पर call करती है, जैसे \"payment हो गया\"।"},{"s":"websocket","m":["WebSocket","WebSockets"],"en":"A connection that stays open so the server can push messages instantly, used in chat apps.","hi":"एक connection जो खुला रहता है ताकि server तुरंत messages भेज सके, chat apps में इस्तेमाल होता है।"},{"s":"latency","m":["latency"],"en":"How long one request takes, for example 120 milliseconds. Lower is better.","hi":"एक request में कितना समय लगता है, जैसे 120 milliseconds। जितना कम, उतना अच्छा।"},{"s":"throughput","m":["throughput"],"en":"How many requests a system handles per second.","hi":"System एक second में कितनी requests संभालता है।"},{"s":"qps","m":["QPS"],"en":"Queries (requests) per second. 1,000 QPS = a thousand requests every second.","hi":"Queries (requests) per second। 1,000 QPS = हर second हज़ार requests।"},{"s":"scalability","m":["scalability"],"en":"The ability to handle more users by adding resources.","hi":"Resources बढ़ाकर ज़्यादा users संभालने की क्षमता।"},{"s":"vertical-scaling","m":["vertical scaling","Vertical scaling"],"en":"Making one machine bigger (more CPU and RAM).","hi":"एक ही machine को बड़ा करना (ज़्यादा CPU और RAM)।"},{"s":"horizontal-scaling","m":["horizontal scaling","Horizontal scaling"],"en":"Adding more machines that share the work.","hi":"और machines जोड़ना जो काम बाँट लें।"},{"s":"load-balancer","m":["load balancer","load balancers","Load balancer"],"en":"Sits in front of servers and spreads incoming requests across them.","hi":"Servers के आगे बैठता है और आने वाली requests को उनमें बाँटता है।"},{"s":"stateless","m":["stateless"],"en":"A server that keeps no user data in its own memory between requests, so any server can serve any user.","hi":"ऐसा server जो requests के बीच user का data अपनी memory में नहीं रखता, ताकि कोई भी server किसी भी user को serve कर सके।"},{"s":"session","m":["session","sessions"],"en":"Information that keeps a user logged in across requests.","hi":"वो जानकारी जिससे user requests के बीच logged in रहता है।"},{"s":"jwt","m":["JWT"],"en":"JSON Web Token: a signed token the client sends with each request to prove who it is.","hi":"JSON Web Token: एक signed token जो client हर request के साथ भेजता है यह साबित करने के लिए कि वो कौन है।"},{"s":"spof","m":["single point of failure","SPOF"],"en":"A part with only one copy. If it fails, the whole system fails.","hi":"ऐसा हिस्सा जिसकी सिर्फ़ एक copy हो। वो fail हो, तो पूरा system fail।"},{"s":"bottleneck","m":["bottleneck"],"en":"The slowest part that limits the whole system, like a narrow bottle neck.","hi":"सबसे धीमा हिस्सा जो पूरे system को रोकता है, जैसे बोतल की पतली गर्दन।"},{"s":"monolith","m":["monolith"],"en":"One application containing all features, deployed together. Simple to start with.","hi":"एक ही application जिसमें सारे features हों, एक साथ deploy हो। शुरुआत में आसान।"},{"s":"microservices","m":["microservices"],"en":"Many small services, each owning one feature, deployed separately. Flexible but more complex.","hi":"कई छोटी services, हर एक के पास एक feature, अलग-अलग deploy। Flexible पर ज़्यादा मुश्किल।"},{"s":"database","m":["database","databases"],"en":"Software that stores data safely on disk and lets you search and update it.","hi":"Software जो data को disk पर सुरक्षित रखता है और उसे ढूँढने और बदलने देता है।"},{"s":"sql","m":["SQL"],"en":"A database with tables, columns and relations, like PostgreSQL or MySQL.","hi":"Tables, columns और relations वाला database, जैसे PostgreSQL या MySQL।"},{"s":"nosql","m":["NoSQL"],"en":"A database with a flexible structure (documents, key-value), built to spread across many machines.","hi":"Flexible structure (documents, key-value) वाला database, कई machines पर फैलने के लिए बना।"},{"s":"transaction","m":["transaction","transactions"],"en":"A group of database changes that happen together, or not at all.","hi":"Database के बदलावों का समूह जो साथ में होते हैं, या बिल्कुल नहीं होते।"},{"s":"acid","m":["ACID"],"en":"Promises of a good transaction: all-or-nothing, valid data, no mixing, and saved data isn't lost.","hi":"अच्छे transaction के वादे: पूरा या कुछ नहीं, सही data, आपस में न मिलना, और save हुआ data न खोना।"},{"s":"primary-key","m":["primary key"],"en":"A column that uniquely identifies each row, like user id.","hi":"एक column जो हर row को अलग पहचान देता है, जैसे user id।"},{"s":"index","m":["index","indexes"],"en":"A lookup structure that makes searching a column fast, like a book's index.","hi":"एक lookup structure जो किसी column में ढूँढना तेज़ करता है, जैसे किताब का index।"},{"s":"replica","m":["replica","replicas","replication"],"en":"A copy of a database that stays in sync. Replicas serve reads and can take over on failure.","hi":"Database की copy जो साथ-साथ अपडेट होती रहती है। Replicas reads देते हैं और failure पर काम सँभाल सकते हैं।"},{"s":"replication-lag","m":["replication lag","Replication lag"],"en":"The small delay before a replica receives the latest changes.","hi":"Replica तक ताज़ा बदलाव पहुँचने में लगने वाली छोटी देरी।"},{"s":"sharding","m":["sharding","shard","shards"],"en":"Splitting data across several databases, each holding a part.","hi":"Data को कई databases में बाँटना, हर एक में एक हिस्सा।"},{"s":"shard-key","m":["shard key"],"en":"The field that decides which shard a row goes to, like user_id.","hi":"वो field जो तय करती है कि row किस shard में जाएगी, जैसे user_id।"},{"s":"failover","m":["failover"],"en":"Automatically switching to a backup when the main machine fails.","hi":"Main machine fail होने पर अपने आप backup पर चले जाना।"},{"s":"cache","m":["cache","caching"],"en":"Fast memory that keeps frequently used data so you don't fetch it again from a slow source.","hi":"तेज़ memory जो बार-बार इस्तेमाल होने वाला data रखती है, ताकि धीमी जगह से दोबारा न लाना पड़े।"},{"s":"cache-hit","m":["cache hit","cache miss"],"en":"Hit: the data was in the cache (fast). Miss: it wasn't, so we read the database (slow).","hi":"Hit: data cache में मिल गया (तेज़)। Miss: नहीं मिला, तो database पढ़ा (धीमा)।"},{"s":"ttl","m":["TTL"],"en":"Time to live: how long a cached item is kept before it expires.","hi":"Time to live: cache में रखा item कितनी देर बाद expire होगा।"},{"s":"lru","m":["LRU"],"en":"Least Recently Used: when the cache is full, remove the item unused for the longest time.","hi":"Least Recently Used: cache भरने पर वो item हटाओ जो सबसे लंबे समय से इस्तेमाल नहीं हुआ।"},{"s":"invalidation","m":["invalidation","invalidate"],"en":"Removing or updating cached data when the original data changes.","hi":"Original data बदलने पर cached data को हटाना या अपडेट करना।"},{"s":"cdn","m":["CDN","CDNs"],"en":"Content Delivery Network: servers around the world that keep copies of images, videos and files close to users.","hi":"Content Delivery Network: दुनिया भर के servers जो images, videos और files की copies users के पास रखते हैं।"},{"s":"queue","m":["message queue","queue","queues"],"en":"A waiting line for jobs. The API adds a job and replies fast; a worker does the job later.","hi":"Jobs की एक लाइन। API job जोड़कर जल्दी जवाब देता है; worker बाद में job करता है।"},{"s":"async","m":["async","asynchronous"],"en":"Work that happens in the background, without making the user wait.","hi":"Background में होने वाला काम, बिना user को इंतज़ार कराए।"},{"s":"availability","m":["availability","highly available"],"en":"How much of the time the system is up and working, like 99.9%.","hi":"System कितने समय चालू और काम करता रहता है, जैसे 99.9%।"},{"s":"consistency","m":["consistency","eventual consistency"],"en":"Whether everyone sees the latest data. Eventual consistency means it becomes the same everywhere after a short time.","hi":"क्या सबको ताज़ा data दिखता है। Eventual consistency का मतलब है थोड़ी देर बाद हर जगह एक जैसा हो जाता है।"},{"s":"cap","m":["CAP"],"en":"When the network between servers breaks, you must choose: always correct data (consistency) or always answer (availability).","hi":"Servers के बीच network टूटे, तो चुनना पड़ता है: हमेशा सही data (consistency) या हमेशा जवाब (availability)।"},{"s":"idempotency","m":["idempotency","idempotent"],"en":"Doing the same request twice has the same effect as doing it once. Vital for payments.","hi":"एक ही request दो बार करने का असर एक बार करने जैसा हो। Payments के लिए बहुत ज़रूरी।"},{"s":"rate-limiting","m":["rate limiting","rate limiter"],"en":"Limiting how many requests a user can make, like 100 per minute, to protect the system.","hi":"User कितनी requests कर सकता है उसकी सीमा, जैसे 100 per minute, system को बचाने के लिए।"},{"s":"health-check","m":["health check","health checks"],"en":"A regular ping to see if a server is alive. Unhealthy servers get no traffic.","hi":"Server ज़िंदा है या नहीं, यह देखने के लिए नियमित ping। बीमार servers को traffic नहीं मिलता।"},{"s":"redis","m":["Redis"],"en":"A very fast in-memory store, used for caching, sessions, counters and rate limits.","hi":"बहुत तेज़ in-memory store, caching, sessions, counters और rate limits के लिए।"},{"s":"kafka","m":["Kafka","SQS","RabbitMQ"],"en":"Message queue tools that pass jobs and events between services.","hi":"Message queue tools जो services के बीच jobs और events पहुँचाते हैं।"},{"s":"s3","m":["S3"],"en":"Cloud storage for files like images, videos and PDFs. The database stores only the file's URL.","hi":"Images, videos और PDFs जैसी files के लिए cloud storage। Database सिर्फ़ file का URL रखता है।"},{"s":"postgresql","m":["PostgreSQL","MySQL"],"en":"Popular SQL databases for structured data and transactions.","hi":"Structured data और transactions के लिए popular SQL databases।"},{"s":"mongodb","m":["MongoDB","DynamoDB","Cassandra"],"en":"Popular NoSQL databases for flexible or very large data.","hi":"Flexible या बहुत बड़े data के लिए popular NoSQL databases।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../security/">Cyber Security</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

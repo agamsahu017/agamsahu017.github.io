@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Message Queues and Async Work in System Design | Kodivo</title>
+  <meta name="description" content="Message queues explained simply: handing slow work to workers, Kafka vs RabbitMQ vs SQS vs BullMQ, retries and dead letter queues, with a live simulator." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/queues.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/queues.html" />
+  <meta property="og:title" content="Message Queues and Async Work in System Design | Kodivo" />
+  <meta property="og:description" content="Message queues explained simply: handing slow work to workers, Kafka vs RabbitMQ vs SQS vs BullMQ, retries and dead letter queues, with a live simulator." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Message queues and async work",
+          "item": "https://agamsahu017.github.io/system-design/queues.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Message Queues and Async Work in System Design",
+      "description": "Message queues explained simply: handing slow work to workers, Kafka vs RabbitMQ vs SQS vs BullMQ, retries and dead letter queues, with a live simulator.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(Message%20queues%20and%20async%20work)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>Message queues and async work</span></nav>
+        <span class="pill"><span class="en">Module 7 of 20</span><span class="hi">मॉड्यूल 7 / 20</span></span>
+        <h1><span class="en">Message queues and async work</span><span class="hi">Message queues और async काम</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">20 min read + practice</span><span class="hi">20 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> A queue lets the API reply fast while workers do slow work in the background, with retries, and it absorbs sudden spikes.</p><p class="hi"><b>एक लाइन में:</b> Queue से API तुरंत जवाब देती है जबकि workers धीमा काम background में retry के साथ करते हैं, और अचानक की भीड़ queue सँभाल लेती है।</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Why slow work should leave the request</span><span class="hi">धीमा काम request से बाहर क्यों जाना चाहिए</span></li><li><span class="en">Producers, queues and workers, with a live simulator</span><span class="hi">Producers, queues और workers, live simulator के साथ</span></li><li><span class="en">Job queue vs event stream (BullMQ, RabbitMQ, SQS, Kafka)</span><span class="hi">Job queue vs event stream (BullMQ, RabbitMQ, SQS, Kafka)</span></li><li><span class="en">Retries, dead letter queues and "at least once" delivery</span><span class="hi">Retries, dead letter queues और "at least once" delivery</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#why"><span class="en">Why queues</span><span class="hi">Queues क्यों</span></a><a href="#sim"><span class="en">Simulator</span><span class="hi">Simulator</span></a><a href="#tools"><span class="en">Which tool</span><span class="hi">कौन-सा tool</span></a><a href="#failures"><span class="en">Failures</span><span class="hi">Failures</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">Glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">Glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="why">
+        <h2 id="why-h"><span class="en">Why use a queue?</span><span class="hi">Queue क्यों इस्तेमाल करें?</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Think of a busy restaurant. The counter takes your order, gives you a token and serves the next customer. The kitchen cooks orders one by one. The counter never stands at the stove waiting. A <b>message queue</b> is that token system for software.</p><p class="hi">एक भीड़ वाले restaurant के बारे में सोचिए। Counter आपका order लेकर token देता है और अगले customer को serve करता है। Kitchen एक-एक करके orders पकाती है। Counter कभी चूल्हे के पास खड़ा इंतज़ार नहीं करता। <b>Message queue</b> software के लिए वही token system है।</p>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">API (producer) adds a job</span><span class="hi">API (producer) job जोड़ती है</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Queue holds jobs in order</span><span class="hi">Queue jobs को क्रम में रखती है</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Workers (consumers) do the slow work</span><span class="hi">Workers (consumers) धीमा काम करते हैं</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Result saved / user notified</span><span class="hi">Result save / user को सूचना</span></div></div><figcaption><span class="en">The API replies in milliseconds; the slow part happens in the background.</span><span class="hi">API milliseconds में जवाब देती है; धीमा हिस्सा background में होता है।</span></figcaption></figure>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Put in a queue</span><span class="hi">Queue में डालिए</span></th><th><span class="en">Why</span><span class="hi">क्यों</span></th></tr></thead><tbody><tr><td><span class="en">Emails, SMS, WhatsApp messages</span><span class="hi">Emails, SMS, WhatsApp messages</span></td><td><span class="en">Providers are slow and sometimes fail; retries are easy</span><span class="hi">Providers धीमे हैं और कभी fail होते हैं; retry आसान</span></td></tr><tr><td><span class="en">PDF and Excel reports, exports</span><span class="hi">PDF और Excel reports, exports</span></td><td><span class="en">Heavy work that would block the API</span><span class="hi">भारी काम जो API को रोक देता</span></td></tr><tr><td><span class="en">Image or video processing</span><span class="hi">Image या video processing</span></td><td><span class="en">CPU heavy; scale workers separately</span><span class="hi">CPU भारी; workers अलग से बढ़ाइए</span></td></tr><tr><td><span class="en">Calling slow third-party APIs, webhooks</span><span class="hi">धीमी third-party APIs, webhooks call करना</span></td><td><span class="en">Your users don't wait for someone else's server</span><span class="hi">आपके users किसी और के server का इंतज़ार नहीं करते</span></td></tr></tbody></table></div>
+      </section>
+      <section id="sim">
+        <h2 id="sim-h"><span class="en">Try it: will the queue keep up?</span><span class="hi">ख़ुद देखें: क्या queue संभल पाएगी?</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Each worker finishes 2 jobs per second. Change how fast jobs arrive and how many workers you run, then press Start.</p><p class="hi">हर worker 1 second में 2 jobs पूरे करता है। Jobs आने की रफ़्तार और workers की संख्या बदलिए, फिर Start दबाइए।</p>
+        <div class="viz" id="queue-viz">
+          <div class="viz-title"><span class="en">Queue simulator</span><span class="hi">Queue simulator</span></div>
+          <div class="viz-controls"><label><span class="en">Jobs per second</span><span class="hi">हर second jobs</span>: <b data-out="rate">6</b></label><input type="range" min="1" max="12" value="6" data-q="rate" aria-label="Jobs per second" /></div>
+          <div class="viz-controls"><label><span class="en">Workers</span><span class="hi">Workers</span>: <b data-out="workers">2</b></label><input type="range" min="1" max="6" value="2" data-q="workers" aria-label="Workers" /></div>
+          <div class="viz-controls"><button type="button" class="btn btn-primary" data-act="run"><span class="en">▶ Start</span><span class="hi">▶ शुरू</span></button><button type="button" class="btn btn-outline" data-act="reset"><span class="en">Reset</span><span class="hi">Reset</span></button></div>
+          <div class="q-bar"><div class="q-fill"></div></div>
+          <div class="q-stats"></div>
+          <div class="viz-msg"></div>
+        </div>
+        <p class="en">A tiny queue in plain Node.js. The API replies at once, and two workers share the jobs:</p><p class="hi">Simple Node.js में एक छोटी queue। API तुरंत जवाब देती है, और दो workers jobs बाँट लेते हैं:</p>
+        <pre class="code" data-copy><span class="cm">// A tiny job queue: the API adds jobs and replies at once; workers do the slow work.</span>
+<span class="kw">const</span> queue = [];
+<span class="kw">const</span> sleep = (ms) =&gt; <span class="kw">new</span> Promise((r) =&gt; setTimeout(r, ms));
+
+<span class="kw">function</span> placeOrder(id) {
+  queue.push({ id, task: <span class="st">"send invoice email"</span> });
+  console.log(<span class="st">`API: order ${id} saved, replied to user in a few ms`</span>);
+}
+
+<span class="kw">async</span> <span class="kw">function</span> worker(name, msPerJob) {
+  <span class="kw">while</span> (queue.length &gt; 0) {
+    <span class="kw">const</span> job = queue.shift();       <span class="cm">// take the oldest job</span>
+    <span class="kw">await</span> sleep(msPerJob);           <span class="cm">// pretend the email takes time</span>
+    console.log(<span class="st">`${name}: done "${job.task}" for order ${job.id}`</span>);
+  }
+}
+
+[101, 102, 103, 104].forEach(placeOrder);
+<span class="kw">await</span> Promise.all([worker(<span class="st">"worker-1"</span>, 300), worker(<span class="st">"worker-2"</span>, 200)]);</pre>
+        <p class="en">Real output:</p><p class="hi">असली output:</p>
+        <pre class="code" data-copy>API: order 101 saved, replied to user <span class="kw">in</span> a few ms
+API: order 102 saved, replied to user <span class="kw">in</span> a few ms
+API: order 103 saved, replied to user <span class="kw">in</span> a few ms
+API: order 104 saved, replied to user <span class="kw">in</span> a few ms
+worker-2: done <span class="st">"send invoice email"</span> <span class="kw">for</span> order 102
+worker-1: done <span class="st">"send invoice email"</span> <span class="kw">for</span> order 101
+worker-2: done <span class="st">"send invoice email"</span> <span class="kw">for</span> order 103
+worker-1: done <span class="st">"send invoice email"</span> <span class="kw">for</span> order 104</pre>
+        <p class="en">In production, the queue lives outside your app (in Redis, RabbitMQ, SQS or Kafka), so jobs survive restarts and many servers can share them.</p><p class="hi">Production में queue आपकी app के बाहर रहती है (Redis, RabbitMQ, SQS या Kafka में), ताकि restart होने पर jobs बचे रहें और कई servers उन्हें बाँट सकें।</p>
+      </section>
+      <section id="tools">
+        <h2 id="tools-h"><span class="en">Job queue or event stream?</span><span class="hi">Job queue या event stream?</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Tool</span><span class="hi">Tool</span></th><th><span class="en">Type</span><span class="hi">प्रकार</span></th><th><span class="en">Good for</span><span class="hi">किसके लिए अच्छा</span></th></tr></thead><tbody><tr><td><span class="en">BullMQ (on Redis)</span><span class="hi">BullMQ (Redis पर)</span></td><td><span class="en">Job queue</span><span class="hi">Job queue</span></td><td><span class="en">Node.js apps: emails, reports, scheduled jobs</span><span class="hi">Node.js apps: emails, reports, scheduled jobs</span></td></tr><tr><td><span class="en">RabbitMQ</span><span class="hi">RabbitMQ</span></td><td><span class="en">Message broker</span><span class="hi">Message broker</span></td><td><span class="en">Routing messages to different services</span><span class="hi">अलग-अलग services तक messages पहुँचाना</span></td></tr><tr><td><span class="en">AWS SQS</span><span class="hi">AWS SQS</span></td><td><span class="en">Managed queue</span><span class="hi">Managed queue</span></td><td><span class="en">Simple, no servers to run, on AWS</span><span class="hi">आसान, कोई server नहीं चलाना, AWS पर</span></td></tr><tr><td><span class="en">Kafka</span><span class="hi">Kafka</span></td><td><span class="en">Event stream (a log)</span><span class="hi">Event stream (एक log)</span></td><td><span class="en">Huge volumes; many services read the same events; replay old events</span><span class="hi">बहुत बड़ा volume; कई services वही events पढ़ें; पुराने events दोबारा पढ़ें</span></td></tr></tbody></table></div>
+        <p class="en"><b>Simple rule:</b> a job queue is "do this task once" (send this email). An event stream is "this happened" (order placed), and any number of services can react to it: billing, inventory, analytics.</p><p class="hi"><b>आसान नियम:</b> job queue मतलब "यह काम एक बार करो" (यह email भेजो)। Event stream मतलब "यह हुआ" (order हुआ), और कितनी भी services उस पर react कर सकती हैं: billing, inventory, analytics।</p>
+      </section>
+      <section id="failures">
+        <h2 id="failures-h"><span class="en">When jobs fail</span><span class="hi">जब jobs fail हों</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <ul><li><span class="en"><b>Retry with backoff:</b> try again after 2s, 4s, 8s, because many failures are temporary.</span><span class="hi"><b>Backoff के साथ retry:</b> 2s, 4s, 8s बाद फिर कोशिश, क्योंकि कई failures थोड़ी देर की होती हैं।</span></li><li><span class="en"><b>Dead letter queue (DLQ):</b> after the last retry, park the job in a separate queue, alert someone, and fix it later instead of retrying forever.</span><span class="hi"><b>Dead letter queue (DLQ):</b> आख़िरी retry के बाद job को अलग queue में रखिए, किसी को alert कीजिए, और हमेशा retry करने की जगह बाद में ठीक कीजिए।</span></li><li><span class="en"><b>At-least-once delivery:</b> most queues may deliver a job twice (for example, after a worker crash). Make every job safe to run twice. See <a href="consistency.html">idempotency</a>.</span><span class="hi"><b>At-least-once delivery:</b> ज़्यादातर queues कभी job दो बार दे सकती हैं (जैसे worker crash के बाद)। हर job को दो बार चलने लायक़ सुरक्षित बनाइए। देखिए <a href="consistency.html">idempotency</a>।</span></li><li><span class="en"><b>Watch the queue length:</b> a queue that keeps growing means you need more workers or faster jobs.</span><span class="hi"><b>Queue की लंबाई पर नज़र:</b> लगातार बढ़ती queue का मतलब है ज़्यादा workers या तेज़ jobs चाहिए।</span></li></ul>
+        <div class="say"><p class="en">🎤 "I'd return 202 Accepted with a job id, push the work to a queue, process it with workers that retry with backoff, send repeated failures to a dead letter queue, and make the job idempotent because delivery is at least once."</p><p class="hi">🎤 "I'd return 202 Accepted with a job id, push the work to a queue, process it with workers that retry with backoff, send repeated failures to a dead letter queue, and make the job idempotent because delivery is at least once."</p></div>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 3 things</span><span class="hi">ये 3 बातें याद रखिए</span></div><ol><li><span class="en">Producer → queue → workers. The API returns fast (often 202 Accepted).</span><span class="hi">Producer → queue → workers। API जल्दी लौटती है (अक्सर 202 Accepted)।</span></li><li><span class="en">If jobs arrive faster than workers finish, the queue grows: add workers.</span><span class="hi">Jobs workers से तेज़ आएँ तो queue बढ़ती है: workers बढ़ाइए।</span></li><li><span class="en">Retry with backoff, then a dead letter queue. Jobs must be safe to run twice.</span><span class="hi">Backoff के साथ retry, फिर dead letter queue। Jobs दो बार चलने पर भी सुरक्षित हों।</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: On result day, 2 lakh students must get an SMS. Your SMS provider allows 100 SMS per second. How do you design it?</span><span class="hi">Exercise 1: Result वाले दिन 2 लाख students को SMS जाना है। आपका SMS provider 100 SMS प्रति second देता है। आप इसे कैसे design करेंगे?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">Add 2 lakh jobs to a queue in batches. Run workers with a rate limit of 100 per second (about 33 minutes in total). Retry failures with backoff, send repeated failures to a DLQ, and use an idempotency key per student so nobody gets two SMS. Keep OTP messages in a separate, higher-priority queue so logins still work during the rush.</p><p class="hi">2 लाख jobs batches में queue में डालिए। Workers को 100 प्रति second की limit के साथ चलाइए (कुल लगभग 33 minute)। Failures को backoff के साथ retry कीजिए, बार-बार fail होने वालों को DLQ में भेजिए, और हर student के लिए idempotency key रखिए ताकि किसी को दो SMS न जाएँ। OTP messages को अलग, ज़्यादा priority वाली queue में रखिए ताकि भीड़ में भी login चलते रहें।</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Why put \"send email\" in a queue?","hi":"\"Email भेजो\" को queue में क्यों डालें?"},"options":[{"en":"Emails are illegal in APIs","hi":"APIs में emails मना हैं"},{"en":"So the API replies fast and failures can be retried","hi":"ताकि API जल्दी जवाब दे और failures retry हो सकें"},{"en":"Queues are free","hi":"Queues free हैं"},{"en":"To save database space","hi":"Database की जगह बचाने के लिए"}],"answer":1,"why":{"en":"Slow, failure-prone work moves out of the request.","hi":"धीमा, fail होने वाला काम request से बाहर जाता है।"}},{"q":{"en":"Jobs arrive at 10/s and workers finish 6/s. What happens?","hi":"Jobs 10/s आते हैं और workers 6/s पूरे करते हैं। क्या होगा?"},"options":[{"en":"Nothing","hi":"कुछ नहीं"},{"en":"The queue keeps growing","hi":"Queue बढ़ती जाएगी"},{"en":"Jobs get faster","hi":"Jobs तेज़ हो जाएँगे"},{"en":"The queue empties","hi":"Queue ख़ाली हो जाएगी"}],"answer":1,"why":{"en":"Add workers or make jobs faster.","hi":"Workers बढ़ाइए या jobs तेज़ कीजिए।"}},{"q":{"en":"A job failed after all retries. Where should it go?","hi":"सारे retries के बाद भी job fail हुआ। उसे कहाँ जाना चाहिए?"},"options":[{"en":"Delete it silently","hi":"चुपचाप delete"},{"en":"A dead letter queue, with an alert","hi":"Alert के साथ dead letter queue में"},{"en":"Retry forever","hi":"हमेशा retry"},{"en":"Back to the user","hi":"वापस user को"}],"answer":1,"why":{"en":"Park it, alert, fix, then replay.","hi":"रखिए, alert कीजिए, ठीक कीजिए, फिर दोबारा चलाइए।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:queues"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="caching.html">← <span class="en">Caching and CDN</span><span class="hi">Caching और CDN</span></a><a class="btn btn-outline" href="consistency.html">→ <span class="en">CAP, consistency and idempotency</span><span class="hi">CAP, consistency और idempotency</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Message%20queues%20and%20async%20work" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Message%20queues%20and%20async%20work" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"client","m":["client"],"en":"The app or browser that asks for something, like your phone's WhatsApp or Chrome.","hi":"वो app या browser जो कुछ माँगता है, जैसे आपके phone का WhatsApp या Chrome।"},{"s":"server","m":["server","servers"],"en":"A computer that runs your backend code and answers requests from clients.","hi":"एक computer जो आपका backend code चलाता है और clients की requests का जवाब देता है।"},{"s":"request","m":["request","requests"],"en":"A message from the client to the server asking for data or an action.","hi":"Client से server को भेजा गया message, जिसमें data या कोई काम माँगा जाता है।"},{"s":"response","m":["response"],"en":"The server's reply to a request, usually with data and a status code.","hi":"Request पर server का जवाब, आमतौर पर data और status code के साथ।"},{"s":"http","m":["HTTP","HTTPS"],"en":"The language browsers and servers use to talk. HTTPS is the encrypted, secure version.","hi":"वो भाषा जिसमें browser और server बात करते हैं। HTTPS उसका encrypted, सुरक्षित रूप है।"},{"s":"api","m":["API","APIs"],"en":"A set of URLs (endpoints) your server offers so other programs can ask it for data or actions.","hi":"URLs (endpoints) का एक set जो server देता है, ताकि दूसरे programs उससे data या काम माँग सकें।"},{"s":"endpoint","m":["endpoint","endpoints"],"en":"One URL of an API, like GET /users/42.","hi":"API का एक URL, जैसे GET /users/42।"},{"s":"rest","m":["REST"],"en":"A common style for APIs: URLs name the things (/orders) and HTTP methods say the action (GET, POST).","hi":"APIs का एक common style: URL चीज़ का नाम बताते हैं (/orders) और HTTP methods काम (GET, POST)।"},{"s":"json","m":["JSON"],"en":"A simple text format for data, like { \"name\": \"Riya\" }. Most APIs send JSON.","hi":"Data के लिए एक आसान text format, जैसे { \"name\": \"Riya\" }। ज़्यादातर APIs JSON भेजती हैं।"},{"s":"status-code","m":["status code","status codes"],"en":"A number in the response: 200 = OK, 404 = not found, 500 = server error.","hi":"Response में एक number: 200 = OK, 404 = नहीं मिला, 500 = server error।"},{"s":"dns","m":["DNS"],"en":"The internet's phonebook: turns a name like google.com into an IP address.","hi":"Internet की phonebook: google.com जैसे नाम को IP address में बदलता है।"},{"s":"ip-address","m":["IP address"],"en":"The numeric address of a computer on the internet, like 142.250.183.14.","hi":"Internet पर किसी computer का number वाला address, जैसे 142.250.183.14।"},{"s":"webhook","m":["webhook"],"en":"A URL on your server that another service calls when something happens, like \"payment succeeded\".","hi":"आपके server का एक URL जिसे कोई दूसरी service कुछ होने पर call करती है, जैसे \"payment हो गया\"।"},{"s":"websocket","m":["WebSocket","WebSockets"],"en":"A connection that stays open so the server can push messages instantly, used in chat apps.","hi":"एक connection जो खुला रहता है ताकि server तुरंत messages भेज सके, chat apps में इस्तेमाल होता है।"},{"s":"latency","m":["latency"],"en":"How long one request takes, for example 120 milliseconds. Lower is better.","hi":"एक request में कितना समय लगता है, जैसे 120 milliseconds। जितना कम, उतना अच्छा।"},{"s":"throughput","m":["throughput"],"en":"How many requests a system handles per second.","hi":"System एक second में कितनी requests संभालता है।"},{"s":"qps","m":["QPS"],"en":"Queries (requests) per second. 1,000 QPS = a thousand requests every second.","hi":"Queries (requests) per second। 1,000 QPS = हर second हज़ार requests।"},{"s":"scalability","m":["scalability"],"en":"The ability to handle more users by adding resources.","hi":"Resources बढ़ाकर ज़्यादा users संभालने की क्षमता।"},{"s":"vertical-scaling","m":["vertical scaling","Vertical scaling"],"en":"Making one machine bigger (more CPU and RAM).","hi":"एक ही machine को बड़ा करना (ज़्यादा CPU और RAM)।"},{"s":"horizontal-scaling","m":["horizontal scaling","Horizontal scaling"],"en":"Adding more machines that share the work.","hi":"और machines जोड़ना जो काम बाँट लें।"},{"s":"load-balancer","m":["load balancer","load balancers","Load balancer"],"en":"Sits in front of servers and spreads incoming requests across them.","hi":"Servers के आगे बैठता है और आने वाली requests को उनमें बाँटता है।"},{"s":"stateless","m":["stateless"],"en":"A server that keeps no user data in its own memory between requests, so any server can serve any user.","hi":"ऐसा server जो requests के बीच user का data अपनी memory में नहीं रखता, ताकि कोई भी server किसी भी user को serve कर सके।"},{"s":"session","m":["session","sessions"],"en":"Information that keeps a user logged in across requests.","hi":"वो जानकारी जिससे user requests के बीच logged in रहता है।"},{"s":"jwt","m":["JWT"],"en":"JSON Web Token: a signed token the client sends with each request to prove who it is.","hi":"JSON Web Token: एक signed token जो client हर request के साथ भेजता है यह साबित करने के लिए कि वो कौन है।"},{"s":"spof","m":["single point of failure","SPOF"],"en":"A part with only one copy. If it fails, the whole system fails.","hi":"ऐसा हिस्सा जिसकी सिर्फ़ एक copy हो। वो fail हो, तो पूरा system fail।"},{"s":"bottleneck","m":["bottleneck"],"en":"The slowest part that limits the whole system, like a narrow bottle neck.","hi":"सबसे धीमा हिस्सा जो पूरे system को रोकता है, जैसे बोतल की पतली गर्दन।"},{"s":"monolith","m":["monolith"],"en":"One application containing all features, deployed together. Simple to start with.","hi":"एक ही application जिसमें सारे features हों, एक साथ deploy हो। शुरुआत में आसान।"},{"s":"microservices","m":["microservices"],"en":"Many small services, each owning one feature, deployed separately. Flexible but more complex.","hi":"कई छोटी services, हर एक के पास एक feature, अलग-अलग deploy। Flexible पर ज़्यादा मुश्किल।"},{"s":"database","m":["database","databases"],"en":"Software that stores data safely on disk and lets you search and update it.","hi":"Software जो data को disk पर सुरक्षित रखता है और उसे ढूँढने और बदलने देता है।"},{"s":"sql","m":["SQL"],"en":"A database with tables, columns and relations, like PostgreSQL or MySQL.","hi":"Tables, columns और relations वाला database, जैसे PostgreSQL या MySQL।"},{"s":"nosql","m":["NoSQL"],"en":"A database with a flexible structure (documents, key-value), built to spread across many machines.","hi":"Flexible structure (documents, key-value) वाला database, कई machines पर फैलने के लिए बना।"},{"s":"transaction","m":["transaction","transactions"],"en":"A group of database changes that happen together, or not at all.","hi":"Database के बदलावों का समूह जो साथ में होते हैं, या बिल्कुल नहीं होते।"},{"s":"acid","m":["ACID"],"en":"Promises of a good transaction: all-or-nothing, valid data, no mixing, and saved data isn't lost.","hi":"अच्छे transaction के वादे: पूरा या कुछ नहीं, सही data, आपस में न मिलना, और save हुआ data न खोना।"},{"s":"primary-key","m":["primary key"],"en":"A column that uniquely identifies each row, like user id.","hi":"एक column जो हर row को अलग पहचान देता है, जैसे user id।"},{"s":"index","m":["index","indexes"],"en":"A lookup structure that makes searching a column fast, like a book's index.","hi":"एक lookup structure जो किसी column में ढूँढना तेज़ करता है, जैसे किताब का index।"},{"s":"replica","m":["replica","replicas","replication"],"en":"A copy of a database that stays in sync. Replicas serve reads and can take over on failure.","hi":"Database की copy जो साथ-साथ अपडेट होती रहती है। Replicas reads देते हैं और failure पर काम सँभाल सकते हैं।"},{"s":"replication-lag","m":["replication lag","Replication lag"],"en":"The small delay before a replica receives the latest changes.","hi":"Replica तक ताज़ा बदलाव पहुँचने में लगने वाली छोटी देरी।"},{"s":"sharding","m":["sharding","shard","shards"],"en":"Splitting data across several databases, each holding a part.","hi":"Data को कई databases में बाँटना, हर एक में एक हिस्सा।"},{"s":"shard-key","m":["shard key"],"en":"The field that decides which shard a row goes to, like user_id.","hi":"वो field जो तय करती है कि row किस shard में जाएगी, जैसे user_id।"},{"s":"failover","m":["failover"],"en":"Automatically switching to a backup when the main machine fails.","hi":"Main machine fail होने पर अपने आप backup पर चले जाना।"},{"s":"cache","m":["cache","caching"],"en":"Fast memory that keeps frequently used data so you don't fetch it again from a slow source.","hi":"तेज़ memory जो बार-बार इस्तेमाल होने वाला data रखती है, ताकि धीमी जगह से दोबारा न लाना पड़े।"},{"s":"cache-hit","m":["cache hit","cache miss"],"en":"Hit: the data was in the cache (fast). Miss: it wasn't, so we read the database (slow).","hi":"Hit: data cache में मिल गया (तेज़)। Miss: नहीं मिला, तो database पढ़ा (धीमा)।"},{"s":"ttl","m":["TTL"],"en":"Time to live: how long a cached item is kept before it expires.","hi":"Time to live: cache में रखा item कितनी देर बाद expire होगा।"},{"s":"lru","m":["LRU"],"en":"Least Recently Used: when the cache is full, remove the item unused for the longest time.","hi":"Least Recently Used: cache भरने पर वो item हटाओ जो सबसे लंबे समय से इस्तेमाल नहीं हुआ।"},{"s":"invalidation","m":["invalidation","invalidate"],"en":"Removing or updating cached data when the original data changes.","hi":"Original data बदलने पर cached data को हटाना या अपडेट करना।"},{"s":"cdn","m":["CDN","CDNs"],"en":"Content Delivery Network: servers around the world that keep copies of images, videos and files close to users.","hi":"Content Delivery Network: दुनिया भर के servers जो images, videos और files की copies users के पास रखते हैं।"},{"s":"queue","m":["message queue","queue","queues"],"en":"A waiting line for jobs. The API adds a job and replies fast; a worker does the job later.","hi":"Jobs की एक लाइन। API job जोड़कर जल्दी जवाब देता है; worker बाद में job करता है।"},{"s":"async","m":["async","asynchronous"],"en":"Work that happens in the background, without making the user wait.","hi":"Background में होने वाला काम, बिना user को इंतज़ार कराए।"},{"s":"availability","m":["availability","highly available"],"en":"How much of the time the system is up and working, like 99.9%.","hi":"System कितने समय चालू और काम करता रहता है, जैसे 99.9%।"},{"s":"consistency","m":["consistency","eventual consistency"],"en":"Whether everyone sees the latest data. Eventual consistency means it becomes the same everywhere after a short time.","hi":"क्या सबको ताज़ा data दिखता है। Eventual consistency का मतलब है थोड़ी देर बाद हर जगह एक जैसा हो जाता है।"},{"s":"cap","m":["CAP"],"en":"When the network between servers breaks, you must choose: always correct data (consistency) or always answer (availability).","hi":"Servers के बीच network टूटे, तो चुनना पड़ता है: हमेशा सही data (consistency) या हमेशा जवाब (availability)।"},{"s":"idempotency","m":["idempotency","idempotent"],"en":"Doing the same request twice has the same effect as doing it once. Vital for payments.","hi":"एक ही request दो बार करने का असर एक बार करने जैसा हो। Payments के लिए बहुत ज़रूरी।"},{"s":"rate-limiting","m":["rate limiting","rate limiter"],"en":"Limiting how many requests a user can make, like 100 per minute, to protect the system.","hi":"User कितनी requests कर सकता है उसकी सीमा, जैसे 100 per minute, system को बचाने के लिए।"},{"s":"health-check","m":["health check","health checks"],"en":"A regular ping to see if a server is alive. Unhealthy servers get no traffic.","hi":"Server ज़िंदा है या नहीं, यह देखने के लिए नियमित ping। बीमार servers को traffic नहीं मिलता।"},{"s":"redis","m":["Redis"],"en":"A very fast in-memory store, used for caching, sessions, counters and rate limits.","hi":"बहुत तेज़ in-memory store, caching, sessions, counters और rate limits के लिए।"},{"s":"kafka","m":["Kafka","SQS","RabbitMQ"],"en":"Message queue tools that pass jobs and events between services.","hi":"Message queue tools जो services के बीच jobs और events पहुँचाते हैं।"},{"s":"s3","m":["S3"],"en":"Cloud storage for files like images, videos and PDFs. The database stores only the file's URL.","hi":"Images, videos और PDFs जैसी files के लिए cloud storage। Database सिर्फ़ file का URL रखता है।"},{"s":"postgresql","m":["PostgreSQL","MySQL"],"en":"Popular SQL databases for structured data and transactions.","hi":"Structured data और transactions के लिए popular SQL databases।"},{"s":"mongodb","m":["MongoDB","DynamoDB","Cassandra"],"en":"Popular NoSQL databases for flexible or very large data.","hi":"Flexible या बहुत बड़े data के लिए popular NoSQL databases।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../security/">Cyber Security</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

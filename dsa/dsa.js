@@ -593,6 +593,90 @@
     });
   }
 
+  // ---------- System design: message queue simulator ----------
+  const qViz = document.getElementById("queue-viz");
+  if (qViz) {
+    const rate = qViz.querySelector("[data-q=rate]");
+    const workers = qViz.querySelector("[data-q=workers]");
+    const fill = qViz.querySelector(".q-fill");
+    const stats = qViz.querySelector(".q-stats");
+    const msg = qViz.querySelector(".viz-msg");
+    const btn = qViz.querySelector("[data-act=run]");
+    const PER_WORKER = 2; // jobs per second each worker can finish
+    let waiting = 0, timer = null, seconds = 0;
+    const draw = () => {
+      const r = Number(rate.value), w = Number(workers.value), cap = w * PER_WORKER;
+      qViz.querySelector("[data-out=rate]").textContent = r;
+      qViz.querySelector("[data-out=workers]").textContent = w;
+      fill.style.width = Math.min(100, waiting) + "%";
+      fill.classList.toggle("hot", waiting > 60);
+      const wait = waiting / cap;
+      stats.innerHTML = both(`Time: ${seconds}s · Jobs waiting: <b>${Math.round(waiting)}</b> · Workers can finish ${cap}/s · A new job waits about <b>${wait.toFixed(1)}s</b>`,
+        `समय: ${seconds}s · इंतज़ार में jobs: <b>${Math.round(waiting)}</b> · Workers ${cap}/s निपटा सकते हैं · नया job लगभग <b>${wait.toFixed(1)}s</b> रुकता है`);
+      if (r > cap) setMsg(msg, `Jobs arrive faster (${r}/s) than workers finish them (${cap}/s), so the queue keeps growing. Add workers, or make each job faster.`, `Jobs आने की रफ़्तार (${r}/s) workers की रफ़्तार (${cap}/s) से ज़्यादा है, इसलिए queue बढ़ती जा रही है। Workers बढ़ाइए, या हर job तेज़ कीजिए।`);
+      else setMsg(msg, `Workers (${cap}/s) keep up with arrivals (${r}/s), so the queue stays small. A sudden spike would be absorbed by the queue, not by your API.`, `Workers (${cap}/s) आने वाले jobs (${r}/s) के साथ चल रहे हैं, इसलिए queue छोटी रहती है। अचानक भीड़ आए तो queue उसे सँभाल लेगी, आपकी API नहीं।`);
+    };
+    const tick = () => {
+      seconds++;
+      waiting = Math.max(0, waiting + Number(rate.value) - Number(workers.value) * PER_WORKER);
+      draw();
+    };
+    btn.addEventListener("click", () => {
+      if (timer) { clearInterval(timer); timer = null; btn.innerHTML = both("▶ Start", "▶ शुरू"); return; }
+      timer = setInterval(tick, 500); btn.innerHTML = both("❚❚ Pause", "❚❚ रोकें");
+    });
+    qViz.querySelector("[data-act=reset]").addEventListener("click", () => { waiting = 0; seconds = 0; draw(); });
+    rate.addEventListener("input", draw);
+    workers.addEventListener("input", draw);
+    draw();
+  }
+
+  // ---------- System design: circuit breaker ----------
+  const cbViz = document.getElementById("breaker-viz");
+  if (cbViz) {
+    const stateEl = cbViz.querySelector(".cb-state");
+    const logEl = cbViz.querySelector(".cb-log");
+    const healthBtn = cbViz.querySelector("[data-act=health]");
+    const msg = cbViz.querySelector(".viz-msg");
+    const FAIL_LIMIT = 3, COOL_MS = 5000;
+    let up = false, failures = 0, state = "CLOSED", openedAt = 0, n = 0;
+    const render = () => {
+      stateEl.textContent = state;
+      stateEl.className = "cb-state " + state.toLowerCase().replace("-", "");
+      healthBtn.innerHTML = up ? both("Service is UP: make it fail", "Service UP है: इसे fail करें") : both("Service is DOWN: fix it", "Service DOWN है: इसे ठीक करें");
+    };
+    const log = (en, hi) => {
+      const line = document.createElement("div");
+      line.innerHTML = `#${++n} ` + both(en, hi);
+      logEl.prepend(line);
+      while (logEl.children.length > 6) logEl.lastChild.remove();
+    };
+    cbViz.querySelector("[data-act=send]").addEventListener("click", () => {
+      const now = Date.now();
+      if (state === "OPEN") {
+        const left = Math.ceil((COOL_MS - (now - openedAt)) / 1000);
+        if (left > 0) { log(`Failed fast, without calling the service (cool-down: ${left}s left)`, `Service को call किए बिना तुरंत fail (cool-down: ${left}s बाक़ी)`); render(); return; }
+        state = "HALF-OPEN";
+        log("Cool-down over: letting one trial request through", "Cool-down ख़त्म: एक trial request जाने दी");
+      }
+      if (up) {
+        failures = 0; state = "CLOSED";
+        log("✅ Success. Circuit CLOSED (normal)", "✅ सफल। Circuit CLOSED (सामान्य)");
+      } else {
+        failures++;
+        if (state === "HALF-OPEN" || failures >= FAIL_LIMIT) { state = "OPEN"; openedAt = now; log(`❌ Failed. Circuit OPEN: stop calling for ${COOL_MS / 1000}s`, `❌ Fail। Circuit OPEN: ${COOL_MS / 1000}s तक call बंद`); }
+        else log(`❌ Failed (${failures} of ${FAIL_LIMIT})`, `❌ Fail (${failures} / ${FAIL_LIMIT})`);
+      }
+      render();
+    });
+    healthBtn.addEventListener("click", () => {
+      up = !up; render();
+      setMsg(msg, up ? "The service is healthy now. If the circuit is OPEN, wait for the cool-down, then send a request." : "The service is down. Send requests and watch the circuit open after 3 failures.",
+        up ? "Service अब ठीक है। अगर circuit OPEN है, तो cool-down का इंतज़ार कीजिए, फिर request भेजिए।" : "Service बंद है। Requests भेजिए और 3 failures के बाद circuit खुलते देखिए।");
+    });
+    render();
+  }
+
   // ---------- AI: temperature and next-word probabilities ----------
   const tempViz = document.getElementById("temp-viz");
   if (tempViz) {

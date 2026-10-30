@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rate Limiting, Retries and Circuit Breakers, Simply | Kodivo</title>
+  <meta name="description" content="Reliable backends: timeouts, retries with backoff and jitter, token bucket rate limiting and circuit breakers, with real Node.js code and a live demo." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/reliability.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/reliability.html" />
+  <meta property="og:title" content="Rate Limiting, Retries and Circuit Breakers, Simply | Kodivo" />
+  <meta property="og:description" content="Reliable backends: timeouts, retries with backoff and jitter, token bucket rate limiting and circuit breakers, with real Node.js code and a live demo." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Rate limiting and reliability",
+          "item": "https://agamsahu017.github.io/system-design/reliability.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Rate Limiting, Retries and Circuit Breakers, Simply",
+      "description": "Reliable backends: timeouts, retries with backoff and jitter, token bucket rate limiting and circuit breakers, with real Node.js code and a live demo.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(Rate%20limiting%20and%20reliability)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>Rate limiting and reliability</span></nav>
+        <span class="pill"><span class="en">Module 9 of 20</span><span class="hi">मॉड्यूल 9 / 20</span></span>
+        <h1><span class="en">Rate limiting and reliability</span><span class="hi">Rate limiting और reliability</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Give every call a timeout, retry only temporary failures with backoff and jitter, rate-limit users, and use a circuit breaker so one sick service can't take everything down.</p><p class="hi"><b>एक लाइन में:</b> हर call को timeout दीजिए, सिर्फ़ थोड़ी देर वाली failures को backoff और jitter के साथ retry कीजिए, users पर rate limit लगाइए, और circuit breaker रखिए ताकि एक बीमार service सब कुछ न गिरा दे।</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Why every network call needs a timeout</span><span class="hi">हर network call को timeout क्यों चाहिए</span></li><li><span class="en">Retries with exponential backoff and jitter</span><span class="hi">Exponential backoff और jitter के साथ retries</span></li><li><span class="en">Rate limiting with a token bucket, in real code</span><span class="hi">Token bucket से rate limiting, असली code में</span></li><li><span class="en">Circuit breakers, with a live demo</span><span class="hi">Circuit breakers, live demo के साथ</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#basics"><span class="en">The basics</span><span class="hi">Basics</span></a><a href="#retry"><span class="en">Retries and rate limits</span><span class="hi">Retries और rate limits</span></a><a href="#breaker"><span class="en">Circuit breaker</span><span class="hi">Circuit breaker</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">Glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">Glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="basics">
+        <h2 id="basics-h"><span class="en">Assume things will fail</span><span class="hi">मान लीजिए चीज़ें fail होंगी</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Networks drop, servers restart, other APIs get slow. A <b>reliable</b> system expects this and keeps working, maybe a little slower, instead of collapsing. Four simple tools do most of the work:</p><p class="hi">Network टूटता है, servers restart होते हैं, दूसरी APIs धीमी पड़ती हैं। एक <b>भरोसेमंद</b> system इसकी उम्मीद रखता है और गिरने की जगह चलता रहता है, शायद थोड़ा धीमा। चार आसान tools ज़्यादातर काम करते हैं:</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Tool</span><span class="hi">Tool</span></th><th><span class="en">Everyday picture</span><span class="hi">रोज़ की तस्वीर</span></th><th><span class="en">What it prevents</span><span class="hi">क्या रोकता है</span></th></tr></thead><tbody><tr><td><span class="en"><b>Timeout</b></span><span class="hi"><b>Timeout</b></span></td><td><span class="en">Hang up if nobody answers the phone in 30 seconds</span><span class="hi">30 second में कोई phone न उठाए तो काट दो</span></td><td><span class="en">Requests stuck forever, using up threads and connections</span><span class="hi">हमेशा अटकी requests, जो threads और connections खा जाती हैं</span></td></tr><tr><td><span class="en"><b>Retry with backoff</b></span><span class="hi"><b>Backoff के साथ retry</b></span></td><td><span class="en">Call again after 2 minutes, then 4, then 8</span><span class="hi">2 minute बाद फिर call, फिर 4, फिर 8</span></td><td><span class="en">Failing because of a short hiccup</span><span class="hi">थोड़ी देर की गड़बड़ से fail होना</span></td></tr><tr><td><span class="en"><b>Rate limit</b></span><span class="hi"><b>Rate limit</b></span></td><td><span class="en">A metro gate letting one person through at a time</span><span class="hi">Metro gate जो एक बार में एक को निकलने दे</span></td><td><span class="en">One user or bot overloading everyone</span><span class="hi">एक user या bot का सबको overload करना</span></td></tr><tr><td><span class="en"><b>Circuit breaker</b></span><span class="hi"><b>Circuit breaker</b></span></td><td><span class="en">The electric trip switch at home</span><span class="hi">घर का बिजली वाला trip switch</span></td><td><span class="en">Hammering a service that is already down</span><span class="hi">पहले से बंद service पर बार-बार हथौड़ा</span></td></tr></tbody></table></div>
+      </section>
+      <section id="retry">
+        <h2 id="retry-h"><span class="en">Retries and rate limiting in code</span><span class="hi">Code में retries और rate limiting</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en"><b>Backoff</b> means waiting longer after each failure. <b>Jitter</b> adds a little randomness so a thousand clients don't all retry at the same second. Only retry safe (idempotent) operations, and only for temporary errors like timeouts or 503, never for 400 or 403.</p><p class="hi"><b>Backoff</b> का मतलब है हर failure के बाद ज़्यादा देर रुकना। <b>Jitter</b> थोड़ा random-पन जोड़ता है ताकि हज़ार clients एक ही second में retry न करें। सिर्फ़ सुरक्षित (idempotent) operations retry कीजिए, और सिर्फ़ थोड़ी देर वाली errors जैसे timeout या 503 पर, 400 या 403 पर कभी नहीं।</p>
+        <pre class="code" data-copy><span class="cm">// 1) Retry with exponential backoff + jitter</span>
+<span class="kw">const</span> sleep = (ms) =&gt; <span class="kw">new</span> Promise((r) =&gt; setTimeout(r, ms));
+<span class="kw">async</span> <span class="kw">function</span> withRetry(fn, attempts = 4, baseMs = 100) {
+  <span class="kw">for</span> (<span class="kw">let</span> i = 1; i &lt;= attempts; i++) {
+    try {
+      <span class="kw">return</span> <span class="kw">await</span> fn();
+    } catch (err) {
+      <span class="kw">if</span> (i === attempts) <span class="kw">throw</span> err;
+      <span class="kw">const</span> wait = baseMs * 2 ** (i - 1) + Math.random() * 50; <span class="cm">// 100, 200, 400 ms + a little jitter</span>
+      console.log(<span class="st">`attempt ${i} failed (${err.message}), retrying`</span>);
+      <span class="kw">await</span> sleep(wait);
+    }
+  }
+}
+
+<span class="kw">let</span> calls = 0;
+<span class="kw">const</span> flakyApi = <span class="kw">async</span> () =&gt; {
+  calls++;
+  <span class="kw">if</span> (calls &lt; 3) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">"timeout"</span>);
+  <span class="kw">return</span> <span class="st">"OK"</span>;
+};
+console.log(<span class="st">"result:"</span>, <span class="kw">await</span> withRetry(flakyApi));
+
+<span class="cm">// 2) Token bucket rate limiter: 3 requests at once, then 1 more every second</span>
+<span class="kw">function</span> tokenBucket(capacity, refillPerSec) {
+  <span class="kw">let</span> tokens = capacity, last = 0;
+  <span class="kw">return</span> (nowMs) =&gt; {
+    tokens = Math.min(capacity, tokens + ((nowMs - last) / 1000) * refillPerSec);
+    last = nowMs;
+    <span class="kw">if</span> (tokens &gt;= 1) { tokens -= 1; <span class="kw">return</span> <span class="st">"allowed"</span>; }
+    <span class="kw">return</span> <span class="st">"429 Too Many Requests"</span>;
+  };
+}
+<span class="kw">const</span> allow = tokenBucket(3, 1);
+<span class="kw">for</span> (<span class="kw">const</span> t <span class="kw">of</span> [0, 0, 0, 0, 0, 1000]) console.log(<span class="st">`t=${t}ms:`</span>, allow(t));</pre>
+        <p class="en">Real output:</p><p class="hi">असली output:</p>
+        <pre class="code" data-copy>attempt 1 failed (timeout), retrying
+attempt 2 failed (timeout), retrying
+result: OK
+t=0ms: allowed
+t=0ms: allowed
+t=0ms: allowed
+t=0ms: 429 Too Many Requests
+t=0ms: 429 Too Many Requests
+t=1000ms: allowed</pre>
+        <p class="en">The <b>token bucket</b> is like a bowl of 3 tokens that refills by 1 every second. Each request takes a token; no token means "wait" (HTTP 429). It allows short bursts but limits the average. With many servers, keep the counts in Redis so all servers share them.</p><p class="hi"><b>Token bucket</b> 3 tokens के कटोरे जैसा है जो हर second 1 token से भरता है। हर request एक token लेती है; token नहीं तो "रुकिए" (HTTP 429)। यह थोड़ी देर की भीड़ allow करता है पर औसत को सीमित रखता है। कई servers हों तो गिनती Redis में रखिए ताकि सब servers उसे share करें।</p>
+      </section>
+      <section id="breaker">
+        <h2 id="breaker-h"><span class="en">Circuit breaker: stop hitting a sick service</span><span class="hi">Circuit breaker: बीमार service को बार-बार मत मारिए</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">If the payment service is down, retrying every request makes things worse: your threads pile up waiting, and the sick service can't recover. A circuit breaker, like the trip switch at home, <b>opens</b> after a few failures and fails fast for a while. After a cool-down it lets one trial request through (<b>half-open</b>). If that works, it <b>closes</b> again.</p><p class="hi">अगर payment service बंद है, तो हर request retry करना हालत बिगाड़ता है: आपके threads इंतज़ार में जमा होते हैं, और बीमार service ठीक नहीं हो पाती। Circuit breaker, घर के trip switch की तरह, कुछ failures के बाद <b>खुल</b> जाता है और कुछ देर तुरंत fail करता है। Cool-down के बाद एक trial request जाने देता है (<b>half-open</b>)। वो चली तो फिर <b>बंद</b> हो जाता है।</p>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">CLOSED: calls go through</span><span class="hi">CLOSED: calls जाती हैं</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">3 failures → OPEN: fail fast</span><span class="hi">3 failures → OPEN: तुरंत fail</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Cool-down over → HALF-OPEN: one trial</span><span class="hi">Cool-down ख़त्म → HALF-OPEN: एक trial</span></div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node"><span class="en">Trial works → CLOSED</span><span class="hi">Trial सफल → CLOSED</span></div><div class="node"><span class="en">Trial fails → OPEN again</span><span class="hi">Trial fail → फिर OPEN</span></div></div></div><figcaption><span class="en">The three states of a circuit breaker.</span><span class="hi">Circuit breaker की तीन states।</span></figcaption></figure>
+        <div class="viz" id="breaker-viz">
+          <div class="viz-title"><span class="en">Try it: make the service fail and watch the breaker</span><span class="hi">ख़ुद देखें: service fail कराइए और breaker देखिए</span></div>
+          <div class="viz-controls"><button type="button" class="btn btn-primary" data-act="send"><span class="en">Send request</span><span class="hi">Request भेजें</span></button><button type="button" class="btn btn-outline" data-act="health"></button></div>
+          <div class="cb-state">CLOSED</div>
+          <div class="cb-log"></div>
+          <div class="viz-msg"><span class="en">The service starts DOWN. Send 3 requests, then try a 4th.</span><span class="hi">Service शुरू में DOWN है। 3 requests भेजिए, फिर चौथी आज़माइए।</span></div>
+        </div>
+        <pre class="code" data-copy><span class="cm">// Circuit breaker: after 3 failures, stop calling the sick service for a while.</span>
+<span class="kw">class</span> CircuitBreaker {
+  <span class="kw">constructor</span>(fn, { failLimit = 3, coolDownMs = 5000 } = {}) {
+    Object.assign(<span class="kw">this</span>, { fn, failLimit, coolDownMs, failures: 0, state: <span class="st">"CLOSED"</span>, openedAt: 0 });
+  }
+  call(now) {
+    <span class="kw">if</span> (<span class="kw">this</span>.state === <span class="st">"OPEN"</span>) {
+      <span class="kw">if</span> (now - <span class="kw">this</span>.openedAt &lt; <span class="kw">this</span>.coolDownMs) <span class="kw">return</span> <span class="st">"fail fast (circuit OPEN)"</span>;
+      <span class="kw">this</span>.state = <span class="st">"HALF-OPEN"</span>; <span class="cm">// cool-down over: allow one trial call</span>
+    }
+    try {
+      <span class="kw">const</span> result = <span class="kw">this</span>.fn();
+      <span class="kw">this</span>.failures = 0;
+      <span class="kw">this</span>.state = <span class="st">"CLOSED"</span>;
+      <span class="kw">return</span> result;
+    } catch {
+      <span class="kw">this</span>.failures++;
+      <span class="kw">if</span> (<span class="kw">this</span>.state === <span class="st">"HALF-OPEN"</span> || <span class="kw">this</span>.failures &gt;= <span class="kw">this</span>.failLimit) {
+        <span class="kw">this</span>.state = <span class="st">"OPEN"</span>;
+        <span class="kw">this</span>.openedAt = now;
+      }
+      <span class="kw">return</span> <span class="st">"error"</span>;
+    }
+  }
+}
+
+<span class="kw">let</span> serviceUp = <span class="kw">false</span>;
+<span class="kw">const</span> breaker = <span class="kw">new</span> CircuitBreaker(() =&gt; { <span class="kw">if</span> (!serviceUp) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">"down"</span>); <span class="kw">return</span> <span class="st">"OK"</span>; });
+<span class="kw">for</span> (<span class="kw">const</span> t <span class="kw">of</span> [0, 100, 200, 300, 400]) console.log(<span class="st">`t=${t}:`</span>, breaker.call(t), <span class="st">`[${breaker.state}]`</span>);
+serviceUp = <span class="kw">true</span>;
+console.log(<span class="st">"t=6000:"</span>, breaker.call(6000), <span class="st">`[${breaker.state}]`</span>);</pre>
+        <p class="en">Real output:</p><p class="hi">असली output:</p>
+        <pre class="code" data-copy>t=0: error [CLOSED]
+t=100: error [CLOSED]
+t=200: error [OPEN]
+t=300: fail fast (circuit OPEN) [OPEN]
+t=400: fail fast (circuit OPEN) [OPEN]
+t=6000: OK [CLOSED]</pre>
+        <div class="say"><p class="en">🎤 "Every outbound call gets a timeout, retries with exponential backoff and jitter for transient errors only, a circuit breaker per dependency, and a fallback, like a cached value or a friendly message."</p><p class="hi">🎤 "Every outbound call gets a timeout, retries with exponential backoff and jitter for transient errors only, a circuit breaker per dependency, and a fallback, like a cached value or a friendly message."</p></div>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 4 things</span><span class="hi">ये 4 बातें याद रखिए</span></div><ol><li><span class="en">Timeout everything. A call with no timeout can hang forever.</span><span class="hi">हर चीज़ पर timeout। बिना timeout की call हमेशा अटकी रह सकती है।</span></li><li><span class="en">Retry only temporary errors, with exponential backoff + jitter.</span><span class="hi">सिर्फ़ थोड़ी देर वाली errors retry कीजिए, exponential backoff + jitter के साथ।</span></li><li><span class="en">Token bucket allows bursts but limits the average; return 429.</span><span class="hi">Token bucket थोड़ी भीड़ allow करता है पर औसत सीमित रखता है; 429 लौटाइए।</span></li><li><span class="en">Circuit breaker: CLOSED → OPEN → HALF-OPEN → CLOSED.</span><span class="hi">Circuit breaker: CLOSED → OPEN → HALF-OPEN → CLOSED।</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Your checkout calls a payment gateway that sometimes takes 40 seconds and sometimes fails. Users see a spinning wheel forever. What do you add?</span><span class="hi">Exercise 1: आपका checkout एक payment gateway call करता है जो कभी 40 second लेता है और कभी fail होता है। Users को हमेशा घूमता चक्का दिखता है। आप क्या जोड़ेंगे?</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><ul><li><span class="en">A timeout (for example 10 seconds) on the gateway call.</span><span class="hi">Gateway call पर timeout (जैसे 10 second)।</span></li><li><span class="en">Retries with backoff only for timeouts and 5xx, using an idempotency key so the customer is never charged twice.</span><span class="hi">सिर्फ़ timeouts और 5xx पर backoff के साथ retries, idempotency key के साथ ताकि customer से दो बार पैसा न कटे।</span></li><li><span class="en">A circuit breaker: if the gateway keeps failing, show "Payments are slow, please try another method" at once.</span><span class="hi">Circuit breaker: gateway लगातार fail हो तो तुरंत दिखाइए "Payments धीमे हैं, कृपया दूसरा तरीक़ा आज़माइए"।</span></li><li><span class="en">A payment status check (webhook or polling) for payments whose result was unknown.</span><span class="hi">जिन payments का नतीजा पता नहीं चला, उनके लिए payment status check (webhook या polling)।</span></li></ul></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Which error should you retry?","hi":"किस error को retry करना चाहिए?"},"options":[{"en":"400 Bad Request","hi":"400 Bad Request"},{"en":"403 Forbidden","hi":"403 Forbidden"},{"en":"503 Service Unavailable","hi":"503 Service Unavailable"},{"en":"404 Not Found","hi":"404 Not Found"}],"answer":2,"why":{"en":"503 and timeouts are often temporary; 4xx won't fix themselves.","hi":"503 और timeouts अक्सर थोड़ी देर के होते हैं; 4xx अपने आप ठीक नहीं होते।"}},{"q":{"en":"Why add jitter to retries?","hi":"Retries में jitter क्यों जोड़ें?"},"options":[{"en":"To make retries slower for fun","hi":"मज़े के लिए retries धीमे करने"},{"en":"So thousands of clients don't retry at the same moment","hi":"ताकि हज़ारों clients एक ही पल में retry न करें"},{"en":"To encrypt requests","hi":"Requests encrypt करने"},{"en":"It's required by HTTP","hi":"HTTP में ज़रूरी है"}],"answer":1,"why":{"en":"Spreading retries avoids a new spike.","hi":"Retries फैलाने से नई भीड़ नहीं बनती।"}},{"q":{"en":"A circuit breaker in the OPEN state…","hi":"OPEN state में circuit breaker…"},"options":[{"en":"Sends every request","hi":"हर request भेजता है"},{"en":"Fails fast without calling the service","hi":"Service को call किए बिना तुरंत fail करता है"},{"en":"Restarts the server","hi":"Server restart करता है"},{"en":"Deletes data","hi":"Data delete करता है"}],"answer":1,"why":{"en":"It protects both your app and the sick service.","hi":"यह आपकी app और बीमार service, दोनों को बचाता है।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:reliability"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="consistency.html">← <span class="en">CAP, consistency and idempotency</span><span class="hi">CAP, consistency और idempotency</span></a><a class="btn btn-outline" href="microservices.html">→ <span class="en">Microservices, simply</span><span class="hi">Microservices, आसान भाषा में</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Rate%20limiting%20and%20reliability" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20Rate%20limiting%20and%20reliability" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"client","m":["client"],"en":"The app or browser that asks for something, like your phone's WhatsApp or Chrome.","hi":"वो app या browser जो कुछ माँगता है, जैसे आपके phone का WhatsApp या Chrome।"},{"s":"server","m":["server","servers"],"en":"A computer that runs your backend code and answers requests from clients.","hi":"एक computer जो आपका backend code चलाता है और clients की requests का जवाब देता है।"},{"s":"request","m":["request","requests"],"en":"A message from the client to the server asking for data or an action.","hi":"Client से server को भेजा गया message, जिसमें data या कोई काम माँगा जाता है।"},{"s":"response","m":["response"],"en":"The server's reply to a request, usually with data and a status code.","hi":"Request पर server का जवाब, आमतौर पर data और status code के साथ।"},{"s":"http","m":["HTTP","HTTPS"],"en":"The language browsers and servers use to talk. HTTPS is the encrypted, secure version.","hi":"वो भाषा जिसमें browser और server बात करते हैं। HTTPS उसका encrypted, सुरक्षित रूप है।"},{"s":"api","m":["API","APIs"],"en":"A set of URLs (endpoints) your server offers so other programs can ask it for data or actions.","hi":"URLs (endpoints) का एक set जो server देता है, ताकि दूसरे programs उससे data या काम माँग सकें।"},{"s":"endpoint","m":["endpoint","endpoints"],"en":"One URL of an API, like GET /users/42.","hi":"API का एक URL, जैसे GET /users/42।"},{"s":"rest","m":["REST"],"en":"A common style for APIs: URLs name the things (/orders) and HTTP methods say the action (GET, POST).","hi":"APIs का एक common style: URL चीज़ का नाम बताते हैं (/orders) और HTTP methods काम (GET, POST)।"},{"s":"json","m":["JSON"],"en":"A simple text format for data, like { \"name\": \"Riya\" }. Most APIs send JSON.","hi":"Data के लिए एक आसान text format, जैसे { \"name\": \"Riya\" }। ज़्यादातर APIs JSON भेजती हैं।"},{"s":"status-code","m":["status code","status codes"],"en":"A number in the response: 200 = OK, 404 = not found, 500 = server error.","hi":"Response में एक number: 200 = OK, 404 = नहीं मिला, 500 = server error।"},{"s":"dns","m":["DNS"],"en":"The internet's phonebook: turns a name like google.com into an IP address.","hi":"Internet की phonebook: google.com जैसे नाम को IP address में बदलता है।"},{"s":"ip-address","m":["IP address"],"en":"The numeric address of a computer on the internet, like 142.250.183.14.","hi":"Internet पर किसी computer का number वाला address, जैसे 142.250.183.14।"},{"s":"webhook","m":["webhook"],"en":"A URL on your server that another service calls when something happens, like \"payment succeeded\".","hi":"आपके server का एक URL जिसे कोई दूसरी service कुछ होने पर call करती है, जैसे \"payment हो गया\"।"},{"s":"websocket","m":["WebSocket","WebSockets"],"en":"A connection that stays open so the server can push messages instantly, used in chat apps.","hi":"एक connection जो खुला रहता है ताकि server तुरंत messages भेज सके, chat apps में इस्तेमाल होता है।"},{"s":"latency","m":["latency"],"en":"How long one request takes, for example 120 milliseconds. Lower is better.","hi":"एक request में कितना समय लगता है, जैसे 120 milliseconds। जितना कम, उतना अच्छा।"},{"s":"throughput","m":["throughput"],"en":"How many requests a system handles per second.","hi":"System एक second में कितनी requests संभालता है।"},{"s":"qps","m":["QPS"],"en":"Queries (requests) per second. 1,000 QPS = a thousand requests every second.","hi":"Queries (requests) per second। 1,000 QPS = हर second हज़ार requests।"},{"s":"scalability","m":["scalability"],"en":"The ability to handle more users by adding resources.","hi":"Resources बढ़ाकर ज़्यादा users संभालने की क्षमता।"},{"s":"vertical-scaling","m":["vertical scaling","Vertical scaling"],"en":"Making one machine bigger (more CPU and RAM).","hi":"एक ही machine को बड़ा करना (ज़्यादा CPU और RAM)।"},{"s":"horizontal-scaling","m":["horizontal scaling","Horizontal scaling"],"en":"Adding more machines that share the work.","hi":"और machines जोड़ना जो काम बाँट लें।"},{"s":"load-balancer","m":["load balancer","load balancers","Load balancer"],"en":"Sits in front of servers and spreads incoming requests across them.","hi":"Servers के आगे बैठता है और आने वाली requests को उनमें बाँटता है।"},{"s":"stateless","m":["stateless"],"en":"A server that keeps no user data in its own memory between requests, so any server can serve any user.","hi":"ऐसा server जो requests के बीच user का data अपनी memory में नहीं रखता, ताकि कोई भी server किसी भी user को serve कर सके।"},{"s":"session","m":["session","sessions"],"en":"Information that keeps a user logged in across requests.","hi":"वो जानकारी जिससे user requests के बीच logged in रहता है।"},{"s":"jwt","m":["JWT"],"en":"JSON Web Token: a signed token the client sends with each request to prove who it is.","hi":"JSON Web Token: एक signed token जो client हर request के साथ भेजता है यह साबित करने के लिए कि वो कौन है।"},{"s":"spof","m":["single point of failure","SPOF"],"en":"A part with only one copy. If it fails, the whole system fails.","hi":"ऐसा हिस्सा जिसकी सिर्फ़ एक copy हो। वो fail हो, तो पूरा system fail।"},{"s":"bottleneck","m":["bottleneck"],"en":"The slowest part that limits the whole system, like a narrow bottle neck.","hi":"सबसे धीमा हिस्सा जो पूरे system को रोकता है, जैसे बोतल की पतली गर्दन।"},{"s":"monolith","m":["monolith"],"en":"One application containing all features, deployed together. Simple to start with.","hi":"एक ही application जिसमें सारे features हों, एक साथ deploy हो। शुरुआत में आसान।"},{"s":"microservices","m":["microservices"],"en":"Many small services, each owning one feature, deployed separately. Flexible but more complex.","hi":"कई छोटी services, हर एक के पास एक feature, अलग-अलग deploy। Flexible पर ज़्यादा मुश्किल।"},{"s":"database","m":["database","databases"],"en":"Software that stores data safely on disk and lets you search and update it.","hi":"Software जो data को disk पर सुरक्षित रखता है और उसे ढूँढने और बदलने देता है।"},{"s":"sql","m":["SQL"],"en":"A database with tables, columns and relations, like PostgreSQL or MySQL.","hi":"Tables, columns और relations वाला database, जैसे PostgreSQL या MySQL।"},{"s":"nosql","m":["NoSQL"],"en":"A database with a flexible structure (documents, key-value), built to spread across many machines.","hi":"Flexible structure (documents, key-value) वाला database, कई machines पर फैलने के लिए बना।"},{"s":"transaction","m":["transaction","transactions"],"en":"A group of database changes that happen together, or not at all.","hi":"Database के बदलावों का समूह जो साथ में होते हैं, या बिल्कुल नहीं होते।"},{"s":"acid","m":["ACID"],"en":"Promises of a good transaction: all-or-nothing, valid data, no mixing, and saved data isn't lost.","hi":"अच्छे transaction के वादे: पूरा या कुछ नहीं, सही data, आपस में न मिलना, और save हुआ data न खोना।"},{"s":"primary-key","m":["primary key"],"en":"A column that uniquely identifies each row, like user id.","hi":"एक column जो हर row को अलग पहचान देता है, जैसे user id।"},{"s":"index","m":["index","indexes"],"en":"A lookup structure that makes searching a column fast, like a book's index.","hi":"एक lookup structure जो किसी column में ढूँढना तेज़ करता है, जैसे किताब का index।"},{"s":"replica","m":["replica","replicas","replication"],"en":"A copy of a database that stays in sync. Replicas serve reads and can take over on failure.","hi":"Database की copy जो साथ-साथ अपडेट होती रहती है। Replicas reads देते हैं और failure पर काम सँभाल सकते हैं।"},{"s":"replication-lag","m":["replication lag","Replication lag"],"en":"The small delay before a replica receives the latest changes.","hi":"Replica तक ताज़ा बदलाव पहुँचने में लगने वाली छोटी देरी।"},{"s":"sharding","m":["sharding","shard","shards"],"en":"Splitting data across several databases, each holding a part.","hi":"Data को कई databases में बाँटना, हर एक में एक हिस्सा।"},{"s":"shard-key","m":["shard key"],"en":"The field that decides which shard a row goes to, like user_id.","hi":"वो field जो तय करती है कि row किस shard में जाएगी, जैसे user_id।"},{"s":"failover","m":["failover"],"en":"Automatically switching to a backup when the main machine fails.","hi":"Main machine fail होने पर अपने आप backup पर चले जाना।"},{"s":"cache","m":["cache","caching"],"en":"Fast memory that keeps frequently used data so you don't fetch it again from a slow source.","hi":"तेज़ memory जो बार-बार इस्तेमाल होने वाला data रखती है, ताकि धीमी जगह से दोबारा न लाना पड़े।"},{"s":"cache-hit","m":["cache hit","cache miss"],"en":"Hit: the data was in the cache (fast). Miss: it wasn't, so we read the database (slow).","hi":"Hit: data cache में मिल गया (तेज़)। Miss: नहीं मिला, तो database पढ़ा (धीमा)।"},{"s":"ttl","m":["TTL"],"en":"Time to live: how long a cached item is kept before it expires.","hi":"Time to live: cache में रखा item कितनी देर बाद expire होगा।"},{"s":"lru","m":["LRU"],"en":"Least Recently Used: when the cache is full, remove the item unused for the longest time.","hi":"Least Recently Used: cache भरने पर वो item हटाओ जो सबसे लंबे समय से इस्तेमाल नहीं हुआ।"},{"s":"invalidation","m":["invalidation","invalidate"],"en":"Removing or updating cached data when the original data changes.","hi":"Original data बदलने पर cached data को हटाना या अपडेट करना।"},{"s":"cdn","m":["CDN","CDNs"],"en":"Content Delivery Network: servers around the world that keep copies of images, videos and files close to users.","hi":"Content Delivery Network: दुनिया भर के servers जो images, videos और files की copies users के पास रखते हैं।"},{"s":"queue","m":["message queue","queue","queues"],"en":"A waiting line for jobs. The API adds a job and replies fast; a worker does the job later.","hi":"Jobs की एक लाइन। API job जोड़कर जल्दी जवाब देता है; worker बाद में job करता है।"},{"s":"async","m":["async","asynchronous"],"en":"Work that happens in the background, without making the user wait.","hi":"Background में होने वाला काम, बिना user को इंतज़ार कराए।"},{"s":"availability","m":["availability","highly available"],"en":"How much of the time the system is up and working, like 99.9%.","hi":"System कितने समय चालू और काम करता रहता है, जैसे 99.9%।"},{"s":"consistency","m":["consistency","eventual consistency"],"en":"Whether everyone sees the latest data. Eventual consistency means it becomes the same everywhere after a short time.","hi":"क्या सबको ताज़ा data दिखता है। Eventual consistency का मतलब है थोड़ी देर बाद हर जगह एक जैसा हो जाता है।"},{"s":"cap","m":["CAP"],"en":"When the network between servers breaks, you must choose: always correct data (consistency) or always answer (availability).","hi":"Servers के बीच network टूटे, तो चुनना पड़ता है: हमेशा सही data (consistency) या हमेशा जवाब (availability)।"},{"s":"idempotency","m":["idempotency","idempotent"],"en":"Doing the same request twice has the same effect as doing it once. Vital for payments.","hi":"एक ही request दो बार करने का असर एक बार करने जैसा हो। Payments के लिए बहुत ज़रूरी।"},{"s":"rate-limiting","m":["rate limiting","rate limiter"],"en":"Limiting how many requests a user can make, like 100 per minute, to protect the system.","hi":"User कितनी requests कर सकता है उसकी सीमा, जैसे 100 per minute, system को बचाने के लिए।"},{"s":"health-check","m":["health check","health checks"],"en":"A regular ping to see if a server is alive. Unhealthy servers get no traffic.","hi":"Server ज़िंदा है या नहीं, यह देखने के लिए नियमित ping। बीमार servers को traffic नहीं मिलता।"},{"s":"redis","m":["Redis"],"en":"A very fast in-memory store, used for caching, sessions, counters and rate limits.","hi":"बहुत तेज़ in-memory store, caching, sessions, counters और rate limits के लिए।"},{"s":"kafka","m":["Kafka","SQS","RabbitMQ"],"en":"Message queue tools that pass jobs and events between services.","hi":"Message queue tools जो services के बीच jobs और events पहुँचाते हैं।"},{"s":"s3","m":["S3"],"en":"Cloud storage for files like images, videos and PDFs. The database stores only the file's URL.","hi":"Images, videos और PDFs जैसी files के लिए cloud storage। Database सिर्फ़ file का URL रखता है।"},{"s":"postgresql","m":["PostgreSQL","MySQL"],"en":"Popular SQL databases for structured data and transactions.","hi":"Structured data और transactions के लिए popular SQL databases।"},{"s":"mongodb","m":["MongoDB","DynamoDB","Cassandra"],"en":"Popular NoSQL databases for flexible or very large data.","hi":"Flexible या बहुत बड़े data के लिए popular NoSQL databases।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../security/">Cyber Security</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

@@ -294,3 +294,14 @@ h2 + .badge { margin: -4px 0 10px; }
 .sqli-q { margin-top: 8px; }
 .sqli-q mark { background: rgba(239, 68, 68, .25); color: inherit; border-radius: 3px; padding: 0 2px; }
 .viz input[type="text"].wide { width: 100%; max-width: 420px; }
+
+/* System design: queue simulator and circuit breaker */
+.q-bar { height: 22px; border-radius: 11px; background: var(--bg-alt); border: 1px solid var(--border); overflow: hidden; margin-top: 10px; }
+.q-fill { height: 100%; width: 0; background: linear-gradient(90deg, #10b981, var(--primary)); transition: width .4s; }
+.q-fill.hot { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+.q-stats { margin-top: 8px; font-size: .9rem; color: var(--text); }
+.cb-state { display: inline-block; margin: 10px 0 6px; padding: 6px 14px; border-radius: 999px; font-weight: 800; letter-spacing: .5px; color: #fff; background: #10b981; }
+.cb-state.open { background: #ef4444; }
+.cb-state.halfopen { background: #f59e0b; }
+.cb-log { display: grid; gap: 4px; font-size: .88rem; color: var(--text); min-height: 1.4em; }
+.cb-log div { padding: 4px 8px; border-radius: 6px; background: var(--bg-alt); }

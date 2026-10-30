@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CAP Theorem, Consistency and Idempotency, Simply | Kodivo</title>
+  <meta name="description" content="CAP theorem, strong vs eventual consistency and idempotency explained with everyday examples, plus a real idempotency-key code demo for payments." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/consistency.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/consistency.html" />
+  <meta property="og:title" content="CAP Theorem, Consistency and Idempotency, Simply | Kodivo" />
+  <meta property="og:description" content="CAP theorem, strong vs eventual consistency and idempotency explained with everyday examples, plus a real idempotency-key code demo for payments." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "CAP, consistency and idempotency",
+          "item": "https://agamsahu017.github.io/system-design/consistency.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "CAP Theorem, Consistency and Idempotency, Simply",
+      "description": "CAP theorem, strong vs eventual consistency and idempotency explained with everyday examples, plus a real idempotency-key code demo for payments.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(CAP%2C%20consistency%20and%20idempotency)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>CAP, consistency and idempotency</span></nav>
+        <span class="pill"><span class="en">Module 8 of 20</span><span class="hi">मॉड्यूल 8 / 20</span></span>
+        <h1><span class="en">CAP, consistency and idempotency</span><span class="hi">CAP, consistency और idempotency</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">20 min read + practice</span><span class="hi">20 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Use strong consistency where mistakes cost money and eventual consistency elsewhere, and make every retried operation idempotent.</p><p class="hi"><b>एक लाइन में:</b> जहाँ ग़लती का मतलब पैसे का नुक़सान हो वहाँ strong consistency, बाक़ी जगह eventual, और हर दोहराए जाने वाले operation को idempotent बनाइए।</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Strong vs eventual consistency, with everyday examples</span><span class="hi">Strong vs eventual consistency, रोज़ के उदाहरणों से</span></li><li><span class="en">The CAP theorem without the jargon</span><span class="hi">बिना भारी शब्दों के CAP theorem</span></li><li><span class="en">Idempotency: why doing it twice must be safe</span><span class="hi">Idempotency: दो बार करना सुरक्षित क्यों होना चाहिए</span></li><li><span class="en">Idempotency keys for payments, with real code</span><span class="hi">Payments के लिए idempotency keys, असली code के साथ</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#consistency-types"><span class="en">Consistency</span><span class="hi">Consistency</span></a><a href="#cap"><span class="en">CAP theorem</span><span class="hi">CAP theorem</span></a><a href="#idem"><span class="en">Idempotency</span><span class="hi">Idempotency</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">Glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">Glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="consistency-types">
+        <h2 id="consistency-types-h"><span class="en">Strong vs eventual consistency</span><span class="hi">Strong vs eventual consistency</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <div class="table-wrap"><table><thead><tr><th><span class="en"></span><span class="hi"></span></th><th><span class="en">Strong consistency</span><span class="hi">Strong consistency</span></th><th><span class="en">Eventual consistency</span><span class="hi">Eventual consistency</span></th></tr></thead><tbody><tr><td><span class="en">Meaning</span><span class="hi">मतलब</span></td><td><span class="en">Everyone sees the latest value immediately</span><span class="hi">सबको तुरंत latest value दिखती है</span></td><td><span class="en">Copies may be a little behind, but catch up soon</span><span class="hi">Copies थोड़ी पीछे हो सकती हैं, पर जल्दी बराबर हो जाती हैं</span></td></tr><tr><td><span class="en">Everyday example</span><span class="hi">रोज़ का उदाहरण</span></td><td><span class="en">Your bank balance after a UPI payment</span><span class="hi">UPI payment के बाद आपका bank balance</span></td><td><span class="en">Like count on a reel, or a friend's new profile photo</span><span class="hi">Reel के likes, या दोस्त की नई profile photo</span></td></tr><tr><td><span class="en">Cost</span><span class="hi">क़ीमत</span></td><td><span class="en">Slower, harder to scale</span><span class="hi">धीमा, scale करना मुश्किल</span></td><td><span class="en">Faster, scales easily</span><span class="hi">तेज़, आसानी से scale</span></td></tr><tr><td><span class="en">Use for</span><span class="hi">किसके लिए</span></td><td><span class="en">Money, stock, seat booking</span><span class="hi">पैसा, stock, seat booking</span></td><td><span class="en">Feeds, counters, search, analytics</span><span class="hi">Feeds, counters, search, analytics</span></td></tr></tbody></table></div>
+        <p class="en">Good systems mix both: strong where mistakes cost money, eventual everywhere else.</p><p class="hi">अच्छे systems दोनों मिलाते हैं: जहाँ ग़लती का मतलब पैसे का नुक़सान, वहाँ strong, बाक़ी जगह eventual।</p>
+      </section>
+      <section id="cap">
+        <h2 id="cap-h"><span class="en">The CAP theorem, simply</span><span class="hi">CAP theorem, आसान भाषा में</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">Your data is copied on servers in Delhi and Mumbai. Suddenly the network link between them breaks (a <b>partition</b>). A user in Mumbai asks for data. The Mumbai server must choose:</p><p class="hi">आपका data Delhi और Mumbai के servers पर copy है। अचानक दोनों के बीच network टूट जाता है (<b>partition</b>)। Mumbai में एक user data माँगता है। Mumbai server को चुनना होगा:</p>
+        <ul><li><span class="en"><b>C (Consistency):</b> refuse to answer, because it can't be sure its copy is the latest. Correct, but unavailable.</span><span class="hi"><b>C (Consistency):</b> जवाब देने से मना करे, क्योंकि पक्का नहीं कि उसकी copy latest है। सही, पर उपलब्ध नहीं।</span></li><li><span class="en"><b>A (Availability):</b> answer with what it has, which might be a little old. Available, but maybe stale.</span><span class="hi"><b>A (Availability):</b> जो है उससे जवाब दे, जो थोड़ा पुराना हो सकता है। उपलब्ध, पर शायद पुराना।</span></li></ul>
+        <p class="en">Network breaks will happen (that's the <b>P</b>, partition tolerance), so during a break you choose C or A. A payment system picks C. A social feed picks A. Interviewers want to hear that trade-off, applied to the system you're designing.</p><p class="hi">Network टूटेगा ही (यही <b>P</b>, partition tolerance है), इसलिए टूटने के दौरान आप C या A चुनते हैं। Payment system C चुनता है। Social feed A चुनता है। Interviewers यही trade-off सुनना चाहते हैं, आपके design किए जा रहे system पर लागू करके।</p>
+      </section>
+      <section id="idem">
+        <h2 id="idem-h"><span class="en">Idempotency: safe to do twice</span><span class="hi">Idempotency: दो बार करना भी सुरक्षित</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">An operation is <b>idempotent</b> if doing it twice has the same effect as doing it once. Pressing a lift button five times still calls the lift once. In software, requests get repeated all the time: double taps, network retries, queue redeliveries.</p><p class="hi">कोई operation <b>idempotent</b> है अगर उसे दो बार करने का असर एक बार करने जैसा ही हो। Lift का button पाँच बार दबाने पर भी lift एक बार ही बुलती है। Software में requests बार-बार दोहराई जाती हैं: double tap, network retry, queue की दोबारा delivery।</p>
+        <figure class="flow"><div class="flow-row"><div class="node"><span class="en">Pay with key "order-55"</span><span class="hi">Key "order-55" के साथ pay</span></div><div class="arrow" aria-hidden="true">→</div><div class="node"><span class="en">Server: seen this key before?</span><span class="hi">Server: यह key पहले देखी?</span></div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node"><span class="en">No → charge and save the result</span><span class="hi">नहीं → charge करके result save</span></div><div class="node"><span class="en">Yes → return the saved result</span><span class="hi">हाँ → saved result लौटाओ</span></div></div></div><figcaption><span class="en">An idempotency key turns a double tap into one payment.</span><span class="hi">Idempotency key double tap को एक payment बना देती है।</span></figcaption></figure>
+        <pre class="code" data-copy><span class="cm">// Idempotency key: the same payment request twice must charge only once.</span>
+<span class="kw">const</span> processed = <span class="kw">new</span> Map(); <span class="cm">// key -&gt; saved result (use a DB table with a UNIQUE key in real apps)</span>
+<span class="kw">let</span> balance = 1000;
+
+<span class="kw">function</span> pay(idempotencyKey, amount) {
+  <span class="kw">if</span> (processed.has(idempotencyKey)) <span class="kw">return</span> processed.get(idempotencyKey); <span class="cm">// replay, don't charge</span>
+  balance -= amount;
+  <span class="kw">const</span> result = { status: <span class="st">"paid"</span>, amount, balance };
+  processed.set(idempotencyKey, result);
+  <span class="kw">return</span> result;
+}
+
+console.log(pay(<span class="st">"order-55-attempt"</span>, 200)); <span class="cm">// user taps Pay</span>
+console.log(pay(<span class="st">"order-55-attempt"</span>, 200)); <span class="cm">// network retry / double tap</span>
+console.log(<span class="st">"Final balance:"</span>, balance);</pre>
+        <p class="en">Real output:</p><p class="hi">असली output:</p>
+        <pre class="code" data-copy>{ status: <span class="st">'paid'</span>, amount: 200, balance: 800 }
+{ status: <span class="st">'paid'</span>, amount: 200, balance: 800 }
+Final balance: 800</pre>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Relying only on disabling the button. The network can still retry.</span><span class="hi">सिर्फ़ button disable करने पर भरोसा। Network फिर भी retry कर सकता है।</span></li><li><span class="en">Keeping idempotency keys only in server memory. Use a database table with a unique constraint, or Redis with a TTL.</span><span class="hi">Idempotency keys सिर्फ़ server memory में रखना। Unique constraint वाली database table, या TTL के साथ Redis इस्तेमाल कीजिए।</span></li></ul></div>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 3 things</span><span class="hi">ये 3 बातें याद रखिए</span></div><ol><li><span class="en">Strong = always latest (money). Eventual = catches up soon (likes, feeds).</span><span class="hi">Strong = हमेशा latest (पैसा)। Eventual = जल्दी बराबर (likes, feeds)।</span></li><li><span class="en">CAP: during a network break, choose consistency or availability.</span><span class="hi">CAP: network टूटने पर consistency या availability में से एक चुनिए।</span></li><li><span class="en">Idempotent = safe to repeat. Payments need idempotency keys.</span><span class="hi">Idempotent = दोहराना सुरक्षित। Payments को idempotency keys चाहिए।</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: For each, choose strong or eventual consistency: (a) wallet balance, (b) number of views on a video, (c) seats left in a train, (d) "last seen" on a chat app.</span><span class="hi">Exercise 1: हर एक के लिए strong या eventual consistency चुनिए: (a) wallet balance, (b) video के views, (c) train में बची seats, (d) chat app का "last seen"।</span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en">(a) Strong. (b) Eventual. (c) Strong, at least at the moment of booking. (d) Eventual.</p><p class="hi">(a) Strong। (b) Eventual। (c) Strong, कम से कम booking के पल में। (d) Eventual।</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"A like count that updates a few seconds late is an example of…","hi":"कुछ seconds देर से update होने वाला like count किसका उदाहरण है…"},"options":[{"en":"Strong consistency","hi":"Strong consistency"},{"en":"Eventual consistency","hi":"Eventual consistency"},{"en":"A bug","hi":"Bug"},{"en":"Idempotency","hi":"Idempotency"}],"answer":1,"why":{"en":"Copies catch up soon; that's fine for likes.","hi":"Copies जल्दी बराबर होती हैं; likes के लिए ठीक है।"}},{"q":{"en":"During a network partition, a payment system should usually prefer…","hi":"Network partition के दौरान payment system को आमतौर पर क्या चुनना चाहिए…"},"options":[{"en":"Availability","hi":"Availability"},{"en":"Consistency","hi":"Consistency"},{"en":"Speed","hi":"Speed"},{"en":"Nothing","hi":"कुछ नहीं"}],"answer":1,"why":{"en":"Wrong money data is worse than a short outage.","hi":"ग़लत पैसे का data थोड़ी देर बंद रहने से बुरा है।"}},{"q":{"en":"Which operation is idempotent?","hi":"कौन-सा operation idempotent है?"},"options":[{"en":"Add ₹100 to the balance","hi":"Balance में ₹100 जोड़ो"},{"en":"Set the order status to SHIPPED","hi":"Order status को SHIPPED करो"},{"en":"Send another SMS","hi":"एक और SMS भेजो"},{"en":"Create a new order","hi":"नया order बनाओ"}],"answer":1,"why":{"en":"Setting a value twice gives the same result; adding twice doesn't.","hi":"Value दो बार set करने पर वही नतीजा; दो बार जोड़ने पर नहीं।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:consistency"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="queues.html">← <span class="en">Message queues and async work</span><span class="hi">Message queues और async काम</span></a><a class="btn btn-outline" href="reliability.html">→ <span class="en">Rate limiting and reliability</span><span class="hi">Rate limiting और reliability</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20CAP%2C%20consistency%20and%20idempotency" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20CAP%2C%20consistency%20and%20idempotency" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"client","m":["client"],"en":"The app or browser that asks for something, like your phone's WhatsApp or Chrome.","hi":"वो app या browser जो कुछ माँगता है, जैसे आपके phone का WhatsApp या Chrome।"},{"s":"server","m":["server","servers"],"en":"A computer that runs your backend code and answers requests from clients.","hi":"एक computer जो आपका backend code चलाता है और clients की requests का जवाब देता है।"},{"s":"request","m":["request","requests"],"en":"A message from the client to the server asking for data or an action.","hi":"Client से server को भेजा गया message, जिसमें data या कोई काम माँगा जाता है।"},{"s":"response","m":["response"],"en":"The server's reply to a request, usually with data and a status code.","hi":"Request पर server का जवाब, आमतौर पर data और status code के साथ।"},{"s":"http","m":["HTTP","HTTPS"],"en":"The language browsers and servers use to talk. HTTPS is the encrypted, secure version.","hi":"वो भाषा जिसमें browser और server बात करते हैं। HTTPS उसका encrypted, सुरक्षित रूप है।"},{"s":"api","m":["API","APIs"],"en":"A set of URLs (endpoints) your server offers so other programs can ask it for data or actions.","hi":"URLs (endpoints) का एक set जो server देता है, ताकि दूसरे programs उससे data या काम माँग सकें।"},{"s":"endpoint","m":["endpoint","endpoints"],"en":"One URL of an API, like GET /users/42.","hi":"API का एक URL, जैसे GET /users/42।"},{"s":"rest","m":["REST"],"en":"A common style for APIs: URLs name the things (/orders) and HTTP methods say the action (GET, POST).","hi":"APIs का एक common style: URL चीज़ का नाम बताते हैं (/orders) और HTTP methods काम (GET, POST)।"},{"s":"json","m":["JSON"],"en":"A simple text format for data, like { \"name\": \"Riya\" }. Most APIs send JSON.","hi":"Data के लिए एक आसान text format, जैसे { \"name\": \"Riya\" }। ज़्यादातर APIs JSON भेजती हैं।"},{"s":"status-code","m":["status code","status codes"],"en":"A number in the response: 200 = OK, 404 = not found, 500 = server error.","hi":"Response में एक number: 200 = OK, 404 = नहीं मिला, 500 = server error।"},{"s":"dns","m":["DNS"],"en":"The internet's phonebook: turns a name like google.com into an IP address.","hi":"Internet की phonebook: google.com जैसे नाम को IP address में बदलता है।"},{"s":"ip-address","m":["IP address"],"en":"The numeric address of a computer on the internet, like 142.250.183.14.","hi":"Internet पर किसी computer का number वाला address, जैसे 142.250.183.14।"},{"s":"webhook","m":["webhook"],"en":"A URL on your server that another service calls when something happens, like \"payment succeeded\".","hi":"आपके server का एक URL जिसे कोई दूसरी service कुछ होने पर call करती है, जैसे \"payment हो गया\"।"},{"s":"websocket","m":["WebSocket","WebSockets"],"en":"A connection that stays open so the server can push messages instantly, used in chat apps.","hi":"एक connection जो खुला रहता है ताकि server तुरंत messages भेज सके, chat apps में इस्तेमाल होता है।"},{"s":"latency","m":["latency"],"en":"How long one request takes, for example 120 milliseconds. Lower is better.","hi":"एक request में कितना समय लगता है, जैसे 120 milliseconds। जितना कम, उतना अच्छा।"},{"s":"throughput","m":["throughput"],"en":"How many requests a system handles per second.","hi":"System एक second में कितनी requests संभालता है।"},{"s":"qps","m":["QPS"],"en":"Queries (requests) per second. 1,000 QPS = a thousand requests every second.","hi":"Queries (requests) per second। 1,000 QPS = हर second हज़ार requests।"},{"s":"scalability","m":["scalability"],"en":"The ability to handle more users by adding resources.","hi":"Resources बढ़ाकर ज़्यादा users संभालने की क्षमता।"},{"s":"vertical-scaling","m":["vertical scaling","Vertical scaling"],"en":"Making one machine bigger (more CPU and RAM).","hi":"एक ही machine को बड़ा करना (ज़्यादा CPU और RAM)।"},{"s":"horizontal-scaling","m":["horizontal scaling","Horizontal scaling"],"en":"Adding more machines that share the work.","hi":"और machines जोड़ना जो काम बाँट लें।"},{"s":"load-balancer","m":["load balancer","load balancers","Load balancer"],"en":"Sits in front of servers and spreads incoming requests across them.","hi":"Servers के आगे बैठता है और आने वाली requests को उनमें बाँटता है।"},{"s":"stateless","m":["stateless"],"en":"A server that keeps no user data in its own memory between requests, so any server can serve any user.","hi":"ऐसा server जो requests के बीच user का data अपनी memory में नहीं रखता, ताकि कोई भी server किसी भी user को serve कर सके।"},{"s":"session","m":["session","sessions"],"en":"Information that keeps a user logged in across requests.","hi":"वो जानकारी जिससे user requests के बीच logged in रहता है।"},{"s":"jwt","m":["JWT"],"en":"JSON Web Token: a signed token the client sends with each request to prove who it is.","hi":"JSON Web Token: एक signed token जो client हर request के साथ भेजता है यह साबित करने के लिए कि वो कौन है।"},{"s":"spof","m":["single point of failure","SPOF"],"en":"A part with only one copy. If it fails, the whole system fails.","hi":"ऐसा हिस्सा जिसकी सिर्फ़ एक copy हो। वो fail हो, तो पूरा system fail।"},{"s":"bottleneck","m":["bottleneck"],"en":"The slowest part that limits the whole system, like a narrow bottle neck.","hi":"सबसे धीमा हिस्सा जो पूरे system को रोकता है, जैसे बोतल की पतली गर्दन।"},{"s":"monolith","m":["monolith"],"en":"One application containing all features, deployed together. Simple to start with.","hi":"एक ही application जिसमें सारे features हों, एक साथ deploy हो। शुरुआत में आसान।"},{"s":"microservices","m":["microservices"],"en":"Many small services, each owning one feature, deployed separately. Flexible but more complex.","hi":"कई छोटी services, हर एक के पास एक feature, अलग-अलग deploy। Flexible पर ज़्यादा मुश्किल।"},{"s":"database","m":["database","databases"],"en":"Software that stores data safely on disk and lets you search and update it.","hi":"Software जो data को disk पर सुरक्षित रखता है और उसे ढूँढने और बदलने देता है।"},{"s":"sql","m":["SQL"],"en":"A database with tables, columns and relations, like PostgreSQL or MySQL.","hi":"Tables, columns और relations वाला database, जैसे PostgreSQL या MySQL।"},{"s":"nosql","m":["NoSQL"],"en":"A database with a flexible structure (documents, key-value), built to spread across many machines.","hi":"Flexible structure (documents, key-value) वाला database, कई machines पर फैलने के लिए बना।"},{"s":"transaction","m":["transaction","transactions"],"en":"A group of database changes that happen together, or not at all.","hi":"Database के बदलावों का समूह जो साथ में होते हैं, या बिल्कुल नहीं होते।"},{"s":"acid","m":["ACID"],"en":"Promises of a good transaction: all-or-nothing, valid data, no mixing, and saved data isn't lost.","hi":"अच्छे transaction के वादे: पूरा या कुछ नहीं, सही data, आपस में न मिलना, और save हुआ data न खोना।"},{"s":"primary-key","m":["primary key"],"en":"A column that uniquely identifies each row, like user id.","hi":"एक column जो हर row को अलग पहचान देता है, जैसे user id।"},{"s":"index","m":["index","indexes"],"en":"A lookup structure that makes searching a column fast, like a book's index.","hi":"एक lookup structure जो किसी column में ढूँढना तेज़ करता है, जैसे किताब का index।"},{"s":"replica","m":["replica","replicas","replication"],"en":"A copy of a database that stays in sync. Replicas serve reads and can take over on failure.","hi":"Database की copy जो साथ-साथ अपडेट होती रहती है। Replicas reads देते हैं और failure पर काम सँभाल सकते हैं।"},{"s":"replication-lag","m":["replication lag","Replication lag"],"en":"The small delay before a replica receives the latest changes.","hi":"Replica तक ताज़ा बदलाव पहुँचने में लगने वाली छोटी देरी।"},{"s":"sharding","m":["sharding","shard","shards"],"en":"Splitting data across several databases, each holding a part.","hi":"Data को कई databases में बाँटना, हर एक में एक हिस्सा।"},{"s":"shard-key","m":["shard key"],"en":"The field that decides which shard a row goes to, like user_id.","hi":"वो field जो तय करती है कि row किस shard में जाएगी, जैसे user_id।"},{"s":"failover","m":["failover"],"en":"Automatically switching to a backup when the main machine fails.","hi":"Main machine fail होने पर अपने आप backup पर चले जाना।"},{"s":"cache","m":["cache","caching"],"en":"Fast memory that keeps frequently used data so you don't fetch it again from a slow source.","hi":"तेज़ memory जो बार-बार इस्तेमाल होने वाला data रखती है, ताकि धीमी जगह से दोबारा न लाना पड़े।"},{"s":"cache-hit","m":["cache hit","cache miss"],"en":"Hit: the data was in the cache (fast). Miss: it wasn't, so we read the database (slow).","hi":"Hit: data cache में मिल गया (तेज़)। Miss: नहीं मिला, तो database पढ़ा (धीमा)।"},{"s":"ttl","m":["TTL"],"en":"Time to live: how long a cached item is kept before it expires.","hi":"Time to live: cache में रखा item कितनी देर बाद expire होगा।"},{"s":"lru","m":["LRU"],"en":"Least Recently Used: when the cache is full, remove the item unused for the longest time.","hi":"Least Recently Used: cache भरने पर वो item हटाओ जो सबसे लंबे समय से इस्तेमाल नहीं हुआ।"},{"s":"invalidation","m":["invalidation","invalidate"],"en":"Removing or updating cached data when the original data changes.","hi":"Original data बदलने पर cached data को हटाना या अपडेट करना।"},{"s":"cdn","m":["CDN","CDNs"],"en":"Content Delivery Network: servers around the world that keep copies of images, videos and files close to users.","hi":"Content Delivery Network: दुनिया भर के servers जो images, videos और files की copies users के पास रखते हैं।"},{"s":"queue","m":["message queue","queue","queues"],"en":"A waiting line for jobs. The API adds a job and replies fast; a worker does the job later.","hi":"Jobs की एक लाइन। API job जोड़कर जल्दी जवाब देता है; worker बाद में job करता है।"},{"s":"async","m":["async","asynchronous"],"en":"Work that happens in the background, without making the user wait.","hi":"Background में होने वाला काम, बिना user को इंतज़ार कराए।"},{"s":"availability","m":["availability","highly available"],"en":"How much of the time the system is up and working, like 99.9%.","hi":"System कितने समय चालू और काम करता रहता है, जैसे 99.9%।"},{"s":"consistency","m":["consistency","eventual consistency"],"en":"Whether everyone sees the latest data. Eventual consistency means it becomes the same everywhere after a short time.","hi":"क्या सबको ताज़ा data दिखता है। Eventual consistency का मतलब है थोड़ी देर बाद हर जगह एक जैसा हो जाता है।"},{"s":"cap","m":["CAP"],"en":"When the network between servers breaks, you must choose: always correct data (consistency) or always answer (availability).","hi":"Servers के बीच network टूटे, तो चुनना पड़ता है: हमेशा सही data (consistency) या हमेशा जवाब (availability)।"},{"s":"idempotency","m":["idempotency","idempotent"],"en":"Doing the same request twice has the same effect as doing it once. Vital for payments.","hi":"एक ही request दो बार करने का असर एक बार करने जैसा हो। Payments के लिए बहुत ज़रूरी।"},{"s":"rate-limiting","m":["rate limiting","rate limiter"],"en":"Limiting how many requests a user can make, like 100 per minute, to protect the system.","hi":"User कितनी requests कर सकता है उसकी सीमा, जैसे 100 per minute, system को बचाने के लिए।"},{"s":"health-check","m":["health check","health checks"],"en":"A regular ping to see if a server is alive. Unhealthy servers get no traffic.","hi":"Server ज़िंदा है या नहीं, यह देखने के लिए नियमित ping। बीमार servers को traffic नहीं मिलता।"},{"s":"redis","m":["Redis"],"en":"A very fast in-memory store, used for caching, sessions, counters and rate limits.","hi":"बहुत तेज़ in-memory store, caching, sessions, counters और rate limits के लिए।"},{"s":"kafka","m":["Kafka","SQS","RabbitMQ"],"en":"Message queue tools that pass jobs and events between services.","hi":"Message queue tools जो services के बीच jobs और events पहुँचाते हैं।"},{"s":"s3","m":["S3"],"en":"Cloud storage for files like images, videos and PDFs. The database stores only the file's URL.","hi":"Images, videos और PDFs जैसी files के लिए cloud storage। Database सिर्फ़ file का URL रखता है।"},{"s":"postgresql","m":["PostgreSQL","MySQL"],"en":"Popular SQL databases for structured data and transactions.","hi":"Structured data और transactions के लिए popular SQL databases।"},{"s":"mongodb","m":["MongoDB","DynamoDB","Cassandra"],"en":"Popular NoSQL databases for flexible or very large data.","hi":"Flexible या बहुत बड़े data के लिए popular NoSQL databases।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../security/">Cyber Security</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SOLID Principles Explained Simply, with Examples | Kodivo</title>
+  <meta name="description" content="SOLID principles made easy: an everyday example, a warning sign and a tiny JavaScript example for each, plus how to explain SOLID in interviews." />
+  <link rel="canonical" href="https://agamsahu017.github.io/system-design/solid.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/system-design/solid.html" />
+  <meta property="og:title" content="SOLID Principles Explained Simply, with Examples | Kodivo" />
+  <meta property="og:description" content="SOLID principles made easy: an everyday example, a warning sign and a tiny JavaScript example for each, plus how to explain SOLID in interviews." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "System Design for Interviews",
+          "item": "https://agamsahu017.github.io/system-design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "SOLID principles, the easy way",
+          "item": "https://agamsahu017.github.io/system-design/solid.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "SOLID Principles Explained Simply, with Examples",
+      "description": "SOLID principles made easy: an everyday example, a warning sign and a tiny JavaScript example for each, plus how to explain SOLID in interviews.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "System Design for Interviews",
+        "url": "https://agamsahu017.github.io/system-design/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">System Design</span><span class="hi">सिस्टम डिज़ाइन</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20System%20Design%20on%20your%20website%20(SOLID%20principles%2C%20the%20easy%20way)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">System Design</a> › <span>SOLID principles, the easy way</span></nav>
+        <span class="pill"><span class="en">Module 17 of 20</span><span class="hi">मॉड्यूल 17 / 20</span></span>
+        <h1><span class="en">SOLID principles, the easy way</span><span class="hi">SOLID principles, सबसे आसान तरीक़े से</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">25 min read + practice</span><span class="hi">25 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🏗️ HLD + LLD</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> SOLID = one job per class, add instead of edit, replacements must behave the same, small contracts, and plug helpers in instead of gluing them.</p><p class="hi"><b>एक लाइन में:</b> SOLID = हर class का एक काम, बदलने की जगह जोड़ना, replacement वैसे ही चले, छोटे contracts, और helpers चिपकाने की जगह plug करना।</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">What each SOLID letter means, in one simple line</span><span class="hi">हर SOLID अक्षर का मतलब, एक आसान line में</span></li><li><span class="en">An everyday Indian example for each principle</span><span class="hi">हर principle का रोज़ का भारतीय उदाहरण</span></li><li><span class="en">The warning sign that a principle is being broken</span><span class="hi">वो चेतावनी जो बताती है कि principle टूट रहा है</span></li><li><span class="en">A tiny JavaScript example for each, with real output</span><span class="hi">हर एक का छोटा JavaScript उदाहरण, असली output के साथ</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#overview"><span class="en">SOLID in 1 minute</span><span class="hi">1 minute में SOLID</span></a><a href="#s"><span class="en">S</span><span class="hi">S</span></a><a href="#o"><span class="en">O</span><span class="hi">O</span></a><a href="#l"><span class="en">L</span><span class="hi">L</span></a><a href="#i"><span class="en">I</span><span class="hi">I</span></a><a href="#d"><span class="en">D</span><span class="hi">D</span></a><a href="#interview"><span class="en">In interviews</span><span class="hi">Interview में</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <p class="gloss-hint"><span class="en">💡 Words with a dotted underline have a short meaning: hover or tap them. See all words in the <a href="glossary.html">Glossary</a>.</span><span class="hi">💡 नीचे बिंदु वाली लाइन वाले शब्दों का छोटा मतलब है: उन पर hover या tap कीजिए। सारे शब्द <a href="glossary.html">Glossary</a> में देखिए।</span></p>
+      </div>
+      <section id="overview">
+        <h2 id="overview-h"><span class="en">SOLID in one minute</span><span class="hi">एक minute में SOLID</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">SOLID is 5 simple rules for writing classes that are easy to change without breaking other things. You don't need to memorise definitions; remember the pictures.</p><p class="hi">SOLID पाँच आसान नियम हैं, ऐसी classes लिखने के लिए जिन्हें बिना कुछ और तोड़े आसानी से बदला जा सके। Definitions रटने की ज़रूरत नहीं; तस्वीरें याद रखिए।</p>
+        <div class="table-wrap"><table><thead><tr><th><span class="en">Letter</span><span class="hi">अक्षर</span></th><th><span class="en">In one line</span><span class="hi">एक line में</span></th><th><span class="en">Everyday picture</span><span class="hi">रोज़ की तस्वीर</span></th></tr></thead><tbody><tr><td><span class="en"><b>S</b>: Single Responsibility</span><span class="hi"><b>S</b>: Single Responsibility</span></td><td><span class="en">One class, one job</span><span class="hi">एक class, एक काम</span></td><td><span class="en">At a chai stall, one person makes chai and another takes money</span><span class="hi">Chai stall पर एक चाय बनाता है, दूसरा पैसे लेता है</span></td></tr><tr><td><span class="en"><b>O</b>: Open/Closed</span><span class="hi"><b>O</b>: Open/Closed</span></td><td><span class="en">Add new things without editing old code</span><span class="hi">पुराना code बदले बिना नई चीज़ें जोड़िए</span></td><td><span class="en">Install a new app; you don't open the phone and rewire it</span><span class="hi">नई app install कीजिए; phone खोलकर तार नहीं बदलते</span></td></tr><tr><td><span class="en"><b>L</b>: Liskov Substitution</span><span class="hi"><b>L</b>: Liskov Substitution</span></td><td><span class="en">A replacement must work just like the original</span><span class="hi">Replacement बिल्कुल original जैसा काम करे</span></td><td><span class="en">A spare tyre must fit and run on the same car</span><span class="hi">Spare tyre उसी car पर फ़िट होकर चले</span></td></tr><tr><td><span class="en"><b>I</b>: Interface Segregation</span><span class="hi"><b>I</b>: Interface Segregation</span></td><td><span class="en">Don't force things to do what they can't</span><span class="hi">जो नहीं कर सकते, वो ज़बरदस्ती मत करवाइए</span></td><td><span class="en">Don't make a juice shop list biryani on its menu</span><span class="hi">Juice shop के menu में biryani मत डलवाइए</span></td></tr><tr><td><span class="en"><b>D</b>: Dependency Inversion</span><span class="hi"><b>D</b>: Dependency Inversion</span></td><td><span class="en">Depend on a standard socket, not a fixed brand</span><span class="hi">Standard socket पर निर्भर रहिए, एक brand पर नहीं</span></td><td><span class="en">A phone has a USB-C port, not one charger glued on</span><span class="hi">Phone में USB-C port होता है, एक charger चिपका नहीं होता</span></td></tr></tbody></table></div>
+      </section>
+      <section id="s">
+        <h2 id="s-h"><span class="en">S: Single Responsibility (one class, one job)</span><span class="hi">S: Single Responsibility (एक class, एक काम)</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">At a busy chai stall, if one person makes chai, takes money and washes cups, everything slows down, and changing how payments work disturbs the chai-making too. Give each job to one person, and each job to one class.</p><p class="hi">भीड़ वाली chai stall पर अगर एक ही आदमी चाय बनाए, पैसे ले और कप धोए, तो सब धीमा हो जाता है, और payment का तरीक़ा बदलने से चाय बनाना भी गड़बड़ाता है। हर काम एक इंसान को दीजिए, और हर काम एक class को।</p>
+        <div class="warn"><p class="en"><b>Warning sign:</b> a class name with "and" in its description, or a file you open for many unrelated reasons ("the Report class calculates, formats and emails").</p><p class="hi"><b>चेतावनी:</b> class के description में "और" आए, या वो file जिसे आप कई अलग-अलग वजहों से खोलते हैं ("Report class हिसाब भी करती है, format भी, और email भी")।</p></div>
+        <pre class="code" data-copy><span class="cm">// S: one class, one job. Calculating, formatting and sending are separate jobs.</span>
+<span class="kw">class</span> SalesReport {
+  <span class="kw">constructor</span>(sales) { <span class="kw">this</span>.sales = sales; }
+  total() { <span class="kw">return</span> <span class="kw">this</span>.sales.reduce((sum, s) =&gt; sum + s.amount, 0); }
+}
+<span class="kw">class</span> ReportFormatter {
+  toText(report) { <span class="kw">return</span> <span class="st">`Total sales today: ₹${report.total()}`</span>; }
+}
+<span class="kw">class</span> ReportSender {
+  send(to, text) { console.log(<span class="st">`To ${to}: ${text}`</span>); }
+}
+
+<span class="kw">const</span> report = <span class="kw">new</span> SalesReport([{ amount: 120 }, { amount: 80 }, { amount: 300 }]);
+<span class="kw">new</span> ReportSender().send(<span class="st">"owner@shop.in"</span>, <span class="kw">new</span> ReportFormatter().toText(report));</pre>
+        <pre class="code" data-copy>To owner@shop.<span class="kw">in</span>: Total sales today: ₹500</pre>
+        <p class="en">Now switching from email to WhatsApp changes only <code>ReportSender</code>. The maths is never touched.</p><p class="hi">अब email से WhatsApp पर जाने पर सिर्फ़ <code>ReportSender</code> बदलता है। हिसाब वाला code छुआ ही नहीं जाता।</p>
+      </section>
+      <section id="o">
+        <h2 id="o-h"><span class="en">O: Open/Closed (add, don't edit)</span><span class="hi">O: Open/Closed (जोड़िए, बदलिए मत)</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">You add new apps to your phone without opening it up. Your code should work the same way: <b>open</b> for adding new behaviour, <b>closed</b> for editing old, tested code.</p><p class="hi">आप phone खोले बिना नई apps जोड़ते हैं। आपका code भी ऐसे ही काम करे: नया व्यवहार जोड़ने के लिए <b>खुला</b>, पुराने, tested code को बदलने के लिए <b>बंद</b>।</p>
+        <div class="warn"><p class="en"><b>Warning sign:</b> a long <code>if / else if</code> or <code>switch</code> on a type that you edit every time something new arrives (every new festival offer, every new payment method).</p><p class="hi"><b>चेतावनी:</b> type पर लंबा <code>if / else if</code> या <code>switch</code> जिसे हर नई चीज़ आने पर बदलना पड़े (हर नया festival offer, हर नया payment method)।</p></div>
+        <pre class="code" data-copy><span class="cm">// O: add new behaviour by adding code, not by editing old code.</span>
+<span class="kw">class</span> NoDiscount      { apply(price) { <span class="kw">return</span> price; } }
+<span class="kw">class</span> DiwaliDiscount  { apply(price) { <span class="kw">return</span> price * 0.8; } }   <span class="cm">// 20% off</span>
+<span class="kw">class</span> HoliDiscount    { apply(price) { <span class="kw">return</span> price - 100; } }   <span class="cm">// ₹100 off</span>
+<span class="cm">// Next festival? Write a new class. checkout() never changes.</span>
+
+<span class="kw">function</span> checkout(price, discount) {
+  <span class="kw">return</span> <span class="st">`Pay ₹${discount.apply(price)}`</span>;
+}
+
+console.log(checkout(1000, <span class="kw">new</span> NoDiscount()));
+console.log(checkout(1000, <span class="kw">new</span> DiwaliDiscount()));
+console.log(checkout(1000, <span class="kw">new</span> HoliDiscount()));</pre>
+        <pre class="code" data-copy>Pay ₹1000
+Pay ₹800
+Pay ₹900</pre>
+      </section>
+      <section id="l">
+        <h2 id="l-h"><span class="en">L: Liskov Substitution (a replacement must behave the same)</span><span class="hi">L: Liskov Substitution (replacement वैसे ही चले)</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">A spare tyre that doesn't fit your car is useless, even if it's "a tyre". In code, if <code>B extends A</code>, then anywhere you use an <code>A</code> you must be able to use a <code>B</code> with no surprises.</p><p class="hi">जो spare tyre आपकी car पर फ़िट न हो वो बेकार है, भले वो "tyre" ही क्यों न हो। Code में, अगर <code>B extends A</code>, तो जहाँ भी <code>A</code> चलता है वहाँ <code>B</code> बिना किसी हैरानी के चलना चाहिए।</p>
+        <div class="warn"><p class="en"><b>Warning sign:</b> a child class that throws "not supported" for a parent method, or quietly changes what the parent's methods mean.</p><p class="hi"><b>चेतावनी:</b> child class जो parent के method पर "not supported" फेंके, या चुपचाप parent के methods का मतलब बदल दे।</p></div>
+        <pre class="code" data-copy><span class="cm">// L: a child class must work wherever the parent works, with no surprises.</span>
+<span class="kw">class</span> Rectangle {
+  setWidth(w) { <span class="kw">this</span>.width = w; }
+  setHeight(h) { <span class="kw">this</span>.height = h; }
+  area() { <span class="kw">return</span> <span class="kw">this</span>.width * <span class="kw">this</span>.height; }
+}
+<span class="kw">class</span> Square <span class="kw">extends</span> Rectangle {          <span class="cm">// "a square is a rectangle"... in maths</span>
+  setWidth(w) { <span class="kw">this</span>.width = w; <span class="kw">this</span>.height = w; }
+  setHeight(h) { <span class="kw">this</span>.width = h; <span class="kw">this</span>.height = h; }
+}
+
+<span class="kw">function</span> makeFloorPlan(shape) {           <span class="cm">// written for any Rectangle</span>
+  shape.setWidth(5);
+  shape.setHeight(10);
+  <span class="kw">return</span> shape.area();                    <span class="cm">// expects 5 x 10 = 50</span>
+}
+
+console.log(<span class="st">"Rectangle:"</span>, makeFloorPlan(<span class="kw">new</span> Rectangle())); <span class="cm">// 50</span>
+console.log(<span class="st">"Square:"</span>, makeFloorPlan(<span class="kw">new</span> Square()));       <span class="cm">// 100: surprise! LSP broken</span></pre>
+        <pre class="code" data-copy>Rectangle: 50
+Square: 100</pre>
+        <p class="en"><b>Fix:</b> don't make <code>Square</code> a child of <code>Rectangle</code>. Make both separate shapes that each have an <code>area()</code> method. "Is a" in real life doesn't always mean "extends" in code.</p><p class="hi"><b>हल:</b> <code>Square</code> को <code>Rectangle</code> का child मत बनाइए। दोनों को अलग shapes बनाइए जिनमें अपना <code>area()</code> method हो। असल ज़िंदगी का "है एक" code में हमेशा "extends" नहीं होता।</p>
+      </section>
+      <section id="i">
+        <h2 id="i-h"><span class="en">I: Interface Segregation (small, focused contracts)</span><span class="hi">I: Interface Segregation (छोटे, focused contracts)</span></h2> <span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
+        <p class="en">Don't force a juice shop to put biryani on its menu just because restaurants "should" have one. In code, don't force a class to have methods it can't really support. Split big contracts into small abilities.</p><p class="hi">Juice shop से biryani सिर्फ़ इसलिए menu में मत डलवाइए कि restaurants में "होनी चाहिए"। Code में, किसी class पर ऐसे methods मत थोपिए जो वो सच में नहीं कर सकती। बड़े contracts को छोटी क्षमताओं में बाँटिए।</p>
+        <div class="warn"><p class="en"><b>Warning sign:</b> methods that only throw "not implemented", or classes that must write empty methods just to satisfy a big interface.</p><p class="hi"><b>चेतावनी:</b> ऐसे methods जो सिर्फ़ "not implemented" फेंकें, या classes जिन्हें बड़ा interface पूरा करने के लिए ख़ाली methods लिखने पड़ें।</p></div>
+        <pre class="code" data-copy><span class="cm">// I: don't force a class to have methods it can't support. Keep contracts small.</span>
+<span class="cm">// Bad: one big "Machine" contract forces a basic printer to fake scan() and fax().</span>
+<span class="kw">class</span> BasicPrinterBad {
+  print(doc) { <span class="kw">return</span> <span class="st">`printing ${doc}`</span>; }
+  scan() { <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">"I can't scan!"</span>); }
+  fax() { <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">"I can't fax!"</span>); }
+}
+try { <span class="kw">new</span> BasicPrinterBad().scan(); } catch (e) { console.log(<span class="st">"Bad design:"</span>, e.message); }
+
+<span class="cm">// Good: small, separate abilities. Each device has only what it can really do.</span>
+<span class="kw">const</span> canPrint = { print(doc) { <span class="kw">return</span> <span class="st">`printing ${doc}`</span>; } };
+<span class="kw">const</span> canScan = { scan() { <span class="kw">return</span> <span class="st">"scanning page"</span>; } };
+
+<span class="kw">const</span> basicPrinter = { ...canPrint };
+<span class="kw">const</span> officeMachine = { ...canPrint, ...canScan };
+console.log(basicPrinter.print(<span class="st">"bill.pdf"</span>), <span class="st">"| can scan?"</span>, <span class="st">"scan"</span> <span class="kw">in</span> basicPrinter);
+console.log(officeMachine.print(<span class="st">"report.pdf"</span>), <span class="st">"|"</span>, officeMachine.scan());</pre>
+        <pre class="code" data-copy>Bad design: I can't scan!
+printing bill.pdf | can scan? <span class="kw">false</span>
+printing report.pdf | scanning page</pre>
+        <p class="en">JavaScript has no <code>interface</code> keyword, but the idea is the same. In TypeScript, write small interfaces like <code>Printable</code> and <code>Scannable</code> instead of one giant <code>Machine</code>.</p><p class="hi">JavaScript में <code>interface</code> keyword नहीं है, पर idea वही है। TypeScript में एक बड़े <code>Machine</code> की जगह <code>Printable</code> और <code>Scannable</code> जैसे छोटे interfaces लिखिए।</p>
+      </section>
+      <section id="d">
+        <h2 id="d-h"><span class="en">D: Dependency Inversion (plug in, don't glue)</span><span class="hi">D: Dependency Inversion (plug कीजिए, चिपकाइए मत)</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Your phone has a USB-C port. Any charger that fits the port works: Samsung, a local brand, a power bank. If the charger were glued to the phone, you'd need a new phone to change chargers. In code, a class should receive its helpers from outside (plug in), not create a fixed one inside (glue).</p><p class="hi">आपके phone में USB-C port है। Port में फ़िट होने वाला कोई भी charger चलता है: Samsung, local brand, power bank। अगर charger phone से चिपका होता, तो charger बदलने के लिए नया phone लेना पड़ता। Code में, class को अपने helpers बाहर से मिलने चाहिए (plug in), अंदर एक तय वाला बनाना नहीं चाहिए (चिपकाना)।</p>
+        <div class="warn"><p class="en"><b>Warning sign:</b> <code>new SomeService()</code> written inside another class, which makes it hard to test or swap ("we can't test OrderService without sending real SMS").</p><p class="hi"><b>चेतावनी:</b> किसी class के अंदर लिखा <code>new SomeService()</code>, जिससे test करना या बदलना मुश्किल होता है ("असली SMS भेजे बिना OrderService test नहीं कर सकते")।</p></div>
+        <pre class="code" data-copy><span class="cm">// D: depend on a "socket" (any object with send()), not on one fixed brand.</span>
+<span class="kw">class</span> SmsSender      { send(to, msg) { console.log(<span class="st">`SMS to ${to}: ${msg}`</span>); } }
+<span class="kw">class</span> WhatsAppSender { send(to, msg) { console.log(<span class="st">`WhatsApp to ${to}: ${msg}`</span>); } }
+<span class="kw">class</span> FakeSender {                       <span class="cm">// for tests: sends nothing, just remembers</span>
+  <span class="kw">constructor</span>() { <span class="kw">this</span>.sent = []; }
+  send(to, msg) { <span class="kw">this</span>.sent.push(msg); }
+}
+
+<span class="kw">class</span> OrderService {
+  <span class="kw">constructor</span>(sender) { <span class="kw">this</span>.sender = sender; }   <span class="cm">// plugged in from outside</span>
+  confirm(phone) { <span class="kw">this</span>.sender.send(phone, <span class="st">"Your order is confirmed"</span>); }
+}
+
+<span class="kw">new</span> OrderService(<span class="kw">new</span> SmsSender()).confirm(<span class="st">"98xxxxxx10"</span>);
+<span class="kw">new</span> OrderService(<span class="kw">new</span> WhatsAppSender()).confirm(<span class="st">"98xxxxxx10"</span>);
+
+<span class="kw">const</span> fake = <span class="kw">new</span> FakeSender();
+<span class="kw">new</span> OrderService(fake).confirm(<span class="st">"98xxxxxx10"</span>);
+console.log(<span class="st">"Test check, messages sent:"</span>, fake.sent.length);</pre>
+        <pre class="code" data-copy>SMS to 98xxxxxx10: Your order is confirmed
+WhatsApp to 98xxxxxx10: Your order is confirmed
+Test check, messages sent: 1</pre>
+        <p class="en">NestJS and Angular do exactly this with <b>dependency injection</b>: you ask for a service in the constructor, and the framework plugs it in.</p><p class="hi">NestJS और Angular <b>dependency injection</b> से बिल्कुल यही करते हैं: आप constructor में service माँगते हैं, और framework उसे plug कर देता है।</p>
+      </section>
+      <section id="interview">
+        <h2 id="interview-h"><span class="en">How to explain SOLID in an interview</span><span class="hi">Interview में SOLID कैसे समझाएँ</span></h2> <span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">Don't recite 5 definitions. Pick one or two and connect them to your own project, in 3 parts: the problem, the principle, the result.</p><p class="hi">पाँच definitions मत रटिए। एक-दो चुनिए और अपने project से जोड़िए, 3 हिस्सों में: problem, principle, नतीजा।</p>
+        <div class="say"><p class="en">🎤 "Our notification code had a big switch for SMS, email and WhatsApp, and every new channel meant editing and re-testing it. I applied Open/Closed and Dependency Inversion: each channel became a class with a send() method, injected through NestJS. Adding Telegram later was one new class and no changes to existing code."</p><p class="hi">🎤 "Our notification code had a big switch for SMS, email and WhatsApp, and every new channel meant editing and re-testing it. I applied Open/Closed and Dependency Inversion: each channel became a class with a send() method, injected through NestJS. Adding Telegram later was one new class and no changes to existing code."</p></div>
+        <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Creating 10 tiny classes for a 20-line script. SOLID is for code that will grow and change.</span><span class="hi">20 lines की script के लिए 10 छोटी classes बनाना। SOLID उस code के लिए है जो बढ़ेगा और बदलेगा।</span></li><li><span class="en">Saying "I always follow SOLID" without a real example. Interviewers ask for one.</span><span class="hi">बिना असली उदाहरण के "मैं हमेशा SOLID follow करता हूँ" कहना। Interviewers उदाहरण माँगते हैं।</span></li></ul></div>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 4 things</span><span class="hi">ये 4 बातें याद रखिए</span></div><ol><li><span class="en">S: chai stall, one job each. O: new app, phone not opened.</span><span class="hi">S: chai stall, हर किसी का एक काम। O: नई app, phone खोला नहीं।</span></li><li><span class="en">L: the spare tyre must fit. Square extends Rectangle breaks it.</span><span class="hi">L: spare tyre फ़िट होना चाहिए। Square extends Rectangle इसे तोड़ता है।</span></li><li><span class="en">I: no biryani at the juice shop. D: USB-C port, not a glued charger.</span><span class="hi">I: juice shop पर biryani नहीं। D: USB-C port, चिपका charger नहीं।</span></li><li><span class="en">In interviews: one real example from your project beats five definitions.</span><span class="hi">Interview में: आपके project का एक असली उदाहरण पाँच definitions से बेहतर है।</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <div class="exercise"><p class="q-text"><span class="en">Exercise 1: Which SOLID principle is broken? <code>class User { save() {} sendWelcomeEmail() {} generatePdfProfile() {} }</code></span><span class="hi">Exercise 1: कौन-सा SOLID principle टूटा है? <code>class User { save() {} sendWelcomeEmail() {} generatePdfProfile() {} }</code></span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en"><b>S (Single Responsibility).</b> Saving, emailing and PDF generation are three jobs. Move them into <code>UserRepository</code>, <code>WelcomeMailer</code> and <code>ProfilePdfService</code>.</p><p class="hi"><b>S (Single Responsibility)।</b> Save, email और PDF बनाना तीन अलग काम हैं। इन्हें <code>UserRepository</code>, <code>WelcomeMailer</code> और <code>ProfilePdfService</code> में ले जाइए।</p></div></details></div>
+    <div class="exercise"><p class="q-text"><span class="en">Exercise 2: Which principle is broken? <code>function shippingCost(type) { if (type === "bluedart") return 80; if (type === "delhivery") return 60; /* add a new if for every courier */ }</code></span><span class="hi">Exercise 2: कौन-सा principle टूटा है? <code>function shippingCost(type) { if (type === "bluedart") return 80; if (type === "delhivery") return 60; /* हर नए courier के लिए नया if */ }</code></span></p><details><summary><span class="en">Show a sample answer</span><span class="hi">एक sample जवाब देखें</span></summary><div class="answer"><p class="en"><b>O (Open/Closed).</b> Every new courier means editing this function. Make each courier a class (or object) with a <code>cost()</code> method, and pass the right one in.</p><p class="hi"><b>O (Open/Closed)।</b> हर नए courier पर यह function बदलना पड़ता है। हर courier को <code>cost()</code> method वाली class (या object) बनाइए, और सही वाला अंदर भेजिए।</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"\"Our Invoice class calculates totals, prints PDFs and sends emails.\" Which principle is broken?","hi":"\"हमारी Invoice class totals भी निकालती है, PDF भी छापती है और emails भी भेजती है।\" कौन-सा principle टूटा है?"},"options":[{"en":"S","hi":"S"},{"en":"O","hi":"O"},{"en":"L","hi":"L"},{"en":"D","hi":"D"}],"answer":0,"why":{"en":"Three jobs in one class.","hi":"एक class में तीन काम।"}},{"q":{"en":"Adding a new payment method needs a new <code>else if</code> in old code. Which principle helps?","hi":"नया payment method जोड़ने के लिए पुराने code में नया <code>else if</code> चाहिए। कौन-सा principle मदद करता है?"},"options":[{"en":"Open/Closed","hi":"Open/Closed"},{"en":"Liskov","hi":"Liskov"},{"en":"Interface Segregation","hi":"Interface Segregation"},{"en":"None","hi":"कोई नहीं"}],"answer":0,"why":{"en":"Add a new class instead of editing old code.","hi":"पुराना code बदलने की जगह नई class जोड़िए।"}},{"q":{"en":"Square extends Rectangle, and code expecting a Rectangle gives wrong areas. Which principle is broken?","hi":"Square extends Rectangle, और Rectangle की उम्मीद रखने वाला code ग़लत area देता है। कौन-सा principle टूटा है?"},"options":[{"en":"S","hi":"S"},{"en":"L","hi":"L"},{"en":"I","hi":"I"},{"en":"D","hi":"D"}],"answer":1,"why":{"en":"The child can't safely replace the parent.","hi":"Child, parent की जगह सुरक्षित रूप से नहीं ले सकता।"}},{"q":{"en":"<code>OrderService</code> does <code>new SmsSender()</code> inside its constructor, so tests send real SMS. Which principle fixes this?","hi":"<code>OrderService</code> अपने constructor में <code>new SmsSender()</code> करती है, इसलिए tests असली SMS भेजते हैं। कौन-सा principle इसे ठीक करता है?"},"options":[{"en":"Liskov","hi":"Liskov"},{"en":"Dependency Inversion","hi":"Dependency Inversion"},{"en":"Open/Closed","hi":"Open/Closed"},{"en":"Single Responsibility","hi":"Single Responsibility"}],"answer":1,"why":{"en":"Pass the sender in from outside; tests pass a fake.","hi":"Sender बाहर से दीजिए; tests fake देते हैं।"}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="system-design:solid"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="lld-basics.html">← <span class="en">LLD basics: OOP and SOLID in JavaScript</span><span class="hi">LLD basics: JavaScript में OOP और SOLID</span></a><span class="btn btn-outline" style="opacity:.55;cursor:default">→ <span class="en">Design patterns for interviews (soon)</span><span class="hi">Interview के लिए design patterns (जल्द)</span></span></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20SOLID%20principles%2C%20the%20easy%20way" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20System%20Design%20module%3A%20SOLID%20principles%2C%20the%20easy%20way" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script type="application/json" id="glossary-data">[{"s":"client","m":["client"],"en":"The app or browser that asks for something, like your phone's WhatsApp or Chrome.","hi":"वो app या browser जो कुछ माँगता है, जैसे आपके phone का WhatsApp या Chrome।"},{"s":"server","m":["server","servers"],"en":"A computer that runs your backend code and answers requests from clients.","hi":"एक computer जो आपका backend code चलाता है और clients की requests का जवाब देता है।"},{"s":"request","m":["request","requests"],"en":"A message from the client to the server asking for data or an action.","hi":"Client से server को भेजा गया message, जिसमें data या कोई काम माँगा जाता है।"},{"s":"response","m":["response"],"en":"The server's reply to a request, usually with data and a status code.","hi":"Request पर server का जवाब, आमतौर पर data और status code के साथ।"},{"s":"http","m":["HTTP","HTTPS"],"en":"The language browsers and servers use to talk. HTTPS is the encrypted, secure version.","hi":"वो भाषा जिसमें browser और server बात करते हैं। HTTPS उसका encrypted, सुरक्षित रूप है।"},{"s":"api","m":["API","APIs"],"en":"A set of URLs (endpoints) your server offers so other programs can ask it for data or actions.","hi":"URLs (endpoints) का एक set जो server देता है, ताकि दूसरे programs उससे data या काम माँग सकें।"},{"s":"endpoint","m":["endpoint","endpoints"],"en":"One URL of an API, like GET /users/42.","hi":"API का एक URL, जैसे GET /users/42।"},{"s":"rest","m":["REST"],"en":"A common style for APIs: URLs name the things (/orders) and HTTP methods say the action (GET, POST).","hi":"APIs का एक common style: URL चीज़ का नाम बताते हैं (/orders) और HTTP methods काम (GET, POST)।"},{"s":"json","m":["JSON"],"en":"A simple text format for data, like { \"name\": \"Riya\" }. Most APIs send JSON.","hi":"Data के लिए एक आसान text format, जैसे { \"name\": \"Riya\" }। ज़्यादातर APIs JSON भेजती हैं।"},{"s":"status-code","m":["status code","status codes"],"en":"A number in the response: 200 = OK, 404 = not found, 500 = server error.","hi":"Response में एक number: 200 = OK, 404 = नहीं मिला, 500 = server error।"},{"s":"dns","m":["DNS"],"en":"The internet's phonebook: turns a name like google.com into an IP address.","hi":"Internet की phonebook: google.com जैसे नाम को IP address में बदलता है।"},{"s":"ip-address","m":["IP address"],"en":"The numeric address of a computer on the internet, like 142.250.183.14.","hi":"Internet पर किसी computer का number वाला address, जैसे 142.250.183.14।"},{"s":"webhook","m":["webhook"],"en":"A URL on your server that another service calls when something happens, like \"payment succeeded\".","hi":"आपके server का एक URL जिसे कोई दूसरी service कुछ होने पर call करती है, जैसे \"payment हो गया\"।"},{"s":"websocket","m":["WebSocket","WebSockets"],"en":"A connection that stays open so the server can push messages instantly, used in chat apps.","hi":"एक connection जो खुला रहता है ताकि server तुरंत messages भेज सके, chat apps में इस्तेमाल होता है।"},{"s":"latency","m":["latency"],"en":"How long one request takes, for example 120 milliseconds. Lower is better.","hi":"एक request में कितना समय लगता है, जैसे 120 milliseconds। जितना कम, उतना अच्छा।"},{"s":"throughput","m":["throughput"],"en":"How many requests a system handles per second.","hi":"System एक second में कितनी requests संभालता है।"},{"s":"qps","m":["QPS"],"en":"Queries (requests) per second. 1,000 QPS = a thousand requests every second.","hi":"Queries (requests) per second। 1,000 QPS = हर second हज़ार requests।"},{"s":"scalability","m":["scalability"],"en":"The ability to handle more users by adding resources.","hi":"Resources बढ़ाकर ज़्यादा users संभालने की क्षमता।"},{"s":"vertical-scaling","m":["vertical scaling","Vertical scaling"],"en":"Making one machine bigger (more CPU and RAM).","hi":"एक ही machine को बड़ा करना (ज़्यादा CPU और RAM)।"},{"s":"horizontal-scaling","m":["horizontal scaling","Horizontal scaling"],"en":"Adding more machines that share the work.","hi":"और machines जोड़ना जो काम बाँट लें।"},{"s":"load-balancer","m":["load balancer","load balancers","Load balancer"],"en":"Sits in front of servers and spreads incoming requests across them.","hi":"Servers के आगे बैठता है और आने वाली requests को उनमें बाँटता है।"},{"s":"stateless","m":["stateless"],"en":"A server that keeps no user data in its own memory between requests, so any server can serve any user.","hi":"ऐसा server जो requests के बीच user का data अपनी memory में नहीं रखता, ताकि कोई भी server किसी भी user को serve कर सके।"},{"s":"session","m":["session","sessions"],"en":"Information that keeps a user logged in across requests.","hi":"वो जानकारी जिससे user requests के बीच logged in रहता है।"},{"s":"jwt","m":["JWT"],"en":"JSON Web Token: a signed token the client sends with each request to prove who it is.","hi":"JSON Web Token: एक signed token जो client हर request के साथ भेजता है यह साबित करने के लिए कि वो कौन है।"},{"s":"spof","m":["single point of failure","SPOF"],"en":"A part with only one copy. If it fails, the whole system fails.","hi":"ऐसा हिस्सा जिसकी सिर्फ़ एक copy हो। वो fail हो, तो पूरा system fail।"},{"s":"bottleneck","m":["bottleneck"],"en":"The slowest part that limits the whole system, like a narrow bottle neck.","hi":"सबसे धीमा हिस्सा जो पूरे system को रोकता है, जैसे बोतल की पतली गर्दन।"},{"s":"monolith","m":["monolith"],"en":"One application containing all features, deployed together. Simple to start with.","hi":"एक ही application जिसमें सारे features हों, एक साथ deploy हो। शुरुआत में आसान।"},{"s":"microservices","m":["microservices"],"en":"Many small services, each owning one feature, deployed separately. Flexible but more complex.","hi":"कई छोटी services, हर एक के पास एक feature, अलग-अलग deploy। Flexible पर ज़्यादा मुश्किल।"},{"s":"database","m":["database","databases"],"en":"Software that stores data safely on disk and lets you search and update it.","hi":"Software जो data को disk पर सुरक्षित रखता है और उसे ढूँढने और बदलने देता है।"},{"s":"sql","m":["SQL"],"en":"A database with tables, columns and relations, like PostgreSQL or MySQL.","hi":"Tables, columns और relations वाला database, जैसे PostgreSQL या MySQL।"},{"s":"nosql","m":["NoSQL"],"en":"A database with a flexible structure (documents, key-value), built to spread across many machines.","hi":"Flexible structure (documents, key-value) वाला database, कई machines पर फैलने के लिए बना।"},{"s":"transaction","m":["transaction","transactions"],"en":"A group of database changes that happen together, or not at all.","hi":"Database के बदलावों का समूह जो साथ में होते हैं, या बिल्कुल नहीं होते।"},{"s":"acid","m":["ACID"],"en":"Promises of a good transaction: all-or-nothing, valid data, no mixing, and saved data isn't lost.","hi":"अच्छे transaction के वादे: पूरा या कुछ नहीं, सही data, आपस में न मिलना, और save हुआ data न खोना।"},{"s":"primary-key","m":["primary key"],"en":"A column that uniquely identifies each row, like user id.","hi":"एक column जो हर row को अलग पहचान देता है, जैसे user id।"},{"s":"index","m":["index","indexes"],"en":"A lookup structure that makes searching a column fast, like a book's index.","hi":"एक lookup structure जो किसी column में ढूँढना तेज़ करता है, जैसे किताब का index।"},{"s":"replica","m":["replica","replicas","replication"],"en":"A copy of a database that stays in sync. Replicas serve reads and can take over on failure.","hi":"Database की copy जो साथ-साथ अपडेट होती रहती है। Replicas reads देते हैं और failure पर काम सँभाल सकते हैं।"},{"s":"replication-lag","m":["replication lag","Replication lag"],"en":"The small delay before a replica receives the latest changes.","hi":"Replica तक ताज़ा बदलाव पहुँचने में लगने वाली छोटी देरी।"},{"s":"sharding","m":["sharding","shard","shards"],"en":"Splitting data across several databases, each holding a part.","hi":"Data को कई databases में बाँटना, हर एक में एक हिस्सा।"},{"s":"shard-key","m":["shard key"],"en":"The field that decides which shard a row goes to, like user_id.","hi":"वो field जो तय करती है कि row किस shard में जाएगी, जैसे user_id।"},{"s":"failover","m":["failover"],"en":"Automatically switching to a backup when the main machine fails.","hi":"Main machine fail होने पर अपने आप backup पर चले जाना।"},{"s":"cache","m":["cache","caching"],"en":"Fast memory that keeps frequently used data so you don't fetch it again from a slow source.","hi":"तेज़ memory जो बार-बार इस्तेमाल होने वाला data रखती है, ताकि धीमी जगह से दोबारा न लाना पड़े।"},{"s":"cache-hit","m":["cache hit","cache miss"],"en":"Hit: the data was in the cache (fast). Miss: it wasn't, so we read the database (slow).","hi":"Hit: data cache में मिल गया (तेज़)। Miss: नहीं मिला, तो database पढ़ा (धीमा)।"},{"s":"ttl","m":["TTL"],"en":"Time to live: how long a cached item is kept before it expires.","hi":"Time to live: cache में रखा item कितनी देर बाद expire होगा।"},{"s":"lru","m":["LRU"],"en":"Least Recently Used: when the cache is full, remove the item unused for the longest time.","hi":"Least Recently Used: cache भरने पर वो item हटाओ जो सबसे लंबे समय से इस्तेमाल नहीं हुआ।"},{"s":"invalidation","m":["invalidation","invalidate"],"en":"Removing or updating cached data when the original data changes.","hi":"Original data बदलने पर cached data को हटाना या अपडेट करना।"},{"s":"cdn","m":["CDN","CDNs"],"en":"Content Delivery Network: servers around the world that keep copies of images, videos and files close to users.","hi":"Content Delivery Network: दुनिया भर के servers जो images, videos और files की copies users के पास रखते हैं।"},{"s":"queue","m":["message queue","queue","queues"],"en":"A waiting line for jobs. The API adds a job and replies fast; a worker does the job later.","hi":"Jobs की एक लाइन। API job जोड़कर जल्दी जवाब देता है; worker बाद में job करता है।"},{"s":"async","m":["async","asynchronous"],"en":"Work that happens in the background, without making the user wait.","hi":"Background में होने वाला काम, बिना user को इंतज़ार कराए।"},{"s":"availability","m":["availability","highly available"],"en":"How much of the time the system is up and working, like 99.9%.","hi":"System कितने समय चालू और काम करता रहता है, जैसे 99.9%।"},{"s":"consistency","m":["consistency","eventual consistency"],"en":"Whether everyone sees the latest data. Eventual consistency means it becomes the same everywhere after a short time.","hi":"क्या सबको ताज़ा data दिखता है। Eventual consistency का मतलब है थोड़ी देर बाद हर जगह एक जैसा हो जाता है।"},{"s":"cap","m":["CAP"],"en":"When the network between servers breaks, you must choose: always correct data (consistency) or always answer (availability).","hi":"Servers के बीच network टूटे, तो चुनना पड़ता है: हमेशा सही data (consistency) या हमेशा जवाब (availability)।"},{"s":"idempotency","m":["idempotency","idempotent"],"en":"Doing the same request twice has the same effect as doing it once. Vital for payments.","hi":"एक ही request दो बार करने का असर एक बार करने जैसा हो। Payments के लिए बहुत ज़रूरी।"},{"s":"rate-limiting","m":["rate limiting","rate limiter"],"en":"Limiting how many requests a user can make, like 100 per minute, to protect the system.","hi":"User कितनी requests कर सकता है उसकी सीमा, जैसे 100 per minute, system को बचाने के लिए।"},{"s":"health-check","m":["health check","health checks"],"en":"A regular ping to see if a server is alive. Unhealthy servers get no traffic.","hi":"Server ज़िंदा है या नहीं, यह देखने के लिए नियमित ping। बीमार servers को traffic नहीं मिलता।"},{"s":"redis","m":["Redis"],"en":"A very fast in-memory store, used for caching, sessions, counters and rate limits.","hi":"बहुत तेज़ in-memory store, caching, sessions, counters और rate limits के लिए।"},{"s":"kafka","m":["Kafka","SQS","RabbitMQ"],"en":"Message queue tools that pass jobs and events between services.","hi":"Message queue tools जो services के बीच jobs और events पहुँचाते हैं।"},{"s":"s3","m":["S3"],"en":"Cloud storage for files like images, videos and PDFs. The database stores only the file's URL.","hi":"Images, videos और PDFs जैसी files के लिए cloud storage। Database सिर्फ़ file का URL रखता है।"},{"s":"postgresql","m":["PostgreSQL","MySQL"],"en":"Popular SQL databases for structured data and transactions.","hi":"Structured data और transactions के लिए popular SQL databases।"},{"s":"mongodb","m":["MongoDB","DynamoDB","Cassandra"],"en":"Popular NoSQL databases for flexible or very large data.","hi":"Flexible या बहुत बड़े data के लिए popular NoSQL databases।"}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">System Design for Interviews</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../security/">Cyber Security</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">System design course by Agam Sahu</span><span class="hi">सिस्टम डिज़ाइन कोर्स: अगम साहू</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>
