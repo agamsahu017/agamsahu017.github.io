@@ -352,3 +352,12 @@ h2 + .badge { margin: -4px 0 10px; }
 .rate-log b { padding: 2px 8px; border-radius: 6px; font-size: .8rem; }
 .rate-log b.ok { background: rgba(16, 185, 129, .2); }
 .rate-log b.no { background: rgba(239, 68, 68, .25); }
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.match-col { display: flex; flex-direction: column; gap: 10px; }
+.match-item { padding: 12px 10px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--bg); color: var(--text); font: inherit; font-weight: 600; cursor: pointer; text-align: center; }
+.match-item:hover:not(:disabled) { border-color: var(--primary); }
+.match-item.sel { border-color: var(--primary); background: rgba(37, 99, 235, .12); }
+.match-item.ok { border-color: #10b981; background: rgba(16, 185, 129, .18); cursor: default; }
+.match-item.bad { border-color: #ef4444; background: rgba(239, 68, 68, .2); }
+.match-item:disabled { opacity: .85; }

@@ -905,6 +905,57 @@
     setMsg(msg, "Send a request to start.", "शुरू करने के लिए एक request भेजिए।");
   }
 
+  // ---------- AI: match the model to its company ----------
+  const matchViz = document.getElementById("model-match");
+  if (matchViz) {
+    const PAIRS = [
+      ["ChatGPT", "OpenAI"],
+      ["Claude", "Anthropic"],
+      ["Gemini", "Google"],
+      ["Grok", "xAI"],
+      ["Llama", "Meta"],
+      ["DeepSeek", "DeepSeek"],
+    ];
+    const modelCol = matchViz.querySelector('[data-side=model]');
+    const compCol = matchViz.querySelector('[data-side=company]');
+    const msg = matchViz.querySelector(".viz-msg");
+    const shuffle = (a) => a.map((x) => [Math.random(), x]).sort((m, n) => m[0] - n[0]).map((p) => p[1]);
+    let picked = null, done = 0, tries = 0;
+    function build() {
+      picked = null; done = 0; tries = 0;
+      modelCol.innerHTML = PAIRS.map(([m]) => `<button type="button" class="match-item" data-model="${m}">${m}</button>`).join("");
+      compCol.innerHTML = shuffle(PAIRS.map(([, c]) => c)).map((c) => `<button type="button" class="match-item" data-company="${c}">${c}</button>`).join("");
+      setMsg(msg, "Tap a model, then its company.", "एक model पर tap कीजिए, फिर उसकी company पर।");
+    }
+    function companyOf(model) { return (PAIRS.find(([m]) => m === model) || [])[1]; }
+    matchViz.addEventListener("click", (ev) => {
+      const b = ev.target.closest("button");
+      if (!b) return;
+      if (b.dataset.act === "reset") { build(); return; }
+      if (b.disabled) return;
+      if (b.dataset.model) {
+        modelCol.querySelectorAll(".match-item").forEach((x) => x.classList.remove("sel"));
+        b.classList.add("sel"); picked = b;
+        return;
+      }
+      if (b.dataset.company) {
+        if (!picked) { setMsg(msg, "First tap a model on the left.", "पहले बाईं ओर एक model पर tap कीजिए।"); return; }
+        tries++;
+        if (companyOf(picked.dataset.model) === b.dataset.company) {
+          picked.classList.remove("sel"); picked.classList.add("ok"); b.classList.add("ok");
+          picked.disabled = true; b.disabled = true; picked = null; done++;
+          if (done === PAIRS.length) setMsg(msg, `All matched in ${tries} tries. 🎉 Reshuffle to practise again.`, `${tries} कोशिशों में सब मिल गए। 🎉 दोबारा practise के लिए reshuffle कीजिए।`);
+          else setMsg(msg, `Correct! ${done} of ${PAIRS.length} matched.`, `सही! ${PAIRS.length} में से ${done} मिल गए।`);
+        } else {
+          b.classList.add("bad");
+          setMsg(msg, `Not that one. ${picked.dataset.model} is made by ${companyOf(picked.dataset.model)}.`, `वह नहीं। ${picked.dataset.model} बनाती है ${companyOf(picked.dataset.model)}।`);
+          setTimeout(() => b.classList.remove("bad"), 600);
+        }
+      }
+    });
+    build();
+  }
+
   // ---------- AI: rough token counter ----------
   const tokViz = document.getElementById("token-viz");
   if (tokViz) {
