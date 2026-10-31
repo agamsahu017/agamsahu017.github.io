@@ -106,7 +106,7 @@
         <div class="lesson-meta"><span>⏱️ <span class="en">30 min read + practice</span><span class="hi">30 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
         <div class="one-line"><p class="en"><b>In one line:</b> For NestJS roles, the request lifecycle (middleware → guards → interceptors → pipes → handler → filters) is the single most asked question.</p><p class="hi"><b>एक लाइन में:</b> For NestJS roles, the request lifecycle (middleware → guards → interceptors → pipes → handler → filters) is the single most asked question.</p></div>
         <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">Modules, providers and dependency injection</span><span class="hi">Modules, providers and dependency injection</span></li><li><span class="en">The request lifecycle in the right order</span><span class="hi">The request lifecycle in the right order</span></li><li><span class="en">Guards for auth and roles, with a working example</span><span class="hi">Guards for auth and roles, with a working example</span></li><li><span class="en">Pipes and DTO validation with class-validator</span><span class="hi">Pipes and DTO validation with class-validator</span></li><li><span class="en">Interceptors and exception filters</span><span class="hi">Interceptors and exception filters</span></li><li><span class="en">Scopes, circular dependencies, config and testing</span><span class="hi">Scopes, circular dependencies, config and testing</span></li></ul></div>
-        <nav class="toc" aria-label="On this page"><a href="#di"><span class="en">Modules and dependency injection</span><span class="hi">Modules and dependency injection</span></a><a href="#lifecycle"><span class="en">Request lifecycle: guards, pipes, interceptors, filters</span><span class="hi">Request lifecycle: guards, pipes, interceptors, filters</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <nav class="toc" aria-label="On this page"><a href="#di"><span class="en">Modules and dependency injection</span><span class="hi">Modules and dependency injection</span></a><a href="#lifecycle"><span class="en">Request lifecycle: guards, pipes, interceptors, filters</span><span class="hi">Request lifecycle: guards, pipes, interceptors, filters</span></a><a href="#advanced"><span class="en">Advanced NestJS (senior rounds)</span><span class="hi">Advanced NestJS (senior rounds)</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
         <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div><p class="gloss-hint">Words with a dotted underline have a simple meaning: tap or hover on them. All words: <a href="glossary.html">Glossary</a>.</p>
       </div>
       <section id="di">
@@ -339,6 +339,116 @@
 <span class="kw">const</span> service = module.get(LeavesService);</pre>
             <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A testing module with mocked providers for unit tests, plus Supertest e2e tests on the important flows.</p></div>
             
+          </div></details>
+        </article>
+      </section>
+      <section id="advanced">
+        <h2 id="advanced-h"><span class="en">Advanced NestJS (senior rounds)</span><span class="hi">Advanced NestJS (senior rounds)</span></h2>
+        
+        <article class="qa" id="nestjs-q11">
+          <div class="qa-head"><span class="qa-num">Q11</span><h3>What are dynamic modules? What is the difference between <code>forRoot</code> and <code>forRootAsync</code>?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> A dynamic module is set up when you import it. <code>forRoot</code> takes fixed options; <code>forRootAsync</code> builds them at runtime from config like the database URL.</p></div>
+            
+            <p>A <b>dynamic module</b> is a module that is configured at the moment you import it, instead of being fixed. It is how reusable modules (database, config, JWT) take settings.</p><ul><li><code>forRoot(options)</code> takes <b>static options</b> and is used once, usually in the root <code>AppModule</code>.</li><li><code>forRootAsync()</code> builds the options <b>asynchronously</b>, using a <code>useFactory</code> that can inject other providers like <code>ConfigService</code>. You use it when the settings come from the environment or another async source.</li><li><code>forFeature()</code> registers per-feature pieces, like the entities a module uses.</li></ul>
+            <div class="ex"><p>💡 <b>Easy example:</b> <code>forRoot</code> is ordering a fixed thali. <code>forRootAsync</code> is telling the kitchen 'cook it based on today's stock', where the stock is read at runtime.</p></div>
+            <pre class="code" data-copy>TypeOrmModule.forRootAsync({
+  imports: [ConfigModule],
+  inject: [ConfigService],
+  useFactory: (config: ConfigService) =&gt; ({
+    <span class="kw">type</span>: <span class="st">"postgres"</span>,
+    url: config.get(<span class="st">"DATABASE_URL"</span>), <span class="cm">// read from env at runtime</span>
+    autoLoadEntities: <span class="kw">true</span>,
+  }),
+});</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A dynamic module is configured on import; <code>forRoot</code> takes static options and <code>forRootAsync</code> builds them asynchronously from injected providers.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Why is <code>forRootAsync</code> needed for the database? <i>Because the connection URL lives in environment config that is loaded at runtime, so the options cannot be hard-coded.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="nestjs-q12">
+          <div class="qa-head"><span class="qa-num">Q12</span><h3>How do you build microservices in NestJS? What transports are there?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Microservices let Nest apps talk over TCP, Redis, Kafka and more. <code>@MessagePattern</code> waits for a reply; <code>@EventPattern</code> just fires and forgets.</p></div>
+            
+            <p>NestJS has a <code>@nestjs/microservices</code> package. A service listens on a <b>transport</b> instead of (or alongside) HTTP, and other services send it messages.</p><p>Transports include <b>TCP</b>, <b>Redis</b>, <b>NATS</b>, <b>RabbitMQ</b>, <b>Kafka</b> and <b>gRPC</b>.</p><p>There are two styles: - <code>@MessagePattern()</code> — <b>request–response</b>: the caller waits for a reply (good for queries). - <code>@EventPattern()</code> — <b>fire and forget</b>: the sender does not wait (good for "user created" style events).</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> A message pattern is a phone call where you wait for an answer. An event pattern is dropping a note in a box and walking away.</p></div>
+            <pre class="code" data-copy><span class="cm">// listener</span>
+@MessagePattern(<span class="st">"sum"</span>)
+accumulate(data: number[]): number {
+  <span class="kw">return</span> data.reduce((a, b) =&gt; a + b, 0);
+}
+
+@EventPattern(<span class="st">"user_created"</span>)
+handleUserCreated(data: Record&lt;string, unknown&gt;) {
+  <span class="cm">// send a welcome email; no reply needed</span>
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Use <code>@nestjs/microservices</code> with a transport like TCP, Redis or Kafka; <code>@MessagePattern</code> is request–response and <code>@EventPattern</code> is fire-and-forget.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> When would you pick a message queue over direct HTTP calls? <i>When you want retries, buffering and loose coupling, so a slow or down service does not block the caller.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="nestjs-q13">
+          <div class="qa-head"><span class="qa-num">Q13</span><h3>What is CQRS, and when would you use it in NestJS?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> CQRS splits writes (commands) from reads (queries), each with its own handler. Worth it for complex domains, overkill for simple CRUD.</p></div>
+            
+            <p>CQRS means <b>Command Query Responsibility Segregation</b>: you split <b>writes</b> (commands) from <b>reads</b> (queries), each with its own handler. NestJS has a <code>@nestjs/cqrs</code> package with <code>CommandBus</code>, <code>QueryBus</code> and events.</p><p>A command like <code>ApproveLeaveCommand</code> goes to a command handler that changes state; a query like <code>GetLeaveBalanceQuery</code> goes to a query handler that only reads.</p><p>Use it for <b>complex domains</b> where read and write models differ, or where you want an event trail. For simple CRUD it adds too much code, so most apps do not need it.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> It is like having a separate billing counter and enquiry counter in a bank, instead of one person doing both jobs.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> CQRS separates write commands from read queries, each with its own handler; use it for complex domains, not simple CRUD.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What often pairs with CQRS? <i>Event sourcing and a separate read model, but you can use CQRS on its own just to keep writes and reads clean.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="nestjs-q14">
+          <div class="qa-head"><span class="qa-num">Q14</span><h3>How do you run a database transaction in NestJS with TypeORM?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> A transaction makes several writes succeed or fail together. Use <code>dataSource.transaction()</code> or a QueryRunner with commit and rollback.</p></div>
+            
+            <p>A transaction makes several writes <b>all succeed or all roll back</b>, so data never ends up half-changed.</p><p>The simplest way is <code>dataSource.transaction()</code>, which commits if the callback finishes and rolls back if it throws. For more control you use a <b>QueryRunner</b>: connect, start the transaction, do the work, commit on success, roll back on error, and always release the runner.</p><p>Use it whenever two or more changes must agree, like deducting stock and creating an order together.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> A transaction is a money transfer: the amount must leave one account and reach the other, or neither. It can't vanish in between.</p></div>
+            <pre class="code" data-copy><span class="kw">const</span> queryRunner = <span class="kw">this</span>.dataSource.createQueryRunner();
+<span class="kw">await</span> queryRunner.connect();
+<span class="kw">await</span> queryRunner.startTransaction();
+<span class="kw">try</span> {
+  <span class="kw">await</span> queryRunner.manager.decrement(Product, { id }, <span class="st">"stock"</span>, 1);
+  <span class="kw">await</span> queryRunner.manager.save(Order, order);
+  <span class="kw">await</span> queryRunner.commitTransaction();
+} <span class="kw">catch</span> (e) {
+  <span class="kw">await</span> queryRunner.rollbackTransaction(); <span class="cm">// undo everything</span>
+  <span class="kw">throw</span> e;
+} <span class="kw">finally</span> {
+  <span class="kw">await</span> queryRunner.release();
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Wrap the writes in <code>dataSource.transaction()</code> or a QueryRunner, commit on success and roll back on any error, so it is all-or-nothing.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What can go wrong if you forget <code>release()</code>? <i>The connection is never returned to the pool, so under load the app runs out of connections and hangs.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="nestjs-q15">
+          <div class="qa-head"><span class="qa-num">Q15</span><h3>How do you run code on startup and shut down gracefully?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Lifecycle hooks run code on startup (<code>OnModuleInit</code>) and shutdown (<code>OnModuleDestroy</code>). Call <code>enableShutdownHooks()</code> so SIGTERM closes connections cleanly.</p></div>
+            
+            <p>NestJS gives <b>lifecycle hooks</b> you implement on a provider:</p><ul><li>Startup: <code>OnModuleInit</code> (after the module's dependencies are ready) and <code>OnApplicationBootstrap</code> (after the whole app is set up) — good for warming a cache or checking a connection.</li><li>Shutdown: <code>OnModuleDestroy</code>, <code>BeforeApplicationShutdown</code> and <code>OnApplicationShutdown</code> — good for closing database and queue connections.</li></ul><p>For shutdown to fire on signals like <code>SIGTERM</code> (used by Docker and Kubernetes), you must call <code>app.enableShutdownHooks()</code>. This gives you zero-downtime deploys: stop taking new work, finish current work, close connections, then exit.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> It is like a shop opening checklist and a closing checklist: switch things on cleanly in the morning, and lock up properly at night.</p></div>
+            <pre class="code" data-copy>@Injectable()
+<span class="kw">export</span> <span class="kw">class</span> QueueService <span class="kw">implements</span> OnModuleInit, OnModuleDestroy {
+  onModuleInit() { /* connect, start consumers */ }
+  <span class="kw">async</span> onModuleDestroy() { <span class="kw">await</span> <span class="kw">this</span>.connection.close(); } <span class="cm">// clean shutdown</span>
+}
+
+<span class="cm">// main.ts</span>
+app.enableShutdownHooks(); <span class="cm">// so SIGTERM triggers the hooks</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Implement lifecycle hooks like <code>OnModuleInit</code> and <code>OnModuleDestroy</code>, and call <code>enableShutdownHooks()</code> so signals close connections cleanly.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Why does graceful shutdown matter in Kubernetes? <i>On a new deploy, pods get <code>SIGTERM</code>; without graceful shutdown, in-flight requests are cut off and users see errors.</i></p>
           </div></details>
         </article>
       </section>
