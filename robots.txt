@@ -9,5 +9,8 @@ Disallow: /backend-interview/
 Disallow: /security/
 Disallow: /projects/
 Disallow: /developer-productivity.html
+Disallow: /guides.html
+Disallow: /academy.html
+Disallow: /ai-for-business.html
 
 Sitemap: https://agamsahu017.github.io/sitemap.xml
