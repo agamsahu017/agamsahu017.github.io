@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Node.js Internals Interview: V8, libuv, GC | Kodivo</title>
+  <meta name="description" content="Senior Node.js interview questions on internals: V8 and libuv, the event loop and microtasks, the thread pool, V8 memory and garbage collection, the module system and streams." />
+  <link rel="canonical" href="https://agamsahu017.github.io/backend-interview/node-internals.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/backend-interview/node-internals.html" />
+  <meta property="og:title" content="Node.js Internals Interview: V8, libuv, GC | Kodivo" />
+  <meta property="og:description" content="Senior Node.js interview questions on internals: V8 and libuv, the event loop and microtasks, the thread pool, V8 memory and garbage collection, the module system and streams." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Backend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/backend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Node.js under the hood",
+          "item": "https://agamsahu017.github.io/backend-interview/node-internals.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Node.js Internals Interview: V8, libuv, GC",
+      "description": "Senior Node.js interview questions on internals: V8 and libuv, the event loop and microtasks, the thread pool, V8 memory and garbage collection, the module system and streams.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Backend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/backend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Backend Interview</span><span class="hi">Backend Interview</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20backend%20on%20your%20website%20(Node.js%20under%20the%20hood)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Backend Interview</a> › <span>Node.js under the hood</span></nav>
+        <span class="pill"><span class="en">Module 2 of 11</span><span class="hi">मॉड्यूल 2 / 11</span></span>
+        <h1><span class="en">Node.js under the hood</span><span class="hi">Node.js under the hood</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">32 min read + practice</span><span class="hi">32 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Senior backend rounds go past 'Node is single-threaded' into internals: V8 and libuv, how the event loop and microtasks really order, the thread pool, V8 garbage collection, and how require and streams work.</p><p class="hi"><b>एक लाइन में:</b> Senior backend rounds go past 'Node is single-threaded' into internals: V8 and libuv, how the event loop and microtasks really order, the thread pool, V8 garbage collection, and how require and streams work.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">What Node.js is built from: V8, libuv and C++ bindings</span><span class="hi">What Node.js is built from: V8, libuv and C++ bindings</span></li><li><span class="en">The event loop phases and where microtasks (nextTick, promises) run</span><span class="hi">The event loop phases and where microtasks (nextTick, promises) run</span></li><li><span class="en">The libuv thread pool, and what actually uses it</span><span class="hi">The libuv thread pool, and what actually uses it</span></li><li><span class="en">V8 memory: the heap, generational garbage collection and limits</span><span class="hi">V8 memory: the heap, generational garbage collection and limits</span></li><li><span class="en">How CommonJS require works, and streams and backpressure internals</span><span class="hi">How CommonJS require works, and streams and backpressure internals</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#runtime"><span class="en">What Node.js is made of</span><span class="hi">What Node.js is made of</span></a><a href="#eventloop"><span class="en">The event loop, deeply</span><span class="hi">The event loop, deeply</span></a><a href="#threadpool"><span class="en">libuv and the thread pool</span><span class="hi">libuv and the thread pool</span></a><a href="#v8mem"><span class="en">V8 memory and garbage collection</span><span class="hi">V8 memory and garbage collection</span></a><a href="#modules"><span class="en">The module system</span><span class="hi">The module system</span></a><a href="#streams"><span class="en">Streams and Buffers</span><span class="hi">Streams and Buffers</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div><p class="gloss-hint">Words with a dotted underline have a simple meaning: tap or hover on them. All words: <a href="glossary.html">Glossary</a>.</p>
+      </div>
+      <section id="runtime">
+        <h2 id="runtime-h"><span class="en">What Node.js is made of</span><span class="hi">What Node.js is made of</span></h2>
+        
+        <article class="qa" id="node-internals-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>What is Node.js actually made of?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Node is V8 (runs your JavaScript) + libuv (does the event loop and async I/O) + C++ glue, bundled into one program.</p></div>
+            
+            <p>Node.js is not a language; it's a runtime that glues a few C/C++ pieces together:</p><ul><li><b>V8</b> — Google's JavaScript engine (also in Chrome). It parses and runs your JS and manages the JS heap and garbage collection.</li><li><b>libuv</b> — a C library that provides the <b>event loop</b>, asynchronous I/O (files, network, DNS) and the <b>thread pool</b>. This is what makes non-blocking I/O work.</li><li><b>C++ bindings</b> — glue that exposes libuv and OS features to JavaScript (the <code>fs</code>, <code>net</code>, <code>crypto</code> built-ins call into C++).</li><li><b>Core JS libraries</b> — the parts of the standard library written in JavaScript.</li></ul><p>So "Node" = V8 (runs JS) + libuv (async I/O + event loop) + bindings, bundled into one executable.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Think of V8 as the engine of a car and libuv as the gearbox and wheels that let it actually move and respond — Node bolts them together into one vehicle.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Node is a runtime made of V8 (runs JS and GC), libuv (event loop, async I/O, thread pool) and C++ bindings that connect JS to the OS.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Which part makes Node non-blocking? <i>libuv — its event loop and thread pool let Node start I/O and continue running JS, then run your callback when the I/O finishes.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="node-internals-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>If JavaScript runs on one thread, how does Node handle thousands of connections?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> The one thread never waits on I/O — libuv and the OS do the waiting, so one thread can serve thousands of connections (until you block it with heavy CPU work).</p></div>
+            
+            <p>Your JavaScript runs on a <b>single main thread</b>, but the I/O does not block it. When you start I/O (read a file, query a DB, handle a socket), Node hands it to <b>libuv</b>, which uses either the OS's own async facilities or its thread pool, and your JS keeps running.</p><p>When the I/O completes, libuv puts your callback on a queue, and the <b>event loop</b> runs it when the main thread is free. So one thread juggles thousands of connections because it only ever does quick, non-blocking work and lets the OS/thread pool do the waiting.</p><p>The catch: if you run <b>CPU-heavy</b> JS on the main thread, nothing else can proceed, because there's only one thread for your code.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> One waiter (the main thread) can serve a full restaurant because they never stand and wait at the kitchen — they take orders, hand them off, and come back when food is ready.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> The single thread never waits on I/O: libuv and the OS do the waiting, and the event loop runs your callback when done, so one thread serves many connections — unless you block it with CPU-heavy work.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What breaks this model? <i>A long synchronous loop or heavy computation on the main thread blocks every other request; move it to worker_threads or a separate process.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="eventloop">
+        <h2 id="eventloop-h"><span class="en">The event loop, deeply</span><span class="hi">The event loop, deeply</span></h2>
+        
+        <article class="qa" id="node-internals-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>Explain the event loop phases, and where microtasks run.</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> The loop goes through phases (timers, poll, check, close), and between each it empties the urgent queues: nextTick first, then promises.</p></div>
+            
+            <p>libuv's event loop runs in <b>phases</b>, in order, each with its own callback queue:</p><p>1. <b>timers</b> — <code>setTimeout</code> / <code>setInterval</code> callbacks whose time is due. 2. <b>pending callbacks</b> — some deferred system callbacks. 3. <b>poll</b> — retrieve new I/O events and run their callbacks (this is where most I/O callbacks fire). 4. <b>check</b> — <code>setImmediate</code> callbacks. 5. <b>close</b> — <code>close</code> events (e.g. a socket closing).</p><p>Crucially, the <b>microtask queues run between each phase</b> (and after each callback): first the <b><code>process.nextTick</code> queue</b>, then the <b>Promise microtask queue</b>, are fully drained before moving on. So microtasks always jump ahead of the next macrotask.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> The loop is a cleaning route through rooms (phases). After finishing each room, the worker empties the urgent inbox (microtasks) completely before walking to the next room.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> The loop cycles through timers, pending, poll, check and close phases; between each phase it fully drains the nextTick queue then the promise microtask queue, so microtasks run before the next macrotask.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Where do most I/O callbacks run? <i>In the poll phase, when libuv collects completed I/O events.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="node-internals-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>What is the output order: setTimeout, setImmediate, process.nextTick and a resolved Promise?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Order: normal code, then process.nextTick, then promises, then setTimeout/setImmediate. Microtasks always jump ahead.</p></div>
+            
+            <p>Microtasks run before macrotasks, and within microtasks <code>process.nextTick</code> runs before Promise callbacks:</p><ul><li><b><code>process.nextTick</code></b> — runs first, before any other queue, as soon as the current operation finishes.</li><li><b>Promise <code>.then</code></b> — the Promise microtask queue, drained right after nextTick.</li><li>Then <b>macrotasks</b>: a due <b><code>setTimeout(…, 0)</code></b> (timers phase) and <b><code>setImmediate</code></b> (check phase). Their relative order from the main module can vary, but inside an I/O callback, <code>setImmediate</code> reliably runs before a <code>setTimeout(0)</code>.</li></ul>
+            <div class="ex"><p>💡 <b>Easy example:</b> nextTick is 'do this the instant I pause'; promises are 'do this next'; setTimeout and setImmediate are 'do this on a later lap of the track'.</p></div>
+            <pre class="code" data-copy>setTimeout(() =&gt; console.log(<span class="st">"timeout"</span>), 0);
+setImmediate(() =&gt; console.log(<span class="st">"immediate"</span>));
+Promise.resolve().then(() =&gt; console.log(<span class="st">"promise"</span>));
+process.nextTick(() =&gt; console.log(<span class="st">"nextTick"</span>));
+console.log(<span class="st">"sync"</span>);
+<span class="cm">// sync</span>
+<span class="cm">// nextTick</span>
+<span class="cm">// promise</span>
+<span class="cm">// (then) timeout / immediate  (order can vary from the main module)</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Synchronous code first, then process.nextTick, then promise microtasks, then macrotasks (setTimeout/setImmediate); inside an I/O callback setImmediate beats setTimeout(0).</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Why can nextTick and promise order surprise people? <i>Both are microtasks that run before timers, so a <code>setTimeout(0)</code> you expected 'immediately' actually runs after all pending microtasks.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="node-internals-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>Why can process.nextTick starve the event loop?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> nextTick jumps the queue; if nextTick keeps scheduling more nextTicks, real I/O never gets a turn — it starves.</p></div>
+            
+            <p>Because the <b>entire nextTick queue is drained before the loop is allowed to continue</b> to the next phase (and even before the Promise queue). If a <code>nextTick</code> callback schedules another <code>nextTick</code>, which schedules another, the loop never gets to run timers, I/O or <code>setImmediate</code> — it's stuck emptying an endless nextTick queue.</p><p>This "starves" I/O: your server stops responding even though it looks busy. The guidance is to prefer <code>setImmediate</code> for "run after I/O gets a turn", and use <code>process.nextTick</code> only for short, finite work that must run before anything else.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> nextTick is a queue-jumper. If jumpers keep letting in more jumpers, the people actually waiting in line (I/O) never get served.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> The nextTick queue is fully drained before the loop proceeds, so recursive nextTick calls block timers and I/O forever; use setImmediate for yielding work.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> When is nextTick the right tool? <i>For small, finite tasks that must run right after the current operation, like emitting an error on the next tick so handlers can attach first.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="threadpool">
+        <h2 id="threadpool-h"><span class="en">libuv and the thread pool</span><span class="hi">libuv and the thread pool</span></h2>
+        
+        <article class="qa" id="node-internals-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>What is the libuv thread pool, and what uses it?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> libuv keeps 4 background threads (UV_THREADPOOL_SIZE) for fs, crypto, dns.lookup and zlib — jobs with no non-blocking OS option.</p></div>
+            
+            <p>libuv keeps a small pool of background <b>OS threads</b> (default <b>4</b>, set by <code>UV_THREADPOOL_SIZE</code>) to run operations that have no non-blocking OS API, so they don't block the main thread.</p><p>What uses it: - <b>File system</b> operations (<code>fs.*</code>). - <b><code>crypto</code></b> CPU work like <code>pbkdf2</code>, <code>scrypt</code>, <code>randomBytes</code>. - <b><code>dns.lookup</code></b> (which uses the system resolver). - <b><code>zlib</code></b> compression.</p><p>So "async" in Node is two different mechanisms: true OS async for network sockets, and the thread pool for the operations above.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> The main thread is the manager; the thread pool is 4 assistants who handle the jobs that can only be done by sitting and waiting (or grinding CPU), so the manager stays free.</p></div>
+            <pre class="code" data-copy><span class="cm">// All four share the default pool of 4 threads;</span>
+<span class="cm">// heavy crypto can make file reads wait behind it.</span>
+process.env.UV_THREADPOOL_SIZE = 8; <span class="cm">// must be set before the pool is created</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> libuv has a thread pool (default 4, UV_THREADPOOL_SIZE) that runs fs, crypto (pbkdf2/scrypt), dns.lookup and zlib, because those have no non-blocking OS API.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> How do you raise it, and what's the catch? <i>Set UV_THREADPOOL_SIZE before the app starts using it; raising it helps if many pool-bound ops contend, but it won't help pure network I/O, which doesn't use the pool.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="node-internals-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>Does network I/O use the thread pool?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Network sockets use the OS's own async doorbell (epoll/kqueue/IOCP), not the thread pool; only files, DNS and crypto use the pool.</p></div>
+            
+            <p><b>No.</b> Network sockets use the operating system's own non-blocking I/O — <b>epoll</b> on Linux, <b>kqueue</b> on macOS/BSD, <b>IOCP</b> on Windows — which libuv wraps. The OS notifies libuv when a socket is readable/writable, so no extra thread is needed to wait.</p><p>The thread pool is only for operations that <b>have no async OS interface</b>: file system, DNS (<code>dns.lookup</code>), and CPU-bound <code>crypto</code>/<code>zlib</code>. This is a favourite senior question because people assume "all async = thread pool", but most networking scales without touching the pool at all.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> The OS has a doorbell for network sockets (epoll/kqueue/IOCP), so Node just waits for the bell. Files have no doorbell, so Node sends a thread to stand and wait.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Network I/O uses the OS's async notifications (epoll/kqueue/IOCP), not the thread pool; the pool is only for fs, DNS lookup and CPU-bound crypto/zlib.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> So why does a file-heavy app sometimes stall under load? <i>Because fs shares the 4-thread pool; many concurrent file or crypto ops queue up behind each other even though network handling is fine.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="v8mem">
+        <h2 id="v8mem-h"><span class="en">V8 memory and garbage collection</span><span class="hi">V8 memory and garbage collection</span></h2>
+        
+        <article class="qa" id="node-internals-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>How does V8 manage memory and garbage collection?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> V8 bins young objects fast (Scavenge) and tidies long-lived ones less often (Mark-Sweep-Compact); you never free memory by hand.</p></div>
+            
+            <p>V8 stores objects on a <b>heap</b> split by age (generational GC), because most objects die young:</p><ul><li><b>Young / new space</b> — new objects. Collected very often by a fast <b>Scavenge</b> (copying) collector. Survivors get promoted.</li><li><b>Old space</b> — long-lived objects. Collected less often by <b>Mark-Sweep-Compact</b>: mark reachable objects, sweep the rest, compact to reduce fragmentation.</li></ul><p>Modern V8 does much of this <b>concurrently and incrementally</b> so GC pauses stay small. The idea to state in an interview: GC is automatic and generational, you don't free memory yourself, but you can still cause leaks by holding references.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Like a desk: scratch notes (young space) are binned constantly; important files (old space) are reviewed and tidied occasionally.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> V8 uses a generational heap: young space collected often with a fast copying Scavenge, old space collected with mark-sweep-compact, much of it concurrent to keep pauses short.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> If GC is automatic, how do leaks happen? <i>By keeping references the GC can still reach — global arrays that grow, caches without eviction, timers or listeners never removed, closures holding big objects.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="node-internals-q9">
+          <div class="qa-head"><span class="qa-num">Q9</span><h3>What's the default heap limit, and how do you diagnose a memory leak?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Raise memory with --max-old-space-size; find leaks by watching heapUsed climb and comparing two heap snapshots.</p></div>
+            
+            <p>V8's old-space heap has a <b>default limit</b> (historically around ~1.5–2 GB for 64-bit, version-dependent). You raise it with <b><code>--max-old-space-size=4096</code></b> (MB). Hitting the limit throws "JavaScript heap out of memory".</p><p>To diagnose a leak: - Watch <b>RSS and heapUsed</b> (<code>process.memoryUsage()</code>) over time — a steady climb that never drops after GC signals a leak. - Take <b>heap snapshots</b> with <code>--inspect</code> in Chrome DevTools (or <code>heapdump</code>) and <b>compare two snapshots</b> to see which objects keep growing. - Use tools like <b>clinic.js</b> to profile. - Common culprits: unbounded caches/maps, event listeners and timers not cleaned up, and references kept in module-level variables.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> A leak is a bucket with a slow drip in: each GC empties what it can, but the water level keeps rising because something keeps adding and never lets go.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Raise the limit with --max-old-space-size; find leaks by watching heapUsed over time and diffing heap snapshots to see which objects keep growing.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Name three classic Node leak sources. <i>Global/module arrays or maps that only grow, listeners/timers never removed, and closures or caches holding large objects.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="node-internals-q10">
+          <div class="qa-head"><span class="qa-num">Q10</span><h3>What's the difference between the V8 heap, the call stack and a Buffer?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Stack = what you're holding now, V8 heap = GC-managed objects, Buffer = raw binary memory outside the heap.</p></div>
+            
+            <ul><li><b>Call stack</b> — where function calls and their local primitives/references live; small and fast, and a runaway recursion overflows it ("Maximum call stack size exceeded").</li><li><b>V8 heap</b> — where JavaScript objects, arrays, closures and strings live; managed by V8's garbage collector.</li><li><b>Buffer</b> — raw binary memory allocated <b>outside the V8 heap</b> (off-heap, via libuv/C++), so large binary data (files, network payloads) doesn't pressure the JS GC. Buffers are freed when their JS handle is collected.</li></ul><p>Interview point: because Buffers are off-heap, a process can use far more memory (RSS) than its V8 heap limit suggests.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> The stack is your hands (what you're holding right now), the heap is your managed cupboard, and Buffers are a separate warehouse outside the house for bulk goods.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> The call stack holds call frames, the V8 heap holds GC-managed JS objects, and Buffers are raw binary memory allocated off the V8 heap so big binary data doesn't stress the GC.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Why does RSS exceed the heap limit sometimes? <i>Because RSS includes off-heap memory like Buffers, native allocations and the binary itself, not just the V8 heap.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="modules">
+        <h2 id="modules-h"><span class="en">The module system</span><span class="hi">The module system</span></h2>
+        
+        <article class="qa" id="node-internals-q11">
+          <div class="qa-head"><span class="qa-num">Q11</span><h3>How does require() work under the hood (CommonJS)?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> require resolves the file, reuses the cached exports if already loaded, else wraps and runs the file once, then caches module.exports.</p></div>
+            
+            <p>When you <code>require('./x')</code>, Node:</p><p>1. <b>Resolves</b> the path (file, folder with <code>index.js</code>/<code>package.json</code>, or a <code>node_modules</code> lookup). 2. Checks the <b>module cache</b> — if already loaded, returns the cached <code>module.exports</code> immediately (so a module runs only once). 3. Otherwise <b>wraps</b> the file's code in a function that provides <code>exports</code>, <code>require</code>, <code>module</code>, <code>__filename</code> and <code>__dirname</code> — that's why those "globals" exist in every file. 4. <b>Executes</b> the wrapped function, letting the module fill <code>module.exports</code>. 5. <b>Caches</b> and returns <code>module.exports</code>.</p><p>So <code>require</code> is <b>synchronous</b> and <b>cached by module.exports</b>.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> require is like fetching a book from a library: if it's already checked out to you (cache), you reuse your copy; otherwise the library fetches, stamps and hands it over, then remembers you have it.</p></div>
+            <pre class="code" data-copy><span class="cm">// This wrapper is why exports/require/module/__dirname exist per file:</span>
+(<span class="kw">function</span> (exports, require, module, __filename, __dirname) {
+  <span class="cm">// your module code runs here</span>
+});</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> require resolves the path, returns the cached module.exports if present, else wraps the file in a function exposing exports/require/module/__dirname, runs it, then caches and returns module.exports.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What does the require cache mean in practice? <i>A module's top-level code runs once; later requires get the same exports object, so module state is effectively a singleton.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="node-internals-q12">
+          <div class="qa-head"><span class="qa-num">Q12</span><h3>CommonJS vs ES Modules: what are the real differences?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> require is synchronous and gives a snapshot; ESM import is static/async with live bindings and allows tree-shaking and top-level await.</p></div>
+            
+            <ul><li><b>Loading</b>: CommonJS <code>require</code> is <b>synchronous</b> and can be called anywhere; ESM <code>import</code> is <b>static and asynchronous</b>, hoisted and resolved before the module runs (dynamic <code>import()</code> is the async escape hatch).</li><li><b>Bindings</b>: CommonJS exports a <b>copy of a value</b> (the <code>module.exports</code> object at require time); ESM exports <b>live bindings</b> — importers see later updates to an exported variable.</li><li><b>Syntax / files</b>: ESM uses <code>import</code>/<code>export</code>, enabled by <code>"type": "module"</code> or <code>.mjs</code>; CommonJS uses <code>require</code>/<code>module.exports</code>, the historical default.</li><li>ESM gives static analysis (tree-shaking) and top-level <code>await</code>; interop exists but mixing them has sharp edges.</li></ul>
+            <div class="ex"><p>💡 <b>Easy example:</b> CommonJS hands you a photocopy taken at require time; ES Modules give you a live window into the other file, so changes show through.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> require is synchronous and exports a snapshot value; ESM import is static/async with live bindings, supports tree-shaking and top-level await, and is enabled by type:module or .mjs.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Why does ESM allow tree-shaking but CommonJS mostly doesn't? <i>ESM imports/exports are static, so bundlers can see at build time which exports are unused; CommonJS require is dynamic, so usage can't be known statically.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="streams">
+        <h2 id="streams-h"><span class="en">Streams and Buffers</span><span class="hi">Streams and Buffers</span></h2>
+        
+        <article class="qa" id="node-internals-q13">
+          <div class="qa-head"><span class="qa-num">Q13</span><h3>How do streams and backpressure work internally?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Streams move data in chunks; when the buffer is full, write() returns false and the producer pauses until 'drain' — that's backpressure.</p></div>
+            
+            <p>Node streams are built on <b>EventEmitter</b> and process data in <b>chunks</b> instead of loading everything into memory. Each stream has an internal buffer with a <b><code>highWaterMark</code></b> (a size threshold).</p><p><b>Backpressure</b> is the flow-control mechanism: when you <code>writable.write(chunk)</code> and its internal buffer is at or above <code>highWaterMark</code>, <code>write</code> returns <b><code>false</code></b>, meaning "slow down". A well-behaved producer <b>pauses</b> until the writable emits a <b><code>'drain'</code></b> event, then resumes. <code>pipe()</code> and <code>pipeline()</code> handle this pause/resume for you automatically.</p><p>Without backpressure, a fast source (reading a huge file) would overwhelm a slow destination (a network socket) and blow up memory.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Backpressure is a factory conveyor that stops the belt when the next station's tray is full, and restarts it when there's room — so nothing piles up on the floor.</p></div>
+            <pre class="code" data-copy><span class="kw">const</span> fs = require(<span class="st">"fs"</span>);
+fs.createReadStream(<span class="st">"big.mp4"</span>)
+  .pipe(fs.createWriteStream(<span class="st">"copy.mp4"</span>)); <span class="cm">// pipe() applies backpressure for you</span>
+
+<span class="cm">// Manual: if (!dst.write(chunk)) { src.pause(); dst.once("drain", () =&gt; src.resume()); }</span></pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Streams are EventEmitters that move data in chunks; when a writable's buffer hits highWaterMark, write() returns false, the producer pauses until 'drain' — and pipe/pipeline automate this backpressure.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Why prefer pipeline() over pipe()? <i>pipeline() propagates errors and cleans up all streams on failure, which chained pipe() calls don't do well.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">Node = V8 (runs JS + GC) + libuv (event loop, async I/O, thread pool) + C++ bindings.</span><span class="hi">Node = V8 (runs JS + GC) + libuv (event loop, async I/O, thread pool) + C++ bindings.</span></li><li><span class="en">Event loop phases: timers → pending → poll → check → close; microtasks (nextTick, then promises) drain between each.</span><span class="hi">Event loop phases: timers → pending → poll → check → close; microtasks (nextTick, then promises) drain between each.</span></li><li><span class="en">Order: sync → process.nextTick → promises → macrotasks; recursive nextTick starves I/O.</span><span class="hi">Order: sync → process.nextTick → promises → macrotasks; recursive nextTick starves I/O.</span></li><li><span class="en">Thread pool (default 4, UV_THREADPOOL_SIZE) runs fs, crypto, dns.lookup, zlib; network I/O uses OS async (epoll/kqueue/IOCP), not the pool.</span><span class="hi">Thread pool (default 4, UV_THREADPOOL_SIZE) runs fs, crypto, dns.lookup, zlib; network I/O uses OS async (epoll/kqueue/IOCP), not the pool.</span></li><li><span class="en">V8 heap is generational (young Scavenge, old Mark-Sweep-Compact); raise with --max-old-space-size; Buffers are off-heap.</span><span class="hi">V8 heap is generational (young Scavenge, old Mark-Sweep-Compact); raise with --max-old-space-size; Buffers are off-heap.</span></li><li><span class="en">require is synchronous and cached by module.exports; ESM import is static/async with live bindings; backpressure = write() returns false until 'drain'.</span><span class="hi">require is synchronous and cached by module.exports; ESM import is static/async with live bindings; backpressure = write() returns false until 'drain'.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>Senior backend rounds probe these. Answer out loud first, then check.</p><div class="exercise"><p class="q-text">Mock task 1: Explain why a CPU-heavy function hurts a Node server, and two ways to fix it.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Node runs your JavaScript on one thread. A CPU-heavy function keeps the call stack busy, so the event loop can't run any other callbacks — every request stalls until it finishes. Fixes: move the work to a <code>worker_threads</code> pool (or a separate process/microservice), and/or break it into chunks that yield to the loop (e.g. via setImmediate) so I/O gets turns. Offloading to a queue (BullMQ) is another common answer.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 2: A service's memory keeps climbing and never drops after GC. Walk through how you'd find the leak.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Confirm the trend with <code>process.memoryUsage()</code> (heapUsed/RSS rising over time). Reproduce under load, take two heap snapshots a few minutes apart with <code>--inspect</code> in Chrome DevTools, and compare them to see which object types keep growing. Inspect those for retained references: unbounded caches/Maps, event listeners or timers never removed, or module-level arrays. Fix by bounding caches, removing listeners/timers, and dropping references; re-measure.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 3: Why does <code>setImmediate</code> beat <code>setTimeout(fn, 0)</code> inside an I/O callback, but not always from the main module?</p><details><summary>Show a sample answer</summary><div class="answer"><p>Inside an I/O callback you're already in the poll phase; the next phase is check, where <code>setImmediate</code> runs, so immediate fires before the loop comes back around to the timers phase. From the main module, whether a 0ms timer is 'due' when the first timers phase runs is a race with loop startup timing, so the order can vary.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"Which library gives Node its event loop and thread pool?","hi":"Which library gives Node its event loop and thread pool?"},"options":["V8","libuv","npm","Express"],"answer":1,"why":{"en":"V8 runs JavaScript; libuv provides the event loop, async I/O and the thread pool.","hi":"V8 runs JavaScript; libuv provides the event loop, async I/O and the thread pool."}},{"q":{"en":"Which runs first?","hi":"Which runs first?"},"options":["setTimeout(fn, 0)","setImmediate","process.nextTick","a resolved Promise.then"],"answer":2,"why":{"en":"process.nextTick drains before the promise queue and before any macrotask like setTimeout/setImmediate.","hi":"process.nextTick drains before the promise queue and before any macrotask like setTimeout/setImmediate."}},{"q":{"en":"Which of these does NOT use the libuv thread pool?","hi":"Which of these does NOT use the libuv thread pool?"},"options":["fs.readFile","crypto.pbkdf2","a network socket (http)","dns.lookup"],"answer":2,"why":{"en":"Network sockets use the OS's async I/O (epoll/kqueue/IOCP); fs, crypto and dns.lookup use the thread pool.","hi":"Network sockets use the OS's async I/O (epoll/kqueue/IOCP); fs, crypto and dns.lookup use the thread pool."}},{"q":{"en":"Where is a Node Buffer's memory allocated?","hi":"Where is a Node Buffer's memory allocated?"},"options":["On the V8 heap","On the call stack","Off-heap, outside the V8 heap","In localStorage"],"answer":2,"why":{"en":"Buffers are raw memory allocated outside the V8 heap, so big binary data doesn't pressure the JS garbage collector.","hi":"Buffers are raw memory allocated outside the V8 heap, so big binary data doesn't pressure the JS garbage collector."}},{"q":{"en":"What does require() return the second time you require the same module?","hi":"What does require() return the second time you require the same module?"},"options":["A fresh copy, re-run","The cached module.exports","undefined","A Promise"],"answer":1,"why":{"en":"Modules are cached by module.exports after first load, so later requires reuse the same exports and the top-level code runs once.","hi":"Modules are cached by module.exports after first load, so later requires reuse the same exports and the top-level code runs once."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="backend-interview:node-internals"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="node-core.html">← <span class="en">Node.js core questions</span><span class="hi">Node.js core questions</span></a><a class="btn btn-outline" href="api-design.html">→ <span class="en">REST API design questions</span><span class="hi">REST API design questions</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20Node.js%20under%20the%20hood" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20backend%20module%3A%20Node.js%20under%20the%20hood" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script><script type="application/json" id="glossary-data">[{"s":"thread","m":["thread","threads"],"en":"A worker that runs code. Node.js runs your JavaScript on one main thread.","hi":"A worker that runs code. Node.js runs your JavaScript on one main thread."},{"s":"non-blocking-i-o","m":["non-blocking"],"en":"Starting slow work (DB, files) and moving on instead of waiting for it.","hi":"Starting slow work (DB, files) and moving on instead of waiting for it."},{"s":"i-o","m":["I/O"],"en":"Input/output: reading or writing files, network or database.","hi":"Input/output: reading or writing files, network or database."},{"s":"event-loop","m":["event loop"],"en":"The manager that keeps running ready callbacks on Node's one main thread.","hi":"The manager that keeps running ready callbacks on Node's one main thread."},{"s":"blocking","m":["blocking","blocks"],"en":"Code that keeps the main thread busy so nothing else can run.","hi":"Code that keeps the main thread busy so nothing else can run."},{"s":"libuv","m":["libuv"],"en":"The C library inside Node.js that handles the event loop and the thread pool.","hi":"The C library inside Node.js that handles the event loop and the thread pool."},{"s":"thread-pool","m":["thread pool"],"en":"A small team of helper threads (4 by default) for files, crypto and compression.","hi":"A small team of helper threads (4 by default) for files, crypto and compression."},{"s":"callback","m":["callback","callbacks"],"en":"A function handed over to be called when something finishes.","hi":"A function handed over to be called when something finishes."},{"s":"microtask","m":["microtask"],"en":"A small urgent job (like a promise callback) that runs before the next phase.","hi":"A small urgent job (like a promise callback) that runs before the next phase."},{"s":"stream","m":["stream","streams"],"en":"Data processed piece by piece instead of all at once.","hi":"Data processed piece by piece instead of all at once."},{"s":"backpressure","m":["backpressure"],"en":"Slowing the reader down when the writer can't keep up.","hi":"Slowing the reader down when the writer can't keep up."},{"s":"heap-snapshot","m":["heap snapshots"],"en":"A photo of everything in memory at one moment, used to find leaks.","hi":"A photo of everything in memory at one moment, used to find leaks."},{"s":"memory-leak","m":["memory leak"],"en":"Memory that keeps growing because it's never released.","hi":"Memory that keeps growing because it's never released."},{"s":"sigterm","m":["SIGTERM"],"en":"A polite 'please stop' signal sent before a container is shut down.","hi":"A polite 'please stop' signal sent before a container is shut down."},{"s":"graceful-shutdown","m":["graceful shutdown"],"en":"Finishing current work and closing connections before exiting.","hi":"Finishing current work and closing connections before exiting."},{"s":"container","m":["container","containers"],"en":"A running, packaged copy of your app with everything it needs.","hi":"A running, packaged copy of your app with everything it needs."},{"s":"orchestrator","m":["orchestrator"],"en":"A system like Kubernetes or ECS that starts, stops and restarts containers.","hi":"A system like Kubernetes or ECS that starts, stops and restarts containers."},{"s":"resource","m":["resource"],"en":"A thing your API manages, like an employee or an order.","hi":"A thing your API manages, like an employee or an order."},{"s":"stateless","m":["stateless"],"en":"The server doesn't remember you between requests; each request carries what's needed.","hi":"The server doesn't remember you between requests; each request carries what's needed."},{"s":"idempotent","m":["idempotent","idempotency"],"en":"Doing it twice gives the same result as doing it once.","hi":"Doing it twice gives the same result as doing it once."},{"s":"payload","m":["payload"],"en":"The data inside a request, response or token.","hi":"The data inside a request, response or token."},{"s":"pagination","m":["pagination"],"en":"Returning a big list in small pages.","hi":"Returning a big list in small pages."},{"s":"rate-limiting","m":["rate limiting","rate limits","rate limit"],"en":"Allowing only a certain number of requests per minute.","hi":"Allowing only a certain number of requests per minute."},{"s":"webhook","m":["webhook"],"en":"Another system calling your URL to tell you something happened.","hi":"Another system calling your URL to tell you something happened."},{"s":"dependency-injection","m":["dependency injection"],"en":"The framework hands a class the tools it needs instead of the class creating them.","hi":"The framework hands a class the tools it needs instead of the class creating them."},{"s":"provider","m":["providers"],"en":"Anything Nest can create and inject, usually a service.","hi":"Anything Nest can create and inject, usually a service."},{"s":"singleton","m":["singleton"],"en":"Only one shared instance for the whole app.","hi":"Only one shared instance for the whole app."},{"s":"decorator","m":["decorators","decorator"],"en":"An @label on a class or method that adds behaviour, like @Get() or @Roles().","hi":"An @label on a class or method that adds behaviour, like @Get() or @Roles()."},{"s":"middleware","m":["middleware"],"en":"Code that runs on every request before routing, like logging.","hi":"Code that runs on every request before routing, like logging."},{"s":"guard","m":["guard","guards"],"en":"A checkpoint that decides if a request may continue.","hi":"A checkpoint that decides if a request may continue."},{"s":"pipe","m":["pipes"],"en":"Checks and converts incoming data before it reaches the handler.","hi":"Checks and converts incoming data before it reaches the handler."},{"s":"dto","m":["DTO","DTOs"],"en":"Data Transfer Object: a class describing the allowed shape of request data.","hi":"Data Transfer Object: a class describing the allowed shape of request data."},{"s":"exception-filter","m":["exception filter"],"en":"Catches thrown errors and builds the error response.","hi":"Catches thrown errors and builds the error response."},{"s":"metadata","m":["metadata"],"en":"Extra labels attached to code, read later (for example by a guard).","hi":"Extra labels attached to code, read later (for example by a guard)."},{"s":"mock","m":["fake"],"en":"A pretend version of a dependency, used in tests.","hi":"A pretend version of a dependency, used in tests."},{"s":"index","m":["B-tree"],"en":"A sorted lookup structure that lets the database jump to rows quickly.","hi":"A sorted lookup structure that lets the database jump to rows quickly."},{"s":"sequential-scan","m":["sequential scan","Seq Scan"],"en":"Reading every row of a table, one by one.","hi":"Reading every row of a table, one by one."},{"s":"transaction","m":["transaction","transactions"],"en":"A group of changes that all succeed or all fail together.","hi":"A group of changes that all succeed or all fail together."},{"s":"acid","m":["ACID"],"en":"Atomic, Consistent, Isolated, Durable: the promises of a safe transaction.","hi":"Atomic, Consistent, Isolated, Durable: the promises of a safe transaction."},{"s":"isolation-level","m":["isolation"],"en":"How much transactions running at the same time can see of each other.","hi":"How much transactions running at the same time can see of each other."},{"s":"mvcc","m":["MVCC"],"en":"Multi-Version Concurrency Control: readers see a snapshot, so they don't block writers.","hi":"Multi-Version Concurrency Control: readers see a snapshot, so they don't block writers."},{"s":"deadlock","m":["deadlock"],"en":"Two transactions waiting for each other forever.","hi":"Two transactions waiting for each other forever."},{"s":"window-function","m":["window function"],"en":"A calculation across related rows (like rank) that keeps each row.","hi":"A calculation across related rows (like rank) that keeps each row."},{"s":"connection-pool","m":["connection pool","pool"],"en":"A set of open DB connections shared and reused by requests.","hi":"A set of open DB connections shared and reused by requests."},{"s":"orm","m":["ORM"],"en":"Object-Relational Mapper: lets you use classes instead of writing SQL by hand.","hi":"Object-Relational Mapper: lets you use classes instead of writing SQL by hand."},{"s":"entity","m":["entity","entities"],"en":"A class that maps to a database table.","hi":"A class that maps to a database table."},{"s":"foreign-key","m":["foreign key"],"en":"A column pointing to a row in another table.","hi":"A column pointing to a row in another table."},{"s":"n-1-problem","m":["N+1"],"en":"One query for a list, then one more query for every row.","hi":"One query for a list, then one more query for every row."},{"s":"migration","m":["migrations","migration"],"en":"A versioned script that changes the database structure safely.","hi":"A versioned script that changes the database structure safely."},{"s":"optimistic-locking","m":["optimistic locking"],"en":"Using a version number to detect if someone else changed a row first.","hi":"Using a version number to detect if someone else changed a row first."},{"s":"read-replica","m":["read replica","replica","replicas"],"en":"A read-only copy of the database for reports and heavy reads.","hi":"A read-only copy of the database for reports and heavy reads."},{"s":"replication-lag","m":["replication lag"],"en":"How far behind the copy (replica) is from the main database.","hi":"How far behind the copy (replica) is from the main database."},{"s":"schema","m":["schema"],"en":"The planned structure of your data: tables, columns and types.","hi":"The planned structure of your data: tables, columns and types."},{"s":"sharding","m":["sharded"],"en":"Splitting data across many database servers.","hi":"Splitting data across many database servers."},{"s":"ttl","m":["TTL"],"en":"Time To Live: how long a cached value is kept before it expires.","hi":"Time To Live: how long a cached value is kept before it expires."},{"s":"cache-stampede","m":["cache stampede","stampede"],"en":"Many requests rebuilding the same expired cache at once.","hi":"Many requests rebuilding the same expired cache at once."},{"s":"distributed-lock","m":["distributed lock"],"en":"A lock shared by all copies of a service, so only one does a job.","hi":"A lock shared by all copies of a service, so only one does a job."},{"s":"queue","m":["queue","queues"],"en":"A waiting line of jobs to be done in the background.","hi":"A waiting line of jobs to be done in the background."},{"s":"worker","m":["worker","workers"],"en":"A process that picks jobs from a queue and does them.","hi":"A process that picks jobs from a queue and does them."},{"s":"exponential-backoff","m":["exponential backoff","backoff"],"en":"Waiting longer after each failure before retrying: 2 s, 4 s, 8 s…","hi":"Waiting longer after each failure before retrying: 2 s, 4 s, 8 s…"},{"s":"dead-letter-queue","m":["dead letter queue"],"en":"A place for jobs that failed every retry, kept for checking.","hi":"A place for jobs that failed every retry, kept for checking."},{"s":"at-least-once","m":["at-least-once"],"en":"A job is never lost, but it might run more than once.","hi":"A job is never lost, but it might run more than once."},{"s":"authentication","m":["authentication"],"en":"Checking who you are.","hi":"Checking who you are."},{"s":"authorization","m":["authorization"],"en":"Checking what you are allowed to do.","hi":"Checking what you are allowed to do."},{"s":"jwt","m":["JWT"],"en":"JSON Web Token: a signed pass with user details that anyone can read but nobody can change.","hi":"JSON Web Token: a signed pass with user details that anyone can read but nobody can change."},{"s":"jwks","m":["JWKS"],"en":"The public keys a login server publishes, used to check token signatures.","hi":"The public keys a login server publishes, used to check token signatures."},{"s":"claims","m":["claims"],"en":"The facts inside a token, like user id, roles and expiry.","hi":"The facts inside a token, like user id, roles and expiry."},{"s":"oauth2","m":["OAuth2"],"en":"A standard for letting apps get access tokens safely.","hi":"A standard for letting apps get access tokens safely."},{"s":"oidc","m":["OIDC"],"en":"OpenID Connect: adds 'who is the user' (login) on top of OAuth2.","hi":"OpenID Connect: adds 'who is the user' (login) on top of OAuth2."},{"s":"pkce","m":["PKCE"],"en":"A safety check that protects the login code exchange in browser and mobile apps.","hi":"A safety check that protects the login code exchange in browser and mobile apps."},{"s":"realm","m":["realm"],"en":"A separate space in Keycloak with its own users and roles.","hi":"A separate space in Keycloak with its own users and roles."},{"s":"rbac","m":["RBAC"],"en":"Role-Based Access Control: what you can do depends on your role.","hi":"Role-Based Access Control: what you can do depends on your role."},{"s":"idor","m":["IDOR"],"en":"A bug where changing an id in the URL shows someone else's data.","hi":"A bug where changing an id in the URL shows someone else's data."},{"s":"salt","m":["salted"],"en":"Random data added before hashing so the same password gives different hashes.","hi":"Random data added before hashing so the same password gives different hashes."},{"s":"password-hash","m":["password hash"],"en":"A one-way fingerprint of data; you can't turn it back into the original.","hi":"A one-way fingerprint of data; you can't turn it back into the original."},{"s":"sql-injection","m":["SQL injection"],"en":"An attack where user input is run as part of a SQL query.","hi":"An attack where user input is run as part of a SQL query."},{"s":"pre-signed-url","m":["pre-signed URL","pre-signed"],"en":"A temporary link that allows one upload or download from a private bucket.","hi":"A temporary link that allows one upload or download from a private bucket."},{"s":"bucket","m":["bucket","buckets"],"en":"A top-level folder in S3 where files are stored.","hi":"A top-level folder in S3 where files are stored."},{"s":"iam-role","m":["IAM roles","IAM"],"en":"AWS permissions given to a service, without storing passwords or keys.","hi":"AWS permissions given to a service, without storing passwords or keys."},{"s":"least-privilege","m":["least privilege"],"en":"Giving only the exact permissions needed, nothing more.","hi":"Giving only the exact permissions needed, nothing more."},{"s":"multipart-upload","m":["multipart"],"en":"Uploading a big file in parts that S3 joins together.","hi":"Uploading a big file in parts that S3 joins together."},{"s":"cdn","m":["CDN","CloudFront"],"en":"A network of servers near users that serves files fast.","hi":"A network of servers near users that serves files fast."},{"s":"docker-image","m":["Docker image"],"en":"A packaged, read-only copy of your app and everything it needs.","hi":"A packaged, read-only copy of your app and everything it needs."},{"s":"ci-cd","m":["CI/CD"],"en":"Automatic checks on every change (CI) and automatic deploys (CD).","hi":"Automatic checks on every change (CI) and automatic deploys (CD)."},{"s":"rollback","m":["roll back","rollback"],"en":"Going back to the previous working version.","hi":"Going back to the previous working version."},{"s":"load-balancer","m":["load balancer"],"en":"Spreads incoming requests across several servers.","hi":"Spreads incoming requests across several servers."},{"s":"microservices","m":["microservices"],"en":"Splitting one app into many small services that deploy separately.","hi":"Splitting one app into many small services that deploy separately."},{"s":"monolith","m":["monolith"],"en":"One app that is built and deployed as a single unit.","hi":"One app that is built and deployed as a single unit."},{"s":"circuit-breaker","m":["circuit breaker","circuit breakers"],"en":"Stops calling a failing service for a while, so failures don't spread.","hi":"Stops calling a failing service for a while, so failures don't spread."},{"s":"outbox-pattern","m":["outbox"],"en":"Saving an event in the same DB transaction, then sending it reliably.","hi":"Saving an event in the same DB transaction, then sending it reliably."},{"s":"observability","m":["observability"],"en":"Being able to see what's happening inside a running system.","hi":"Being able to see what's happening inside a running system."},{"s":"p95-latency","m":["p95"],"en":"95% of requests are faster than this time.","hi":"95% of requests are faster than this time."},{"s":"post-mortem","m":["post-mortem"],"en":"A write-up after an incident: what happened and how to prevent it.","hi":"A write-up after an incident: what happened and how to prevent it."},{"s":"star-method","m":["STAR"],"en":"Situation, Task, Action, Result: a simple way to tell a work story.","hi":"Situation, Task, Action, Result: a simple way to tell a work story."},{"s":"ctc","m":["CTC"],"en":"Cost To Company: your total yearly salary package.","hi":"Cost To Company: your total yearly salary package."},{"s":"notice-buyout","m":["buyout"],"en":"The new company pays your old company so you can leave before the notice period ends.","hi":"The new company pays your old company so you can leave before the notice period ends."},{"s":"bgv","m":["BGV"],"en":"Background verification: checks of your past jobs, salary and documents.","hi":"Background verification: checks of your past jobs, salary and documents."}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Backend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../security/">Cyber Security</a> · <a href="../jobs/">Jobs</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>
