@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
+Disallow: /dsa/
+Disallow: /system-design/
+Disallow: /ai/
+Disallow: /cs/
+Disallow: /frontend-interview/
+Disallow: /backend-interview/
+Disallow: /security/
+Disallow: /projects/
+Disallow: /developer-productivity.html
 
 Sitemap: https://agamsahu017.github.io/sitemap.xml
