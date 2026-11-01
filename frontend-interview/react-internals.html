@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en" data-en-only>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>React Internals Interview: Fiber, Hooks, Diffing | Kodivo</title>
+  <meta name="description" content="Senior React interview questions on internals: the Fiber architecture, render vs commit phases, the diffing algorithm, how hooks really work, and concurrent rendering." />
+  <link rel="canonical" href="https://agamsahu017.github.io/frontend-interview/react-internals.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/frontend-interview/react-internals.html" />
+  <meta property="og:title" content="React Internals Interview: Fiber, Hooks, Diffing | Kodivo" />
+  <meta property="og:description" content="Senior React interview questions on internals: the Fiber architecture, render vs commit phases, the diffing algorithm, how hooks really work, and concurrent rendering." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../dsa/dsa.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://agamsahu017.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Frontend Interview Questions (3–10 Years)",
+          "item": "https://agamsahu017.github.io/frontend-interview/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "React under the hood",
+          "item": "https://agamsahu017.github.io/frontend-interview/react-internals.html"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "React Internals Interview: Fiber, Hooks, Diffing",
+      "description": "Senior React interview questions on internals: the Fiber architecture, render vs commit phases, the diffing algorithm, how hooks really work, and concurrent rendering.",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": [
+        "en",
+        "hi"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Agam Sahu",
+        "url": "https://agamsahu017.github.io/#founder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kodivo",
+        "url": "https://agamsahu017.github.io/"
+      },
+      "isPartOf": {
+        "@type": "Course",
+        "name": "Frontend Interview Questions (3–10 Years)",
+        "url": "https://agamsahu017.github.io/frontend-interview/"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="../" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="./"><span class="en">Frontend Interview</span><span class="hi">Frontend Interview</span></a>
+        <a href="../academy.html"><span class="en">Academy</span><span class="hi">अकादमी</span></a>
+        <a href="../#contact"><span class="en">Contact</span><span class="hi">संपर्क</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-wa btn-sm hide-mobile" href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I'm%20learning%20frontend%20on%20your%20website%20(React%20under%20the%20hood)." target="_blank" rel="noopener">WhatsApp</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dsa-wrap lesson">
+      <div class="lesson-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">Home</a> › <a href="./">Frontend Interview</a> › <span>React under the hood</span></nav>
+        <span class="pill"><span class="en">Module 7 of 12</span><span class="hi">मॉड्यूल 7 / 12</span></span>
+        <h1><span class="en">React under the hood</span><span class="hi">React under the hood</span></h1>
+        <div class="lesson-meta"><span>⏱️ <span class="en">30 min read + practice</span><span class="hi">30 मिनट पढ़ाई + प्रैक्टिस</span></span><span>🧑‍💻 3–10 years experience</span><span>🎯 <span class="en">Interview focused</span><span class="hi">इंटरव्यू के हिसाब से</span></span></div>
+        <div class="one-line"><p class="en"><b>In one line:</b> Senior React rounds go past hooks into internals: Fiber, the render and commit phases, diffing, how hooks store state, and concurrent rendering. Explaining these with a clear mental model sets you apart.</p><p class="hi"><b>एक लाइन में:</b> Senior React rounds go past hooks into internals: Fiber, the render and commit phases, diffing, how hooks store state, and concurrent rendering. Explaining these with a clear mental model sets you apart.</p></div>
+        <div class="idea"><p class="en"><b>In this module you will learn:</b></p><p class="hi"><b>इस मॉड्यूल में आप सीखेंगे:</b></p><ul><li><span class="en">The two phases: render (interruptible) and commit (synchronous)</span><span class="hi">The two phases: render (interruptible) and commit (synchronous)</span></li><li><span class="en">What a Fiber is, and why React moved to the Fiber architecture</span><span class="hi">What a Fiber is, and why React moved to the Fiber architecture</span></li><li><span class="en">The reconciliation and diffing algorithm, and why keys matter</span><span class="hi">The reconciliation and diffing algorithm, and why keys matter</span></li><li><span class="en">How hooks store state internally, and why the rules of hooks exist</span><span class="hi">How hooks store state internally, and why the rules of hooks exist</span></li><li><span class="en">Concurrent rendering, useTransition/useDeferredValue and Suspense</span><span class="hi">Concurrent rendering, useTransition/useDeferredValue and Suspense</span></li></ul></div>
+        <nav class="toc" aria-label="On this page"><a href="#phases"><span class="en">Render and commit phases</span><span class="hi">Render and commit phases</span></a><a href="#fiber"><span class="en">The Fiber architecture</span><span class="hi">The Fiber architecture</span></a><a href="#reconcile"><span class="en">Reconciliation and diffing</span><span class="hi">Reconciliation and diffing</span></a><a href="#hooks-internal"><span class="en">How hooks work internally</span><span class="hi">How hooks work internally</span></a><a href="#concurrent"><span class="en">Concurrent rendering and Suspense</span><span class="hi">Concurrent rendering and Suspense</span></a><a href="#practice"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></a><a href="#quiz-sec"><span class="en">Quiz</span><span class="hi">क्विज़</span></a></nav>
+        <div class="qa-tools"><button type="button" data-qa="open">Show all answers</button><button type="button" data-qa="close">Hide all answers</button></div><p class="gloss-hint">Words with a dotted underline have a simple meaning: tap or hover on them. All words: <a href="glossary.html">Glossary</a>.</p>
+      </div>
+      <section id="phases">
+        <h2 id="phases-h"><span class="en">Render and commit phases</span><span class="hi">Render and commit phases</span></h2>
+        
+        <article class="qa" id="react-internals-q1">
+          <div class="qa-head"><span class="qa-num">Q1</span><h3>What are the two phases React works in?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> React works in two steps: render (figure out changes, can be paused, no DOM yet) then commit (apply to the DOM at once, run effects).</p></div>
+            
+            <p>React updates the screen in two phases:</p><p>1. <b>Render phase</b> — React calls your components to build a new "work-in-progress" tree and works out what changed. This phase is <b>pure and interruptible</b>: React can pause it, do higher-priority work, and even throw the result away and start again. No DOM changes happen yet. 2. <b>Commit phase</b> — React applies the computed changes to the real DOM in one <b>synchronous</b>, uninterruptible step. Refs are set, and layout effects then passive effects (<code>useEffect</code>) run here.</p><p>The key interview point: because the render phase can run multiple times or be discarded, your component's render must have <b>no side effects</b>.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Render phase is drafting and editing a document; commit phase is hitting print. You can redraft as many times as you like, but printing happens once, all at once.</p></div>
+            <pre class="code" data-copy><span class="cm">// Render phase: pure, may run many times → no side effects here</span>
+<span class="kw">function</span> Profile({ user }) {
+  <span class="cm">// ❌ side effect during render: network call, DOM write, subscription</span>
+  <span class="cm">// ✅ just compute and return UI</span>
+  <span class="kw">return</span> &lt;h1&gt;{user.name}&lt;/h1&gt;;
+}
+<span class="cm">// Commit phase: refs set, then effects run</span>
+useEffect(() =&gt; { /* side effects live here */ }, []);</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Render phase builds the new tree and is interruptible and side-effect-free; commit phase applies changes to the DOM synchronously and runs effects.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Why does React call my component twice in development? <i>StrictMode intentionally double-invokes render-phase logic to surface impure components and unsafe side effects. It only happens in development.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="react-internals-q2">
+          <div class="qa-head"><span class="qa-num">Q2</span><h3>Why must the render phase be pure?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Render can run many times or be thrown away, so it must be pure — no fetches or DOM writes during render.</p></div>
+            
+            <p>Because React may call it <b>more than once</b> for the same update, pause it, resume it, or throw the work away and redo it — especially with concurrent rendering. If rendering had side effects (a fetch, a counter increment, a DOM write), those effects would fire unpredictably: twice, or for work that is never committed.</p><p>So a component must be a pure function of its props and state: same inputs → same JSX, with no observable side effects. Side effects belong in event handlers or in <code>useEffect</code> (which runs in the commit phase).</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> A pure render is a recipe you can re-read safely any number of times. A side effect during render is like actually cooking every time someone just reads the recipe.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> React can run, pause or discard a render, so rendering must be a pure function of props and state; side effects go in effects or event handlers.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Where do side effects go instead? <i>Event handlers for user-triggered effects, and <code>useEffect</code>/<code>useLayoutEffect</code> for effects tied to the committed render.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="fiber">
+        <h2 id="fiber-h"><span class="en">The Fiber architecture</span><span class="hi">The Fiber architecture</span></h2>
+        
+        <article class="qa" id="react-internals-q3">
+          <div class="qa-head"><span class="qa-num">Q3</span><h3>What is a Fiber?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> A fiber is a small JS object for one node of work, with links to child/sibling/parent, so React can build the UI piece by piece.</p></div>
+            
+            <p>A <b>Fiber</b> is a plain JavaScript object that represents <b>one unit of work</b> — roughly one node in the component tree (a component, a DOM element, etc.). Each fiber holds the element's <code>type</code>, its <code>props</code>, its state, and pointers to other fibers: <code>child</code>, <code>sibling</code> and <code>return</code> (its parent).</p><p>Together the fibers form a <b>linked tree</b> React can walk one node at a time. React keeps <b>two trees</b>: the <code>current</code> tree (on screen) and a <code>workInProgress</code> tree it builds during render. Each fiber has an <code>alternate</code> pointer to its counterpart — this "double buffering" lets React build the next UI without touching what's shown, then swap the trees on commit.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Think of fibers as index cards, one per component, linked into a tree. React can put a card down mid-way and pick it back up, which a plain recursive call stack can't do.</p></div>
+            <pre class="code" data-copy><span class="cm">// Simplified shape of a fiber node</span>
+<span class="kw">const</span> fiber = {
+  <span class="kw">type</span>: Profile,          <span class="cm">// function/class/'div'</span>
+  props: { user },
+  child: /* first child fiber */ <span class="kw">null</span>,
+  sibling: /* next sibling fiber */ <span class="kw">null</span>,
+  <span class="kw">return</span>: /* parent fiber */ <span class="kw">null</span>,
+  alternate: /* the other tree's fiber */ <span class="kw">null</span>,
+  <span class="cm">// plus state, effect flags, etc.</span>
+};</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A fiber is a JS object for one unit of work in the tree, with child/sibling/parent links and an alternate, so React can build a work-in-progress tree and walk it incrementally.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What are the two trees called? <i><code>current</code> (what's on screen) and <code>workInProgress</code> (being built). On commit, React swaps them, so the finished work-in-progress becomes current.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="react-internals-q4">
+          <div class="qa-head"><span class="qa-num">Q4</span><h3>Why did React move from the old reconciler to Fiber?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> The old reconciler couldn't stop mid-render; Fiber splits work into units React can pause, prioritize and resume.</p></div>
+            
+            <p>The old "stack reconciler" rendered the whole tree with <b>recursive, synchronous</b> function calls. Once it started, it couldn't stop until the entire tree was processed. For large updates this blocked the main thread, so input and animations felt janky.</p><p><b>Fiber (React 16+)</b> turns rendering into <b>incremental units of work</b>. React processes a few fibers, then can <b>yield to the browser</b> to handle a click or paint a frame, then resume. This makes rendering: - <b>Interruptible</b> — pause and resume, - <b>Prioritizable</b> — urgent updates (typing) can jump ahead of non-urgent ones, - <b>Abortable</b> — throw away in-progress work if something more important arrives.</p><p>This is the foundation that makes concurrent features (<code>useTransition</code>, Suspense) possible.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> The old way was reading a whole book in one sitting without looking up. Fiber reads a few pages at a time, so it can glance up when someone calls, then carry on.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> The old reconciler was recursive and synchronous, so it couldn't be interrupted; Fiber splits work into units React can pause, prioritize and resume, enabling concurrent rendering.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Did Fiber change the API I write? <i>No. Fiber is an internal rewrite of the reconciler; your components look the same. It enabled later features like concurrent rendering and Suspense.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="react-internals-q5">
+          <div class="qa-head"><span class="qa-num">Q5</span><h3>How does React process the fiber tree (the work loop)?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> React walks fibers one at a time (down then up) and steps aside for urgent browser work between units.</p></div>
+            
+            <p>React walks the work-in-progress tree one fiber at a time in a loop, with two steps per fiber:</p><ul><li><b><code>beginWork</code></b> (going down) — render this fiber (call the component), create or reconcile its children.</li><li><b><code>completeWork</code></b> (coming back up) — once a fiber's children are done, build its DOM/effect info and bubble up to the sibling or parent.</li></ul><p>Between units, React checks a <b>scheduler</b>: if the browser needs the main thread (a frame is due, input arrived), React yields and resumes later. When the whole tree is complete, React has a finished effect list and moves to the single, synchronous <b>commit</b>.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Like a worker going down each branch of a tree marking what to do, then climbing back up gathering the finished pieces — and stepping aside whenever a more urgent job rings.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> React loops over fibers with beginWork going down and completeWork coming up, yielding to the scheduler between units, then commits the finished tree in one step.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What decides when React yields? <i>A cooperative scheduler using time slicing — React works for a few milliseconds, then yields if the browser has more urgent work, keeping the UI responsive.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="reconcile">
+        <h2 id="reconcile-h"><span class="en">Reconciliation and diffing</span><span class="hi">Reconciliation and diffing</span></h2>
+        
+        <article class="qa" id="react-internals-q6">
+          <div class="qa-head"><span class="qa-num">Q6</span><h3>How does React's diffing algorithm decide what changed?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Diffing is fast and simple: different type → rebuild (state lost), same type → update in place, lists → match by key.</p></div>
+            
+            <p>A perfect tree diff is O(n³), which is too slow. React uses an <b>O(n) heuristic</b> based on two assumptions:</p><p>1. <b>Different element type → tear down and rebuild.</b> If a node changes from <code>&lt;div&gt;</code> to <code>&lt;span&gt;</code>, or from one component to another, React destroys the old subtree (and its state) and builds a new one. 2. <b>Same type → keep the node and update it.</b> React reuses the DOM node and only applies the changed props. It then recurses into children. 3. <b>Lists use keys.</b> For children in a list, React matches old and new items by their <code>key</code> to detect moves, inserts and removes without rebuilding everything.</p><p>So changing a component's type throws away its state; keeping the type preserves it.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Renovating a house: same structure → you just repaint and swap furniture (update). Different structure → you demolish and rebuild that room (remount).</p></div>
+            <pre class="code" data-copy><span class="cm">// Same type → updated in place (input keeps focus/state)</span>
+cond ? &lt;input className=<span class="st">"a"</span> /&gt; : &lt;input className=<span class="st">"b"</span> /&gt;
+
+<span class="cm">// Different type → fully remounted (state lost, input loses focus)</span>
+cond ? &lt;input /&gt; : &lt;textarea /&gt;</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> React uses an O(n) heuristic: different type remounts the subtree and loses its state, same type updates in place, and lists are matched by key.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What happens to component state when the type changes? <i>It's thrown away. The old fiber and its hooks are discarded and a fresh component instance is mounted.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="react-internals-q7">
+          <div class="qa-head"><span class="qa-num">Q7</span><h3>Why are keys important to the diff, and why is index as key risky?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Keys are stable name tags for list items. Index keys follow the position, so on reorder the wrong state sticks to the wrong row.</p></div>
+            
+            <p>Keys give list items a <b>stable identity across renders</b> so React can tell which item moved, which was added, and which was removed — instead of diffing by position.</p><p>Using the <b>array index</b> as the key ties identity to position. If the list reorders, filters, or you insert at the top, the indexes shift, so React thinks item 0 just "changed props" rather than "a new item appeared". This causes <b>wrong state staying on the wrong row</b>: a checked checkbox, focused input or local state attaches to the wrong item.</p><p>Use a <b>stable, unique id</b> from the data. Index keys are only safe for a static list that never reorders or changes length.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Index keys are like numbering seats instead of naming people. If everyone shifts one seat, the labels follow the seat, not the person — so the wrong data sticks to the wrong row.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Keys are stable identity for list diffing; index keys break on reorder or insertion because identity follows position, attaching state to the wrong item.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> When is an index key acceptable? <i>Only for a list that is static — never reordered, filtered or added to in the middle.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="react-internals-q8">
+          <div class="qa-head"><span class="qa-num">Q8</span><h3>What is a bailout in rendering?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> A bailout is React skipping a re-render when nothing changed; memo and stable references make it happen.</p></div>
+            
+            <p>A <b>bailout</b> is when React skips re-rendering a fiber (and often its subtree) because nothing relevant changed. If a fiber's props and state are the same (by reference) and there's no pending update, React can reuse the previous result instead of calling the component again.</p><p>This is why referential stability matters: <code>React.memo</code> lets a component bail out when its props are shallowly equal, and <code>useMemo</code>/<code>useCallback</code> keep prop references stable so a child can bail out. Without stable references, new objects/functions each render defeat the bailout and the child re-renders anyway.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Like a reviewer who sees the document is unchanged since last time and stamps 'no change' instead of re-reading it.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A bailout skips re-rendering when props and state are unchanged by reference; memo and stable references (useMemo/useCallback) enable it.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Does a parent re-render force children to re-render? <i>By default yes, but a child wrapped in <code>React.memo</code> with unchanged props bails out and skips its own re-render.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="hooks-internal">
+        <h2 id="hooks-internal-h"><span class="en">How hooks work internally</span><span class="hi">How hooks work internally</span></h2>
+        
+        <article class="qa" id="react-internals-q9">
+          <div class="qa-head"><span class="qa-num">Q9</span><h3>How does React store hook state internally?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Hooks live as a linked list on the fiber, created in call order; that's how useState remembers its value.</p></div>
+            
+            <p>Each component's hooks are stored as a <b>singly linked list of hook objects on that component's fiber</b>, in the exact order the hooks are called. The first <code>useState</code>/<code>useEffect</code>/… call creates the first node, the next call creates the second, and so on.</p><p>On a re-render, React walks this list <b>in the same order</b>, matching each hook call to its stored node by <b>position</b> (not by any name or key). That's how <code>useState</code> "remembers" its value between renders: the value lives on the fiber's hook list, and React lines up calls to nodes by call order.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Hooks are like numbered lockers filled in order. On every render React opens locker 1, then 2, then 3 — so the order of calls has to be identical each time.</p></div>
+            <pre class="code" data-copy><span class="kw">function</span> Form() {
+  <span class="kw">const</span> [name, setName] = useState(<span class="st">""</span>);   <span class="cm">// hook node 1</span>
+  <span class="kw">const</span> [age, setAge] = useState(0);      <span class="cm">// hook node 2</span>
+  useEffect(() =&gt; {}, []);                <span class="cm">// hook node 3</span>
+  <span class="cm">// React matches these by order to the fiber's hook list each render</span>
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Hooks are a linked list of nodes on the fiber, created in call order; React matches each call to its node by position on every render.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Where is this list stored? <i>On the fiber (memoizedState points to the first hook node). The work-in-progress fiber rebuilds the list each render in the same order.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="react-internals-q10">
+          <div class="qa-head"><span class="qa-num">Q10</span><h3>Why must hooks be called in the same order every render (rules of hooks)?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> React matches hooks by position, so a hook inside an if breaks the order — always call hooks at the top level.</p></div>
+            
+            <p>Because React identifies each hook <b>by its position</b> in the call order, not by name. If you call a hook inside an <code>if</code>, a loop, or after an early <code>return</code>, the number or order of hooks can change between renders. Then React lines up the wrong stored node with the wrong hook call — so <code>useState</code> returns another hook's value, or effects attach to the wrong slot.</p><p>That's why the rules are: <b>only call hooks at the top level</b>, and <b>only from React functions</b>. Calling them unconditionally keeps the order stable so the position-based matching stays correct.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> It's like a checklist you must read top to bottom in the same order every time. Skip or reorder a line and every item after it points to the wrong thing.</p></div>
+            <pre class="code" data-copy><span class="cm">// ❌ breaks the order when 'open' changes</span>
+<span class="kw">if</span> (open) { <span class="kw">const</span> [x] = useState(0); }
+<span class="cm">// ✅ always called, same order every render</span>
+<span class="kw">const</span> [x] = useState(0);
+<span class="kw">if</span> (open) { /* use x */ }</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> React matches hooks by call position, so conditional or reordered hooks misalign the stored state; always call hooks at the top level in the same order.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> What enforces this in practice? <i>The <code>eslint-plugin-react-hooks</code> lint rules catch conditional hooks and missing dependencies at build time.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="concurrent">
+        <h2 id="concurrent-h"><span class="en">Concurrent rendering and Suspense</span><span class="hi">Concurrent rendering and Suspense</span></h2>
+        
+        <article class="qa" id="react-internals-q11">
+          <div class="qa-head"><span class="qa-num">Q11</span><h3>What is concurrent rendering?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span><span class="qa-tag hot">🔥 Very common</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> Concurrent rendering lets React pause, resume or drop renders and put urgent updates (typing) ahead of heavy ones.</p></div>
+            
+            <p>Concurrent rendering is React's ability to <b>work on more than one version of the UI at once</b> and to interrupt, pause, resume or abandon a render. Because the render phase runs on interruptible fibers, React can start rendering an update, pause it to handle an urgent event (like typing), and come back to it later — or throw it away if it's now stale.</p><p>This unlocks <b>prioritized updates</b>: urgent updates (input, clicks) stay responsive while heavy, non-urgent updates (filtering a big list) render in the background without blocking the user.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Like a chef preparing a big order in the background but instantly pausing to serve a quick coffee, then resuming the big order — the counter never feels stuck.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> Concurrent rendering lets React pause, resume or drop renders and prioritize urgent updates over heavy ones, keeping the UI responsive.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> Is concurrent rendering automatically on? <i>The machinery is always there in React 18+, but concurrent behaviour kicks in for updates marked non-urgent, e.g. via <code>useTransition</code>, <code>useDeferredValue</code> or <code>startTransition</code>.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="react-internals-q12">
+          <div class="qa-head"><span class="qa-num">Q12</span><h3>How do useTransition and useDeferredValue use concurrent rendering?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">5–8 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> useTransition and useDeferredValue mark heavy work as non-urgent so the input stays smooth.</p></div>
+            
+            <p>Both mark work as <b>non-urgent</b> so React can keep urgent updates (what the user is typing) responsive:</p><ul><li><code>useTransition</code> gives you <code>startTransition</code> to wrap a <b>state update</b> that can be interrupted, plus an <code>isPending</code> flag. The urgent update (the input value) commits immediately; the heavy update (re-filtering a list) renders in the background.</li><li><code>useDeferredValue</code> lets you <b>defer a value</b>: the UI keeps using the old value until React has time to render with the new one, so a slow list doesn't block typing.</li></ul><p>Under the hood, both schedule their work at a lower priority, which concurrent rendering can interrupt for urgent input.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Typing is the VIP in the fast lane; re-rendering a huge list is cargo in the slow lane. Both move, but the VIP is never stuck behind the cargo.</p></div>
+            <pre class="code" data-copy><span class="kw">const</span> [isPending, startTransition] = useTransition();
+<span class="kw">function</span> onChange(e) {
+  setText(e.target.value);              <span class="cm">// urgent: input stays snappy</span>
+  startTransition(() =&gt; setQuery(e.target.value)); <span class="cm">// non-urgent: heavy list</span>
+}</pre>
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> They mark updates as non-urgent so React renders them at low priority in the background, keeping urgent input responsive.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> When would you reach for these? <i>When a heavy render (big list, charts) tied to fast input causes lag — defer the heavy part so typing stays smooth.</i></p>
+          </div></details>
+        </article>
+        <article class="qa" id="react-internals-q13">
+          <div class="qa-head"><span class="qa-num">Q13</span><h3>What does Suspense do under the hood?</h3></div>
+          <div class="qa-tags"><span class="qa-tag">8–10 yrs</span></div>
+          
+          <details><summary>Show answer</summary><div class="ans en">
+            <div class="simple"><p>🟢 <b>In simple words:</b> A suspending component throws a promise; React shows a fallback and retries when it resolves — that powers lazy loading and streaming.</p></div>
+            
+            <p><code>Suspense</code> lets a component <b>"suspend"</b> — pause rendering — while it waits for something (data or lazy code). Internally, a suspending component <b>throws a promise</b>; React catches it, shows the nearest <code>&lt;Suspense fallback&gt;</code>, and <b>retries that subtree when the promise resolves</b>.</p><p>Because the render phase is interruptible, React can hold the suspended work without blocking the rest of the tree, and commit the real content once it's ready. This is how <code>React.lazy</code> code-splitting and data-fetching libraries integrate with concurrent rendering, and how streaming SSR shows a shell first and fills slots as they load.</p>
+            <div class="ex"><p>💡 <b>Easy example:</b> Suspense is a 'loading…' placeholder a component raises when it isn't ready; React shows the fallback, then swaps in the real thing once the wait is over.</p></div>
+            
+            <div class="oneliner"><p>🗣️ <b>Say it in one line:</b> A suspending component throws a promise; React shows the nearest fallback and retries the subtree when it resolves, which powers lazy loading and streaming.</p></div>
+            <p class="follow">↪️ <b>Follow-up:</b> How does this relate to streaming SSR? <i>On the server React streams the ready HTML and the Suspense fallbacks, then streams each slot's real HTML as its data resolves.</i></p>
+          </div></details>
+        </article>
+      </section>
+      <section id="remember">
+        <div class="remember"><div class="dry-title">📌 <span class="en">Remember these 6 things</span><span class="hi">ये 6 बातें याद रखिए</span></div><ol><li><span class="en">Two phases: render (pure, interruptible, no DOM) then commit (synchronous, DOM + effects).</span><span class="hi">Two phases: render (pure, interruptible, no DOM) then commit (synchronous, DOM + effects).</span></li><li><span class="en">A fiber is a JS object = one unit of work; React keeps current and workInProgress trees and swaps them on commit.</span><span class="hi">A fiber is a JS object = one unit of work; React keeps current and workInProgress trees and swaps them on commit.</span></li><li><span class="en">Fiber replaced the recursive stack reconciler so rendering can pause, prioritize and resume.</span><span class="hi">Fiber replaced the recursive stack reconciler so rendering can pause, prioritize and resume.</span></li><li><span class="en">Diffing is O(n): different type remounts (state lost), same type updates in place, lists match by key.</span><span class="hi">Diffing is O(n): different type remounts (state lost), same type updates in place, lists match by key.</span></li><li><span class="en">Hooks are a linked list on the fiber matched by call order — that's why hooks must be called unconditionally.</span><span class="hi">Hooks are a linked list on the fiber matched by call order — that's why hooks must be called unconditionally.</span></li><li><span class="en">Concurrent rendering prioritizes urgent updates; useTransition/useDeferredValue defer heavy work; Suspense throws a promise and shows a fallback.</span><span class="hi">Concurrent rendering prioritizes urgent updates; useTransition/useDeferredValue defer heavy work; Suspense throws a promise and shows a fallback.</span></li></ol></div>
+      </section>
+      <section id="practice">
+        <h2 id="practice-h"><span class="en">Practice</span><span class="hi">प्रैक्टिस</span></h2>
+        <p>These come up in senior React rounds. Answer out loud first, then check.</p><div class="exercise"><p class="q-text">Mock task 1: Explain the difference between the render phase and the commit phase, and why it matters for side effects.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Render phase builds the work-in-progress tree and figures out changes; it is pure and can be paused, repeated or discarded, so no side effects are allowed there. Commit phase applies the changes to the DOM in one synchronous step and runs refs and effects. Side effects must go in <code>useEffect</code> (commit) or event handlers, not in render, because render may run multiple times.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 2: A list uses the array index as <code>key</code>. Users report that after reordering, the wrong row stays checked. Explain the cause and the fix.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Index keys tie identity to position. When the list reorders, the indexes stay 0,1,2… so React matches old fibers to new items by position and keeps each row's state (the checkbox) on whatever item now sits at that index. Fix: use a stable unique id from the data as the key, so React tracks items by identity and moves state with the item.</p></div></details></div><div class="exercise"><p class="q-text">Mock task 3: Why can't you call a hook inside an <code>if</code>? Tie it to how hooks are stored.</p><details><summary>Show a sample answer</summary><div class="answer"><p>Hooks are stored as a linked list on the fiber, matched to calls by order, not by name. A hook inside an <code>if</code> changes how many hooks run between renders, so the position-based matching lines up the wrong stored node with the wrong call — <code>useState</code> returns the wrong value or effects misfire. Always call hooks at the top level so the order is stable.</p></div></details></div>
+      </section>
+      <section id="quiz-sec">
+        <h2 id="quiz-h"><span class="en">Quick quiz</span><span class="hi">छोटा क्विज़</span></h2>
+        <p class="en">Answer each question to see the explanation.</p><p class="hi">हर सवाल का जवाब चुनें, फिर explanation देखें।</p>
+        <div id="quiz"></div>
+        <script type="application/json" id="quiz-data">[{"q":{"en":"In which phase does React change the real DOM?","hi":"In which phase does React change the real DOM?"},"options":["The render phase","The commit phase","Both equally","Neither; the browser does it alone"],"answer":1,"why":{"en":"The render phase is pure and interruptible; DOM changes and effects happen in the synchronous commit phase.","hi":"The render phase is pure and interruptible; DOM changes and effects happen in the synchronous commit phase."}},{"q":{"en":"A Fiber is best described as…","hi":"A Fiber is best described as…"},"options":["A CSS-in-JS library","A JS object representing one unit of work in the tree","A type of React hook","A web worker thread"],"answer":1,"why":{"en":"Each fiber is a plain object (type, props, state, child/sibling/return links) that React processes one at a time.","hi":"Each fiber is a plain object (type, props, state, child/sibling/return links) that React processes one at a time."}},{"q":{"en":"React changes an element from `<div>` to `<section>`. What happens?","hi":"React changes an element from `<div>` to `<section>`. What happens?"},"options":["Props are updated in place","The subtree is torn down and rebuilt, losing its state","Nothing re-renders","Only the key changes"],"answer":1,"why":{"en":"Different element type means remount: the old subtree and its state are discarded.","hi":"Different element type means remount: the old subtree and its state are discarded."}},{"q":{"en":"Why must hooks be called in the same order every render?","hi":"Why must hooks be called in the same order every render?"},"options":["For readability only","React matches hooks to stored state by call position","Because of TypeScript","To reduce bundle size"],"answer":1,"why":{"en":"Hooks are a linked list matched by order, so conditional or reordered hooks misalign the stored state.","hi":"Hooks are a linked list matched by order, so conditional or reordered hooks misalign the stored state."}},{"q":{"en":"What do useTransition and useDeferredValue do?","hi":"What do useTransition and useDeferredValue do?"},"options":["Make all updates synchronous","Mark updates as non-urgent so urgent input stays responsive","Disable re-rendering","Replace useEffect"],"answer":1,"why":{"en":"They schedule heavy work at low priority using concurrent rendering, keeping urgent updates snappy.","hi":"They schedule heavy work at low priority using concurrent rendering, keeping urgent updates snappy."}}]</script>
+      </section>
+      <section>
+        <div class="complete-box">
+          <p class="en">Finished the lesson, practice and quiz?</p><p class="hi">Lesson, प्रैक्टिस और क्विज़ पूरा कर लिया?</p>
+          <button type="button" class="btn btn-primary" data-complete="frontend-interview:react-internals"></button>
+        </div>
+        <div class="lesson-nav"><a class="btn btn-outline" href="state-auth.html">← <span class="en">State, Context API, auth and RBAC</span><span class="hi">State, Context API, auth and RBAC</span></a><a class="btn btn-outline" href="nextjs.html">→ <span class="en">Next.js questions</span><span class="hi">Next.js questions</span></a></div>
+        <div class="say"><p class="en">Stuck somewhere? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20React%20under%20the%20hood" target="_blank" rel="noopener">Ask your doubt on WhatsApp</a>, or ask about live classes and mock interviews.</p><p class="hi">कहीं अटक गए? <a href="https://wa.me/919235266579?text=Hi%20Agam%2C%20I%20have%20a%20doubt%20in%20the%20frontend%20module%3A%20React%20under%20the%20hood" target="_blank" rel="noopener">WhatsApp पर doubt पूछें</a>, या live classes और mock interview के बारे में पूछें।</p></div>
+      </section>
+      <script>document.querySelectorAll("[data-qa]").forEach(function (b) { b.addEventListener("click", function () { var open = b.dataset.qa === "open"; document.querySelectorAll(".qa details").forEach(function (d) { d.open = open; }); }); });</script><script type="application/json" id="glossary-data">[{"s":"hoisting","m":["hoisted","hoisting"],"en":"JavaScript moves declarations to the top of their scope before running the code.","hi":"JavaScript moves declarations to the top of their scope before running the code."},{"s":"temporal-dead-zone","m":["temporal dead zone"],"en":"The time before a `let` or `const` line runs, when using that variable throws an error.","hi":"The time before a `let` or `const` line runs, when using that variable throws an error."},{"s":"scope","m":["block-scoped","function-scoped","scope"],"en":"Where a variable can be used. Block scope means only inside the nearest { }.","hi":"Where a variable can be used. Block scope means only inside the nearest { }."},{"s":"closure","m":["closure","closures"],"en":"A function that remembers the variables from the place where it was created.","hi":"A function that remembers the variables from the place where it was created."},{"s":"call-stack","m":["call stack"],"en":"The list of functions running right now. JavaScript finishes the top one first.","hi":"The list of functions running right now. JavaScript finishes the top one first."},{"s":"event-loop","m":["event loop"],"en":"The manager that gives JavaScript the next ready callback when it's free.","hi":"The manager that gives JavaScript the next ready callback when it's free."},{"s":"microtask","m":["microtask","microtasks"],"en":"A small urgent job (like a promise callback) that runs before timers.","hi":"A small urgent job (like a promise callback) that runs before timers."},{"s":"macrotask","m":["macrotask"],"en":"A normal queued job, like a setTimeout callback.","hi":"A normal queued job, like a setTimeout callback."},{"s":"callback","m":["callback","callbacks"],"en":"A function you hand over to be called later.","hi":"A function you hand over to be called later."},{"s":"promise","m":["promise","promises"],"en":"An object for a result that will come later: success or failure.","hi":"An object for a result that will come later: success or failure."},{"s":"prototype","m":["prototype"],"en":"A hidden parent object that another object borrows properties from.","hi":"A hidden parent object that another object borrows properties from."},{"s":"mutation","m":["mutation"],"en":"Changing data in place instead of making a new copy.","hi":"Changing data in place instead of making a new copy."},{"s":"radix","m":["radix"],"en":"The number base: 10 for normal numbers, 2 for binary.","hi":"The number base: 10 for normal numbers, 2 for binary."},{"s":"web-worker","m":["Web Worker"],"en":"A background thread in the browser for heavy work, so the page doesn't freeze.","hi":"A background thread in the browser for heavy work, so the page doesn't freeze."},{"s":"generic","m":["generics","generic"],"en":"A type with a blank you fill in later, like Box<Order>.","hi":"A type with a blank you fill in later, like Box<Order>."},{"s":"union-type","m":["union","unions"],"en":"A type that can be one of several options, like \"open\" | \"closed\".","hi":"A type that can be one of several options, like \"open\" | \"closed\"."},{"s":"discriminated-union","m":["discriminated union"],"en":"A union where every option has a shared field (like status) that tells which one it is.","hi":"A union where every option has a shared field (like status) that tells which one it is."},{"s":"narrowing","m":["narrowing"],"en":"TypeScript working out a more exact type after an if-check.","hi":"TypeScript working out a more exact type after an if-check."},{"s":"specificity","m":["specificity"],"en":"The score CSS uses to decide which rule wins.","hi":"The score CSS uses to decide which rule wins."},{"s":"accessibility","m":["accessibility"],"en":"Making a site usable for everyone, including people using screen readers or keyboards.","hi":"Making a site usable for everyone, including people using screen readers or keyboards."},{"s":"screen-reader","m":["screen readers"],"en":"Software that reads the page aloud for people who can't see the screen.","hi":"Software that reads the page aloud for people who can't see the screen."},{"s":"dom","m":["DOM"],"en":"The browser's live tree of the page's elements, which JavaScript can change.","hi":"The browser's live tree of the page's elements, which JavaScript can change."},{"s":"reflow","m":["reflow"],"en":"The browser recalculating positions and sizes after a change. It's costly.","hi":"The browser recalculating positions and sizes after a change. It's costly."},{"s":"virtual-dom","m":["virtual DOM"],"en":"React's light copy of the page in memory, used to find what changed.","hi":"React's light copy of the page in memory, used to find what changed."},{"s":"reconciliation","m":["reconciliation"],"en":"React comparing the new screen description with the old one.","hi":"React comparing the new screen description with the old one."},{"s":"re-render","m":["re-render","re-renders"],"en":"React running a component again to see if the screen should change.","hi":"React running a component again to see if the screen should change."},{"s":"props","m":["props"],"en":"Inputs passed from a parent component to a child.","hi":"Inputs passed from a parent component to a child."},{"s":"state","m":["state"],"en":"Data a component remembers, which redraws the screen when it changes.","hi":"Data a component remembers, which redraws the screen when it changes."},{"s":"memoisation","m":["memoisation","memoise","memoised"],"en":"Remembering a result so it isn't calculated again.","hi":"Remembering a result so it isn't calculated again."},{"s":"prop-drilling","m":["prop drilling"],"en":"Passing props through many layers that don't need them.","hi":"Passing props through many layers that don't need them."},{"s":"hook","m":["hooks","hook"],"en":"A `use...` function that gives a component state or other React features.","hi":"A `use...` function that gives a component state or other React features."},{"s":"batching","m":["batching","batches"],"en":"Combining several state updates into one redraw.","hi":"Combining several state updates into one redraw."},{"s":"dependency-array","m":["dependency array","deps"],"en":"The list of values that decides when an effect runs again.","hi":"The list of values that decides when an effect runs again."},{"s":"race-condition","m":["race condition"],"en":"A bug where the result depends on which thing finishes first.","hi":"A bug where the result depends on which thing finishes first."},{"s":"stale-closure","m":["stale closure"],"en":"A function that still sees old values from an earlier render.","hi":"A function that still sees old values from an earlier render."},{"s":"context","m":["context"],"en":"A React way to share a value with many components without passing props.","hi":"A React way to share a value with many components without passing props."},{"s":"provider","m":["provider"],"en":"The component that holds a context value for everything below it.","hi":"The component that holds a context value for everything below it."},{"s":"server-state","m":["server state"],"en":"Data that really lives on the server, and the app only keeps a copy of.","hi":"Data that really lives on the server, and the app only keeps a copy of."},{"s":"cache","m":["cache","caching"],"en":"A saved copy of data, kept so it can be shown again quickly.","hi":"A saved copy of data, kept so it can be shown again quickly."},{"s":"invalidation","m":["invalidate","invalidation"],"en":"Marking cached data as old, so it gets fetched again.","hi":"Marking cached data as old, so it gets fetched again."},{"s":"optimistic-update","m":["optimistic"],"en":"Showing the expected result before the server confirms it.","hi":"Showing the expected result before the server confirms it."},{"s":"mutation-react-query","m":["useMutation"],"en":"A request that changes data on the server: create, update or delete.","hi":"A request that changes data on the server: create, update or delete."},{"s":"lazy-loading","m":["lazy-load","lazy loading"],"en":"Loading something only when it's needed.","hi":"Loading something only when it's needed."},{"s":"bundle","m":["bundle"],"en":"The JavaScript files your app is packed into for the browser.","hi":"The JavaScript files your app is packed into for the browser."},{"s":"code-splitting","m":["chunk"],"en":"Breaking the bundle into smaller files that load on demand.","hi":"Breaking the bundle into smaller files that load on demand."},{"s":"virtualise","m":["virtualise","virtualised"],"en":"Drawing only the rows visible on screen in a long list.","hi":"Drawing only the rows visible on screen in a long list."},{"s":"xss","m":["XSS"],"en":"Cross-Site Scripting: an attacker's script running on your page.","hi":"Cross-Site Scripting: an attacker's script running on your page."},{"s":"csrf","m":["CSRF"],"en":"A trick that makes your browser send a request with your cookies from another site.","hi":"A trick that makes your browser send a request with your cookies from another site."},{"s":"cors","m":["CORS"],"en":"A browser rule: a page can read another site's reply only if that site allows it.","hi":"A browser rule: a page can read another site's reply only if that site allows it."},{"s":"sanitise","m":["sanitise"],"en":"Cleaning HTML to remove anything dangerous, like scripts.","hi":"Cleaning HTML to remove anything dangerous, like scripts."},{"s":"token","m":["token","tokens"],"en":"A signed digital pass that proves who you are to the API.","hi":"A signed digital pass that proves who you are to the API."},{"s":"jwt","m":["JWT"],"en":"JSON Web Token: a signed pass with user details that anyone can read but nobody can change.","hi":"JSON Web Token: a signed pass with user details that anyone can read but nobody can change."},{"s":"oidc","m":["OIDC"],"en":"OpenID Connect: a standard login layer on top of OAuth2.","hi":"OpenID Connect: a standard login layer on top of OAuth2."},{"s":"pkce","m":["PKCE"],"en":"A safety check that protects the login code exchange in browser and mobile apps.","hi":"A safety check that protects the login code exchange in browser and mobile apps."},{"s":"rbac","m":["RBAC"],"en":"Role-Based Access Control: what you can do depends on your role.","hi":"Role-Based Access Control: what you can do depends on your role."},{"s":"interceptor-axios","m":["interceptor"],"en":"Code that runs on every request or response, like adding a token.","hi":"Code that runs on every request or response, like adding a token."},{"s":"star-method","m":["STAR"],"en":"Situation, Task, Action, Result: a simple way to tell a work story.","hi":"Situation, Task, Action, Result: a simple way to tell a work story."},{"s":"ctc","m":["CTC"],"en":"Cost To Company: your total yearly salary package.","hi":"Cost To Company: your total yearly salary package."},{"s":"notice-buyout","m":["buyout"],"en":"The new company pays your old company so you can leave before the notice period ends.","hi":"The new company pays your old company so you can leave before the notice period ends."},{"s":"bgv","m":["BGV"],"en":"Background verification: checks of your past jobs, salary and documents.","hi":"Background verification: checks of your past jobs, salary and documents."}]</script>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="./">Frontend Interview Questions (3–10 Years)</a> · <a href="../dsa/">DSA in JavaScript</a> · <a href="../system-design/">System Design</a> · <a href="../ai/">AI Course</a> · <a href="../cs/">CS Fundamentals</a> · <a href="../projects/">Project Ideas</a> · <a href="../frontend-interview/">Frontend Interview</a> · <a href="../backend-interview/">Backend Interview</a> · <a href="../security/">Cyber Security</a> · <a href="../jobs/">Jobs</a> · <a href="../academy.html">Academy</a> · <a href="../guides.html">Guides</a> · <a href="../">Kodivo</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · <span class="en">Written by Agam Sahu, Senior Full Stack Engineer</span><span class="hi">Written by Agam Sahu, Senior Full Stack Engineer</span> · <a href="../privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../dsa/dsa.js"></script>
+  <script src="../counter.js" defer></script>
+</body>
+</html>
