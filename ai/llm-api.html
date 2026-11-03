@@ -204,6 +204,7 @@ import { chat } from <span class="st">"./ai.js"</span>;
 
 console.log(<span class="kw">await</span> chat(history, <span class="st">"What is photosynthesis?"</span>, RULES));
 console.log(<span class="kw">await</span> chat(history, <span class="st">"Give me one more example."</span>, RULES)); <span class="cm">// it knows what "more" means</span></pre>
+        <p class="en">Save this as <b>chat.js</b> in your project folder, then run: <code>node --env-file=.env chat.js</code></p><p class="hi">इसे अपने project folder में <b>chat.js</b> नाम से save कीजिए, फिर चलाइए: <code>node --env-file=.env chat.js</code></p>
       </section>
       <section id="stream">
         <h2 id="stream-h"><span class="en">Step 4: show the answer as it's written</span><span class="hi">Step 4: जवाब लिखते-लिखते दिखाइए</span></h2>
@@ -212,6 +213,7 @@ console.log(<span class="kw">await</span> chat(history, <span class="st">"Give m
 import { streamAI } from <span class="st">"./ai.js"</span>;
 
 <span class="kw">await</span> streamAI(<span class="st">"Write a 6-line story about a robot who sells chai in Lucknow."</span>);</pre>
+        <p class="en">Save this as <b>story.js</b> in your project folder, then run: <code>node --env-file=.env story.js</code></p><p class="hi">इसे अपने project folder में <b>story.js</b> नाम से save कीजिए, फिर चलाइए: <code>node --env-file=.env story.js</code></p>
       </section>
       <section id="cost">
         <h2 id="cost-h"><span class="en">Step 5: errors and cost</span><span class="hi">Step 5: errors और cost</span></h2><span class="badge next"><span class="en">Senior level</span><span class="hi">Senior level</span></span>
@@ -232,6 +234,7 @@ try {
     <span class="kw">throw</span> error;
   }
 }</pre>
+        <p class="en">Save this as <b>errors.js</b> in your project folder, then run: <code>node --env-file=.env errors.js</code></p><p class="hi">इसे अपने project folder में <b>errors.js</b> नाम से save कीजिए, फिर चलाइए: <code>node --env-file=.env errors.js</code></p>
         <p class="en"><b>Estimating cost:</b> providers publish a price per million input tokens and per million output tokens. Cost = input tokens × input price + output tokens × output price. Output tokens usually cost several times more than input tokens, so asking for shorter answers saves money. Always check the provider's current pricing page.</p><p class="hi"><b>Cost का अंदाज़ा:</b> providers हर 10 लाख input tokens और हर 10 लाख output tokens की कीमत बताते हैं। Cost = input tokens × input कीमत + output tokens × output कीमत। Output tokens आमतौर पर input से कई गुना महँगे होते हैं, इसलिए छोटे जवाब माँगने से पैसे बचते हैं। Provider का मौजूदा pricing page हमेशा देखिए।</p>
         <div class="mistakes"><div class="dry-title">⚠️ <span class="en">Common mistakes</span><span class="hi">आम ग़लतियाँ</span></div><ul><li><span class="en">Putting the API key in frontend JavaScript or pushing <code>.env</code> to GitHub.</span><span class="hi">API key को frontend JavaScript में रखना या <code>.env</code> GitHub पर push करना।</span></li><li><span class="en">Reading <code>response.content[0].text</code> without checking the block type or the stop reason.</span><span class="hi">Block type या stop reason check किए बिना <code>response.content[0].text</code> पढ़ना।</span></li><li><span class="en">Forgetting to send the chat history, then wondering why the bot "forgot".</span><span class="hi">Chat history भेजना भूल जाना, फिर सोचना कि bot "भूल" क्यों गया।</span></li><li><span class="en">No spending limit. Set a monthly budget in the provider's console.</span><span class="hi">कोई spending limit नहीं। Provider के console में monthly budget set कीजिए।</span></li></ul></div>
       </section>
