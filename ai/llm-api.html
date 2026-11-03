@@ -127,6 +127,7 @@ npm install @anthropic-ai/sdk</pre>
       </section>
       <section id="helper">
         <h2 id="helper-h"><span class="en">Step 1: one small helper file</span><span class="hi">Step 1: एक छोटी helper file</span></h2><span class="badge begin"><span class="en">Beginner</span><span class="hi">शुरुआती</span></span>
+        <p class="en">This example uses <b>Claude Haiku 5.5</b>, the cheapest Claude model, so testing costs very little. For better answers later, change only the <code>model</code> name in this file.</p><p class="hi">यह example <b>Claude Haiku 5.5</b> use करता है, जो सबसे सस्ता Claude model है, इसलिए testing में बहुत कम ख़र्च होता है। बाद में बेहतर जवाब के लिए बस इस file में <code>model</code> का नाम बदलिए।</p>
         <p class="en">Create <code>ai.js</code> and paste this. You write it once and reuse it everywhere. It hides the technical details, so your app code stays short and simple.</p><p class="hi"><code>ai.js</code> बनाइए और इसमें यह paste कीजिए। इसे एक बार लिखिए और हर जगह इस्तेमाल कीजिए। यह technical बातें छिपा देती है, जिससे आपकी app का code छोटा और आसान रहता है।</p>
         <pre class="code" data-copy><span class="cm">// ai.js - write once, reuse everywhere</span>
 import Anthropic from <span class="st">"@anthropic-ai/sdk"</span>;
@@ -135,13 +136,10 @@ import Anthropic from <span class="st">"@anthropic-ai/sdk"</span>;
 
 <span class="kw">function</span> settings(messages, system) {
   <span class="kw">return</span> {
-    model: <span class="st">"claude-opus-5-5"</span>,   <span class="cm">// which AI model to use</span>
-    max_tokens: 16000,              <span class="cm">// the longest answer we allow</span>
+    model: <span class="st">"claude-haiku-5-5"</span>,   <span class="cm">// which AI model to use</span>
+    max_tokens: 1024,               <span class="cm">// the longest answer we allow (you only pay for what is written)</span>
     messages,                       <span class="cm">// the conversation</span>
     ...(system ? { system } : {}),  <span class="cm">// optional rules for the AI</span>
-    <span class="cm">// Safety net: if this model declines a request, the API tries a fallback model.</span>
-    betas: [<span class="st">"server-side-fallback-2026-07-01"</span>],
-    fallbacks: <span class="st">"default"</span>,
   };
 }
 
@@ -151,7 +149,7 @@ import Anthropic from <span class="st">"@anthropic-ai/sdk"</span>;
 
 <span class="cm">// Ask one question. Returns the answer as plain text.</span>
 export <span class="kw">async</span> <span class="kw">function</span> askAI(question, system) {
-  <span class="kw">const</span> response = <span class="kw">await</span> client.beta.messages.create(settings([{ role: <span class="st">"user"</span>, content: question }], system));
+  <span class="kw">const</span> response = <span class="kw">await</span> client.messages.create(settings([{ role: <span class="st">"user"</span>, content: question }], system));
   <span class="kw">if</span> (response.stop_reason === <span class="st">"refusal"</span>) <span class="kw">return</span> <span class="st">"Sorry, I can't help with that."</span>;
   <span class="kw">return</span> textOf(response);
 }
@@ -159,7 +157,7 @@ export <span class="kw">async</span> <span class="kw">function</span> askAI(ques
 <span class="cm">// Continue a conversation. "history" is an array that remembers the chat.</span>
 export <span class="kw">async</span> <span class="kw">function</span> chat(history, userText, system) {
   history.push({ role: <span class="st">"user"</span>, content: userText });
-  <span class="kw">const</span> response = <span class="kw">await</span> client.beta.messages.create(settings(history, system));
+  <span class="kw">const</span> response = <span class="kw">await</span> client.messages.create(settings(history, system));
   <span class="kw">if</span> (response.stop_reason === <span class="st">"refusal"</span>) {
     history.pop(); <span class="cm">// forget the declined question so the chat can continue</span>
     <span class="kw">return</span> <span class="st">"Sorry, I can't help with that."</span>;
@@ -170,7 +168,7 @@ export <span class="kw">async</span> <span class="kw">function</span> chat(histo
 
 <span class="cm">// Print the answer word by word as it is written (like ChatGPT).</span>
 export <span class="kw">async</span> <span class="kw">function</span> streamAI(question, system) {
-  <span class="kw">const</span> stream = client.beta.messages.stream({ ...settings([{ role: <span class="st">"user"</span>, content: question }], system), max_tokens: 64000 });
+  <span class="kw">const</span> stream = client.messages.stream({ ...settings([{ role: <span class="st">"user"</span>, content: question }], system), max_tokens: 64000 });
   stream.on(<span class="st">"text"</span>, (text) =&gt; process.stdout.write(text));
   <span class="kw">const</span> message = <span class="kw">await</span> stream.finalMessage();
   console.log();
