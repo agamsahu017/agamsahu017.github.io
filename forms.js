@@ -29,9 +29,9 @@
 
   function whatsappText(kind, data) {
     if (kind === "session") {
-      return `Hi Agam, I just registered for the free AI session on your website.\nName: ${data.name}\nI am: ${data.profile}`;
+      return `Hi Kodivo, I just registered for the free AI session on your website.\nName: ${data.name}\nI am: ${data.profile}`;
     }
-    return `Hi Agam, I just sent an enquiry on your website.\nName: ${data.name}\nNeed: ${data.need}\nCity: ${data.city}`;
+    return `Hi Kodivo, I just sent an enquiry on your website.\nName: ${data.name}\nNeed: ${data.need}\nCity: ${data.city}`;
   }
 
   document.querySelectorAll("form[data-lead]").forEach((form) => {

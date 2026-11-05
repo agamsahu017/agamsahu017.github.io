@@ -3,7 +3,7 @@
 Static site (HTML/CSS/JS, no build step). Open `index.html` in a browser to preview.
 
 ## Edit
-- Services, industries, founder → `index.html`
+- Services, industries, about → `index.html`
 - Mentoring / batches → `academy.html`
 - AI chatbot demo → `demo.html` + `demo.js`
 - SEO landing pages → `lucknow.html`, `delhi-ncr.html`, `website-development.html`, `ai-chatbot-whatsapp-automation.html` (English only)
@@ -13,7 +13,7 @@ Static site (HTML/CSS/JS, no build step). Open `index.html` in a browser to prev
 - Privacy policy → `privacy.html`
 - Hindi translations + language button → `i18n.js` (if you change English text, update the matching key there)
 - Colors → top of `style.css` (`:root` variables)
-- Photo → replace `assets/agam.jpg` (square photo, plain background works best)
+- Social share image → edit `assets/og/og-card.html`, screenshot it at 1200×630 into `assets/og-image.jpg`, then bump `?v=` in the og:image tags
 
 ## Deploy free on GitHub Pages
 1. Create a new **public** repo on GitHub named `agamsahu017.github.io`
