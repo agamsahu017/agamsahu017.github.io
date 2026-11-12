@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Level 1: AI Basics</title>
+<link rel="stylesheet" href="../notes.css">
+<style>blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid var(--boxline);background:var(--box);border-radius:6px}blockquote p{margin:4px 0}table{display:block;overflow-x:auto}</style>
+</head>
+<body>
+<nav class="top"><a href="../index.html">← All notes</a><a href="index.html">AI notes home</a></nav>
+<h1>Level 1: AI Basics</h1>
+<h2>One-line summary</h2>
+<blockquote>
+<p>An <strong>LLM</strong> is a smart auto-complete → it reads <strong>tokens</strong> → its memory is the <strong>context window</strong> → you give it a <strong>prompt</strong> → the <strong>system prompt</strong> sets its rules → <strong>temperature</strong> controls creativity → a confident wrong answer is a <strong>hallucination</strong> → generating the answer is <strong>inference</strong>.</p>
+</blockquote>
+<hr>
+<h2>1. LLM (Large Language Model)</h2>
+<p>A very well-read &quot;auto-complete&quot;. It learned from huge amounts of books, websites and code to predict <strong>the next word (token)</strong>.</p>
+<ul>
+<li>Like your phone keyboard suggesting &quot;morning&quot; after &quot;Good&quot;, but smart enough to write whole emails, code and answers.</li>
+<li>Examples: ChatGPT, Claude, Gemini.</li>
+</ul>
+<p>🎤 <em>&quot;An LLM is a neural network trained on huge amounts of text to predict the next token. That&#39;s how it generates text, code and answers.&quot;</em></p>
+<h2>2. Token</h2>
+<p>AI reads <strong>tokens</strong> (pieces of words), not words.</p>
+<ul>
+<li>&quot;Hello&quot; = 1 token; &quot;Unbelievable&quot; ≈ &quot;Un&quot; + &quot;believ&quot; + &quot;able&quot; = 3 tokens</li>
+<li>English: about <strong>1 token ≈ ¾ word</strong>. Hindi uses more tokens.</li>
+<li><strong>API billing is per token</strong> (input + output).</li>
+</ul>
+<p>🎤 <em>&quot;Tokens are the units LLMs process. Pricing, speed and limits are all measured in tokens.&quot;</em></p>
+<h2>3. Context window</h2>
+<p>The AI&#39;s <strong>short-term memory</strong>: how many tokens it can see at once.</p>
+<ul>
+<li>Like a one-page cheat sheet. When it&#39;s full, old content drops off, which is why very long chats &quot;forget&quot; the start.</li>
+<li>Modern models: hundreds of thousands of tokens or more.</li>
+</ul>
+<p>🎤 <em>&quot;The context window is the maximum number of tokens the model can consider at once: the prompt, the history and the response together.&quot;</em></p>
+<h2>4. Prompt</h2>
+<p>What you send to the AI.</p>
+<ul>
+<li>❌ &quot;Write an email&quot;</li>
+<li>✅ &quot;Write a polite 5-line email to a clinic owner offering a free AI chatbot demo, in Hinglish&quot;</li>
+<li>The clearer the prompt, the better the answer. This skill is <strong>prompt engineering</strong>.</li>
+</ul>
+<h2>5. System prompt</h2>
+<p><strong>Permanent instructions</strong> set by the developer. The user doesn&#39;t see them, but the AI always follows them.</p>
+<pre><code>You are the receptionist of CareWell Clinic.
+Only answer questions about the clinic. Always be polite.
+Fee: ₹400. Timing: 9 AM–9 PM. Never give medical advice.
+</code></pre>
+<p>🎤 <em>&quot;The system prompt defines the model&#39;s role, rules and behaviour. It&#39;s set by the developer, not the end user.&quot;</em></p>
+<h2>6. Temperature</h2>
+<p>The <strong>creativity knob</strong> (0 to ~1).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Temperature</th>
+<th>Behaviour</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Low (0)</td>
+<td>Same, safe, predictable answers</td>
+<td>Support bots, data extraction, code</td>
+</tr>
+<tr>
+<td>High (~1)</td>
+<td>Creative, varied answers</td>
+<td>Marketing ideas, captions, stories</td>
+</tr>
+</tbody></table></div>
+<h2>7. Hallucination</h2>
+<p>When the AI <strong>confidently says something false</strong>.</p>
+<ul>
+<li>Why: the LLM predicts the likely next word. It doesn&#39;t check facts.</li>
+<li>Fix: give it the right data (<strong>RAG</strong>), tell it &quot;If you don&#39;t know, say so&quot;, use low temperature, and validate outputs.</li>
+</ul>
+<p>🎤 <em>&quot;Hallucination is when the model generates plausible but false information. We reduce it with RAG, clear instructions, low temperature and validation.&quot;</em></p>
+<h2>8. Inference</h2>
+<p>The process of the AI <strong>generating an answer</strong>.</p>
+<ul>
+<li><strong>Training</strong> = a student studying for years (AI companies do this, it costs crores)</li>
+<li><strong>Inference</strong> = writing answers in the exam (you call the API, and each call costs a little)</li>
+<li>As a developer you use <strong>inference</strong>, not training.</li>
+</ul>
+<hr>
+<h2>Interview questions (answer out loud)</h2>
+<ol>
+<li>What is an LLM, and how does it generate text?</li>
+<li>What is a token, and why does it matter for cost?</li>
+<li>What happens when a conversation exceeds the context window?</li>
+<li>Difference between a system prompt and a user prompt?</li>
+<li>Which temperature would you use for a customer-support bot, and why?</li>
+<li>What is hallucination, and how do you reduce it in production?</li>
+<li>Difference between training and inference?</li>
+</ol>
+<h2>Quiz</h2>
+<ol>
+<li>High or low temperature for a clinic bot? Why? → <em>Low, because answers like fees must be consistent and accurate.</em></li>
+<li>What is AI API billing based on? → <em>Tokens (input + output).</em></li>
+<li>The bot gave the wrong fee. What is it called, and how do you prevent it? → <em>Hallucination. Use RAG with real clinic data, a system prompt rule to say &quot;I&#39;ll confirm&quot; when unsure, and low temperature.</em></li>
+</ol>
+
+</body>
+</html>

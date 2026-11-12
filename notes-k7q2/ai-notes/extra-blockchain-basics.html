@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Extra: Blockchain Basics (just enough for interviews)</title>
+<link rel="stylesheet" href="../notes.css">
+<style>blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid var(--boxline);background:var(--box);border-radius:6px}blockquote p{margin:4px 0}table{display:block;overflow-x:auto}</style>
+</head>
+<body>
+<nav class="top"><a href="../index.html">← All notes</a><a href="index.html">AI notes home</a></nav>
+<h1>Extra: Blockchain Basics (just enough for interviews)</h1>
+<p><strong>Why this file:</strong> your LinkedIn (Chetu) mentions ERC-20 tokens, Coinbase Wallet, Web3.js and basic smart contracts. Interviewers may ask 2–3 questions to check it&#39;s real. Revise this in <strong>1–2 hours</strong>. Don&#39;t go deeper unless you target a Web3 company.</p>
+<h2>One-line summary</h2>
+<blockquote>
+<p><strong>Blockchain</strong> = a shared ledger copied on many computers that nobody can secretly edit → <strong>smart contracts</strong> = code stored on the blockchain that runs automatically → <strong>tokens</strong> (ERC-20 = identical coins, ERC-721 = unique NFTs) are built with smart contracts → <strong>wallets</strong> (MetaMask, Coinbase Wallet) hold your keys and sign transactions → <strong>Web3.js / Ethers.js</strong> let your JS app talk to the blockchain.</p>
+</blockquote>
+<hr>
+<h2>1. What is a blockchain?</h2>
+<p>A <strong>ledger (record book) shared across thousands of computers</strong>. Every new set of transactions is a <strong>block</strong>, and each block stores the <strong>hash of the previous block</strong>, forming a chain.</p>
+<ul>
+<li><strong>Analogy:</strong> a society maintenance register that every member has a photocopy of. If one person changes their copy, it won&#39;t match everyone else&#39;s, so the fake is caught.</li>
+<li>If someone changes an old block, its hash changes, the chain breaks, and the network rejects it → <strong>immutable</strong>.</li>
+</ul>
+<p>🎤 <em>&quot;A blockchain is a distributed, append-only ledger. Each block contains the previous block&#39;s hash, so changing history breaks the chain, and the network agrees on the valid chain through consensus.&quot;</em></p>
+<h2>2. Key properties</h2>
+<ul>
+<li><strong>Decentralized:</strong> no single owner (no bank in the middle)</li>
+<li><strong>Immutable:</strong> past records can&#39;t be changed</li>
+<li><strong>Transparent:</strong> anyone can view transactions (e.g. on Etherscan)</li>
+<li><strong>Trustless:</strong> you trust the code and maths, not a middleman</li>
+</ul>
+<h2>3. Consensus: how everyone agrees</h2>
+<ul>
+<li><strong>Proof of Work (PoW):</strong> miners solve a hard maths puzzle; the winner adds the block. Very secure, uses huge electricity (Bitcoin).</li>
+<li><strong>Proof of Stake (PoS):</strong> validators lock (&quot;stake&quot;) their coins; they&#39;re chosen to add blocks and lose coins if they cheat. Far less energy. <strong>Ethereum moved to PoS in 2022</strong> (&quot;The Merge&quot;).</li>
+</ul>
+<h2>4. Bitcoin vs Ethereum</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Bitcoin</th>
+<th>Ethereum</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Digital money only</td>
+<td>A &quot;world computer&quot;: money <strong>+ smart contracts</strong></td>
+</tr>
+<tr>
+<td>Can&#39;t run apps</td>
+<td>Runs apps (DeFi, NFTs, tokens)</td>
+</tr>
+<tr>
+<td>PoW</td>
+<td>PoS</td>
+</tr>
+</tbody></table></div>
+<h2>5. Smart contract</h2>
+<p><strong>Code stored on the blockchain that runs automatically when conditions are met.</strong> Once deployed, it can&#39;t be changed (unless designed to be upgradeable).</p>
+<ul>
+<li><strong>Analogy:</strong> a vending machine: put in money + choose item → item comes out. No shopkeeper needed.</li>
+<li>Written in <strong>Solidity</strong> (Ethereum&#39;s language, looks a bit like JavaScript/TypeScript).</li>
+<li>Runs on the <strong>EVM</strong> (Ethereum Virtual Machine).</li>
+</ul>
+<pre><code class="language-solidity">// very basic example
+contract Counter {
+    uint public count;
+    function increment() public { count += 1; }
+}
+</code></pre>
+<p>🎤 <em>&quot;A smart contract is a program deployed on the blockchain that executes automatically. In my project, tokens representing real-estate shares were ERC-20 smart contracts.&quot;</em></p>
+<h2>6. Gas</h2>
+<p>The <strong>fee</strong> you pay to run a transaction or contract function on Ethereum (paid in ETH). Every write to the blockchain costs gas; <strong>reading is free</strong>.</p>
+<ul>
+<li>Complex code = more gas. That&#39;s why smart contracts are kept small and simple.</li>
+</ul>
+<h2>7. Tokens: ERC-20 vs ERC-721 (NFT) ⭐ most asked</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ERC-20</th>
+<th>ERC-721 (NFT)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Fungible:</strong> every token is identical (like ₹10 notes)</td>
+<td><strong>Non-fungible:</strong> each token is unique (like a property deed or a painting)</td>
+</tr>
+<tr>
+<td>Used for: currencies, shares, <strong>fractional real estate</strong></td>
+<td>Used for: art, game items, collectibles (<strong>ORE Forge game items</strong>)</td>
+</tr>
+<tr>
+<td>Main functions: <code>totalSupply</code>, <code>balanceOf</code>, <code>transfer</code>, <code>approve</code>, <code>transferFrom</code>, <code>allowance</code></td>
+<td>Main functions: <code>ownerOf</code>, <code>transferFrom</code>, <code>safeTransferFrom</code>, <code>tokenURI</code></td>
+</tr>
+</tbody></table></div>
+<p><strong>Connect to your projects:</strong></p>
+<ul>
+<li><strong>Salcedo (real estate):</strong> a property is split into, say, 1,000 ERC-20 tokens. Buying 10 tokens = owning 1% of the property. Total token value = property value.</li>
+<li><strong>ORE System (NFT):</strong> each in-game item (a sword, a skin) is a unique ERC-721 NFT that players can trade.</li>
+</ul>
+<p><strong>ERC-1155</strong> (bonus): one contract that holds both fungible and non-fungible tokens, popular in games.</p>
+<h2>8. Wallet, public key, private key</h2>
+<ul>
+<li><strong>Wallet</strong> (MetaMask, Coinbase Wallet): an app that holds your keys and signs transactions.</li>
+<li><strong>Public key / address</strong> = like your bank account number. Share it freely.</li>
+<li><strong>Private key / seed phrase</strong> = like your ATM PIN + password. <strong>Never share it</strong>; whoever has it owns the funds. The wallet doesn&#39;t &quot;store coins&quot;: the coins live on the blockchain, the wallet holds the keys.</li>
+</ul>
+<h2>9. How your Coinbase Wallet integration works (be ready to explain)</h2>
+<ol>
+<li>User clicks <strong>&quot;Connect Wallet&quot;</strong> → the app asks Coinbase Wallet for permission → you get the user&#39;s <strong>address</strong>.</li>
+<li>App creates a transaction (e.g. pay X ETH to buy tokens, or call the contract&#39;s buy function).</li>
+<li>The <strong>wallet pops up</strong>, the user reviews it and <strong>signs</strong> (your app never sees the private key).</li>
+<li>Transaction is sent to the network → you get a <strong>transaction hash</strong> → wait for <strong>confirmation</strong>.</li>
+<li>Backend checks the transaction status (on-chain) before updating your database / showing &quot;purchase successful&quot;.</li>
+</ol>
+<p>🎤 <em>&quot;I integrated Coinbase Wallet with Web3.js: connect wallet, get the user&#39;s address, build the transaction, let the wallet sign it, then confirm it on-chain before updating our database.&quot;</em></p>
+<h2>10. Web3.js / Ethers.js</h2>
+<p>JavaScript libraries that let your frontend/backend <strong>talk to Ethereum</strong>: read balances, call contract functions, send transactions.</p>
+<ul>
+<li>To call a contract you need its <strong>address</strong> + <strong>ABI</strong> (a JSON describing its functions, like a Swagger file for the contract).</li>
+<li><strong>Ethers.js</strong> is more popular today; Web3.js is older (you used this one).</li>
+</ul>
+<h2>11. Other common terms</h2>
+<ul>
+<li><strong>Testnet</strong> (Sepolia): a free practice blockchain for testing, with fake ETH.</li>
+<li><strong>Etherscan:</strong> a website to view any transaction, address or contract.</li>
+<li><strong>dApp:</strong> decentralized app = normal frontend + smart contracts as the backend.</li>
+<li><strong>DeFi:</strong> banking-like services (loans, trading) run by smart contracts.</li>
+<li><strong>Oracle</strong> (e.g. Chainlink): brings outside data (prices, weather) into smart contracts, since contracts can&#39;t call APIs themselves.</li>
+<li><strong>Layer 2</strong> (Polygon, Arbitrum): faster, cheaper networks built on top of Ethereum.</li>
+<li><strong>Tokenization:</strong> turning a real-world asset (property, gold) into tokens.</li>
+</ul>
+<h2>12. Downsides (shows maturity)</h2>
+<ul>
+<li>Slow and costly compared to a normal database (gas fees, confirmation time)</li>
+<li>Bugs in smart contracts are permanent and can lose money (hacks happen)</li>
+<li>Regulation is unclear in many countries (India: 30% tax + 1% TDS on crypto)</li>
+<li><strong>Most apps don&#39;t need a blockchain.</strong> A normal database is better when you trust one owner.</li>
+</ul>
+<p>🎤 <em>&quot;I&#39;d use blockchain only when multiple parties who don&#39;t trust each other need a shared, tamper-proof record. Otherwise a normal database is faster, cheaper and simpler.&quot;</em> (Interviewers love this answer.)</p>
+<hr>
+<h2>Interview questions to practise</h2>
+<ol>
+<li>What is a blockchain? Why is it called immutable?</li>
+<li>Proof of Work vs Proof of Stake?</li>
+<li>What is a smart contract? Which language?</li>
+<li>What is gas? Why does reading cost nothing?</li>
+<li>ERC-20 vs ERC-721? Which one did your real-estate project use and why?</li>
+<li>How does tokenized real estate work?</li>
+<li>Public key vs private key? Where is the private key stored in your integration?</li>
+<li>Walk me through your Coinbase Wallet integration.</li>
+<li>What is an ABI?</li>
+<li>When should you NOT use a blockchain?</li>
+</ol>
+
+</body>
+</html>

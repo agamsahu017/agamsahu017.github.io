@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Level 3: Tool Calling, AI Agents & MCP ⭐</title>
+<link rel="stylesheet" href="../notes.css">
+<style>blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid var(--boxline);background:var(--box);border-radius:6px}blockquote p{margin:4px 0}table{display:block;overflow-x:auto}</style>
+</head>
+<body>
+<nav class="top"><a href="../index.html">← All notes</a><a href="index.html">AI notes home</a></nav>
+<h1>Level 3: Tool Calling, AI Agents &amp; MCP ⭐</h1>
+<h2>The problem this level solves</h2>
+<p>An LLM on its own can only <strong>talk</strong>. It can&#39;t check a database, book an appointment, send a WhatsApp message or read today&#39;s date.
+<strong>Tool calling</strong> gives it hands. <strong>Agents</strong> let it use those hands step by step to finish a goal.</p>
+<h2>One-line summary</h2>
+<blockquote>
+<p><strong>Tool calling</strong> = the LLM asks your code to run a function → an <strong>agent</strong> = an LLM in a loop that keeps choosing tools until the goal is done → <strong>MCP</strong> = a standard plug for connecting tools to any AI app.</p>
+</blockquote>
+<hr>
+<h2>1. Tool calling (function calling)</h2>
+<p>You describe your functions to the LLM. When it needs one, it replies with <strong>&quot;call this function with these arguments&quot;</strong> (structured JSON). <strong>Your code runs it</strong>, then sends the result back, and the LLM writes the final answer.</p>
+<pre><code>Tools you give the LLM:
+  getAvailableSlots(date)
+  bookSiteVisit(name, phone, propertyId, slot)
+
+User: &quot;Kal Sector 150 wala 3BHK dekhna hai&quot;
+LLM → { tool: &quot;getAvailableSlots&quot;, args: { date: &quot;2026-10-19&quot; } }   ← LLM only ASKS
+Your code → runs DB query → [&quot;11:00&quot;, &quot;16:00&quot;]                      ← YOUR code executes
+LLM → &quot;Kal 11 baje ya 4 baje, kaunsa time theek rahega?&quot;
+</code></pre>
+<p><strong>Key point:</strong> the model never executes anything itself. It only requests; your backend decides and executes. That&#39;s where you put validation and permissions.</p>
+<p>🎤 <em>&quot;Tool calling lets the model return a structured request to invoke a function I&#39;ve defined. My application executes it and returns the result to the model. The model decides <strong>what</strong> to call; my code controls <strong>whether and how</strong> it runs.&quot;</em></p>
+<h2>2. AI agent</h2>
+<p>An LLM running in a <strong>loop</strong>: <strong>think → act (call a tool) → observe the result → repeat</strong> until the goal is done.</p>
+<pre><code>Goal: &quot;Is lead ko qualify karke site visit book karo&quot;
+
+Loop 1: Think: budget pata nahi       → Act: ask user budget        → Observe: &quot;1.5 Cr&quot;
+Loop 2: Think: matching property?     → Act: searchProperties(...)  → Observe: 2 options
+Loop 3: Think: slot chahiye           → Act: getAvailableSlots()    → Observe: 11:00, 16:00
+Loop 4: Think: user ne 4 baje bola    → Act: bookSiteVisit(...)     → Observe: booked ✅
+Loop 5: Think: broker ko batana hai   → Act: notifyBroker(...)      → Done
+</code></pre>
+<p><strong>Real example:</strong> Claude Code (the tool you&#39;re using right now) is an agent. It reads files, runs commands, checks the output and decides the next step on its own.</p>
+<p>🎤 <em>&quot;An agent is an LLM that plans and executes multi-step tasks by calling tools in a loop, using each result to decide the next action until the goal is met.&quot;</em></p>
+<h2>3. Chatbot vs workflow vs agent</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Chatbot</th>
+<th>Workflow</th>
+<th>Agent</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>What it does</td>
+<td>Answers questions</td>
+<td>Fixed steps written by you (step 1 → 2 → 3)</td>
+<td><strong>Decides the steps itself</strong></td>
+</tr>
+<tr>
+<td>Flexible?</td>
+<td>Low</td>
+<td>Medium</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Predictable?</td>
+<td>High</td>
+<td><strong>High</strong></td>
+<td>Lower</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>FAQ bot</td>
+<td>&quot;New lead → send template → add to CRM&quot;</td>
+<td>&quot;Qualify this lead and book a visit, however it takes&quot;</td>
+</tr>
+</tbody></table></div>
+<p><strong>Senior insight:</strong> <em>don&#39;t use an agent when a workflow is enough.</em> Workflows are cheaper, faster and easier to debug. Use agents only where the path genuinely varies.</p>
+<h2>4. Memory</h2>
+<ul>
+<li><strong>Short-term:</strong> the current conversation (lives in the context window).</li>
+<li><strong>Long-term:</strong> saved facts across conversations (stored in your DB, fetched back with RAG). For example: &quot;This lead wanted 3BHK under 1.5 Cr last week.&quot;</li>
+</ul>
+<h2>5. Multi-agent</h2>
+<p>Several specialised agents working together, each with its own tools and prompt.
+Example: <strong>Qualifier agent</strong> (asks questions) → <strong>Property-matching agent</strong> (searches listings) → <strong>Scheduler agent</strong> (books visits).
+Useful for complex systems, but adds cost and complexity. Start with <strong>one</strong> agent.</p>
+<h2>6. MCP (Model Context Protocol)</h2>
+<p>An <strong>open standard</strong> (introduced by Anthropic in 2024) for connecting AI apps to tools and data.</p>
+<ul>
+<li>Before MCP: every AI app needed custom integration code for every tool.</li>
+<li>With MCP: build an <strong>MCP server</strong> once (e.g. &quot;Kodivo CRM&quot;), and any MCP-compatible AI app (Claude, IDEs, agents) can use it.</li>
+<li><strong>Analogy:</strong> USB-C for AI. One plug, many devices.</li>
+</ul>
+<p>🎤 <em>&quot;MCP is an open protocol that standardises how AI applications connect to external tools and data sources, so a tool built once as an MCP server can be used by any MCP-compatible client.&quot;</em></p>
+<h2>7. Guardrails &amp; human-in-the-loop (production must-haves)</h2>
+<p>Agents can make mistakes, so in production:</p>
+<ul>
+<li><strong>Validate tool arguments</strong> (is the phone number valid? does the slot exist?)</li>
+<li><strong>Permissions:</strong> the agent can read listings but can&#39;t delete them</li>
+<li><strong>Human approval</strong> for risky actions (refunds, payments, sending bulk messages)</li>
+<li><strong>Max steps / timeouts</strong> so the loop can&#39;t run forever (and burn money)</li>
+<li><strong>Logging</strong> of every tool call for debugging and audits</li>
+<li><strong>Evals:</strong> test the agent on sample conversations before every release</li>
+</ul>
+<p>🎤 <em>&quot;In production I&#39;d add argument validation, least-privilege tools, human approval for irreversible actions, step limits, full tool-call logging and evals.&quot;</em></p>
+<h2>8. Mapping to your stack</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Agent piece</th>
+<th>Your world</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tools</td>
+<td>NestJS service methods / REST endpoints</td>
+</tr>
+<tr>
+<td>Tool permissions</td>
+<td>Your existing RBAC (like TIFS roles)</td>
+</tr>
+<tr>
+<td>Long-term memory</td>
+<td>PostgreSQL + pgvector</td>
+</tr>
+<tr>
+<td>Human-in-the-loop</td>
+<td>Your approval workflows (like TIFS approve/reject)</td>
+</tr>
+<tr>
+<td>Logging</td>
+<td>Audit logs table</td>
+</tr>
+</tbody></table></div>
+<p>You&#39;ve already built approval workflows and audit trails. In interviews, connect them to agent guardrails. That&#39;s a strong senior answer.</p>
+<hr>
+<h2>Interview questions (answer out loud)</h2>
+<ol>
+<li>What is tool/function calling? Who actually executes the function?</li>
+<li>What is an AI agent? Explain the agent loop.</li>
+<li>Agent vs workflow: when would you pick each?</li>
+<li>How do you stop an agent from doing something harmful or expensive?</li>
+<li>What is MCP and why does it matter?</li>
+<li>How would you give an agent long-term memory?</li>
+<li>Design an AI agent that qualifies real-estate leads on WhatsApp. (System design question: tools, flow, guardrails.)</li>
+</ol>
+<h2>Quiz</h2>
+<ol>
+<li>In tool calling, does the LLM run the database query itself?</li>
+<li>A process always runs: &quot;new lead → send welcome message → add to CRM&quot;. Agent or workflow? Why?</li>
+<li>Name 3 guardrails you&#39;d add before letting an agent book site visits.</li>
+</ol>
+
+</body>
+</html>
