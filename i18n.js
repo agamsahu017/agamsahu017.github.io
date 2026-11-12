@@ -464,6 +464,15 @@
     ["What learners in Lucknow say", "लखनऊ के लर्नर्स क्या कहते हैं"],
     ["Do you come to our college?", "क्या आप हमारे कॉलेज आते हैं?"],
     ["Yes, in Lucknow and Delhi NCR. For colleges in other cities, we run the workshop live online on Google Meet.", "हाँ, लखनऊ और दिल्ली NCR में। दूसरे शहरों के कॉलेजों के लिए हम वर्कशॉप Google Meet पर लाइव ऑनलाइन करते हैं।"],
+    // Academy: 15 Nov AI workshop
+    ["🎁 Free Hands-on Workshop", "🎁 फ़्री प्रैक्टिकल वर्कशॉप"],
+    ["AI Workshop: use AI in your daily work and studies", "AI वर्कशॉप: रोज़ के काम और पढ़ाई में AI का इस्तेमाल"],
+    ["A free 1-hour online workshop for students, job-seekers and working professionals. No coding needed.", "स्टूडेंट्स, नौकरी ढूँढ रहे लोगों और वर्किंग प्रोफ़ेशनल्स के लिए 1 घंटे की फ़्री ऑनलाइन वर्कशॉप। कोडिंग की ज़रूरत नहीं।"],
+    ["ChatGPT and smart prompting", "ChatGPT और स्मार्ट प्रॉम्प्टिंग"],
+    ["Best free AI tools for study and work", "पढ़ाई और काम के लिए बेहतरीन फ़्री AI टूल्स"],
+    ["Automate daily tasks: notes, emails, reports", "रोज़ के काम ऑटोमेट करें: नोट्स, ईमेल, रिपोर्ट"],
+    ["Build a mini AI project, live", "लाइव एक छोटा AI प्रोजेक्ट बनाएँ"],
+    ["📅 <b>Sunday, 15 November · 1–2 PM IST</b> · Online on Google Meet. The joining link is shared on WhatsApp after you register.", "📅 <b>रविवार, 15 नवंबर · दोपहर 1–2 बजे</b> · Google Meet पर ऑनलाइन। रजिस्ट्रेशन के बाद जुड़ने का लिंक WhatsApp पर भेजा जाता है।"],
   ]);
 
   const keyOf = (el) =>
