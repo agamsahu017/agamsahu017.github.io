@@ -4,42 +4,42 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Level 2: Embeddings, Vector DB & RAG ⭐</title>
+<title>Level 2: Embeddings, Vector Database and RAG ⭐</title>
 <link rel="stylesheet" href="../notes.css">
 <style>blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid var(--boxline);background:var(--box);border-radius:6px}blockquote p{margin:4px 0}table{display:block;overflow-x:auto}</style>
 </head>
 <body>
 <nav class="top"><a href="../index.html">← All notes</a><a href="index.html">AI notes home</a></nav>
-<h1>Level 2: Embeddings, Vector DB &amp; RAG ⭐</h1>
-<h2>The problem this level solves</h2>
-<p>An LLM doesn&#39;t know <strong>your</strong> data: your clinic&#39;s fees, your company&#39;s PDFs, your TIFS database. Ask it, and it will guess (hallucinate).
-<strong>RAG</strong> fixes that by finding the right information first and then giving it to the AI with the question.</p>
-<h2>One-line summary</h2>
+<h1>Level 2: Embeddings, Vector Database and RAG ⭐</h1>
+<h2>The problem</h2>
+<p>An LLM does not know <strong>your</strong> data: your clinic&#39;s fees, your company&#39;s PDFs, your database. If you ask, it will guess (hallucinate).
+<strong>RAG</strong> fixes this. It first finds the right information, then gives it to the AI along with the question.</p>
+<h2>In one line</h2>
 <blockquote>
-<p>Turn text into numbers (<strong>embeddings</strong>) → store them in a <strong>vector DB</strong> → when a question comes, find the most similar pieces (<strong>semantic search</strong>) → give those pieces + the question to the LLM → it answers from your data. That whole flow is <strong>RAG</strong>.</p>
+<p>Turn text into numbers (<strong>embeddings</strong>) → save them in a <strong>vector database</strong> → when a question comes, find the closest pieces (<strong>semantic search</strong>) → give those pieces + the question to the LLM → it answers from your data. This whole flow is <strong>RAG</strong>.</p>
 </blockquote>
 <hr>
 <h2>1. Embedding</h2>
-<p>Converting text into a <strong>list of numbers</strong> that captures its <strong>meaning</strong>.</p>
-<pre><code>&quot;Clinic fees kitni hai?&quot;     → [0.12, -0.53, 0.88, ...]  (hundreds/thousands of numbers)
-&quot;Consultation charge kya hai?&quot; → [0.11, -0.50, 0.85, ...]  ← very similar numbers
-&quot;Aaj mausam kaisa hai?&quot;      → [-0.70, 0.31, -0.10, ...] ← very different numbers
+<p>Turning text into a <strong>list of numbers</strong> that holds its <strong>meaning</strong>.</p>
+<pre><code>&quot;What are the clinic fees?&quot;        → [0.12, -0.53, 0.88, ...]
+&quot;How much is the consultation?&quot;    → [0.11, -0.50, 0.85, ...]  ← very close numbers
+&quot;How is the weather today?&quot;        → [-0.70, 0.31, -0.10, ...] ← very different numbers
 </code></pre>
 <ul>
-<li><strong>Same meaning = numbers close together</strong>, even if the words are different (and even in different languages).</li>
-<li>You create embeddings by calling an <strong>embedding model</strong> API.</li>
+<li><strong>Same meaning = numbers close together</strong>, even when the words are different (even in another language).</li>
+<li>You make embeddings by calling an <strong>embedding model</strong> API.</li>
 </ul>
-<p><strong>Analogy:</strong> like a GPS coordinate for meaning. &quot;Fees&quot; and &quot;charges&quot; sit in the same neighbourhood; &quot;weather&quot; is in another city.</p>
-<p>🎤 <em>&quot;An embedding is a vector representation of text where semantically similar texts are close together in vector space.&quot;</em></p>
+<p><strong>Example:</strong> like a map location for meaning. &quot;Fees&quot; and &quot;charges&quot; live in the same area. &quot;Weather&quot; lives in another city.</p>
+<p>🎤 <em>&quot;An embedding is a list of numbers that stands for the meaning of a text. Texts with similar meaning get numbers that are close together.&quot;</em></p>
 <h2>2. Vector database</h2>
-<p>A database built to store embeddings and quickly find the <strong>nearest</strong> ones.</p>
+<p>A database made to store embeddings and quickly find the <strong>closest</strong> ones.</p>
 <ul>
-<li>Examples: <strong>pgvector</strong> (a PostgreSQL extension, which you already know), Pinecone, Qdrant, Weaviate, Chroma.</li>
-<li>Normal SQL: <code>WHERE name = &#39;fees&#39;</code> (exact match)</li>
-<li>Vector DB: &quot;find the 5 rows whose <strong>meaning</strong> is closest to this question&quot;</li>
+<li>Examples: <strong>pgvector</strong> (an add-on for PostgreSQL, which you already know), Pinecone, Qdrant, Weaviate, Chroma.</li>
+<li>Normal SQL: <code>WHERE name = &#39;fees&#39;</code> (exact match).</li>
+<li>Vector database: &quot;find the 5 rows whose <strong>meaning</strong> is closest to this question&quot;.</li>
 </ul>
-<p>🎤 <em>&quot;A vector database stores embeddings and supports fast similarity search, usually with approximate nearest-neighbour indexes.&quot;</em></p>
-<h2>3. Semantic search vs keyword search</h2>
+<p>🎤 <em>&quot;A vector database stores embeddings and can quickly find the ones closest to a question.&quot;</em></p>
+<h2>3. Keyword search vs semantic search</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -48,57 +48,57 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>Matches exact words</td>
-<td>Matches <strong>meaning</strong></td>
+<td>Matches the exact words</td>
+<td>Matches the <strong>meaning</strong></td>
 </tr>
 <tr>
 <td>&quot;fees&quot; ≠ &quot;charges&quot;</td>
-<td>&quot;fees&quot; ≈ &quot;charges&quot; ≈ &quot;kitna paisa lagega&quot;</td>
+<td>&quot;fees&quot; ≈ &quot;charges&quot; ≈ &quot;how much will it cost&quot;</td>
 </tr>
 <tr>
 <td>SQL <code>LIKE</code>, Elasticsearch</td>
-<td>Embeddings + vector DB</td>
+<td>Embeddings + vector database</td>
 </tr>
 </tbody></table></div>
-<p><strong>Similarity</strong> is usually measured with <strong>cosine similarity</strong>: how close two vectors point in the same direction (1 = same meaning, 0 = unrelated).</p>
-<p><strong>Note:</strong> our Kodivo demo bot uses <strong>keyword</strong> matching. The real version will use <strong>semantic</strong> search, which is why it will understand any phrasing.</p>
+<p>Closeness is usually measured with <strong>cosine similarity</strong>: 1 = same meaning, 0 = not related.</p>
+<p><strong>Note:</strong> our Kodivo demo bot uses <strong>keyword</strong> matching. The real version will use <strong>semantic</strong> search, so it will understand any way of asking.</p>
 <h2>4. Chunking</h2>
-<p>Splitting big documents into <strong>small pieces</strong> before creating embeddings.</p>
+<p>Cutting big documents into <strong>small pieces</strong> before making embeddings.</p>
 <ul>
-<li>Why: a 50-page PDF as one embedding is too vague, and it won&#39;t fit nicely in the prompt.</li>
-<li>Typical: a few hundred tokens per chunk, with a small <strong>overlap</strong> so sentences aren&#39;t cut in half.</li>
-<li>Better chunking (by heading, section or FAQ) gives better answers.</li>
+<li>Why: one embedding for a 50-page PDF is too vague, and the whole PDF will not fit well in the prompt.</li>
+<li>Usual size: a few hundred tokens per piece, with a small <strong>overlap</strong> so sentences are not cut in half.</li>
+<li>Better cutting (by heading, section or FAQ) gives better answers.</li>
 </ul>
-<p><strong>Analogy:</strong> you don&#39;t hand someone a whole book. You tear out the right page.</p>
+<p><strong>Example:</strong> you don&#39;t give someone a whole book. You give them the right page.</p>
 <h2>5. RAG (Retrieval-Augmented Generation) ⭐⭐</h2>
-<p><strong>Retrieve</strong> the right info → <strong>Augment</strong> the prompt with it → <strong>Generate</strong> the answer.</p>
-<h3>Two phases</h3>
-<p><strong>A) Indexing (once, or whenever data changes)</strong></p>
-<pre><code>Clinic PDF / FAQs / DB rows
-   → split into chunks
-   → create an embedding for each chunk
-   → store (chunk text + embedding) in the vector DB
+<p><strong>Find</strong> the right information → <strong>add</strong> it to the prompt → <strong>write</strong> the answer.</p>
+<h3>Two parts</h3>
+<p><strong>A) Saving the data (once, or when the data changes)</strong></p>
+<pre><code>Clinic PDF / FAQs / database rows
+   → cut into pieces
+   → make an embedding for each piece
+   → save (piece text + embedding) in the vector database
 </code></pre>
-<p><strong>B) Answering (every user question)</strong></p>
-<pre><code>User: &quot;Sunday ko clinic khula hai?&quot;
-   → embed the question
-   → vector DB: find the top 3 most similar chunks
+<p><strong>B) Answering (for every question)</strong></p>
+<pre><code>User: &quot;Is the clinic open on Sunday?&quot;
+   → make an embedding of the question
+   → vector database: find the 3 closest pieces
         → &quot;Sunday: 10 AM – 1 PM&quot;
-   → prompt to LLM:
-        System: Answer ONLY from the context. If it&#39;s not there, say you&#39;ll confirm.
-        Context: &lt;top 3 chunks&gt;
-        Question: Sunday ko clinic khula hai?
-   → LLM: &quot;Haan, Sunday ko clinic 10 AM se 1 PM tak khula hai. 🙂&quot;
+   → prompt to the LLM:
+        System: Answer ONLY from the context. If it is not there, say you will confirm.
+        Context: &lt;the 3 pieces&gt;
+        Question: Is the clinic open on Sunday?
+   → LLM: &quot;Yes, the clinic is open on Sunday from 10 AM to 1 PM. 🙂&quot;
 </code></pre>
-<h3>Why RAG (and not just a huge prompt or fine-tuning)?</h3>
+<h3>Why RAG (and not a huge prompt or fine-tuning)?</h3>
 <ul>
-<li>✅ Answers from <strong>your real data</strong> → far fewer hallucinations</li>
-<li>✅ Update data anytime: just re-index, no retraining</li>
-<li>✅ Cheaper: you send only the relevant chunks, not everything</li>
-<li>✅ You can <strong>show sources</strong> (&quot;from: fee-list.pdf&quot;)</li>
+<li>✅ Answers come from <strong>your real data</strong>, so far fewer hallucinations</li>
+<li>✅ Update the data any time: just save it again, no retraining</li>
+<li>✅ Cheaper: you send only the useful pieces, not everything</li>
+<li>✅ You can <strong>show the source</strong> (&quot;from: fee-list.pdf&quot;)</li>
 </ul>
-<p>🎤 <em>&quot;RAG retrieves relevant documents using embeddings and similarity search, adds them to the prompt as context, and the LLM generates an answer grounded in that context. It reduces hallucination and keeps knowledge up to date without retraining.&quot;</em></p>
-<h2>6. RAG vs fine-tuning (very common interview question)</h2>
+<p>🎤 <em>&quot;RAG finds the right pieces of my documents using embeddings, adds them to the prompt, and the LLM answers only from them. This cuts hallucination and keeps answers up to date without retraining.&quot;</em></p>
+<h2>6. RAG vs fine-tuning (very common question)</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -109,13 +109,13 @@
 </thead>
 <tbody><tr>
 <td>What it does</td>
-<td>Gives the model <strong>knowledge</strong> at question time</td>
-<td>Changes the model&#39;s <strong>behaviour/style</strong> by training</td>
+<td>Gives the model <strong>facts</strong> at question time</td>
+<td>Changes how the model <strong>behaves or writes</strong> by training it</td>
 </tr>
 <tr>
 <td>Data changes often?</td>
-<td>✅ Just re-index</td>
-<td>❌ Retrain each time</td>
+<td>✅ Just save it again</td>
+<td>❌ Train again every time</td>
 </tr>
 <tr>
 <td>Cost</td>
@@ -125,52 +125,52 @@
 <tr>
 <td>Best for</td>
 <td>FAQs, documents, company data</td>
-<td>Fixed tone, format, specialised tasks</td>
+<td>Fixed tone, fixed format, special tasks</td>
 </tr>
 </tbody></table></div>
-<p><strong>Rule of thumb:</strong> <em>knowledge → RAG; behaviour/style → fine-tuning.</em> Most business apps need RAG.</p>
-<h2>7. Mapping RAG to things you know</h2>
+<p><strong>Easy rule:</strong> <em>facts → RAG; style → fine-tuning.</em> Most business apps need RAG.</p>
+<h2>7. RAG with tools you already use</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th>RAG piece</th>
+<th>RAG part</th>
 <th>Your world</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>Vector DB</td>
-<td>PostgreSQL + <strong>pgvector</strong> extension</td>
+<td>Vector database</td>
+<td>PostgreSQL + <strong>pgvector</strong></td>
 </tr>
 <tr>
-<td>Indexing job</td>
-<td>A NestJS cron/queue job that embeds new rows/files</td>
+<td>Saving job</td>
+<td>A NestJS cron or queue job that makes embeddings for new rows or files</td>
 </tr>
 <tr>
-<td>Retrieval</td>
+<td>Finding pieces</td>
 <td>A SQL query: <code>ORDER BY embedding &lt;=&gt; $questionEmbedding LIMIT 5</code></td>
 </tr>
 <tr>
-<td>Generation</td>
-<td>One API call to the LLM with context + question</td>
+<td>Writing the answer</td>
+<td>One API call to the LLM with the pieces + the question</td>
 </tr>
 </tbody></table></div>
-<p>You can build RAG with tools you already use. That&#39;s a strong interview point.</p>
+<p>You can build RAG with tools you already use. Say this in interviews.</p>
 <hr>
 <h2>Interview questions (answer out loud)</h2>
 <ol>
 <li>What is an embedding? Give an example.</li>
 <li>How is semantic search different from keyword search?</li>
-<li>Explain the RAG pipeline end to end (indexing + answering).</li>
-<li>Why do we chunk documents? What happens if chunks are too big or too small?</li>
-<li>RAG vs fine-tuning: when would you use each?</li>
-<li>How does RAG reduce hallucination? Can it remove it completely? (→ No. Also use &quot;answer only from context&quot; instructions, show sources, and run evals.)</li>
-<li>Which vector DB would you choose and why? (→ pgvector if already on PostgreSQL: one less system to run.)</li>
+<li>Explain the full RAG flow (saving + answering).</li>
+<li>Why do we cut documents into pieces? What if the pieces are too big or too small?</li>
+<li>RAG vs fine-tuning: when do you use each?</li>
+<li>How does RAG reduce hallucination? Can it stop it fully? (→ No. Also tell the model to answer only from the context, show sources, and test with an eval set.)</li>
+<li>Which vector database would you pick and why? (→ pgvector if you already use PostgreSQL: one less system to run.)</li>
 </ol>
 <h2>Quiz</h2>
 <ol>
 <li>A clinic changes its fees every month. RAG or fine-tuning? Why?</li>
-<li>A user asks &quot;kitna paisa lagega?&quot; but the document says &quot;Consultation fee: ₹400&quot;. Will keyword search find it? Will semantic search?</li>
-<li>What two things are stored for each chunk in the vector DB?</li>
+<li>A user asks &quot;how much will it cost?&quot; but the document says &quot;Consultation fee: ₹400&quot;. Will keyword search find it? Will semantic search?</li>
+<li>Which two things are saved for each piece in the vector database?</li>
 </ol>
 
 </body>

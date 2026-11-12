@@ -11,90 +11,90 @@
 <body>
 <nav class="top"><a href="../index.html">← All notes</a><a href="index.html">AI notes home</a></nav>
 <h1>Level 4: How LLMs Work (Interview Theory)</h1>
-<p>You won&#39;t build models, but interviewers ask these to check depth. Aim: explain each in <strong>2–3 clear sentences</strong>.</p>
-<h2>One-line summary</h2>
+<p>You will not build models, but interviewers ask these to check your depth. Goal: explain each one in <strong>2 or 3 clear sentences</strong>.</p>
+<h2>In one line</h2>
 <blockquote>
-<p>A <strong>Transformer</strong> reads all tokens together and uses <strong>attention</strong> to decide which words matter to each other → it&#39;s <strong>pre-trained</strong> on huge text to predict the next token → <strong>fine-tuned</strong> on instruction examples → aligned with <strong>RLHF</strong> so it&#39;s helpful and safe → <strong>parameters</strong> are what it learned → <strong>quantization</strong> makes it smaller and cheaper → <strong>open-weight</strong> models you host yourself, <strong>closed</strong> models you call by API.</p>
+<p>A <strong>Transformer</strong> reads all tokens together and uses <strong>attention</strong> to decide which words matter to each other → it is <strong>pre-trained</strong> on huge text to guess the next token → <strong>fine-tuned</strong> on good question-answer examples → improved with <strong>RLHF</strong> so it is helpful and safe → <strong>parameters</strong> are what it learned → <strong>quantization</strong> makes it smaller and cheaper → <strong>open-weight</strong> models you run yourself, <strong>closed</strong> models you use through an API.</p>
 </blockquote>
 <hr>
 <h2>1. Transformer</h2>
-<p>The architecture behind almost all modern LLMs (from Google&#39;s 2017 paper <em>&quot;Attention Is All You Need&quot;</em>).</p>
+<p>The design behind almost all modern LLMs (from Google&#39;s 2017 paper <em>&quot;Attention Is All You Need&quot;</em>).</p>
 <ul>
-<li>Older models (RNNs) read text <strong>one word at a time</strong>, like reading with a finger: slow, and they forget early words.</li>
-<li>A Transformer looks at <strong>all the tokens at once</strong> (in parallel). That makes training fast, and it handles long text better.</li>
-<li>GPT-style chat models use the <strong>decoder-only</strong> variant: they generate text one token at a time, each new token based on everything before it.</li>
+<li>Older models (RNNs) read text <strong>one word at a time</strong>, like reading with a finger. They were slow and forgot early words.</li>
+<li>A Transformer looks at <strong>all tokens at once</strong>. So training is faster, and it handles long text better.</li>
+<li>Chat models like GPT and Claude <strong>write one token at a time</strong>, and each new token depends on everything before it (&quot;decoder-only&quot;).</li>
 </ul>
-<p>🎤 <em>&quot;A Transformer processes all tokens in parallel and uses self-attention to model relationships between them. LLMs like GPT and Claude are decoder-only Transformers that generate one token at a time.&quot;</em></p>
+<p>🎤 <em>&quot;A Transformer reads all tokens at the same time and uses attention to link them. Chat models like GPT and Claude are Transformers that write one token at a time.&quot;</em></p>
 <h2>2. Attention (self-attention)</h2>
-<p>How the model decides <strong>which other words matter</strong> when understanding each word.</p>
+<p>How the model decides <strong>which other words matter</strong> for understanding each word.</p>
 <pre><code>&quot;The broker called the client because HE was late.&quot;
-   → &quot;he&quot; pays strong attention to &quot;broker&quot; (or &quot;client&quot;), weak attention to &quot;called&quot;.
-&quot;Bank ke kinare baithe&quot; vs &quot;Bank mein paise jama kiye&quot;
-   → &quot;bank&quot; attends to &quot;kinare&quot; (river bank) vs &quot;paise&quot; (money bank).
+   → &quot;he&quot; looks strongly at &quot;broker&quot; (or &quot;client&quot;), weakly at &quot;called&quot;.
+&quot;She sat on the bank of the river&quot; vs &quot;She put money in the bank&quot;
+   → &quot;bank&quot; looks at &quot;river&quot; (river bank) vs &quot;money&quot; (money bank).
 </code></pre>
 <ul>
-<li>Each word gets a score against every other word: high score = &quot;this matters for my meaning&quot;.</li>
-<li><strong>Multi-head attention:</strong> several attention &quot;views&quot; in parallel (one tracks grammar, another meaning, another references).</li>
-<li><strong>Positional encoding:</strong> since all words are read together, the model adds position info so it knows word order.</li>
+<li>Each word gets a score with every other word: high score = &quot;this matters for my meaning&quot;.</li>
+<li><strong>Multi-head attention:</strong> many attention &quot;views&quot; at the same time (one follows grammar, one follows meaning, and so on).</li>
+<li><strong>Positional encoding:</strong> because all words are read together, the model adds position numbers so it knows the word order.</li>
 </ul>
-<p>🎤 <em>&quot;Self-attention lets each token weigh every other token in the context, so the model captures meaning from context, like resolving what &#39;he&#39; or &#39;bank&#39; refers to.&quot;</em></p>
-<p><strong>Why it matters to you:</strong> attention compares every token with every other token, so cost grows quickly with context length. That&#39;s why long prompts are slower and costlier.</p>
+<p>🎤 <em>&quot;Self-attention lets each token look at every other token, so the model understands words from their context, like what &#39;he&#39; or &#39;bank&#39; means.&quot;</em></p>
+<p><strong>Why it matters to you:</strong> every token is compared with every other token, so cost grows fast with longer text. That is why long prompts are slower and cost more.</p>
 <h2>3. Parameters</h2>
-<p>The numbers (weights) the model learned during training: its &quot;knowledge and skill&quot;.</p>
+<p>The numbers (weights) the model learned in training: its &quot;knowledge and skill&quot;.</p>
 <ul>
-<li>&quot;7B model&quot; = 7 billion parameters. More parameters usually means more capable, but also slower and more expensive to run.</li>
-<li><strong>Analogy:</strong> parameters are the brain&#39;s connections; training adjusts them.</li>
+<li>&quot;7B model&quot; = 7 billion parameters. More parameters usually means smarter, but also slower and costlier to run.</li>
+<li><strong>Example:</strong> parameters are like connections in a brain; training adjusts them.</li>
 </ul>
-<h2>4. How an LLM is built: the 3 stages</h2>
+<h2>4. How an LLM is built: 3 stages</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Stage</th>
 <th>What happens</th>
-<th>Analogy</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><strong>1. Pre-training</strong></td>
-<td>Reads a huge amount of text and learns to <strong>predict the next token</strong>. Most expensive stage.</td>
-<td>A child reading the whole library: knows a lot, but doesn&#39;t know how to behave in an interview</td>
+<td>Reads a huge amount of text and learns to <strong>guess the next token</strong>. The costliest stage.</td>
+<td>A child who read the whole library: knows a lot, but does not know how to behave in an interview</td>
 </tr>
 <tr>
-<td><strong>2. Fine-tuning (SFT / instruction tuning)</strong></td>
+<td><strong>2. Fine-tuning (instruction tuning)</strong></td>
 <td>Trained on examples of good <em>question → answer</em> pairs</td>
 <td>Coaching: &quot;When someone asks this, answer like this&quot;</td>
 </tr>
 <tr>
 <td><strong>3. Alignment (RLHF and similar)</strong></td>
-<td>Humans compare answers; the model learns to prefer helpful, honest, safe ones</td>
-<td>A mentor giving feedback: &quot;This answer is better than that one&quot;</td>
+<td>People compare answers; the model learns to prefer helpful, honest, safe ones</td>
+<td>A mentor saying: &quot;This answer is better than that one&quot;</td>
 </tr>
 </tbody></table></div>
 <h3>RLHF (Reinforcement Learning from Human Feedback)</h3>
 <ol>
-<li>The model writes several answers to the same prompt.</li>
-<li>Humans <strong>rank</strong> them (best → worst).</li>
-<li>A <strong>reward model</strong> learns to predict what humans prefer.</li>
-<li>The LLM is trained to produce answers the reward model scores highly.</li>
+<li>The model writes a few answers to the same question.</li>
+<li>People <strong>rank</strong> them from best to worst.</li>
+<li>A <strong>reward model</strong> learns what people like.</li>
+<li>The LLM is trained to write answers that the reward model scores high.</li>
 </ol>
-<p>Newer alternatives exist (e.g. <strong>DPO</strong>, and Anthropic&#39;s <strong>Constitutional AI</strong>, which uses written principles plus AI feedback), but the idea is the same: <strong>align the model with what people actually want</strong>.</p>
-<p>🎤 <em>&quot;LLMs are pre-trained on large text corpora with next-token prediction, then instruction-tuned on curated examples, then aligned using human preference feedback such as RLHF, so they&#39;re helpful and safe rather than just fluent.&quot;</em></p>
+<p>There are newer methods too (like <strong>DPO</strong>, and Anthropic&#39;s <strong>Constitutional AI</strong>, which uses written rules plus AI feedback), but the idea is the same: <strong>make the model give answers people actually want</strong>.</p>
+<p>🎤 <em>&quot;LLMs first learn to guess the next token from huge text, then learn from good question-answer examples, then learn from human ratings (like RLHF), so they are helpful and safe, not just fluent.&quot;</em></p>
 <h2>5. Fine-tuning (as a developer)</h2>
-<p>Training an existing model further on <strong>your own examples</strong>.</p>
+<p>Training an existing model more on <strong>your own examples</strong>.</p>
 <ul>
-<li><strong>Full fine-tuning:</strong> update all parameters. Expensive, needs big GPUs.</li>
-<li><strong>LoRA / PEFT:</strong> train only small add-on layers (&quot;adapters&quot;) and freeze the rest. Much cheaper, and this is what most teams do.</li>
-<li><strong>When to fine-tune:</strong> to fix a <strong>style, format or specialised behaviour</strong> (e.g. always reply in a strict JSON schema, a brand tone, a domain-specific classification).</li>
-<li><strong>When NOT to:</strong> to add <strong>knowledge</strong> that changes. Use <strong>RAG</strong> for that (see Level 2).</li>
+<li><strong>Full fine-tuning:</strong> change all parameters. Costly, needs big GPUs.</li>
+<li><strong>LoRA:</strong> train only small add-on parts and keep the rest frozen. Much cheaper. Most teams do this.</li>
+<li><strong>When to fine-tune:</strong> to fix a <strong>style, format or special behaviour</strong> (always reply in a strict JSON format, a brand&#39;s tone, sorting texts into fixed groups).</li>
+<li><strong>When NOT to:</strong> to add <strong>facts</strong> that change. Use <strong>RAG</strong> for that (see Level 2).</li>
 </ul>
-<p>🎤 <em>&quot;I&#39;d try prompt engineering first, then RAG for knowledge, and fine-tune only for consistent behaviour or format, usually with LoRA to keep costs low.&quot;</em></p>
-<p><strong>The order to remember:</strong> <strong>Prompt → RAG → Fine-tune</strong> (cheapest to most expensive).</p>
+<p>🎤 <em>&quot;I try a good prompt first, then RAG for facts, and fine-tune only for a fixed behaviour or format, usually with LoRA to keep the cost low.&quot;</em></p>
+<p><strong>Order to remember:</strong> <strong>Prompt → RAG → Fine-tune</strong> (cheapest to costliest).</p>
 <h2>6. Quantization</h2>
-<p>Storing the model&#39;s numbers with <strong>less precision</strong> (e.g. 16-bit → 8-bit or 4-bit).</p>
+<p>Storing the model&#39;s numbers with <strong>fewer bits</strong> (16-bit → 8-bit or 4-bit).</p>
 <ul>
-<li>✅ Smaller, faster, cheaper: can run on smaller GPUs or even laptops</li>
-<li>❌ Slight quality loss</li>
-<li><strong>Analogy:</strong> compressing a photo from RAW to JPEG. Much smaller, and it looks almost the same.</li>
+<li>✅ Smaller, faster, cheaper: runs on smaller GPUs or even laptops</li>
+<li>❌ A little quality loss</li>
+<li><strong>Example:</strong> saving a photo as JPEG instead of RAW. Much smaller, and it looks almost the same.</li>
 </ul>
 <h2>7. Open-weight vs closed models</h2>
 <div class="table-wrap"><table>
@@ -102,7 +102,7 @@
 <tr>
 <th></th>
 <th>Closed (API)</th>
-<th>Open-weight (self-hosted)</th>
+<th>Open-weight (run it yourself)</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -113,35 +113,35 @@
 <tr>
 <td>How you use it</td>
 <td>Call an API</td>
-<td>Download and run on your own servers</td>
+<td>Download it and run it on your own servers</td>
 </tr>
 <tr>
-<td>✅ Pros</td>
-<td>Best quality, no infrastructure, fast to start</td>
-<td>Data stays with you, full control, can fine-tune, cost control at large scale</td>
+<td>✅ Good</td>
+<td>Best quality, no servers to manage, quick start</td>
+<td>Data stays with you, full control, can fine-tune, cheaper at very large scale</td>
 </tr>
 <tr>
-<td>❌ Cons</td>
-<td>Per-token cost, data goes to the provider</td>
+<td>❌ Bad</td>
+<td>Pay per token, data goes to the provider</td>
 <td>You manage GPUs, scaling and updates</td>
 </tr>
 <tr>
 <td>Best for</td>
-<td>Most startups and SMB apps (like Kodivo)</td>
-<td>Strict data privacy (hospitals, banks), very high volume</td>
+<td>Most startups and small business apps (like Kodivo)</td>
+<td>Strict privacy (hospitals, banks), very large volume</td>
 </tr>
 </tbody></table></div>
-<p>🎤 <em>&quot;I&#39;d start with a closed API for speed and quality, and consider open-weight models when data residency, cost at scale or deep customisation justify the operational overhead.&quot;</em></p>
+<p>🎤 <em>&quot;I would start with an API model for speed and quality. I would move to an open-weight model only when data privacy, cost at large scale or deep changes make the extra work worth it.&quot;</em></p>
 <h2>8. Multimodal</h2>
 <p>Models that understand more than text: <strong>images, audio, PDFs, video</strong>.</p>
 <ul>
-<li>Kodivo examples: read a photo of a bill (for CA firms), understand a WhatsApp voice note order (wholesalers), read a property brochure PDF (real estate).</li>
+<li>Kodivo examples: read a photo of a bill (for CA firms), understand a WhatsApp voice note order (for wholesalers), read a property brochure PDF (for real estate).</li>
 </ul>
-<h2>9. Latency basics (bonus)</h2>
+<h2>9. Speed basics (bonus)</h2>
 <ul>
-<li>Output is generated <strong>token by token</strong>, so long answers take longer. That&#39;s why we <strong>stream</strong> responses.</li>
-<li><strong>Time to first token</strong> = how fast the user sees the response start. It matters more for UX than total time.</li>
-<li>Ways to cut cost and latency: shorter prompts, smaller models for simple tasks, <strong>caching</strong> repeated prompts, and sending only relevant RAG chunks.</li>
+<li>The answer is written <strong>token by token</strong>, so long answers take longer. That is why we <strong>stream</strong> answers (show them as they are written).</li>
+<li><strong>Time to first token</strong> = how fast the user sees the answer start. This matters more to users than the total time.</li>
+<li>Ways to cut cost and time: shorter prompts, smaller models for easy tasks, <strong>caching</strong> repeated prompts, and sending only the useful RAG pieces.</li>
 </ul>
 <hr>
 <h2>Interview questions (answer out loud)</h2>
@@ -150,17 +150,17 @@
 <li>Explain self-attention with an example.</li>
 <li>What are the stages of training an LLM?</li>
 <li>What is RLHF, and why is it needed?</li>
-<li>Prompt engineering vs RAG vs fine-tuning: how do you choose?</li>
+<li>Prompt vs RAG vs fine-tuning: how do you choose?</li>
 <li>What is LoRA?</li>
-<li>What is quantization, and what&#39;s the trade-off?</li>
+<li>What is quantization, and what do you lose?</li>
 <li>When would you choose an open-weight model over an API model?</li>
-<li>How would you reduce latency and cost in an LLM feature?</li>
+<li>How would you cut the time and cost of an LLM feature?</li>
 </ol>
 <h2>Quiz</h2>
 <ol>
-<li>&quot;Bank&quot; means river bank in one sentence and money bank in another. Which mechanism helps the model tell them apart?</li>
-<li>A client wants the bot to always reply in their brand&#39;s exact tone and format. Knowledge doesn&#39;t change. RAG or fine-tuning?</li>
-<li>A hospital says patient data can&#39;t leave their servers. Closed API or open-weight model? Why?</li>
+<li>&quot;Bank&quot; means river bank in one sentence and money bank in another. What helps the model tell them apart?</li>
+<li>A client wants the bot to always reply in their brand&#39;s exact tone and format. The facts don&#39;t change. RAG or fine-tuning?</li>
+<li>A hospital says patient data cannot leave their servers. API model or open-weight model? Why?</li>
 </ol>
 
 </body>
