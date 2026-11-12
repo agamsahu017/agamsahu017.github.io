@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kodivo HR Letters</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#1d4ed8;--blue2:#4f46e5;--orange:#f97316;--ink:#0f172a;--muted:#475569;--line:#e2e8f0}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Poppins,"Segoe UI",sans-serif;color:var(--ink);background:#eef2f7}
+  .layout{display:grid;grid-template-columns:minmax(320px,430px) 1fr;gap:18px;max-width:1400px;margin:0 auto;padding:18px 16px}
+  @media (max-width:950px){.layout{grid-template-columns:1fr}}
+  .form{background:#fff;border-radius:14px;padding:16px;align-self:start;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+  @media (max-width:950px){.form{position:static;max-height:none}}
+  h1{font-size:20px;margin:0 0 4px}
+  .help{color:var(--muted);font-size:13px;margin:0 0 12px}
+  .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:8px 10px;font-size:13px;margin:0 0 12px}
+  details.box{border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:0 0 10px}
+  details.box summary{font-weight:700;cursor:pointer}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  .full{grid-column:1/-1}
+  label{display:block;font-size:12px;font-weight:600;margin-bottom:2px;color:#334155}
+  input,select,textarea{width:100%;font:inherit;font-size:13px;padding:7px 9px;border:1px solid #cbd5e1;border-radius:8px;background:#fff}
+  textarea{min-height:64px}
+  select#type{font-size:15px;font-weight:600;padding:9px}
+  .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:9px 14px;cursor:pointer;background:var(--blue);color:#fff}
+  button.ghost{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+  .hide{display:none!important}
+
+  /* ---------- A4 page ---------- */
+  .paper{background:#fff;width:210mm;min-height:297mm;margin:0 auto;padding:14mm 18mm 16mm;box-shadow:0 10px 30px rgba(0,0,0,.12);font-size:10.5pt;line-height:1.55}
+  .lh{display:flex;justify-content:space-between;align-items:center;gap:10mm;padding-bottom:4mm;border-bottom:1.2mm solid var(--blue);position:relative}
+  .lh::after{content:"";position:absolute;left:0;bottom:-2.2mm;width:35%;height:.7mm;background:var(--orange)}
+  .lh .brand{display:flex;align-items:center;gap:3mm}
+  .lh .badge{width:13mm;height:13mm;border-radius:3mm;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:8mm}
+  .lh .bname{font-size:17pt;font-weight:700;color:var(--blue);line-height:1.1}
+  .lh .btag{font-size:8pt;color:var(--muted)}
+  .lh .contact{text-align:right;font-size:8.5pt;color:var(--muted);line-height:1.5}
+  .meta{display:flex;justify-content:space-between;margin:8mm 0 5mm;font-size:10pt}
+  .paper h2{text-align:center;font-size:13pt;letter-spacing:.6mm;margin:2mm 0 5mm;text-decoration:underline;text-underline-offset:1.5mm}
+  .paper h3{font-size:10.5pt;margin:4mm 0 1mm}
+  .paper p{margin:0 0 3mm}
+  .paper ol{margin:0 0 3mm;padding-left:6mm}
+  .paper ol li{margin:0 0 2.2mm}
+  .paper table{width:100%;border-collapse:collapse;margin:2mm 0 4mm;font-size:10pt}
+  .paper th,.paper td{border:1px solid #cbd5e1;padding:1.6mm 2.5mm;text-align:left}
+  .paper th{background:#f1f5f9}
+  .paper td.r,.paper th.r{text-align:right}
+  .paper tr.tot td{font-weight:700;background:#f8fafc}
+  .sigs{display:flex;justify-content:space-between;gap:12mm;margin-top:12mm;break-inside:avoid}
+  .sig{min-width:60mm}
+  .sig .img{height:16mm;display:flex;align-items:flex-end}
+  .sig .img img{max-height:16mm;max-width:55mm}
+  .sig .line{border-top:1px solid var(--ink);padding-top:1.5mm;font-size:9.5pt}
+  .accept{margin-top:10mm;border-top:1px dashed #94a3b8;padding-top:5mm;break-inside:avoid}
+  .slip-head{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm;font-size:10pt;margin:2mm 0 4mm}
+  .slip-head div{display:flex;justify-content:space-between;border-bottom:1px dotted #cbd5e1;padding:1mm 0}
+  .slip-head span{color:var(--muted)}
+  .net{border:1.5px solid var(--blue);border-radius:2mm;padding:3mm 4mm;margin:2mm 0 4mm;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+  .net .amt{font-size:14pt;color:var(--blue)}
+  .small{font-size:8.5pt;color:var(--muted)}
+  .blank{color:#b45309;background:#fef3c7;padding:0 1mm;border-radius:1mm}
+
+  @media print{
+    @page{size:A4;margin:0}
+    body{background:#fff}
+    .layout{display:block;padding:0}
+    .form{display:none}
+    .paper{box-shadow:none;margin:0;width:auto;min-height:auto}
+    .blank{background:none;color:inherit}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+<div class="form" id="form">
+  <h1>Kodivo HR Letters</h1>
+  <p class="help">Choose a letter, fill the fields, check the preview, then <b>Print / Save as PDF</b>. Business details are saved in this browser.</p>
+  <div class="note">These are templates. Before the first hire, get the appointment letter and commission agreement checked once by a CA or lawyer. Only give letters and salary slips with real dates and real amounts.</div>
+
+  <label for="type">Letter</label>
+  <select id="type">
+    <option value="offer">Offer letter</option>
+    <option value="appt">Appointment (joining) letter</option>
+    <option value="slip">Salary slip</option>
+    <option value="exp">Experience letter</option>
+    <option value="rel">Relieving letter</option>
+    <option value="comm">Commission agreement (telecaller / freelancer)</option>
+    <option value="blank">Blank letterhead</option>
+  </select>
+
+  <details class="box" id="bizBox"><summary>1. Business details (saved)</summary>
+    <div class="grid">
+      <div><label>Business name</label><input id="biz" data-save value="Kodivo"></div>
+      <div><label>Tagline</label><input id="tag" data-save value="Websites · AI · Software · Training"></div>
+      <div class="full"><label>Proprietor (owner) full name</label><input id="owner" data-save placeholder="As on Udyam / PAN"></div>
+      <div class="full"><label>Office address</label><input id="addr" data-save placeholder="House/Shop no., area, Lucknow, UP - 226xxx"></div>
+      <div><label>City (for jurisdiction)</label><input id="city" data-save value="Lucknow"></div>
+      <div><label>Phone</label><input id="phone" data-save value="+91 92352 66579"></div>
+      <div><label>Email</label><input id="email" data-save placeholder="hello@yourdomain.in"></div>
+      <div><label>Website</label><input id="web" data-save value="agamsahu017.github.io"></div>
+      <div><label>Udyam number</label><input id="udyam" data-save placeholder="UDYAM-UP-00-0000000"></div>
+      <div><label>GSTIN (if any)</label><input id="gst" data-save></div>
+      <div><label>Signatory name</label><input id="sname" data-save placeholder="Who signs letters"></div>
+      <div><label>Signatory title</label><input id="stitle" data-save value="Proprietor"></div>
+      <div class="full"><label>Signature image (PNG, optional)</label><input id="simg" type="file" accept="image/*"></div>
+      <div><label>Ref. no. prefix</label><input id="refp" data-save value="KOD/HR/2026/"></div>
+      <div><label>Next ref. number</label><input id="refn" data-save type="number" min="1" value="1"></div>
+    </div>
+  </details>
+
+  <details class="box" open><summary>2. Person</summary>
+    <div class="grid">
+      <div class="full"><label>Full name</label><input id="name" placeholder="As on Aadhaar"></div>
+      <div><label>Employee / associate ID</label><input id="eid" placeholder="KOD-E-001"></div>
+      <div><label>Phone</label><input id="ephone"></div>
+      <div class="full"><label>Address</label><input id="eaddr"></div>
+      <div class="g-slip"><label>PAN (optional)</label><input id="pan"></div>
+      <div class="g-slip"><label>Bank a/c (last 4 digits)</label><input id="bank4" maxlength="4"></div>
+      <div class="g-offer g-appt g-slip g-exp g-rel"><label>Designation</label><input id="desig" value="Telecaller"></div>
+      <div class="g-offer g-appt g-slip g-exp"><label>Department</label><input id="dept" value="Sales"></div>
+      <div class="g-appt"><label>Reports to</label><input id="boss"></div>
+      <div class="g-offer g-appt"><label>Work location</label><input id="loc" value="Lucknow (office)"></div>
+    </div>
+  </details>
+
+  <details class="box" open><summary>3. Dates</summary>
+    <div class="grid">
+      <div><label>Letter date</label><input id="ldate" type="date"></div>
+      <div class="g-offer g-appt g-slip g-exp g-comm"><label>Joining / start date</label><input id="jdate" type="date"></div>
+      <div class="g-offer"><label>Accept offer by</label><input id="acceptBy" type="date"></div>
+      <div class="g-rel"><label>Resignation date</label><input id="resDate" type="date"></div>
+      <div class="g-exp g-rel"><label>Last working day</label><input id="lastDay" type="date"></div>
+      <div class="g-slip"><label>Salary month</label><input id="month" type="month"></div>
+      <div class="g-slip"><label>Paid on</label><input id="paidOn" type="date"></div>
+    </div>
+  </details>
+
+  <details class="box g-offer g-appt g-slip" open><summary>4. Salary (per month, ₹)</summary>
+    <div class="grid">
+      <div><label>Basic</label><input id="basic" type="number" min="0" value="8000"></div>
+      <div><label>HRA</label><input id="hra" type="number" min="0" value="3000"></div>
+      <div><label>Other allowance</label><input id="oth" type="number" min="0" value="1000"></div>
+      <div class="g-offer g-appt"><label>Incentive (text, optional)</label><input id="inc" placeholder="e.g. ₹500 per closed client"></div>
+      <div class="g-slip"><label>Days in month (auto)</label><input id="days" type="number" readonly></div>
+      <div class="g-slip"><label>Paid days</label><input id="pdays" type="number" min="0" step="0.5"></div>
+      <div class="g-slip"><label>Incentive this month</label><input id="incAmt" type="number" min="0" value="0"></div>
+      <div class="g-slip"><label>Advance recovered</label><input id="adv" type="number" min="0" value="0"></div>
+      <div class="g-slip"><label>Other deduction</label><input id="ded" type="number" min="0" value="0"></div>
+      <div class="g-slip"><label>Payment ref. (UTR)</label><input id="utr"></div>
+    </div>
+    <p class="help g-offer g-appt" style="margin:8px 0 0">Total must not be below the current UP minimum wage for the job. Check it on the UP Labour Department website.</p>
+  </details>
+
+  <details class="box g-offer g-appt" open><summary>5. Terms</summary>
+    <div class="grid">
+      <div><label>Probation (months)</label><input id="prob" type="number" min="0" value="3"></div>
+      <div><label>Notice in probation (days)</label><input id="pnotice" type="number" min="0" value="7"></div>
+      <div><label>Notice after confirmation (days)</label><input id="notice" type="number" min="0" value="30"></div>
+      <div><label>Paid leave per year (days)</label><input id="leave" type="number" min="0" value="12"></div>
+      <div class="full"><label>Working hours</label><input id="hours" value="10:00 AM to 6:30 PM, Monday to Saturday (Sunday off)"></div>
+    </div>
+  </details>
+
+  <details class="box g-exp g-rel" open><summary>5. Exit details</summary>
+    <div class="grid">
+      <div class="full g-exp"><label>Main work done (one per line)</label><textarea id="resp">Called and followed up with business leads
+Fixed meetings for the sales team
+Kept the lead tracker up to date</textarea></div>
+      <div class="full g-exp"><label>Closing line</label><input id="conduct" value="We found the work sincere and the conduct good."></div>
+      <div class="full g-rel"><label>Full &amp; final settlement</label><select id="fnf"><option value="done">Completed, no dues pending</option><option value="pending">Will be paid with the next salary cycle</option></select></div>
+    </div>
+  </details>
+
+  <details class="box g-comm" open><summary>5. Commission terms</summary>
+    <div class="grid">
+      <div class="full"><label>Commission</label><textarea id="commText">10% of the amount Kodivo receives from each new client you bring, for the first project or first 3 months of a monthly plan.</textarea></div>
+      <div class="full"><label>When paid</label><input id="commPay" value="by the 7th of the next month, by bank transfer, after the client's payment is received"></div>
+      <div><label>Notice to end (days)</label><input id="cnotice" type="number" min="0" value="7"></div>
+    </div>
+  </details>
+
+  <div class="btns">
+    <button id="print">Print / Save as PDF</button>
+    <button class="ghost" id="nextRef">Use next ref. no.</button>
+    <button class="ghost" id="clear">Clear person fields</button>
+  </div>
+  <p class="help" style="margin-top:8px">Print settings: Paper A4, Margins <b>None</b>, tick <b>Background graphics</b>. Yellow marks = still empty.</p>
+</div>
+
+<div><div class="paper" id="paper"></div></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const st = { get(k){try{return localStorage.getItem('khr_'+k);}catch(e){return null;}}, set(k,v){try{localStorage.setItem('khr_'+k,v);}catch(e){}} };
+document.querySelectorAll('[data-save]').forEach(el => { const v = st.get(el.id); if (v !== null) el.value = v; });
+let sigImg = st.get('simg');
+$('simg').addEventListener('change', e => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { sigImg = r.result; st.set('simg', r.result); render(); }; r.readAsDataURL(f); });
+const today = new Date();
+const iso = (d) => new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10);
+$('ldate').value = iso(today);
+$('jdate').value = iso(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7));
+$('acceptBy').value = iso(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 3));
+const pm = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+$('month').value = pm.getFullYear() + '-' + String(pm.getMonth()+1).padStart(2,'0');
+$('paidOn').value = iso(today);
+if (!st.get('owner')) $('bizBox').open = true;
+
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const v = (id) => $(id).value.trim();
+const B = (id, ph) => v(id) ? esc(v(id)) : '<span class="blank">' + (ph || '________') + '</span>';
+const D = (id) => v(id) ? new Date(v(id)+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}) : '<span class="blank">__ / __ / ____</span>';
+const num = (id) => parseFloat($(id).value) || 0;
+const inr = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
+
+function words(n){
+  n = Math.round(n);
+  if (n === 0) return 'Zero';
+  const a = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+  const b = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  const two = (x) => x < 20 ? a[x] : b[Math.floor(x/10)] + (x%10 ? ' ' + a[x%10] : '');
+  const three = (x) => (x >= 100 ? a[Math.floor(x/100)] + ' Hundred' + (x%100 ? ' ' : '') : '') + (x%100 ? two(x%100) : '');
+  const parts = [];
+  const cr = Math.floor(n/1e7); n %= 1e7;
+  const lk = Math.floor(n/1e5); n %= 1e5;
+  const th = Math.floor(n/1e3); n %= 1e3;
+  if (cr) parts.push(three(cr) + ' Crore');
+  if (lk) parts.push(two(lk) + ' Lakh');
+  if (th) parts.push(two(th) + ' Thousand');
+  if (n) parts.push(three(n));
+  return parts.join(' ');
+}
+
+function head(){
+  const c = [v('addr') ? esc(v('addr')) : '<span class="blank">Office address</span>',
+    [v('phone'), v('email')].filter(Boolean).map(esc).join(' · '),
+    [v('web'), v('udyam') ? 'Udyam: ' + v('udyam') : '', v('gst') ? 'GSTIN: ' + v('gst') : ''].filter(Boolean).map(esc).join(' · ')].filter(Boolean).join('<br>');
+  return '<div class="lh"><div class="brand"><span class="badge">' + esc((v('biz')||'K')[0]) + '</span><div><div class="bname">' + esc(v('biz')) + '</div><div class="btag">' + esc(v('tag')) + '</div></div></div><div class="contact">' + c + '</div></div>';
+}
+const ref = () => esc(v('refp')) + String(num('refn') || 1).padStart(3,'0');
+const meta = (noRef) => '<div class="meta"><div>' + (noRef ? '' : 'Ref: ' + ref()) + '</div><div>Date: ' + D('ldate') + '</div></div>';
+const to = () => '<p><b>' + B('name','Full name') + '</b>' + (v('eaddr') ? '<br>' + esc(v('eaddr')) : '') + (v('ephone') ? '<br>Phone: ' + esc(v('ephone')) : '') + '</p>';
+const bizName = () => esc(v('biz'));
+const ownerLine = () => v('owner') ? bizName() + ' (Proprietor: ' + esc(v('owner')) + ')' : bizName() + ' (Proprietor: <span class="blank">owner name</span>)';
+const signBlock = (left) => '<div class="sigs">' + (left || '<div></div>') +
+  '<div class="sig"><div class="img">' + (sigImg ? '<img src="' + sigImg + '" alt="">' : '') + '</div><div class="line">For <b>' + bizName() + '</b><br>' + B('sname','Signatory name') + '<br>' + esc(v('stitle')) + '</div></div></div>';
+const gross = () => num('basic') + num('hra') + num('oth');
+const salaryTable = () => '<table><tr><th>Component</th><th class="r">Per month</th><th class="r">Per year</th></tr>' +
+  [['Basic', num('basic')], ['House rent allowance (HRA)', num('hra')], ['Other allowance', num('oth')]].filter(r => r[1]).map(r => '<tr><td>' + r[0] + '</td><td class="r">' + inr(r[1]) + '</td><td class="r">' + inr(r[1]*12) + '</td></tr>').join('') +
+  '<tr class="tot"><td>Total (gross)</td><td class="r">' + inr(gross()) + '</td><td class="r">' + inr(gross()*12) + '</td></tr></table>' +
+  (v('inc') ? '<p>Incentive: ' + esc(v('inc')) + '. Incentives are extra, paid only when earned, and are not part of the fixed salary.</p>' : '');
+
+const L = {
+  offer(){
+    return head() + meta() + to() + '<h2>OFFER LETTER</h2>' +
+      '<p>Dear ' + B('name','Name') + ',</p>' +
+      '<p>We are happy to offer you the position of <b>' + B('desig') + '</b> in the ' + B('dept') + ' team at <b>' + bizName() + '</b>. The main terms are below.</p>' +
+      '<table><tr><th style="width:40%">Position</th><td>' + B('desig') + '</td></tr><tr><th>Joining date</th><td>' + D('jdate') + '</td></tr><tr><th>Work location</th><td>' + B('loc') + '</td></tr><tr><th>Working hours</th><td>' + B('hours') + '</td></tr><tr><th>Monthly gross salary</th><td><b>' + inr(gross()) + '</b> (' + words(gross()) + ' Rupees only)</td></tr><tr><th>Probation</th><td>' + num('prob') + ' months</td></tr></table>' +
+      salaryTable() +
+      '<p>Your detailed terms will be given in your appointment letter on the day you join. Please bring copies of: Aadhaar, PAN, a recent photo, bank account details (cancelled cheque or passbook) and your highest education certificate.</p>' +
+      '<p>This offer depends on your documents being correct. Please sign below and return a copy by <b>' + D('acceptBy') + '</b>. If we do not hear from you by then, this offer will end.</p>' +
+      '<p>We look forward to working with you.</p>' +
+      signBlock() +
+      '<div class="accept"><b>Acceptance</b><p>I accept this offer and will join on the date above.</p><div class="sigs" style="margin-top:8mm"><div class="sig"><div class="line">Signature</div></div><div class="sig"><div class="line">Name: ' + B('name') + '<br>Date:</div></div></div></div>';
+  },
+  appt(){
+    return head() + meta() + to() + '<h2>APPOINTMENT LETTER</h2>' +
+      '<p>Dear ' + B('name','Name') + ',</p>' +
+      '<p>Further to your offer letter, we are pleased to appoint you at <b>' + ownerLine() + '</b> ("Kodivo") on the following terms:</p><ol>' +
+      '<li><b>Position.</b> You are appointed as <b>' + B('desig') + '</b> in the ' + B('dept') + ' team' + (v('boss') ? ', reporting to ' + esc(v('boss')) : '') + '. Your work location is ' + B('loc') + '. You may also be asked to do other related work.</li>' +
+      '<li><b>Start date and probation.</b> Your employment starts on ' + D('jdate') + '. You will be on probation for ' + num('prob') + ' months. If your work is satisfactory, you will be confirmed in writing. Probation may be extended once, in writing, by up to ' + num('prob') + ' months.</li>' +
+      '<li><b>Salary.</b> Your monthly gross salary is <b>' + inr(gross()) + '</b> (' + words(gross()) + ' Rupees only), as below. Salary is paid by bank transfer to your account by the 7th of the next month, for the days you worked. Unpaid leave is deducted. Any tax or deduction required by law will be made.' + salaryTable() + '</li>' +
+      '<li><b>Working hours.</b> ' + B('hours') + '. Lunch break: 30 minutes.</li>' +
+      '<li><b>Leave.</b> You get ' + num('leave') + ' days of paid leave a year (counted in proportion for part of a year), plus the holidays announced by Kodivo. Please ask for leave in advance. Absence without informing is unpaid.</li>' +
+      '<li><b>Ending the job.</b> During probation, either side can end this job with ' + num('pnotice') + ' days\' written notice. After confirmation, the notice is ' + num('notice') + ' days. Either side may pay salary for the notice period instead. Kodivo may end the job without notice for serious misconduct (such as fraud, theft, harassment, misuse or sharing of confidential data, or long absence without informing), after giving you a chance to explain.</li>' +
+      '<li><b>Confidential information and data.</b> Client and student details, leads, prices, passwords and business plans are confidential. Use them only for Kodivo\'s work, do not copy them to personal accounts or devices unless allowed, and do not share them with anyone, during or after your job.</li>' +
+      '<li><b>Calling and sales rules.</b> Call only business numbers or people who have shared their number with us. Do not use auto-dialers or bulk calls. Stop calling anyone who says they are not interested. Quote only official Kodivo prices and never promise results. Never collect money in your own name: all payments go only to Kodivo\'s bank account or UPI.</li>' +
+      '<li><b>Work ownership.</b> All work you create for Kodivo during your job (code, designs, content, documents, lead lists) belongs to Kodivo.</li>' +
+      '<li><b>Company property.</b> On leaving, return all Kodivo property, documents, files and account access.</li>' +
+      '<li><b>Conduct.</b> Treat colleagues, clients and students with respect. Harassment of any kind, including sexual harassment, is not allowed and will lead to action.</li>' +
+      '<li><b>Other.</b> This letter and your offer letter are the full terms of your job. Any change will be in writing. This letter is governed by the laws of India, and courts at ' + B('city') + ' will have jurisdiction.</li></ol>' +
+      '<p>Please sign a copy of this letter to accept these terms.</p>' +
+      signBlock() +
+      '<div class="accept"><b>Acceptance</b><p>I have read and understood the terms above, and I accept them.</p><div class="sigs" style="margin-top:8mm"><div class="sig"><div class="line">Signature</div></div><div class="sig"><div class="line">Name: ' + B('name') + '<br>Date:</div></div></div></div>';
+  },
+  slip(){
+    const m = v('month'); let label = '<span class="blank">Month</span>', days = 0;
+    if (m) { const [y, mo] = m.split('-').map(Number); days = new Date(y, mo, 0).getDate(); label = new Date(y, mo-1, 1).toLocaleDateString('en-IN',{month:'long',year:'numeric'}); }
+    $('days').value = days || '';
+    if ($('pdays').value === '' && days) $('pdays').value = days;
+    const pd = Math.min(num('pdays'), days || 0), f = days ? pd / days : 0;
+    const earn = [['Basic', num('basic')], ['HRA', num('hra')], ['Other allowance', num('oth')]].filter(r => r[1]).map(r => [r[0], r[1], Math.round(r[1]*f)]);
+    if (num('incAmt')) earn.push(['Incentive', null, num('incAmt')]);
+    const ded = [['Advance recovered', num('adv')], ['Other deduction', num('ded')]].filter(r => r[1]);
+    const tE = earn.reduce((s, r) => s + r[2], 0), tD = ded.reduce((s, r) => s + r[1], 0), net = tE - tD;
+    const kv = (k, val) => '<div><span>' + k + '</span><b>' + val + '</b></div>';
+    const rows = Math.max(earn.length, ded.length, 1);
+    let t = '<table><tr><th>Earnings</th><th class="r">Monthly rate</th><th class="r">Earned</th><th>Deductions</th><th class="r">Amount</th></tr>';
+    for (let i = 0; i < rows; i++) { const e = earn[i], d = ded[i]; t += '<tr><td>' + (e ? e[0] : '') + '</td><td class="r">' + (e && e[1] !== null ? inr(e[1]) : '') + '</td><td class="r">' + (e ? inr(e[2]) : '') + '</td><td>' + (d ? d[0] : (i === 0 ? 'None' : '')) + '</td><td class="r">' + (d ? inr(d[1]) : '') + '</td></tr>'; }
+    t += '<tr class="tot"><td colspan="2">Total earnings</td><td class="r">' + inr(tE) + '</td><td>Total deductions</td><td class="r">' + inr(tD) + '</td></tr></table>';
+    return head() + '<h2 style="margin-top:8mm">SALARY SLIP: ' + label.toUpperCase() + '</h2>' +
+      '<div class="slip-head">' + kv('Name', B('name')) + kv('Employee ID', B('eid')) + kv('Designation', B('desig')) + kv('Department', B('dept')) + kv('Date of joining', D('jdate')) + kv('PAN', v('pan') ? esc(v('pan')) : '-') + kv('Days in month', days || '-') + kv('Paid days', pd || '-') + kv('Unpaid days', days ? days - pd : '-') + kv('Bank a/c', v('bank4') ? 'XXXX' + esc(v('bank4')) : '-') + '</div>' + t +
+      '<div class="net"><span>Net pay<br><span class="small" style="font-weight:400">' + words(net) + ' Rupees only</span></span><span class="amt">' + inr(net) + '</span></div>' +
+      '<p class="small">Paid by bank transfer on ' + D('paidOn') + (v('utr') ? ', ref. ' + esc(v('utr')) : '') + '. Earned = monthly rate × paid days ÷ days in month.</p>' +
+      signBlock('<div class="sig"><div class="img"></div><div class="line">Employee signature</div></div>');
+  },
+  exp(){
+    const resp = v('resp').split('\n').map(s => s.trim()).filter(Boolean);
+    return head() + meta() + '<h2>EXPERIENCE CERTIFICATE</h2><p style="text-align:center;margin-top:-2mm"><b>To whom it may concern</b></p>' +
+      '<p>This is to certify that <b>' + B('name','Full name') + '</b>' + (v('eid') ? ' (Employee ID ' + esc(v('eid')) + ')' : '') + ' worked with <b>' + bizName() + '</b> as <b>' + B('desig') + '</b> in the ' + B('dept') + ' team from <b>' + D('jdate') + '</b> to <b>' + D('lastDay') + '</b>.</p>' +
+      (resp.length ? '<p>The main work done was:</p><ol>' + resp.map(r => '<li>' + esc(r) + '</li>').join('') + '</ol>' : '') +
+      '<p>' + esc(v('conduct')) + '</p><p>We wish ' + B('name','them') + ' all the best for the future.</p>' + signBlock();
+  },
+  rel(){
+    const fnf = v('fnf') === 'done' ? 'Your full and final settlement has been completed, and no dues are pending from either side.' : 'Your full and final settlement will be paid with the next salary cycle.';
+    return head() + meta() + to() + '<h2>RELIEVING LETTER</h2>' +
+      '<p>Dear ' + B('name','Name') + ',</p>' +
+      '<p>This is with reference to your resignation dated ' + D('resDate') + '. Your resignation has been accepted, and you are relieved from your duties as <b>' + B('desig') + '</b> at <b>' + bizName() + '</b> at the end of the working day on <b>' + D('lastDay') + '</b>.</p>' +
+      '<p>' + fnf + '</p>' +
+      '<p>Please remember that your duty to keep Kodivo\'s client, student and business information confidential continues after you leave.</p>' +
+      '<p>We thank you for your work and wish you the best.</p>' + signBlock();
+  },
+  comm(){
+    return head() + meta() + '<h2>COMMISSION AGREEMENT</h2>' +
+      '<p>This agreement is made on ' + D('ldate') + ' between:</p>' +
+      '<p><b>1. ' + ownerLine() + '</b>, ' + (v('addr') ? esc(v('addr')) : '<span class="blank">office address</span>') + ' ("Kodivo"), and<br><b>2. ' + B('name','Full name') + '</b>, ' + (v('eaddr') ? esc(v('eaddr')) : '<span class="blank">address</span>') + (v('ephone') ? ', phone ' + esc(v('ephone')) : '') + ' ("the Associate").</p><ol>' +
+      '<li><b>Work.</b> The Associate will find and call business leads, follow up, and fix meetings for Kodivo\'s services. The Associate uses their own phone and decides their own working time.</li>' +
+      '<li><b>Not an employee.</b> The Associate is an independent associate, not an employee of Kodivo. There is no fixed salary and no employee benefits (PF, ESI, leave). The Associate is responsible for their own taxes. Kodivo will deduct tax (TDS) only where the law requires it.</li>' +
+      '<li><b>Commission.</b> ' + B('commText') + '</li>' +
+      '<li><b>Payment.</b> Commission is paid ' + B('commPay') + '. No commission is paid if the client does not pay, or if the money is refunded.</li>' +
+      '<li><b>Payments only to Kodivo.</b> The Associate must never collect money from a client in their own name. All client payments go only to Kodivo\'s bank account or UPI.</li>' +
+      '<li><b>Calling rules.</b> Call only business numbers or people who have shared their number. No auto-dialers or bulk calls. Stop calling anyone who says no. Quote only official Kodivo prices and never promise results.</li>' +
+      '<li><b>Confidentiality and data.</b> Lead lists, client details, prices and Kodivo material are confidential. They are used only for Kodivo\'s work and must not be copied, sold or shared, during or after this agreement.</li>' +
+      '<li><b>Start and end.</b> This agreement starts on ' + D('jdate') + '. Either side can end it with ' + num('cnotice') + ' days\' written notice (WhatsApp message is enough). Commission for client payments received before the end date will be paid. Kodivo may end it at once if rules 5, 6 or 7 are broken.</li>' +
+      '<li><b>Law.</b> This agreement is governed by the laws of India, and courts at ' + B('city') + ' will have jurisdiction.</li></ol>' +
+      signBlock('<div class="sig"><div class="img"></div><div class="line"><b>Associate</b><br>' + B('name') + '<br>Date:</div></div>');
+  },
+  blank(){ return head() + meta(true) + '<div style="min-height:200mm"></div>'; }
+};
+
+function render(){
+  const t = $('type').value;
+  document.querySelectorAll('[class*="g-"]').forEach(el => {
+    const groups = [...el.classList].filter(c => c.startsWith('g-'));
+    if (groups.length) el.classList.toggle('hide', !groups.includes('g-' + t));
+  });
+  $('paper').innerHTML = L[t]();
+  document.title = ({offer:'Offer Letter',appt:'Appointment Letter',slip:'Salary Slip',exp:'Experience Letter',rel:'Relieving Letter',comm:'Commission Agreement',blank:'Letterhead'})[t] + (v('name') ? ' - ' + v('name') : '');
+}
+$('form').addEventListener('input', (e) => { if (e.target.hasAttribute('data-save')) st.set(e.target.id, e.target.value); if (e.target.id === 'month') $('pdays').value = ''; render(); });
+$('form').addEventListener('change', render);
+$('print').onclick = () => { render(); window.print(); };
+$('nextRef').onclick = () => { $('refn').value = (num('refn') || 1) + 1; st.set('refn', $('refn').value); render(); };
+$('clear').onclick = () => { ['name','eid','ephone','eaddr','pan','bank4','boss','utr','pdays'].forEach(id => $(id).value = ''); ['incAmt','adv','ded'].forEach(id => $(id).value = 0); render(); };
+render();
+</script>
+</body>
+</html>

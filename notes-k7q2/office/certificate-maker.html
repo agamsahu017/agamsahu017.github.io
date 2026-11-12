@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kodivo Certificate Maker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#1d4ed8;--blue2:#4f46e5;--orange:#f97316;--ink:#0f172a;--muted:#475569;--line:#e2e8f0}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Poppins,"Segoe UI",sans-serif;color:var(--ink);background:#eef2f7}
+  .panel{max-width:1100px;margin:0 auto;padding:20px 16px}
+  h1{font-size:22px;margin:0 0 4px}
+  .help{color:var(--muted);font-size:14px;margin:0 0 16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  label{display:block;font-size:13px;font-weight:600;margin-bottom:4px}
+  input,select,textarea{width:100%;font:inherit;font-size:14px;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;background:#fff}
+  textarea{min-height:130px}
+  fieldset{border:1px solid var(--line);background:#fff;border-radius:12px;padding:14px;margin:0 0 14px}
+  legend{font-weight:700;padding:0 6px}
+  .btns{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 18px}
+  button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:10px 16px;cursor:pointer;background:var(--blue);color:#fff}
+  button.ghost{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+  .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 12px;font-size:14px;margin:0 0 14px}
+  #out{display:none}
+  #out.show{display:block}
+  .preview{display:flex;flex-direction:column;align-items:center;gap:20px;padding:10px 0 40px}
+  .scale{width:min(100%,1123px);aspect-ratio:297/210;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.15);background:#fff}
+  .scale>.cert{transform-origin:top left}
+
+  /* ---------- certificate (A4 landscape) ---------- */
+  .cert{width:297mm;height:210mm;position:relative;background:#fff;overflow:hidden;font-family:Poppins,sans-serif}
+  .cert .frame{position:absolute;inset:9mm;border:2.2mm solid var(--blue);border-radius:3mm}
+  .cert .frame::after{content:"";position:absolute;inset:2.5mm;border:.5mm solid var(--orange);border-radius:1.5mm}
+  .cert .corner{position:absolute;width:70mm;height:70mm;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue2));opacity:.08}
+  .cert .c1{top:-30mm;left:-30mm}.cert .c2{bottom:-30mm;right:-30mm}
+  .cert .inner{position:absolute;inset:16mm 22mm;display:flex;flex-direction:column;align-items:center;text-align:center}
+  .cert .brand{display:flex;align-items:center;gap:3mm;font-weight:700;font-size:7mm;color:var(--blue)}
+  .cert .badge{width:10mm;height:10mm;border-radius:2.5mm;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:6mm}
+  .cert .tag{font-size:3.2mm;color:var(--muted);letter-spacing:.3mm;margin-top:1mm}
+  .cert h2{font-size:11mm;margin:12mm 0 0;letter-spacing:1.2mm;font-weight:700;text-transform:uppercase;color:var(--ink)}
+  .cert .of{font-size:5mm;letter-spacing:2mm;color:var(--orange);font-weight:600;text-transform:uppercase;margin-top:1mm}
+  .cert .certify{font-size:4.2mm;color:var(--muted);margin-top:11mm}
+  .cert .name{font-family:"Great Vibes",cursive;font-size:17mm;line-height:1.1;color:var(--blue);margin:2mm 0 0;padding:0 10mm;border-bottom:.4mm solid #cbd5e1;min-width:150mm}
+  .cert .body{font-size:4.3mm;line-height:1.6;color:var(--ink);margin-top:5mm;max-width:215mm}
+  .cert .body b{font-weight:700}
+  .cert .foot{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:flex-end}
+  .cert .meta{display:flex;align-items:flex-end;gap:4mm;text-align:left;font-size:3.1mm;color:var(--muted);line-height:1.5}
+  .cert .qr{width:24mm;height:24mm}
+  .cert .qr img,.cert .qr canvas{width:24mm!important;height:24mm!important}
+  .cert .meta b{color:var(--ink)}
+  .cert .signs{display:flex;gap:14mm}
+  .cert .sign{text-align:center;min-width:55mm;font-size:3.4mm;color:var(--muted)}
+  .cert .sign .img{height:14mm;display:flex;align-items:flex-end;justify-content:center}
+  .cert .sign .img img{max-height:14mm;max-width:50mm}
+  .cert .sign .line{border-top:.4mm solid var(--ink);padding-top:1.5mm}
+  .cert .sign b{display:block;color:var(--ink);font-size:3.8mm}
+
+  @media print{
+    @page{size:A4 landscape;margin:0}
+    body{background:#fff}
+    .panel,.no-print{display:none!important}
+    #out,.preview{display:block!important;padding:0}
+    .scale{width:auto;aspect-ratio:auto;box-shadow:none;overflow:visible;break-after:page;page-break-after:always}
+    .scale:last-child{break-after:auto;page-break-after:auto}
+    .scale>.cert{transform:none!important}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="panel">
+  <h1>Kodivo Certificate Maker</h1>
+  <p class="help">Fill the details, paste student names (one per line), click <b>Make certificates</b>, then <b>Print / Save as PDF</b>. Your settings are saved in this browser.</p>
+
+  <div class="note">Give a certificate only to students who really finished (attendance / project). Do not write "Govt approved", AICTE, UGC, Skill India or NSDC unless you have that approval.</div>
+
+  <fieldset><legend>Training</legend>
+    <div class="grid">
+      <div><label>Certificate type</label><select id="type"><option>Completion</option><option>Participation</option><option>Internship</option><option>Achievement</option></select></div>
+      <div><label>Course / workshop name</label><input id="course" value="AI Workshop: Use AI in Daily Work and Studies"></div>
+      <div><label>Mode</label><select id="mode"><option>online</option><option>offline</option><option>hybrid</option></select></div>
+      <div><label>Start date</label><input id="from" type="date"></div>
+      <div><label>End date</label><input id="to" type="date"></div>
+      <div><label>Duration (hours)</label><input id="hours" type="number" min="0" step="0.5" value="1"></div>
+      <div><label>Issue date</label><input id="issued" type="date"></div>
+      <div><label>Grade / remark (optional)</label><input id="grade" placeholder="e.g. with Grade A"></div>
+    </div>
+  </fieldset>
+
+  <fieldset><legend>Students</legend>
+    <div class="grid">
+      <div style="grid-column:1/-1"><label>Names, one per line (optional: <i>Name, College</i>)</label><textarea id="names" placeholder="Rahul Verma, BBD University&#10;Priya Singh"></textarea></div>
+      <div><label>ID prefix</label><input id="prefix" value="KOD-2026-"></div>
+      <div><label>First number</label><input id="start" type="number" min="1" value="1"></div>
+    </div>
+    <p class="help" style="margin:8px 0 0">IDs come out like KOD-2026-0001. Next time, start from the number after your last certificate (it is suggested automatically).</p>
+  </fieldset>
+
+  <fieldset><legend>Business &amp; signatures (saved)</legend>
+    <div class="grid">
+      <div><label>City line</label><input id="city" value="Lucknow · Delhi NCR"></div>
+      <div><label>Udyam number (optional)</label><input id="udyam" placeholder="UDYAM-UP-00-0000000"></div>
+      <div><label>Verify page URL</label><input id="verify" value="https://agamsahu017.github.io/verify.html"></div>
+      <div></div>
+      <div><label>Signature 1: name</label><input id="s1n" value="Agam Sahu"></div>
+      <div><label>Signature 1: title</label><input id="s1t" value="Lead Trainer"></div>
+      <div><label>Signature 1: image (PNG, optional)</label><input id="s1i" type="file" accept="image/*"></div>
+      <div></div>
+      <div><label>Signature 2: name (optional)</label><input id="s2n" placeholder="Proprietor name"></div>
+      <div><label>Signature 2: title</label><input id="s2t" value="Proprietor, Kodivo"></div>
+      <div><label>Signature 2: image (PNG, optional)</label><input id="s2i" type="file" accept="image/*"></div>
+    </div>
+  </fieldset>
+
+  <div class="btns">
+    <button id="make">Make certificates</button>
+    <button class="ghost" id="print">Print / Save as PDF</button>
+    <button class="ghost" id="csv">Download register (CSV)</button>
+    <button class="ghost" id="clearSig">Remove saved signatures</button>
+  </div>
+
+  <fieldset id="jsonBox" style="display:none"><legend>For the verify page</legend>
+    <p class="help" style="margin:0 0 8px">Send this text to Agam (or paste it inside <code>certificates.json</code> on the website) so the IDs can be checked online.</p>
+    <textarea id="json" readonly style="min-height:110px;font-family:Consolas,monospace;font-size:12px"></textarea>
+    <div class="btns" style="margin:8px 0 0"><button class="ghost" id="copy">Copy text</button></div>
+  </fieldset>
+  <p class="help">In the print window choose: <b>Save as PDF</b>, Layout <b>Landscape</b>, Margins <b>None</b>, and tick <b>Background graphics</b>.</p>
+</div>
+
+<div id="out"><div class="preview" id="preview"></div></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const FIELDS = ['type','course','mode','hours','grade','prefix','city','udyam','verify','s1n','s1t','s2n','s2t'];
+const store = { get(k){try{return localStorage.getItem('kcert_'+k);}catch(e){return null;}}, set(k,v){try{localStorage.setItem('kcert_'+k,v);}catch(e){}}, del(k){try{localStorage.removeItem('kcert_'+k);}catch(e){}} };
+const now = new Date();
+const today = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0,10);
+['from','to','issued'].forEach(id => $(id).value = today);
+FIELDS.forEach(id => { const v = store.get(id); if (v !== null) $(id).value = v; });
+const nextNo = store.get('next'); if (nextNo) $('start').value = nextNo;
+
+const sig = { s1i: store.get('s1i'), s2i: store.get('s2i') };
+['s1i','s2i'].forEach(id => $(id).addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader(); r.onload = () => { sig[id] = r.result; store.set(id, r.result); }; r.readAsDataURL(f);
+}));
+$('clearSig').onclick = () => { sig.s1i = sig.s2i = null; store.del('s1i'); store.del('s2i'); alert('Saved signatures removed.'); };
+
+const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = (d) => d ? new Date(d+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}) : '';
+const hoursText = (h) => { h = parseFloat(h); if (!h) return ''; return h === 1 ? '1 hour' : (h + ' hours'); };
+
+let rows = [];
+
+function bodyText(s, college){
+  const dates = s.from === s.to ? 'on <b>'+fmt(s.from)+'</b>' : 'from <b>'+fmt(s.from)+'</b> to <b>'+fmt(s.to)+'</b>';
+  const dur = hoursText(s.hours) ? ' (' + hoursText(s.hours) + ', ' + esc(s.mode) + ')' : ' (' + esc(s.mode) + ')';
+  const of = college ? ' of <b>'+esc(college)+'</b>' : '';
+  const verb = { Completion:'has successfully completed', Participation:'has participated in', Internship:'has successfully completed an internship in', Achievement:'has shown outstanding performance in' }[s.type];
+  const grade = s.grade ? ' ' + esc(s.grade) : '';
+  return of + ' ' + verb + ' <b>' + esc(s.course) + '</b>' + grade + ', conducted by Kodivo ' + dates + dur + '.';
+}
+
+function certHTML(r, s){
+  const signs = [[s.s1n,s.s1t,sig.s1i],[s.s2n,s.s2t,sig.s2i]].filter(x => x[0]).map(([n,t,img]) =>
+    '<div class="sign"><div class="img">'+(img?'<img src="'+img+'" alt="">':'')+'</div><div class="line"><b>'+esc(n)+'</b>'+esc(t)+'</div></div>').join('');
+  return '<div class="cert">'+
+    '<div class="corner c1"></div><div class="corner c2"></div><div class="frame"></div>'+
+    '<div class="inner">'+
+      '<div class="brand"><span class="badge">K</span>Kodivo</div>'+
+      '<div class="tag">AI · WEB · SOFTWARE TRAINING &nbsp;|&nbsp; '+esc(s.city)+'</div>'+
+      '<h2>Certificate</h2><div class="of">of '+esc(s.type)+'</div>'+
+      '<div class="certify">This is to certify that</div>'+
+      '<div class="name">'+esc(r.name)+'</div>'+
+      '<div class="body">'+bodyText(s, r.college)+'</div>'+
+      '<div class="foot">'+
+        '<div class="meta"><div class="qr" data-url="'+esc(s.verify+'?id='+encodeURIComponent(r.id))+'"></div>'+
+          '<div>Certificate ID: <b>'+esc(r.id)+'</b><br>Issued on: <b>'+fmt(s.issued)+'</b><br>Verify at: '+esc(s.verify.replace(/^https?:\/\//,''))+(s.udyam?'<br>Udyam Reg. No: '+esc(s.udyam):'')+'</div></div>'+
+        '<div class="signs">'+signs+'</div>'+
+      '</div>'+
+    '</div></div>';
+}
+
+function fit(){
+  document.querySelectorAll('.scale').forEach(box => {
+    const c = box.firstElementChild; const k = box.clientWidth / c.offsetWidth; c.style.transform = 'scale('+k+')';
+  });
+}
+window.addEventListener('resize', fit);
+
+$('make').onclick = () => {
+  const s = {}; [...FIELDS,'from','to','issued'].forEach(id => s[id] = $(id).value.trim());
+  FIELDS.forEach(id => store.set(id, $(id).value));
+  if (!s.course) return alert('Please enter the course name.');
+  if (s.to < s.from) return alert('End date is before start date.');
+  const lines = $('names').value.split('\n').map(l => l.trim()).filter(Boolean);
+  if (!lines.length) return alert('Please enter at least one student name.');
+  let n = parseInt($('start').value, 10) || 1;
+  rows = lines.map(l => { const [name, ...rest] = l.split(','); return { name: name.trim(), college: rest.join(',').trim(), id: s.prefix + String(n++).padStart(4,'0') }; });
+  store.set('next', n);
+  $('preview').innerHTML = rows.map(r => '<div class="scale">'+certHTML(r, s)+'</div>').join('');
+  document.querySelectorAll('.qr').forEach(el => {
+    if (window.QRCode) new QRCode(el, { text: el.dataset.url, width: 256, height: 256, correctLevel: QRCode.CorrectLevel.M });
+    else el.innerHTML = '';
+  });
+  $('out').classList.add('show');
+  const entries = rows.map(r => '  ' + JSON.stringify(r.id) + ': ' + JSON.stringify({ name: r.name, course: s.course, type: s.type, from: s.from, to: s.to, hours: parseFloat(s.hours) || null, issued: s.issued }));
+  $('json').value = entries.join(',\n');
+  $('jsonBox').style.display = 'block';
+  requestAnimationFrame(fit);
+  $('out').scrollIntoView({ behavior: 'smooth' });
+};
+
+$('print').onclick = () => { if (!rows.length) return alert('Click "Make certificates" first.'); window.print(); };
+$('copy').onclick = () => { $('json').select(); try { navigator.clipboard.writeText($('json').value); } catch(e) { document.execCommand('copy'); } };
+$('csv').onclick = () => {
+  if (!rows.length) return alert('Click "Make certificates" first.');
+  const q = (v) => '"' + String(v ?? '').replace(/"/g,'""') + '"';
+  const head = ['Certificate ID','Name','College','Course','Type','From','To','Hours','Issued on'];
+  const csv = [head.map(q).join(',')].concat(rows.map(r => [r.id,r.name,r.college,$('course').value,$('type').value,$('from').value,$('to').value,$('hours').value,$('issued').value].map(q).join(','))).join('\r\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv'})); a.download = 'certificates-' + rows[0].id + '.csv'; a.click();
+};
+</script>
+</body>
+</html>
