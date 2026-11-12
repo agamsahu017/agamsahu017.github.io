@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Job Plan and Interview Prep</title>
+<link rel="stylesheet" href="notes.css">
+</head>
+<body>
+<nav class="top"><a href="index.html">← All notes</a><a href="ai-interview.html">AI interview →</a></nav>
+
+<h1>Job Plan and Interview Prep</h1>
+<p class="muted">Private notes. My skills: 8 years of full stack work with Node.js, NestJS, React, Next.js, PostgreSQL and AI (LLMs, RAG, agents).</p>
+
+<h2>1. Resume and LinkedIn</h2>
+<div class="table-wrap"><table>
+  <tr><th>Item</th><th>What to do</th></tr>
+  <tr><td><b>Resume</b></td><td>Keep it to one page, for one kind of job (Senior Full Stack or Backend). Add a number to every point (users, speed, money or time saved). Use the same skill words as the job post, but only if they are true for you.</td></tr>
+  <tr><td><b>LinkedIn headline</b></td><td>Copy the text below. Keep it under 220 letters.</td></tr>
+  <tr><td><b>LinkedIn About</b></td><td>Copy the text below. Keep the last line: it tells people to message you.</td></tr>
+  <tr><td><b>LinkedIn jobs</b></td><td>Write 3 to 5 points for each job, with results. "Open to work" (only recruiters can see it) is already on.</td></tr>
+  <tr><td><b>Projects</b></td><td>Add 2 or 3 projects with 2 lines each, including the AI chatbot (RAG). Add a link only if it is safe to share.</td></tr>
+</table></div>
+
+<h3>LinkedIn headline (copy this)</h3>
+<div class="copy">Senior Full Stack Engineer (8 yrs) | Node.js, NestJS, React, Next.js, PostgreSQL | Building AI apps: LLMs, RAG, Agents</div>
+
+<h3>LinkedIn About (copy this)</h3>
+<div class="copy">Senior Full Stack Engineer with 8 years of experience building web products end to end: React and Next.js frontends, Node.js and NestJS APIs, PostgreSQL databases, and cloud deployments.
+
+I have worked on multi-role approval workflows, role-based access control, payment integrations, and reporting systems. Recently I have been building AI-powered features: LLM integrations, RAG pipelines with pgvector, and tool-using agents.
+
+I am looking for a Senior Full Stack or Backend role where I can own features from design to production. Open to on-site or hybrid roles in Noida, Gurugram, Delhi NCR, and remote. Message me to talk.</div>
+
+<h3>Resume points (put in your real numbers)</h3>
+<div class="copy">- Designed a multi-role approval workflow with role-based access control for [N] users.
+- Cut a slow report API from [X] s to [Y] ms by adding indexes, pagination and Redis caching.
+- Built a RAG-based assistant over documents using PostgreSQL + pgvector, with evaluation tests to track answer quality.
+- Integrated a payment gateway with webhook verification and refund handling.
+- Led code reviews and mentored [N] junior developers.</div>
+<p class="muted">Write only true numbers and facts. The interviewer will ask about each one.</p>
+
+<h2>2. 30-day plan</h2>
+<div class="table-wrap"><table>
+  <tr><th>Week</th><th>What to do</th><th>Target</th></tr>
+  <tr><td><b>Week 1</b></td><td>Fix your resume and LinkedIn (part 1). Make a list of 30 companies you want: product companies, GCCs, fintech and SaaS in Noida, Gurugram, Delhi, or remote.</td><td>Resume done, LinkedIn done, 30 companies</td></tr>
+  <tr><td><b>Week 2</b></td><td>Apply every day. Ask 5 old colleagues or friends to refer you. Message 5 recruiters on LinkedIn.</td><td>15 to 20 good applications, 5 referral asks</td></tr>
+  <tr><td><b>Week 3</b></td><td>Prepare for interviews (part 3). Do 2 practice interviews: one coding, one system design.</td><td>2 practice interviews, 5 real interviews</td></tr>
+  <tr><td><b>Week 4</b></td><td>Follow up on applications, finish take-home tasks, compare offers. Keep applying.</td><td>Follow-ups done, 5 more applications</td></tr>
+</table></div>
+
+<div class="box"><b>Every day (60 to 90 minutes):</b> 30 min coding practice (medium problems: arrays, strings, hash maps, trees). 30 min answering one interview question out loud. 15 min applying and sending messages.</div>
+
+<h3>Where to apply</h3>
+<ul>
+  <li>LinkedIn Jobs (filters: Senior, Full Stack or Backend, Noida / Gurugram / Delhi, Hybrid or Remote)</li>
+  <li>Naukri, Instahyre, Cutshort, Hirist</li>
+  <li>Company career pages (check every week)</li>
+  <li>Referrals (these work best)</li>
+</ul>
+
+<h2>3. Interview questions with easy answers</h2>
+
+<details open><summary>Node.js and NestJS (backend)</summary>
+<p><b>Q: How does the Node.js event loop work?</b><br>Node runs your JavaScript on one thread. Slow work like files and network calls is handed to the system (libuv). When that work is done, its callback waits in a queue and runs when the thread is free. Promise callbacks and nextTick (called microtasks) run first, before the next item in the queue.</p>
+<p><b>Q: How do you organise a NestJS module?</b><br>One module per feature. Inside: a controller (handles HTTP), a service (business logic), DTOs (shape of input, checked with class-validator) and repositories (database). Shared services are exported. Settings are loaded with forRootAsync.</p>
+<p><b>Q: Guards vs interceptors vs pipes?</b><br>Guards say yes or no to a request (login, roles). Pipes check and convert input. Interceptors run before and after the handler (logging, changing the response). Exception filters turn errors into a clean response.</p>
+<p><b>Q: How do you stop charging a customer twice when a request is retried?</b><br>Use an idempotency key: a unique ID saved in the database. If the same key comes again, return the saved result instead of charging again. For payment webhooks, check the signature and update the database inside a transaction.</p>
+<p><b>Q: How do you find a memory leak?</b><br>Watch memory (heapUsed) over time. Take two heap snapshots with --inspect, compare them, and find what keeps growing (caches, event listeners, timers). Remove those references.</p>
+</details>
+
+<details open><summary>React and Next.js (frontend)</summary>
+<p><b>Q: useMemo vs useCallback vs React.memo?</b><br>useMemo saves a calculated value. useCallback saves a function so it stays the same between renders. React.memo stops a child from re-rendering when its props did not change. Use them only when something is really slow.</p>
+<p><b>Q: Why does a React component re-render?</b><br>Its state changed, its props changed, or its parent re-rendered. Use stable keys in lists, and keep state in the lowest component that needs it.</p>
+<p><b>Q: Server vs Client Components in Next.js?</b><br>Server Components are the default. They send no JavaScript to the browser and can read data directly. Add "use client" when you need state, clicks or browser features. You can pass a server component into a client component as children.</p>
+<p><b>Q: How does caching work in the App Router?</b><br>fetch results are saved (cached). Use revalidate to refresh after some time, cache: "no-store" for always-fresh data, and revalidateTag or revalidatePath to refresh after data changes.</p>
+<p><b>Q: What is an error boundary? What does it not catch?</b><br>A component that catches errors while its children render, and shows a fallback screen. It does not catch errors in click handlers, async code, or in itself.</p>
+</details>
+
+<details open><summary>PostgreSQL and data</summary>
+<p><b>Q: How do you find a slow query?</b><br>Run EXPLAIN ANALYZE. Look for a full table scan (Seq Scan) on a big table, and add the right index. In an index on many columns, the order of columns matters.</p>
+<p><b>Q: Offset vs keyset pagination?</b><br>Offset (skip N rows) is simple but gets slow on later pages. Keyset (WHERE id &gt; last_id ORDER BY id LIMIT n) stays fast and does not skip or repeat rows.</p>
+<p><b>Q: What is the N+1 problem?</b><br>One query to get a list, then one more query for each row. Fix it with a join, or load all the rows you need in one batch query.</p>
+</details>
+
+<details open><summary>System design (follow these steps)</summary>
+<p>1) Ask what the system must do and how big it is (users, requests per second, data size). 2) Draw the main boxes: app, API, database, cache, queue, workers. 3) Walk through the main flow. 4) Explain the tables and indexes. 5) Explain how it grows, what happens when something fails, and retries. 6) Explain monitoring and security.</p>
+<p><b>Practice:</b> URL shortener; notification service (email, SMS, WhatsApp); export a report of 10 lakh rows; hotel booking without double booking; rate limiter.</p>
+</details>
+
+<details open><summary>Behaviour questions (prepare 4 stories)</summary>
+<p>Prepare: (1) a hard production bug you fixed, (2) a disagreement with a teammate and how you solved it, (3) a tight deadline you met, (4) a project you led or a person you guided. Tell each story as Situation, Task, Action, Result (STAR), and end with a number.</p>
+</details>
+
+<h2>4. Questions to ask the interviewer</h2>
+<ul>
+  <li>What does a normal week look like for this team?</li>
+  <li>How will you know I did well in this role after 6 months?</li>
+  <li>What is the biggest technical problem the team has right now?</li>
+  <li>How do code reviews and releases work here?</li>
+</ul>
+
+<h2>5. Before the interview</h2>
+<ul>
+  <li>Read your resume again. Be ready to explain every line.</li>
+  <li>Look at the company's product and recent news.</li>
+  <li>Keep exact numbers ready: notice period, current salary, expected salary.</li>
+  <li>For video calls, test camera, mic and internet 15 minutes before.</li>
+</ul>
+
+<p><a href="ai-interview.html">Next: AI interview prep →</a></p>
+</body>
+</html>

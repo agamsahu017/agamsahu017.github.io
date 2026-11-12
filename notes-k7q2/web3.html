@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Web1 vs Web2 vs Web3</title>
+<link rel="stylesheet" href="notes.css">
+</head>
+<body>
+<nav class="top"><a href="index.html">← All notes</a><a href="ai-interview.html">AI interview</a></nav>
+
+<h1>Web1 vs Web2 vs Web3</h1>
+<p class="muted">Private notes in easy English. Enough for 2 or 3 interview questions about Web3. Reading time: about 1 hour.</p>
+
+<h2>1. The three webs in one table</h2>
+<p class="muted">On a phone, swipe the table sideways →</p>
+<div class="table-wrap"><table style="min-width:600px">
+  <tr><th></th><th>Web1 (about 1990–2004)</th><th>Web2 (about 2004–now)</th><th>Web3 (new)</th></tr>
+  <tr><td><b>In one line</b></td><td>Read</td><td>Read + write</td><td>Read + write + own</td></tr>
+  <tr><td><b>What you do</b></td><td>Read simple pages made by a few people</td><td>Post, comment, share, buy, upload videos</td><td>Use apps where you hold your own money, data and items in a wallet</td></tr>
+  <tr><td><b>Who controls it</b></td><td>The site owner</td><td>Big companies (Google, Meta, Amazon)</td><td>No single owner: a network of computers (blockchain)</td></tr>
+  <tr><td><b>Where data is kept</b></td><td>The site's own server</td><td>The company's servers and databases</td><td>On the blockchain, copied on many computers</td></tr>
+  <tr><td><b>Login</b></td><td>Mostly none</td><td>Email + password, or "Login with Google"</td><td>Connect a wallet (like MetaMask)</td></tr>
+  <tr><td><b>How money is made</b></td><td>Banner ads</td><td>Ads using your data, subscriptions</td><td>Tokens, fees paid in crypto</td></tr>
+  <tr><td><b>Examples</b></td><td>Old news sites, Yahoo pages</td><td>Facebook, Instagram, YouTube, Amazon</td><td>Bitcoin, Ethereum, Uniswap, OpenSea (NFTs)</td></tr>
+  <tr><td><b>Main problem</b></td><td>Not interactive</td><td>Companies own your data and can block you</td><td>Slow, costly fees, scams, unclear laws</td></tr>
+</table></div>
+
+<div class="box"><b>Easy way to remember:</b> Web1 = a newspaper (you only read). Web2 = a shopping mall (you can do a lot, but the mall owner sets the rules). Web3 = a village market everyone runs together (no single owner, but slower and less safe).</div>
+
+<p class="say">"Web1 was read-only. Web2 lets users create content, but big platforms own the data. Web3 tries to let users own their data and money using blockchains and wallets, with no central company in the middle."</p>
+
+<h2>2. What is a blockchain?</h2>
+<p>A record book (ledger) that is copied on thousands of computers. New transactions are grouped into a <b>block</b>. Each block keeps the <b>hash</b> (a fingerprint) of the block before it, so they form a chain.</p>
+<ul>
+  <li><b>Example:</b> a society register where every member has a photocopy. If one person changes their copy, it no longer matches the others, so everyone knows it is fake.</li>
+  <li>If someone changes an old block, its fingerprint changes and the chain breaks. The network rejects it. That is why it is called <b>immutable</b> (cannot be changed).</li>
+</ul>
+<p class="say">"A blockchain is a shared record that can only be added to. Each block holds the previous block's hash, so changing old data breaks the chain. The computers in the network agree on the correct chain using consensus."</p>
+
+<h2>3. Four key words</h2>
+<ul>
+  <li><b>Decentralized:</b> no single owner, no bank in the middle.</li>
+  <li><b>Immutable:</b> old records cannot be changed.</li>
+  <li><b>Transparent:</b> anyone can see the transactions (for example on Etherscan).</li>
+  <li><b>Trustless:</b> you trust the code and maths, not a middleman.</li>
+</ul>
+
+<h2>4. How everyone agrees (consensus)</h2>
+<ul>
+  <li><b>Proof of Work (PoW):</b> computers (miners) race to solve a hard maths puzzle. The winner adds the next block. Very safe, but uses a lot of electricity. Bitcoin uses this.</li>
+  <li><b>Proof of Stake (PoS):</b> people lock up their coins (stake). The network picks one of them to add the next block. If they cheat, they lose coins. Uses far less electricity. <b>Ethereum moved to PoS in 2022</b> ("The Merge").</li>
+</ul>
+
+<h2>5. Bitcoin vs Ethereum</h2>
+<div class="table-wrap"><table>
+  <tr><th>Bitcoin</th><th>Ethereum</th></tr>
+  <tr><td>Only digital money</td><td>Money + programs (smart contracts)</td></tr>
+  <tr><td>Cannot run apps</td><td>Runs apps (DeFi, NFTs, tokens)</td></tr>
+  <tr><td>Proof of Work</td><td>Proof of Stake</td></tr>
+</table></div>
+
+<h2>6. Smart contract</h2>
+<p>A small program saved on the blockchain that runs by itself when its conditions are met. After it is saved (deployed), it cannot be changed, unless it was built to be upgradeable.</p>
+<ul>
+  <li><b>Example:</b> a vending machine. Put in money, press a button, and the item comes out. No shopkeeper needed.</li>
+  <li>Written in <b>Solidity</b> (looks a bit like JavaScript). Runs on the <b>EVM</b> (Ethereum Virtual Machine).</li>
+</ul>
+<pre>// a very small contract
+contract Counter {
+    uint public count;
+    function increment() public { count += 1; }
+}</pre>
+<p class="say">"A smart contract is a program on the blockchain that runs automatically. In my project, the tokens for real-estate shares were ERC-20 smart contracts."</p>
+
+<h2>7. Gas</h2>
+<p>The fee you pay (in ETH) to save anything on Ethereum or to run a contract function that changes data. <b>Reading data is free.</b> More complex code costs more gas, so contracts are kept small.</p>
+
+<h2>8. Tokens: ERC-20 vs ERC-721 (NFT) ⭐ most asked</h2>
+<div class="table-wrap"><table>
+  <tr><th>ERC-20</th><th>ERC-721 (NFT)</th></tr>
+  <tr><td><b>All tokens are the same</b>, like ₹10 notes</td><td><b>Each token is unique</b>, like a property paper or a painting</td></tr>
+  <tr><td>Used for: coins, shares, <b>part-ownership of property</b></td><td>Used for: art, game items, collectibles (<b>ORE game items</b>)</td></tr>
+  <tr><td>Main functions: totalSupply, balanceOf, transfer, approve, transferFrom, allowance</td><td>Main functions: ownerOf, transferFrom, safeTransferFrom, tokenURI</td></tr>
+</table></div>
+<p><b>Link it to your projects:</b></p>
+<ul>
+  <li><b>Salcedo (real estate):</b> one property is split into, say, 1,000 ERC-20 tokens. Buying 10 tokens = owning 1% of the property.</li>
+  <li><b>ORE System (NFT):</b> each game item (a sword, a skin) is a unique ERC-721 NFT that players can trade.</li>
+</ul>
+<p><b>Bonus, ERC-1155:</b> one contract that can hold both kinds of tokens. Popular in games.</p>
+
+<h2>9. Wallet, public key, private key</h2>
+<ul>
+  <li><b>Wallet</b> (MetaMask, Coinbase Wallet): an app that keeps your keys and signs (approves) transactions.</li>
+  <li><b>Public key / address:</b> like a bank account number. Safe to share.</li>
+  <li><b>Private key / seed phrase:</b> like your ATM PIN and password together. <b>Never share it.</b> Whoever has it controls the money.</li>
+  <li>The wallet does not hold the coins. The coins live on the blockchain; the wallet only holds the keys.</li>
+</ul>
+
+<h2>10. How my Coinbase Wallet work worked (be ready to explain)</h2>
+<ol>
+  <li>User clicks <b>"Connect Wallet"</b>. The app asks Coinbase Wallet for permission and gets the user's <b>address</b>.</li>
+  <li>The app builds a transaction (for example: pay some ETH to buy tokens, or call the contract's buy function).</li>
+  <li>The <b>wallet pops up</b>. The user checks it and <b>signs</b>. My app never sees the private key.</li>
+  <li>The transaction goes to the network. We get a <b>transaction hash</b> and wait for <b>confirmation</b>.</li>
+  <li>The backend checks the transaction on the blockchain before updating our database and showing "Purchase successful".</li>
+</ol>
+<p class="say">"I connected Coinbase Wallet using Web3.js: connect the wallet, get the address, build the transaction, let the wallet sign it, then confirm it on the blockchain before updating our database."</p>
+
+<h2>11. Web3.js and Ethers.js</h2>
+<p>JavaScript libraries that let your app talk to Ethereum: read balances, call contract functions, send transactions. To call a contract you need its <b>address</b> and its <b>ABI</b> (a JSON list of its functions, like a Swagger file). Ethers.js is more popular now. I used Web3.js.</p>
+
+<h2>12. Other words you may hear</h2>
+<ul>
+  <li><b>Testnet</b> (Sepolia): a free practice blockchain with fake ETH.</li>
+  <li><b>Etherscan:</b> a website to look up any transaction, address or contract.</li>
+  <li><b>dApp:</b> a normal frontend + smart contracts as the backend.</li>
+  <li><b>DeFi:</b> bank-like services (loans, trading) run by smart contracts.</li>
+  <li><b>Oracle</b> (like Chainlink): brings outside data (prices, weather) into contracts, because contracts cannot call APIs.</li>
+  <li><b>Layer 2</b> (Polygon, Arbitrum): faster and cheaper networks built on top of Ethereum.</li>
+  <li><b>Tokenization:</b> turning a real thing (property, gold) into tokens.</li>
+</ul>
+
+<h2>13. Problems with Web3 (shows you think clearly)</h2>
+<ul>
+  <li>Slower and costlier than a normal database (gas fees, waiting for confirmation).</li>
+  <li>A bug in a smart contract is permanent and can lose money. Hacks happen.</li>
+  <li>Laws are unclear in many countries. In India, crypto profit has 30% tax + 1% TDS.</li>
+  <li><b>Most apps do not need a blockchain.</b> A normal database is better when one owner is trusted.</li>
+</ul>
+<p class="say">"I would use a blockchain only when many parties who don't trust each other need one shared record that nobody can change. Otherwise a normal database is faster, cheaper and simpler."</p>
+
+<h2>14. Practice questions</h2>
+<ol>
+  <li>Web1 vs Web2 vs Web3?</li>
+  <li>What is a blockchain? Why can't old data be changed?</li>
+  <li>Proof of Work vs Proof of Stake?</li>
+  <li>What is a smart contract? Which language?</li>
+  <li>What is gas? Why is reading free?</li>
+  <li>ERC-20 vs ERC-721? Which one did your real-estate project use, and why?</li>
+  <li>How does tokenized real estate work?</li>
+  <li>Public key vs private key? Where is the private key in your wallet integration?</li>
+  <li>Explain your Coinbase Wallet integration step by step.</li>
+  <li>What is an ABI?</li>
+  <li>When should you NOT use a blockchain?</li>
+</ol>
+
+<p><a href="index.html">← All notes</a></p>
+</body>
+</html>

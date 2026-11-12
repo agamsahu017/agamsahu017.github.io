@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>AI Interview Prep</title>
+<link rel="stylesheet" href="notes.css">
+</head>
+<body>
+<nav class="top"><a href="index.html">← All notes</a><a href="job-plan.html">Job plan</a><a href="web3.html">Web3 →</a></nav>
+
+<h1>AI Interview Prep</h1>
+<p class="muted">Private notes. For a senior full stack job that also has AI work (LLMs, RAG, tool calling, testing AI).</p>
+
+<h2>1. Topics and what to say</h2>
+<div class="table-wrap"><table>
+  <tr><th>Topic</th><th>What to explain</th></tr>
+  <tr><td><b>Structured output</b></td><td>Ask the model to reply in JSON with fixed keys and types. Check the reply with a schema library (like zod). If it fails, try once more and send the error back to the model. If it fails again, use a safe default.</td></tr>
+  <tr><td><b>Tool calling</b></td><td>The model asks to call a function and gives the inputs. Your code runs the function and sends back the result. Give each tool strict inputs and only the access it needs. Ask a human before risky actions.</td></tr>
+  <tr><td><b>LLM basics</b></td><td>Tokens (small pieces of text), context window (how much text the model can see at once), transformer and attention (basic idea), pre-training on huge text, fine-tuning, RLHF (learning from human ratings), temperature (how random the answer is), hallucination (confident but wrong answers).</td></tr>
+  <tr><td><b>Quantization, distillation, SLM</b></td><td>Quantization stores the model's numbers with fewer bits, so it is smaller and faster, with a little quality loss. Distillation trains a small model to copy a big one. An SLM (small language model) is cheap and can run on your own machine.</td></tr>
+  <tr><td><b>Running in production</b></td><td>Cost (model size, prompt length, caching). Speed (stream the answer, use a smaller model for easy tasks). Reliability (timeouts, retries, backup model). Monitoring (tokens used, errors, quality score).</td></tr>
+  <tr><td><b>Evals and guardrails</b></td><td>Evals: a list of real questions with the expected behaviour, checked by keywords, a scoring guide, or another model as judge. Guardrails check what goes in and what comes out. Prompt injection: keep your rules separate from user text, give little access, check the output.</td></tr>
+  <tr><td><b>RAG</b></td><td>Cut documents into small parts (chunks), turn each part into numbers (embeddings), store them in pgvector. For a question, find the closest parts and tell the model to answer only from them. Set a minimum match score and show the sources.</td></tr>
+  <tr><td><b>Agents and MCP</b></td><td>An agent has a goal, some tools and a loop: plan, act, look at the result, repeat. MCP (Model Context Protocol) is one standard way to connect tools and data to AI apps.</td></tr>
+</table></div>
+
+<h2>2. Questions with short answers</h2>
+
+<details open><summary>Q: RAG or fine-tuning for company documents?</summary>
+<p>RAG. Company documents change often. RAG gives the model the facts at the time of the question and can show the source. Fine-tuning changes how the model writes (style, format), not which facts it remembers. Order to try: good prompt first, RAG for knowledge, fine-tuning only for style or format.</p>
+</details>
+
+<details open><summary>Q: How do you reduce hallucination?</summary>
+<p>Give the model the right information (RAG). Tell it to answer only from that information and to say "I don't know" if the answer is not there. Ask for sources. Use a low temperature for facts. Measure it with an eval set.</p>
+</details>
+
+<details open><summary>Q: How do you know your AI feature works well?</summary>
+<p>I make a test set of 30 to 50 real questions with the expected behaviour. I check answers with keywords first, then a scoring guide, and use an AI judge only for open answers (and I check the judge too). I run the tests after every prompt or model change and track the score.</p>
+</details>
+
+<details open><summary>Q: How do you stop users from tricking the AI (prompt injection)?</summary>
+<p>Keep system rules separate from user text and documents. Treat document text as data, never as orders. Give the model only the tools it needs. Ask a human before sensitive actions. Check the output before using it. Add attack examples to the test set.</p>
+</details>
+
+<details open><summary>Q: How do you keep the cost low?</summary>
+<p>Use the smallest model that passes the tests. Keep prompts short. Cache repeated prompts (prompt caching). Limit the answer length (max_tokens). Stream answers. Track cost per request and per user.</p>
+</details>
+
+<details open><summary>Q: How do you get reliable JSON from a model?</summary>
+<p>Ask for JSON with exact keys, use structured output or strict tool schemas, check every reply, retry once with the error, and keep a safe fallback. Never use the output without checking it.</p>
+</details>
+
+<details open><summary>Q: Explain tool calling with an example.</summary>
+<p>User asks: "Where is my order 123?" The model replies with a tool call: find_order with orderId 123. My code checks the database and sends the status back as JSON. The model then writes the final answer. The model never runs code itself.</p>
+</details>
+
+<details open><summary>Q: What happens inside a transformer, in simple words?</summary>
+<p>Text is cut into tokens, and each token becomes a list of numbers. Attention lets each token look at the other tokens and decide which ones matter. Many layers build up the meaning, and the model guesses the next token. It learns by doing this on huge amounts of text, then gets extra training to follow instructions (and RLHF).</p>
+</details>
+
+<details open><summary>Q: What is RLHF?</summary>
+<p>Reinforcement Learning from Human Feedback. People rank the model's answers. A second model (reward model) learns what people like. Then the main model is trained to give answers that score higher. This makes it more helpful and safer.</p>
+</details>
+
+<details open><summary>Q: What is quantization? Why does it matter?</summary>
+<p>Storing the model's numbers with fewer bits (8-bit or 4-bit instead of 16-bit). It uses less memory, costs less and runs faster, with a small quality loss. That is how big models fit on smaller GPUs.</p>
+</details>
+
+<details open><summary>Q: What is distillation?</summary>
+<p>A small "student" model is trained to copy the answers of a big "teacher" model. The student is cheaper and faster, and good enough for one task.</p>
+</details>
+
+<details open><summary>Q: Design a document Q&amp;A system for 1 lakh documents.</summary>
+<p><b>Adding documents:</b> upload to S3. A queue (BullMQ) sends jobs to workers that cut and embed the documents. Store parts and vectors in PostgreSQL with pgvector (HNSW index). Save extra info: customer (tenant), date, source.<br><b>Answering:</b> check the cache, embed the question, filter by customer, find the top matches, re-rank if needed, build a prompt with sources, stream the model's answer, and log tokens and time.<br><b>Quality:</b> test set, thumbs up/down buttons, and track how often it says "no answer".<br><b>Security:</b> filter by customer in every query, hide personal data, limit requests per user.</p>
+</details>
+
+<details open><summary>Q: Build a support bot that can look up orders and give refunds.</summary>
+<p>Give it tools: find_order (read), check_refund_policy (read), create_refund (write). The write tool needs a human to approve it, or a strict rule (amount limit, only eligible orders). Log every tool call. Test cases where the bot must say no.</p>
+</details>
+
+<details open><summary>Q: What is an agent, and when should you NOT use one?</summary>
+<p>An agent plans and calls tools in a loop until the goal is done. Do not use one for simple one-step jobs like sorting or summarising. One AI call with a fixed flow is cheaper, faster and easier to test.</p>
+</details>
+
+<details open><summary>Q: What is MCP?</summary>
+<p>Model Context Protocol: an open standard for connecting AI apps to tools and data. One MCP server (for example for a database or GitHub) works with many AI apps.</p>
+</details>
+
+<h2>3. Projects to show</h2>
+<div class="table-wrap"><table>
+  <tr><th>Project</th><th>What it shows</th></tr>
+  <tr><td><b>RAG chatbot on your own documents</b> (pgvector + Node.js)</td><td>RAG, chunking, sources, testing</td></tr>
+  <tr><td><b>Assistant that uses tools</b> (order status, booking or tickets)</td><td>Tool calling, input checks, approvals</td></tr>
+  <tr><td><b>Test score dashboard</b> (30 questions, pass/fail over time)</td><td>Evals, tracking quality</td></tr>
+  <tr><td><b>Full stack AI feature</b> (Next.js screen + NestJS API + streaming)</td><td>End-to-end work, streaming, login</td></tr>
+</table></div>
+<div class="box">For each project, be ready to say: the problem, the design (one diagram), one hard choice and why, the result in numbers (score, speed or cost), and what you would improve next.</div>
+
+<h2>4. Practice checklist</h2>
+<ul>
+  <li>Explain one AI feature you built in 2 minutes: problem, design, result.</li>
+  <li>Draw the RAG flow from memory.</li>
+  <li>Explain how you would test an AI feature.</li>
+  <li>Answer: "What will you do if the model gives a wrong answer in production?"</li>
+</ul>
+
+<p><a href="job-plan.html">← Job plan</a> · <a href="web3.html">Web1 vs Web2 vs Web3 →</a></p>
+</body>
+</html>
