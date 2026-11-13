@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Chapter 6: Tech for the 10 Projects</title>
+<link rel="stylesheet" href="../notes.css">
+<style>blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid var(--boxline);background:var(--box);border-radius:6px}blockquote p{margin:4px 0}table{display:block;overflow-x:auto}</style>
+</head>
+<body>
+<nav class="top"><a href="../index.html">← All notes</a><a href="index.html">AI notes home</a></nav>
+<h1>Chapter 6: Tech for the 10 Projects</h1>
+<blockquote>
+<p>Every topic you need for the 10 &quot;earning with learning&quot; projects, in very simple English.
+For each topic: <strong>what it is</strong>, <strong>a small example</strong>, <strong>how it works</strong>, <strong>a common mistake</strong>, and <strong>one interview question</strong>.</p>
+</blockquote>
+<h2>Which topic is used in which project</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Project</th>
+<th>Topics</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>WhatsApp AI receptionist</td>
+<td>RAG, pgvector, Claude API, WhatsApp API, webhooks, queue</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Clinic / salon booking</td>
+<td>Next.js, NestJS, slot locking, cron reminders</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Small business SaaS</td>
+<td>Multi-tenant, roles, payments, reports</td>
+</tr>
+<tr>
+<td>4</td>
+<td>&quot;Ask your documents&quot; bot</td>
+<td>RAG, chunking, citations, evals</td>
+</tr>
+<tr>
+<td>5</td>
+<td>School / coaching ERP</td>
+<td>NestJS, PostgreSQL, RBAC, dashboards</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Restaurant QR ordering</td>
+<td>Next.js, real-time orders (WebSocket), admin panel</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Bill / document reader</td>
+<td>Vision AI, structured JSON output, validation</td>
+</tr>
+<tr>
+<td>8</td>
+<td>AI assistant for office work</td>
+<td>AI agent, tool calling, human approval, audit logs</td>
+</tr>
+<tr>
+<td>9</td>
+<td>WhatsApp follow-up tool</td>
+<td>Cron, queues, WhatsApp templates, analytics</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Certificate system</td>
+<td>QR verification, PDF generation, bulk jobs</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>Part A: The base (frontend, backend, database)</h2>
+<h3>1. Next.js</h3>
+<ul>
+<li><strong>What:</strong> a framework on top of React. You make pages by making folders and files.</li>
+<li><strong>Why use it:</strong> pages can be made on the server, so Google can read them (good SEO) and they open fast. You can also write small APIs in the same project.</li>
+<li><strong>Example:</strong> <code>app/menu/page.tsx</code> becomes the page <code>/menu</code>.</li>
+<li><strong>How it works:</strong><ol>
+<li><strong>Server component:</strong> runs on the server, can read the database, sends ready HTML.</li>
+<li><strong>Client component:</strong> has <code>&quot;use client&quot;</code> at the top, runs in the browser, can use buttons, state, clicks.</li>
+</ol>
+</li>
+<li><strong>Common mistake:</strong> putting secret keys in client components. Anything in the browser can be seen by anyone.</li>
+<li><strong>Interview Q:</strong> Why Next.js instead of plain React? → Server rendering for SEO and speed, file-based routing, and API routes in one project.</li>
+</ul>
+<h3>2. NestJS</h3>
+<ul>
+<li><strong>What:</strong> a Node.js backend framework with a fixed structure. Good for big projects and teams.</li>
+<li><strong>Main parts:</strong><ul>
+<li><strong>Module</strong> = a box for one feature (bookings, users).</li>
+<li><strong>Controller</strong> = gets the HTTP request (<code>GET /bookings</code>).</li>
+<li><strong>Service</strong> = the real business logic.</li>
+<li><strong>Guard</strong> = checks &quot;is this user allowed?&quot; before the controller runs.</li>
+<li><strong>DTO</strong> = the shape of the incoming data, with validation rules.</li>
+</ul>
+</li>
+<li><strong>Example:</strong></li>
+</ul>
+<pre><code class="language-ts">@Controller(&#39;bookings&#39;)
+export class BookingsController {
+  constructor(private service: BookingsService) {}
+  @Post() create(@Body() dto: CreateBookingDto) { return this.service.create(dto); }
+}
+</code></pre>
+<ul>
+<li><strong>Common mistake:</strong> writing all logic in the controller. Keep controllers thin, logic in services.</li>
+<li><strong>Interview Q:</strong> What is dependency injection? → Nest creates the service and gives it to the controller. You don&#39;t write <code>new BookingsService()</code>. This makes testing easy (you can pass a fake service).</li>
+</ul>
+<h3>3. PostgreSQL</h3>
+<ul>
+<li><strong>What:</strong> a reliable SQL database. Tables, relations, indexes, transactions.</li>
+<li><strong>Things you must know:</strong><ul>
+<li><strong>Index</strong> = like a book index; makes search fast. Add one on columns you filter by (<code>phone</code>, <code>tenant_id</code>, <code>created_at</code>).</li>
+<li><strong>Transaction</strong> = many steps that all succeed or all fail (<code>BEGIN ... COMMIT</code>).</li>
+<li><strong>Unique constraint</strong> = the database itself stops duplicates.</li>
+<li><strong>JSONB</strong> = store flexible JSON in a column, and still search it.</li>
+</ul>
+</li>
+<li><strong>Common mistake:</strong> no index on a big table → slow pages after a few months.</li>
+<li><strong>Interview Q:</strong> How do you find a slow query? → <code>EXPLAIN ANALYZE</code>, look for &quot;Seq Scan&quot; on a big table, add the right index.</li>
+</ul>
+<hr>
+<h2>Part B: AI topics</h2>
+<h3>4. Claude API (calling an LLM from your code)</h3>
+<ul>
+<li><strong>What:</strong> you send messages to the model from your backend and get a reply back.</li>
+<li><strong>Example:</strong></li>
+</ul>
+<pre><code class="language-ts">import Anthropic from &#39;@anthropic-ai/sdk&#39;;
+const client = new Anthropic(); // reads ANTHROPIC_API_KEY from .env
+const reply = await client.messages.create({
+  model: &#39;claude-sonnet-5-5&#39;,
+  max_tokens: 500,
+  system: &#39;You are the receptionist of CareWell Clinic. Answer only from the given info.&#39;,
+  messages: [{ role: &#39;user&#39;, content: &#39;What time do you open on Sunday?&#39; }],
+});
+console.log(reply.content[0].text);
+</code></pre>
+<ul>
+<li><strong>Good to know:</strong><ul>
+<li><strong>Streaming</strong> = show the answer word by word, so the user does not wait.</li>
+<li><strong>Cost</strong> = you pay per token (input + output). Keep prompts short, cache the fixed part.</li>
+<li>The API key stays only on the server, never in the browser or in GitHub.</li>
+</ul>
+</li>
+<li><strong>Common mistake:</strong> no timeout and no retry. APIs sometimes fail; retry 2–3 times with a small wait.</li>
+<li><strong>Interview Q:</strong> How do you control cost? → Short prompts, send only the top chunks (not the whole document), use a smaller model for easy tasks, cache repeated answers, set <code>max_tokens</code>.</li>
+</ul>
+<h3>5. RAG (quick recap)</h3>
+<ul>
+<li><strong>What:</strong> find the right pieces of your data first, then give them to the LLM to answer. Full chapter: <a href="02-rag.html">02-rag.md</a>.</li>
+<li><strong>Flow:</strong> question → make an embedding → search pgvector → top 5 pieces → put them in the prompt → LLM answers.</li>
+</ul>
+<h3>6. pgvector</h3>
+<ul>
+<li><strong>What:</strong> an add-on for PostgreSQL that stores embeddings (lists of numbers) and finds the closest ones.</li>
+<li><strong>Example:</strong></li>
+</ul>
+<pre><code class="language-sql">CREATE EXTENSION vector;
+CREATE TABLE chunks (id serial PRIMARY KEY, tenant_id int, source text, page int,
+                     content text, embedding vector(384));
+-- find the 5 closest pieces to the question
+SELECT content, source, page FROM chunks
+WHERE tenant_id = $1
+ORDER BY embedding &lt;=&gt; $2   -- &lt;=&gt; means cosine distance
+LIMIT 5;
+</code></pre>
+<ul>
+<li><strong>Why pgvector:</strong> you already use PostgreSQL, so there is no new system to run or pay for.</li>
+<li><strong>Common mistake:</strong> the question and the documents use different embedding models. They must use the <strong>same</strong> model.</li>
+<li><strong>Interview Q:</strong> When would you move from pgvector to Pinecone/Qdrant? → When you have many millions of vectors and need very fast search at scale. For small business bots, pgvector is enough.</li>
+</ul>
+<h3>7. Chunking</h3>
+<ul>
+<li><strong>What:</strong> cutting a long document into small pieces before making embeddings.</li>
+<li><strong>Simple rule:</strong> 300–800 words per piece, with a small <strong>overlap</strong> (for example 50 words) so a sentence is not cut in half.</li>
+<li><strong>Better:</strong> cut by headings or paragraphs, not blindly by count. Keep the heading with the piece.</li>
+<li><strong>Save extra info (metadata) with each piece:</strong> file name, page number, section. You need this for citations.</li>
+<li><strong>Common mistake:</strong> pieces too big (search becomes fuzzy) or too small (the answer is split across pieces).</li>
+</ul>
+<h3>8. Citations</h3>
+<ul>
+<li><strong>What:</strong> the bot shows <strong>where</strong> the answer came from, like &quot;Source: Fee-Policy.pdf, page 3&quot;.</li>
+<li><strong>Why:</strong> users trust it more, and you can check if it is right.</li>
+<li><strong>How:</strong><ol>
+<li>Give each piece a number in the prompt: <code>[1] ...text...</code>, <code>[2] ...text...</code>.</li>
+<li>Tell the model: &quot;Answer only from these pieces. After each fact, write the piece number like [2]. If the answer is not there, say you don&#39;t know.&quot;</li>
+<li>In your code, turn <code>[2]</code> into the file name and page from the metadata.</li>
+<li><strong>Check:</strong> if the model writes <code>[7]</code> but you only sent 5 pieces, remove it.</li>
+</ol>
+</li>
+<li><strong>Interview Q:</strong> How do you stop made-up answers? → Answer only from context, ask for citations, say &quot;I don&#39;t know&quot; when nothing matches, and test it with evals.</li>
+</ul>
+<h3>9. Evals (testing an AI system)</h3>
+<ul>
+<li><strong>What:</strong> a fixed list of test questions with the right answers. You run it after every change to see if the bot got better or worse.</li>
+<li><strong>Example test set (20–50 rows):</strong></li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Right answer</th>
+<th>Right source</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sunday timing?</td>
+<td>10 AM – 2 PM</td>
+<td>timings.md</td>
+</tr>
+<tr>
+<td>Fee for X-ray?</td>
+<td>₹400</td>
+<td>price-list.pdf p2</td>
+</tr>
+<tr>
+<td>Do you do MRI?</td>
+<td>No (should say &quot;not available&quot;)</td>
+<td>—</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li><strong>What to measure:</strong><ul>
+<li><strong>Search hit:</strong> did the right piece come in the top 5?</li>
+<li><strong>Correct:</strong> is the answer right? (check by hand, or ask another LLM to grade it)</li>
+<li><strong>Grounded:</strong> does the answer only use the given pieces?</li>
+<li><strong>&quot;I don&#39;t know&quot; works:</strong> for questions not in the data, does it refuse?</li>
+</ul>
+</li>
+<li><strong>Common mistake:</strong> changing the prompt and checking with only 1–2 questions.</li>
+<li><strong>Interview Q:</strong> How do you know your RAG bot is good? → A test set, measure search hit and answer correctness, run it on every change, track the score over time.</li>
+</ul>
+<h3>10. Vision AI</h3>
+<ul>
+<li><strong>What:</strong> the model can read images: bills, ID cards, forms, handwritten notes, screenshots.</li>
+<li><strong>Example:</strong> a shop owner sends a photo of a bill on WhatsApp → the bot reads vendor, date, items, total.</li>
+</ul>
+<pre><code class="language-ts">messages: [{ role: &#39;user&#39;, content: [
+  { type: &#39;image&#39;, source: { type: &#39;base64&#39;, media_type: &#39;image/jpeg&#39;, data: base64Image } },
+  { type: &#39;text&#39;, text: &#39;Read this bill. Return only JSON with vendor, date, items, total.&#39; },
+]}]
+</code></pre>
+<ul>
+<li><strong>Common mistake:</strong> trusting the numbers blindly. Blurry photos → wrong digits. Always validate (next topics).</li>
+</ul>
+<h3>11. Structured JSON output</h3>
+<ul>
+<li><strong>What:</strong> making the model reply in a fixed JSON shape, so your code can save it in the database.</li>
+<li><strong>Example shape:</strong></li>
+</ul>
+<pre><code class="language-json">{ &quot;vendor&quot;: &quot;Sharma Traders&quot;, &quot;date&quot;: &quot;2026-11-10&quot;,
+  &quot;items&quot;: [{ &quot;name&quot;: &quot;Rice 5kg&quot;, &quot;qty&quot;: 2, &quot;price&quot;: 450 }], &quot;total&quot;: 900 }
+</code></pre>
+<ul>
+<li><strong>How to get it reliably:</strong><ol>
+<li>Give the exact shape (a JSON schema) in the request. The best way is to use the API&#39;s structured output / tool feature, which forces the reply to match the schema.</li>
+<li>Say &quot;if a field is not visible, use null. Do not guess.&quot;</li>
+<li>Parse it with <code>JSON.parse</code> inside try/catch.</li>
+</ol>
+</li>
+<li><strong>Interview Q:</strong> What if the JSON is broken? → Use schema-forced output, validate, and if it still fails, retry once with the error message, then send it to a human.</li>
+</ul>
+<h3>12. Validation</h3>
+<ul>
+<li><strong>What:</strong> checking data before you trust or save it. Use it for user input <strong>and</strong> for AI output.</li>
+<li><strong>Example with zod:</strong></li>
+</ul>
+<pre><code class="language-ts">import { z } from &#39;zod&#39;;
+const Bill = z.object({
+  vendor: z.string().min(1),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  items: z.array(z.object({ name: z.string(), qty: z.number().positive(), price: z.number().nonnegative() })),
+  total: z.number().nonnegative(),
+});
+const result = Bill.safeParse(aiJson);
+if (!result.success) { /* retry or mark &quot;needs review&quot; */ }
+</code></pre>
+<ul>
+<li><strong>Business checks too:</strong> does the sum of items equal the total? Is the date not in the future? Is GSTIN 15 characters?</li>
+<li><strong>Common mistake:</strong> only checking on the frontend. Always check on the backend; the frontend can be skipped.</li>
+</ul>
+<h3>13. AI agent and tool calling</h3>
+<ul>
+<li><strong>What:</strong> the LLM can ask your code to do things (check slots, book, send a message). Your code does the work and sends the result back. Full chapter: <a href="03-agents.html">03-agents.md</a>.</li>
+<li><strong>Flow:</strong> user asks → LLM says &quot;call <code>getSlots(date)</code>&quot; → your code runs it → result goes back to the LLM → LLM replies or calls the next tool.</li>
+<li><strong>Rules:</strong> give few, clear tools; check every tool input; set a step limit (for example 5) so it cannot loop forever.</li>
+</ul>
+<h3>14. Human approval</h3>
+<ul>
+<li><strong>What:</strong> for risky actions, the agent <strong>prepares</strong> the action, and a person clicks Approve or Reject.</li>
+<li><strong>When:</strong> sending money, refunds, deleting data, sending a message to 500 people.</li>
+<li><strong>How:</strong> save the action in a table with status <code>pending</code> → show it in the admin panel → on Approve, your code runs it → on Reject, nothing happens.</li>
+<li><strong>Interview Q:</strong> How do you make an AI agent safe? → Limited tools, input checks, role checks, human approval for risky actions, step limit, and audit logs.</li>
+</ul>
+<h3>15. Audit logs</h3>
+<ul>
+<li><strong>What:</strong> a table that records <strong>who did what, when, and what changed</strong>.</li>
+</ul>
+<pre><code class="language-sql">CREATE TABLE audit_logs (id bigserial PRIMARY KEY, tenant_id int, user_id int,
+  action text, entity text, entity_id text, old_data jsonb, new_data jsonb,
+  created_at timestamptz DEFAULT now());
+</code></pre>
+<ul>
+<li><strong>For AI agents:</strong> also save the tool name, the inputs, the result, and whether a human approved it.</li>
+<li><strong>Rule:</strong> only add rows, never edit or delete them.</li>
+</ul>
+<hr>
+<h2>Part C: Backend topics</h2>
+<h3>16. Webhooks</h3>
+<ul>
+<li><strong>What:</strong> another service calls <strong>your</strong> URL when something happens. &quot;Don&#39;t call us, we&#39;ll call you.&quot;</li>
+<li><strong>Examples:</strong> WhatsApp → &quot;a new message came&quot;; Razorpay → &quot;payment done&quot;.</li>
+<li><strong>Rules for a good webhook:</strong><ol>
+<li><strong>Check the signature</strong> (a secret code in the header), so fake requests are rejected.</li>
+<li><strong>Reply 200 fast</strong> (within a few seconds). Put the real work in a queue.</li>
+<li><strong>Idempotent:</strong> the same webhook can come twice. Save the event id; if you have seen it before, skip it.</li>
+</ol>
+</li>
+<li><strong>Common mistake:</strong> calling the LLM inside the webhook. It is slow, the sender times out and sends it again → double replies.</li>
+</ul>
+<h3>17. Queue (and workers)</h3>
+<ul>
+<li><strong>What:</strong> a waiting line for slow jobs. The API adds a job; a separate <strong>worker</strong> does it in the background.</li>
+<li><strong>Tool for Node:</strong> <strong>BullMQ</strong> (uses Redis).</li>
+<li><strong>Example:</strong> webhook gets a WhatsApp message → <code>queue.add(&#39;reply&#39;, { from, text })</code> → returns 200 → worker runs RAG + Claude → sends the reply.</li>
+<li><strong>Good things you get:</strong> retries with a wait (1s, 5s, 30s), limit on how many jobs run at once, failed jobs saved for checking.</li>
+<li><strong>Interview Q:</strong> Why use a queue? → The user gets a fast response, slow work runs in the background, failed jobs are retried, and you can add more workers when busy.</li>
+</ul>
+<h3>18. Bulk jobs</h3>
+<ul>
+<li><strong>What:</strong> doing the same work for many items: 300 certificates, 1,000 WhatsApp messages, a big Excel import.</li>
+<li><strong>How:</strong><ol>
+<li>Make one &quot;batch&quot; row (<code>batch_id</code>, total, done, failed, status).</li>
+<li>Add one small job per item to the queue (not one giant job).</li>
+<li>Each job updates the counts. The admin page shows &quot;245 / 300 done, 2 failed&quot;.</li>
+<li>Failed items can be retried alone.</li>
+</ol>
+</li>
+<li><strong>Common mistake:</strong> a loop of 1,000 items inside one API call → timeout, and nobody knows which ones finished.</li>
+</ul>
+<h3>19. Cron (scheduled jobs)</h3>
+<ul>
+<li><strong>What:</strong> code that runs on a timetable. &quot;Every day at 9 AM&quot;, &quot;every 5 minutes&quot;.</li>
+<li><strong>In NestJS:</strong> <code>@Cron(&#39;0 9 * * *&#39;)</code> from <code>@nestjs/schedule</code>.</li>
+<li><strong>Example (reminders):</strong> every 15 minutes → find appointments starting in the next 2 hours with <code>reminder_sent = false</code> → add a reminder job to the queue → set <code>reminder_sent = true</code>.</li>
+<li><strong>Common mistakes:</strong><ul>
+<li>Running 2 copies of the server → the cron runs twice → double messages. Fix: a lock, or run cron on only one server, or use BullMQ repeat jobs.</li>
+<li>Time zones: save times in UTC, show them in IST.</li>
+</ul>
+</li>
+</ul>
+<h3>20. Slot locking (stop double booking)</h3>
+<ul>
+<li><strong>Problem:</strong> two people click the same 11:00 slot at the same second. Both see &quot;free&quot;. Both get booked. 😬</li>
+<li><strong>Fix 1 (simplest, strongest): a unique rule in the database.</strong></li>
+</ul>
+<pre><code class="language-sql">CREATE UNIQUE INDEX one_booking_per_slot ON bookings (doctor_id, slot_start)
+WHERE status IN (&#39;held&#39;, &#39;booked&#39;);
+</code></pre>
+<p>  The second insert fails → show &quot;Sorry, this slot was just taken.&quot;</p>
+<ul>
+<li><strong>Fix 2: a row lock in a transaction:</strong> <code>SELECT ... FOR UPDATE</code> on the slot row, check it is free, then book, then <code>COMMIT</code>.</li>
+<li><strong>Fix 3: hold during payment:</strong> mark the slot <code>held</code> with <code>hold_until = now() + 10 minutes</code>. If payment does not finish, a cron frees it.</li>
+<li><strong>Interview Q:</strong> How do you stop double booking? → Let the database decide (unique constraint or row lock), never just &quot;check then insert&quot; in code, and use a short hold while the user pays.</li>
+</ul>
+<h3>21. WebSocket (real-time)</h3>
+<ul>
+<li><strong>What:</strong> a connection that stays open, so the server can <strong>push</strong> updates to the browser at once. Normal HTTP only answers when asked.</li>
+<li><strong>Example (restaurant):</strong> customer places an order → server sends <code>order:new</code> to the kitchen screen instantly → kitchen marks &quot;Preparing&quot; → customer&#39;s phone shows it instantly.</li>
+<li><strong>Tool:</strong> Socket.IO (works well with NestJS). Use <strong>rooms</strong>: one room per restaurant, one per order.</li>
+<li><strong>Good to know:</strong> if the connection drops, reload the latest data from the API when it reconnects. With many servers, use the Redis adapter.</li>
+<li><strong>Interview Q:</strong> WebSocket vs polling? → Polling asks every few seconds (simple, wasteful). WebSocket pushes only when something changes (fast, but you must handle reconnects).</li>
+</ul>
+<hr>
+<h2>Part D: Business app topics</h2>
+<h3>22. Multi-tenant SaaS</h3>
+<ul>
+<li><strong>What:</strong> one app, many customers (each customer = one <strong>tenant</strong>). Like one building with many flats; each family only enters its own flat.</li>
+<li><strong>Simplest way:</strong> a <code>tenant_id</code> column in every table, and <strong>every</strong> query filters by it.</li>
+</ul>
+<pre><code class="language-sql">SELECT * FROM invoices WHERE tenant_id = $1 AND id = $2;
+</code></pre>
+<ul>
+<li><strong>How the app knows the tenant:</strong> from the logged-in user&#39;s token (or the subdomain, like <code>sharma.yourapp.in</code>). Never from a value the browser sends in the body.</li>
+<li><strong>Extra safety:</strong> PostgreSQL <strong>Row Level Security (RLS)</strong> can make the database itself block other tenants&#39; rows.</li>
+<li><strong>Common mistake:</strong> forgetting <code>tenant_id</code> in one query → one shop sees another shop&#39;s data. This is the worst bug in SaaS.</li>
+<li><strong>Interview Q:</strong> How do you keep tenant data apart? → tenant_id from the token, filter in every query (one shared helper or RLS), indexes that start with tenant_id, and tests that try to read another tenant&#39;s data.</li>
+</ul>
+<h3>23. Roles and RBAC</h3>
+<ul>
+<li><strong>What:</strong> RBAC = Role-Based Access Control. Users get a <strong>role</strong>; each role has <strong>permissions</strong>.</li>
+<li><strong>Example (school):</strong></li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Can do</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Admin</td>
+<td>everything</td>
+</tr>
+<tr>
+<td>Teacher</td>
+<td>mark attendance, enter marks for own classes</td>
+</tr>
+<tr>
+<td>Accountant</td>
+<td>fees and receipts</td>
+</tr>
+<tr>
+<td>Parent</td>
+<td>see own child only</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li><strong>In NestJS:</strong> a <code>@Roles(&#39;admin&#39;, &#39;teacher&#39;)</code> decorator + a guard that checks the user&#39;s role from the token.</li>
+<li><strong>Two levels of checks:</strong><ol>
+<li><strong>Can this role do this action?</strong> (teacher can enter marks)</li>
+<li><strong>Can this user touch this record?</strong> (only <strong>their own</strong> class / child). People forget this one.</li>
+</ol>
+</li>
+<li><strong>Common mistake:</strong> only hiding buttons on the frontend. The API must check too.</li>
+</ul>
+<h3>24. Payments (Razorpay in India)</h3>
+<ul>
+<li><strong>Flow:</strong><ol>
+<li>Backend creates an <strong>order</strong> with Razorpay (amount, receipt id).</li>
+<li>Frontend opens Razorpay checkout; the user pays by UPI / card.</li>
+<li>Razorpay calls your <strong>webhook</strong> (<code>payment.captured</code>).</li>
+<li>Backend <strong>checks the signature</strong>, then marks the order paid (only once).</li>
+</ol>
+</li>
+<li><strong>Golden rules:</strong><ul>
+<li>Never trust the frontend saying &quot;payment success&quot;. Only trust the verified webhook or a server check.</li>
+<li>Save amounts in <strong>paise</strong> (whole numbers), not decimals.</li>
+<li>Idempotent: if the order is already paid, do nothing.</li>
+<li>A cron checks old &quot;pending&quot; orders with Razorpay, in case a webhook was lost.</li>
+</ul>
+</li>
+</ul>
+<h3>25. Reports and dashboards</h3>
+<ul>
+<li><strong>What:</strong> numbers and charts for the owner: today&#39;s sales, fees pending, attendance %, leads this week.</li>
+<li><strong>How:</strong><ul>
+<li>SQL <code>GROUP BY</code> with date filters: <code>SELECT date(created_at), sum(amount) FROM payments WHERE tenant_id=$1 GROUP BY 1</code>.</li>
+<li>For heavy reports, a cron fills a <strong>summary table</strong> every night (or every hour). The dashboard reads the small table, so it is fast.</li>
+<li>Add filters (date range, branch, class) and <strong>export to Excel/CSV</strong>.</li>
+</ul>
+</li>
+<li><strong>Common mistake:</strong> running big reports on the main database during busy hours. Use a summary table or a read replica.</li>
+</ul>
+<h3>26. Admin panel</h3>
+<ul>
+<li><strong>What:</strong> the owner&#39;s control room: see and edit orders, menu, users, settings.</li>
+<li><strong>Must have:</strong> login + roles, tables with search, filter, sort and pagination, add/edit forms with validation, and audit logs for changes.</li>
+<li><strong>Tip:</strong> build it once as a reusable kit (table + form + filters). Use it in every client project to save time.</li>
+</ul>
+<h3>27. WhatsApp Business API</h3>
+<ul>
+<li><strong>What:</strong> the official way for a business to send and receive WhatsApp messages from code (Meta&#39;s <strong>Cloud API</strong>, directly or through a provider like Gupshup, Interakt, AiSensy).</li>
+<li><strong>Receiving:</strong> Meta calls your <strong>webhook</strong> with each new message.</li>
+<li><strong>Sending:</strong> your server calls Meta&#39;s API with the phone number and the message.</li>
+<li><strong>24-hour rule:</strong> after a customer messages you, you can reply freely for 24 hours. After that, you can only send an approved <strong>template</strong>.</li>
+<li><strong>Cost:</strong> Meta charges for some message types (like marketing templates). Check the current price list before quoting a client.</li>
+<li><strong>Common mistake:</strong> using an unofficial WhatsApp bot on a normal number → the number gets banned.</li>
+</ul>
+<h3>28. WhatsApp templates</h3>
+<ul>
+<li><strong>What:</strong> pre-approved message formats with blanks, for messages you start (reminders, offers, follow-ups).</li>
+<li><strong>Example:</strong> <code>Hi {{1}}, your appointment at {{2}} is on {{3}}. Reply YES to confirm.</code></li>
+<li><strong>Types:</strong> <strong>Utility</strong> (reminders, order updates) and <strong>Marketing</strong> (offers). Marketing usually costs more and needs the user&#39;s opt-in.</li>
+<li><strong>Tips:</strong> keep them short and useful, add an opt-out (&quot;Reply STOP&quot;), and wait for Meta&#39;s approval before using.</li>
+</ul>
+<h3>29. Analytics (for messages and campaigns)</h3>
+<ul>
+<li><strong>What:</strong> measuring what happened: sent, delivered, read, replied, converted.</li>
+<li><strong>How:</strong> WhatsApp sends <strong>status webhooks</strong> (sent → delivered → read). Save each one in an <code>message_events</code> table. Then count by day / campaign.</li>
+</ul>
+<pre><code class="language-sql">SELECT campaign_id,
+  count(*) FILTER (WHERE status=&#39;sent&#39;)      AS sent,
+  count(*) FILTER (WHERE status=&#39;read&#39;)      AS read,
+  count(*) FILTER (WHERE status=&#39;replied&#39;)   AS replied
+FROM message_events WHERE tenant_id=$1 GROUP BY campaign_id;
+</code></pre>
+<ul>
+<li><strong>Show the owner simple numbers:</strong> &quot;500 sent, 410 read, 38 replied, 9 booked&quot;. That is what makes them pay again.</li>
+</ul>
+<h3>30. QR verification</h3>
+<ul>
+<li><strong>What:</strong> a QR code on a certificate (or ticket, invoice) that opens a page saying &quot;this is real&quot;.</li>
+<li><strong>How:</strong><ol>
+<li>Give each certificate a unique ID. Better: a random code that cannot be guessed (<code>KOD-7F3K-92QX</code>), not just 0001, 0002.</li>
+<li>The QR holds a link: <code>yoursite.in/verify?id=KOD-7F3K-92QX</code>.</li>
+<li>The verify page looks up the ID in the database and shows name, course, dates, or &quot;not found&quot;.</li>
+</ol>
+</li>
+<li><strong>Extra:</strong> the ability to cancel (revoke) a certificate, and logging each check.</li>
+<li><strong>Common mistake:</strong> putting all the details inside the QR itself. Anyone can make a fake QR like that. The QR must point to <strong>your</strong> website.</li>
+</ul>
+<h3>31. PDF generation</h3>
+<ul>
+<li><strong>What:</strong> making PDFs from code: certificates, invoices, salary slips, reports.</li>
+<li><strong>Two easy ways:</strong><ul>
+<li><strong>HTML → PDF with Puppeteer</strong> (a headless Chrome): design in HTML/CSS, then <code>page.pdf()</code>. Easiest for nice designs.</li>
+<li><strong>pdfkit / pdf-lib:</strong> draw text and shapes with code. Lighter, but harder to design.</li>
+</ul>
+</li>
+<li><strong>Tips:</strong> make PDFs in a <strong>queue worker</strong>, not in the API call. Save them to S3 and send a link. Embed the fonts (Hindi needs a Devanagari font).</li>
+<li><strong>Common mistake:</strong> starting a new Chrome for every PDF. Start it once and reuse it for many pages.</li>
+</ul>
+<hr>
+<h2>How to say it in an interview (one story per project)</h2>
+<p>Use this shape: <strong>Problem → what I built → one hard part → result.</strong></p>
+<blockquote>
+<p>&quot;A clinic was missing calls. I built a WhatsApp AI receptionist: webhook → queue → RAG on pgvector → Claude → reply. The hard part was double replies when WhatsApp re-sent the webhook, so I made it idempotent using the message id. It now answers 80% of questions without staff.&quot;</p>
+</blockquote>
+<p>Only use numbers that are true for your project.</p>
+<h2>Quick check (answer out loud)</h2>
+<ol>
+<li>Why should a webhook reply fast, and where does the slow work go?</li>
+<li>Two people book the same slot at the same time. What stops it?</li>
+<li>How does the app know which tenant a request belongs to?</li>
+<li>How do you make sure AI JSON output is safe to save?</li>
+<li>Why should the QR code link to your website instead of holding all the details?</li>
+<li>Your cron sends reminders twice. Why, and how do you fix it?</li>
+<li>How do you know your RAG bot got better after a change?</li>
+</ol>
+
+</body>
+</html>
