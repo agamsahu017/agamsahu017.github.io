@@ -115,7 +115,7 @@ function detect(text) {
 }
 
 function addLead(name, phone) {
-  const b = BIZ[biz];
+  const b = biz === "custom" ? { name: custom ? custom.name : "Your business", bookWhat: "enquiry" } : BIZ[biz];
   const empty = leadList.querySelector(".lead-empty");
   if (empty) empty.remove();
   const el = document.createElement("div");
@@ -128,10 +128,86 @@ function addLead(name, phone) {
   leadList.prepend(el);
 }
 
+// ---------- Live AI (Kodivo demo API on Cloudflare Workers) ----------
+const API = (() => {
+  const q = new URLSearchParams(location.search).get("api");
+  return q && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(q) ? q : "https://kodivo-demo-api.agamsahu017.workers.dev";
+})();
+let history = [];      // [{ role, content }] for the current bot
+let aiOff = false;     // true after the AI is unavailable: use pre-set answers
+let custom = null;     // { name, info } for "Your business"
+let busy = false;
+
+function note(text) {
+  const el = document.createElement("div");
+  el.className = "msg note";
+  el.textContent = text;
+  body.appendChild(el);
+  body.scrollTop = body.scrollHeight;
+}
+
+// If the customer shares a mobile number, show it in the owner view (masked).
+function captureLead(text) {
+  const digits = (text.match(/(?:\+?91[\s-]?)?[6-9]\d{4}[\s-]?\d{5}/) || [""])[0].replace(/\D/g, "").slice(-10);
+  if (!/^[6-9]\d{9}$/.test(digits)) return;
+  const all = history.filter((m) => m.role === "user").map((m) => m.content).join("\n");
+  const m = all.match(/(?:my name is|i am|i'm|mera naam|naam)\s*(?:hai|is|:)?\s*([A-Za-z][A-Za-z]{1,20})/i) || text.match(/^([A-Za-z]{2,20})[\s,]+(?:\+?91)?[6-9]/);
+  const name = m ? m[1].charAt(0).toUpperCase() + m[1].slice(1) : "New customer";
+  addLead(name, digits.slice(0, 2) + "XXXXXX" + digits.slice(8));
+}
+
+async function askAI() {
+  const payload = biz === "custom"
+    ? { mode: "custom", bizName: custom.name, info: custom.info, messages: history }
+    : { biz, messages: history };
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 25000);
+  try {
+    const r = await fetch(API + "/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: ctrl.signal });
+    const data = await r.json().catch(() => ({}));
+    return r.ok ? { reply: data.reply, remaining: data.remaining } : { error: data.error || "http_" + r.status };
+  } catch (e) {
+    return { error: "network" };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function handle(raw) {
-  const text = raw.trim();
-  if (!text) return;
+  const text = raw.trim().slice(0, 500);
+  if (!text || busy) return;
   addMsg(text, "user");
+  if (aiOff) {
+    if (biz === "custom") { note("Live AI is not available right now. Please try again later, or WhatsApp us for a live demo."); return; }
+    return offlineHandle(text);
+  }
+  history.push({ role: "user", content: text });
+  busy = true;
+  setQuick([]);
+  const t = document.createElement("div");
+  t.className = "msg bot";
+  t.innerHTML = '<span class="typing"><span></span><span></span><span></span></span>';
+  body.appendChild(t);
+  body.scrollTop = body.scrollHeight;
+  const res = await askAI();
+  t.remove();
+  busy = false;
+  if (res.reply) {
+    history.push({ role: "assistant", content: res.reply });
+    addMsg(res.reply, "bot");
+    captureLead(text);
+    if (res.remaining === 3) note("3 demo messages left for today.");
+    return;
+  }
+  history.pop(); // the question was not answered; don't keep it
+  if (res.error === "slow_down") { note("You're typing fast 🙂 Please wait a few seconds and send again."); return; }
+  if (res.error === "daily_limit") note("You've reached today's demo limit. Want a full demo for your business? WhatsApp us: 92352 66579");
+  else note("Live AI is busy right now, so you'll see pre-set answers.");
+  aiOff = true;
+  if (biz !== "custom") offlineHandle(text);
+}
+
+async function offlineHandle(text) {
   const b = BIZ[biz];
 
   // Lead-capture flow
@@ -188,15 +264,53 @@ async function reply(text) {
   }
 }
 
+const setup = document.getElementById("customSetup");
+const chatBox = document.querySelector(".demo-grid");
+const cName = document.getElementById("customName");
+const cInfo = document.getElementById("customInfo");
+const cErr = document.getElementById("customErr");
+const EXAMPLE = {
+  name: "Glow Studio Salon",
+  info: "Glow Studio Salon, Aliganj, Lucknow (near Kapoorthala).\nHaircut: men ₹200, women ₹500, kids ₹150. Hair spa ₹900. Hair colour from ₹1,200.\nFacial from ₹800. Cleanup ₹500. Waxing (full arms) ₹300.\nBridal makeup from ₹12,000 (book at least 1 month before, ₹3,000 advance).\nOpen 10 AM to 8 PM. Tuesday closed.\nPayment: cash and UPI. Ladies and men both. Parking on the street.\nAppointment: share name, phone number, service and time. Walk-ins welcome if a chair is free.",
+};
+
 function startBiz(key) {
-  biz = key; flow = null;
-  const b = BIZ[key];
+  biz = key; flow = null; history = []; busy = false;
+  const isCustom = key === "custom";
+  setup.hidden = !isCustom || !!custom;
+  chatBox.hidden = isCustom && !custom;
+  if (isCustom && !custom) { setQuick([]); body.innerHTML = ""; return; }
+  const b = isCustom
+    ? { name: custom.name, icon: "✨", welcome: `Hi! 👋 Welcome to ${custom.name}.\nAsk me anything about our services, prices or timings, or book an appointment.`, quick: ["Price list", "Timings?", "Address", "Book appointment"] }
+    : BIZ[key];
   document.getElementById("bizName").textContent = b.name;
   document.getElementById("bizAvatar").textContent = b.icon;
   body.innerHTML = "";
-  botSay(b.welcome, 400).then(() => setQuick(b.quick));
+  botSay(b.welcome, 400).then(() => {
+    setQuick(b.quick);
+    if (isCustom) {
+      const edit = document.createElement("button");
+      edit.type = "button";
+      edit.textContent = "✏️ Edit details";
+      edit.addEventListener("click", () => { custom = null; startBiz("custom"); });
+      quickRow.appendChild(edit);
+    }
+  });
   setQuick([]);
 }
+
+cInfo.addEventListener("input", () => { document.getElementById("customCount").textContent = cInfo.value.length + " / 6000"; });
+document.getElementById("customExample").addEventListener("click", () => {
+  cName.value = EXAMPLE.name; cInfo.value = EXAMPLE.info; cInfo.dispatchEvent(new Event("input"));
+});
+document.getElementById("customStart").addEventListener("click", () => {
+  const info = cInfo.value.trim();
+  if (info.length < 40) { cErr.textContent = "Please add a few more details (at least 40 characters): services, prices, timings."; return; }
+  cErr.textContent = "";
+  custom = { name: cName.value.trim().slice(0, 60) || "Your Business", info: info.slice(0, 6000) };
+  aiOff = false; // give the live AI another try for the owner's own bot
+  startBiz("custom");
+});
 
 document.querySelectorAll(".biz-tab").forEach((tab) =>
   tab.addEventListener("click", () => {

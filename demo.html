@@ -41,13 +41,29 @@
       <div class="section-head">
         <span class="eyebrow">Live Demo</span>
         <h1>AI Chatbot for your business 🤖</h1>
-        <p>Pick a sample business and chat like a customer would. Ask about fees, timings, location, or try booking. English or Hinglish both work.</p>
+        <p>Chat with a real AI receptionist. Pick a sample business, or paste your own business details and get your own bot in seconds. English, Hindi or Hinglish all work.</p>
       </div>
 
       <div class="biz-tabs" role="tablist">
         <button class="biz-tab active" data-biz="coaching">🎓 Coaching Institute</button>
         <button class="biz-tab" data-biz="clinic">🩺 Clinic</button>
         <button class="biz-tab" data-biz="restaurant">🍽️ Restaurant / Café</button>
+        <button class="biz-tab" data-biz="custom">✨ Your business</button>
+      </div>
+
+      <div class="card custom-setup" id="customSetup" hidden>
+        <h3>✨ Make a bot for your business</h3>
+        <p class="muted">Paste your details: services, prices, timings, address, offers, rules. The AI answers only from this. Not stored.</p>
+        <label for="customName">Business name</label>
+        <input id="customName" type="text" maxlength="60" placeholder="e.g. Glow Studio Salon" />
+        <label for="customInfo">Business details</label>
+        <textarea id="customInfo" rows="8" maxlength="6000" placeholder="e.g. Haircut men ₹200, women ₹500. Facial from ₹800. Open 10 AM–8 PM, Tuesday closed. Address: Aliganj, Lucknow."></textarea>
+        <div class="setup-row">
+          <span class="muted" id="customCount">0 / 6000</span>
+          <button type="button" class="btn btn-outline btn-sm" id="customExample">Fill an example</button>
+          <button type="button" class="btn btn-primary btn-sm" id="customStart">Create my bot →</button>
+        </div>
+        <p class="setup-err" id="customErr" role="alert"></p>
       </div>
 
       <div class="demo-grid">
@@ -57,7 +73,7 @@
             <div class="chat-avatar" id="bizAvatar">🎓</div>
             <div>
               <div class="chat-name" id="bizName">Sample Business</div>
-              <div class="chat-status"><span class="dot"></span> AI Assistant · online 24×7</div>
+              <div class="chat-status"><span class="dot"></span> Live AI · replies in English &amp; Hinglish</div>
             </div>
           </div>
           <div class="chat-body" id="chatBody" aria-live="polite"></div>
@@ -86,7 +102,7 @@
             </ul>
             <a class="btn btn-wa btn-block" href="https://wa.me/919235266579?text=Hi%20Kodivo%2C%20I%20tried%20the%20chatbot%20demo.%20I%20want%20one%20for%20my%20business." target="_blank" rel="noopener">💬 Get this for my business</a>
           </div>
-          <p class="demo-note">This is a demo with sample businesses and pre-set answers. No data is stored or sent anywhere.</p>
+          <p class="demo-note">This demo uses real AI. Sample businesses are fictional. Your messages are sent to the AI only to get a reply; Kodivo does not store them. Please don't type personal or sensitive details.</p>
         </aside>
       </div>
     </div>
