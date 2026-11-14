@@ -1,0 +1,44 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Fictional sample invoice for the Bill Reader demo. Render at 900x1180. -->
+<style>
+  body{margin:0;width:900px;height:1180px;background:#e9e4da;font-family:Arial,Helvetica,sans-serif;color:#111}
+  .sheet{position:absolute;left:30px;top:24px;width:840px;height:1130px;background:#fffefa;box-shadow:0 6px 18px rgba(0,0,0,.25);transform:rotate(-0.6deg);padding:28px 30px;box-sizing:border-box}
+  .stamp{position:absolute;right:60px;top:640px;transform:rotate(-14deg);border:4px solid rgba(200,30,30,.55);color:rgba(200,30,30,.55);font-weight:900;font-size:40px;padding:4px 16px;letter-spacing:4px}
+  h1{margin:0;font-size:26px;letter-spacing:.5px} .muted{color:#444;font-size:13px;line-height:1.45}
+  .title{margin:14px 0 10px;text-align:center;font-weight:700;border-top:2px solid #111;border-bottom:2px solid #111;padding:5px;font-size:16px;letter-spacing:2px}
+  .grid{display:flex;justify-content:space-between;font-size:13px;line-height:1.6}
+  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px}
+  th,td{border:1px solid #333;padding:6px 6px} th{background:#eee} td.r{text-align:right}
+  .tot{width:330px;margin-left:auto;margin-top:12px;font-size:14px} .tot div{display:flex;justify-content:space-between;padding:3px 6px}
+  .grand{border-top:2px solid #111;font-weight:700;font-size:16px}
+  .foot{position:absolute;left:30px;right:30px;bottom:28px;display:flex;justify-content:space-between;font-size:12px;color:#333}
+</style></head><body>
+<div class="sheet">
+  <div class="stamp">SAMPLE</div>
+  <h1>SHREE SAI PHARMA DISTRIBUTORS</h1>
+  <div class="muted">Shop 14, Aminabad Dawa Market, Lucknow, Uttar Pradesh 226018 · Ph: 0522-4000000<br>
+  GSTIN: 09AAAAA0000A1Z0 · DL No: UP-LKO-20B/00000 · (Fictional sample bill)</div>
+  <div class="title">TAX INVOICE</div>
+  <div class="grid">
+    <div><b>Bill To:</b> City Care Medical Store<br>Indira Nagar, Lucknow<br>GSTIN: 09BBBBB1111B1Z9</div>
+    <div style="text-align:right">Invoice No: <b>SSPD/26-27/1187</b><br>Date: <b>12/11/2026</b><br>Payment: Credit (15 days)</div>
+  </div>
+  <table>
+    <tr><th>#</th><th>Product</th><th>HSN</th><th>Batch</th><th>Exp</th><th>Qty</th><th>Rate</th><th>GST%</th><th>Amount</th></tr>
+    <tr><td>1</td><td>Paracetamol 650 Tab (15)</td><td>3004</td><td>PC2411</td><td>09/27</td><td class="r">10</td><td class="r">28.50</td><td class="r">12</td><td class="r">285.00</td></tr>
+    <tr><td>2</td><td>Azithromycin 500 Tab (3)</td><td>3004</td><td>AZ1088</td><td>03/27</td><td class="r">20</td><td class="r">62.00</td><td class="r">12</td><td class="r">1240.00</td></tr>
+    <tr><td>3</td><td>ORS Powder 21g</td><td>3004</td><td>OR552</td><td>12/26</td><td class="r">50</td><td class="r">18.00</td><td class="r">12</td><td class="r">900.00</td></tr>
+    <tr><td>4</td><td>Cetirizine 10 Tab (10)</td><td>3004</td><td>CT771</td><td>06/27</td><td class="r">15</td><td class="r">14.20</td><td class="r">12</td><td class="r">213.00</td></tr>
+  </table>
+  <div class="tot">
+    <div><span>Sub Total</span><span>2638.00</span></div>
+    <div><span>CGST @ 6%</span><span>158.28</span></div>
+    <div><span>SGST @ 6%</span><span>158.28</span></div>
+    <div><span>Round Off</span><span>0.44</span></div>
+    <div class="grand"><span>NET PAYABLE (₹)</span><span>2955.00</span></div>
+  </div>
+  <div class="muted" style="margin-top:14px">Rupees Two Thousand Nine Hundred Fifty Five Only</div>
+  <div class="foot"><span>Goods once sold will not be taken back. Subject to Lucknow jurisdiction.</span><span>For Shree Sai Pharma Distributors<br><br>Authorised Signatory</span></div>
+</div>
+</body></html>
