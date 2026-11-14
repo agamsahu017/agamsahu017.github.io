@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jobs in Lucknow and Delhi NCR: Front Office, Telecaller, Store, Mall | Kodivo</title>
-<meta name="description" content="Free local jobs in Lucknow, Delhi, Noida, Gurugram and Ghaziabad: front office, back office, telecaller, store manager, store assistant and mall jobs. Apply on WhatsApp. No fees.">
+<meta name="description" content="Free local jobs in Lucknow, Delhi, Noida, Gurugram and Ghaziabad from trusted job sites: front office, back office, telecaller, store manager, store assistant and mall jobs. Updated daily.">
 <link rel="canonical" href="https://agamsahu017.github.io/jobs/local.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kodivo">
 <meta property="og:url" content="https://agamsahu017.github.io/jobs/local.html">
 <meta property="og:title" content="Local Jobs in Lucknow and Delhi NCR | Kodivo">
-<meta property="og:description" content="Front office, telecaller, store, back office and mall jobs. Apply free on WhatsApp.">
+<meta property="og:description" content="Front office, telecaller, store, back office and mall jobs. Updated daily.">
 <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=4">
 <meta name="theme-color" content="#1d4ed8">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -59,6 +59,10 @@
   ul.tips{margin:0;padding-left:20px}
   ul.tips li{margin:4px 0}
   footer{padding:24px 0 40px;color:var(--muted);font-size:14px}
+  .src{font-size:14px;color:var(--muted);margin:0 0 10px}
+  .links h3{font-size:16px;margin:14px 0 8px}
+  .links .chips{flex-wrap:wrap;overflow:visible}
+  .links a.chip{text-decoration:none;background:var(--card)}
 </style>
 </head>
 <body>
@@ -71,8 +75,8 @@
   <h1 data-t="h1"></h1>
   <p class="lead" data-t="lead"></p>
   <div class="row">
-    <a class="btn btn-wa" id="alertBtn" target="_blank" rel="noopener" data-t="alerts"></a>
-    <a class="btn btn-out" href="#hiring" data-t="hiringBtn"></a>
+    <a class="btn btn-wa" id="shareBtn" target="_blank" rel="noopener" data-t="sharePage"></a>
+    <a class="btn btn-out" href="#sites" data-t="sitesBtn"></a>
   </div>
 
   <div class="safe" data-t="safe"></div>
@@ -87,10 +91,10 @@
   <div class="count" id="count" role="status" aria-live="polite"></div>
   <div id="list"></div>
 
-  <section class="box" id="hiring">
-    <h2 data-t="hireH"></h2>
-    <p data-t="hireP"></p>
-    <a class="btn btn-wa" id="hireBtn" target="_blank" rel="noopener" data-t="hireCta"></a>
+  <section class="box" id="sites">
+    <h2 data-t="sitesH"></h2>
+    <p data-t="sitesP"></p>
+    <div class="links" id="siteLinks"></div>
   </section>
 
   <section class="box">
@@ -99,7 +103,7 @@
   </section>
 </main>
 
-<footer class="wrap"><span data-t="foot"></span> · <a href="../privacy.html">Privacy</a></footer>
+<footer class="wrap"><span id="credit"></span><span data-t="foot"></span> · <a href="../privacy.html">Privacy</a></footer>
 
 <script>
 (function () {
@@ -110,24 +114,28 @@
   const T = {
     en: {
       h1: 'Local jobs in Lucknow and Delhi NCR',
-      lead: 'Front office, back office, telecaller, store and mall jobs. Free to apply. Apply on WhatsApp.',
-      alerts: '🔔 Get job alerts on WhatsApp',
-      hiringBtn: '🏢 Hiring? Post a job free',
-      safe: '<b>⚠️ Stay safe:</b> Kodivo never asks job seekers for money. Never pay any "registration fee", "training fee" or "uniform deposit" for a job. Never share an OTP. Go for interviews only to an office, shop or mall, in the daytime.',
+      lead: 'Front office, back office, telecaller, store and mall jobs from trusted job sites. Updated every day. Free.',
+      sharePage: '📤 Share this page on WhatsApp',
+      sitesBtn: '🔎 Search on job sites',
+      safe: '<b>⚠️ Stay safe:</b> These jobs come from other job sites. Kodivo does not check each one. A real employer never asks for money: never pay a "registration fee", "training fee" or "uniform deposit". Never share an OTP. Go for interviews only to an office, shop or mall, in the daytime.',
       cityLabel: 'City', typeLabel: 'Job type',
       all: 'All', lko: 'Lucknow', ncr: 'Delhi NCR',
       count: (n) => n === 1 ? '1 job' : n + ' jobs',
-      emptyH: 'No jobs here right now',
-      emptyP: 'New jobs are added often. Send us your details on WhatsApp and we will message you when a matching job comes.',
+      updated: (d) => 'Updated ' + d,
+      emptyH: 'No jobs found here right now',
+      emptyP: 'Try another city or job type, or search on the job sites below.',
       apply: '✅ Apply on WhatsApp', share: '📤 Share',
+      applyOn: (s) => 'Apply on ' + s + ' ↗',
+      source: (s) => 'Source: ' + s + ' · not checked by Kodivo',
       salary: (a, b) => b && b !== a ? '₹' + inr(a) + ' – ₹' + inr(b) + ' / month' : '₹' + inr(a) + ' / month',
-      salaryNA: 'Salary: discussed in interview',
+      salaryNA: 'Salary: ask the employer',
       openings: (n) => n + (n === 1 ? ' opening' : ' openings'),
       verified: '✔ Checked by Kodivo',
       posted: 'Posted', lastDate: 'Last date',
-      hireH: 'Hiring staff? Post your job for free',
-      hireP: 'Shops, malls, clinics, offices, showrooms and coaching centres in Lucknow and Delhi NCR can post jobs here at no cost. Send the details on WhatsApp. We call to check every job before it goes live.',
-      hireCta: '💬 Send job details on WhatsApp',
+      sitesH: 'Search on trusted job sites',
+      sitesP: 'These links open a search for the city and job type you picked above.',
+      privateSites: 'Job sites',
+      govtSites: 'Government portals (free, safe)',
       tipsH: 'Tips for the interview',
       tips: [
         'Keep 2 printed copies of your resume, an Aadhaar copy and 2 photos.',
@@ -138,31 +146,34 @@
         'Before joining, ask for an offer or appointment letter.',
       ],
       foot: 'Kodivo · Lucknow & Delhi NCR · Kodivo does not charge job seekers',
-      alertMsg: 'Hi Kodivo, please send me local job alerts.\nName:\nCity / area:\nJob type I want:\nQualification:\nExperience:',
-      hireMsg: 'Hi Kodivo, I want to post a job.\nBusiness name:\nJob title:\nArea and city:\nSalary per month:\nTimings:\nQualification / experience needed:\nNumber of openings:\nContact person and number:',
+      pageShareMsg: 'Free local jobs in Lucknow and Delhi NCR: front office, telecaller, store, back office and mall jobs. Updated daily.\n' + PAGE_URL + '?lang=hi',
       applyMsg: (j) => 'Hi Kodivo, I want to apply for job ' + j.id + ': ' + j.title + ', ' + place(j) + '.\nName:\nQualification:\nExperience:\nI will send my resume here.',
-      shareMsg: (j) => '💼 Job: ' + j.title + ' (' + place(j) + ')\n' + (j.salary_min ? '₹' + inr(j.salary_min) + (j.salary_max && j.salary_max !== j.salary_min ? '–' + inr(j.salary_max) : '') + '/month\n' : '') + 'Apply free: ' + PAGE_URL + '?id=' + encodeURIComponent(j.id),
+      shareMsg: (j) => '💼 Job: ' + j.title + ' (' + place(j) + ')\n' + (j.salary_min ? '₹' + inr(j.salary_min) + (j.salary_max && j.salary_max !== j.salary_min ? '–' + inr(j.salary_max) : '') + '/month\n' : '') + 'See and apply: ' + PAGE_URL + '?id=' + encodeURIComponent(j.id),
     },
     hi: {
       h1: 'लखनऊ और दिल्ली NCR में लोकल नौकरियाँ',
-      lead: 'फ्रंट ऑफिस, बैक ऑफिस, टेलीकॉलर, स्टोर और मॉल की नौकरियाँ। अप्लाई करना फ़्री है। WhatsApp पर अप्लाई करें।',
-      alerts: '🔔 WhatsApp पर जॉब अलर्ट पाएँ',
-      hiringBtn: '🏢 स्टाफ़ चाहिए? फ़्री में जॉब डालें',
-      safe: '<b>⚠️ सावधान रहें:</b> Kodivo नौकरी ढूँढने वालों से कभी पैसे नहीं माँगता। किसी भी नौकरी के लिए "रजिस्ट्रेशन फ़ीस", "ट्रेनिंग फ़ीस" या "यूनिफ़ॉर्म डिपॉज़िट" कभी न दें। OTP कभी शेयर न करें। इंटरव्यू के लिए सिर्फ़ ऑफ़िस, दुकान या मॉल में, दिन में ही जाएँ।',
+      lead: 'भरोसेमंद जॉब साइट्स से फ्रंट ऑफिस, बैक ऑफिस, टेलीकॉलर, स्टोर और मॉल की नौकरियाँ। रोज़ अपडेट। बिल्कुल फ़्री।',
+      sharePage: '📤 ये पेज WhatsApp पर शेयर करें',
+      sitesBtn: '🔎 जॉब साइट्स पर खोजें',
+      safe: '<b>⚠️ सावधान रहें:</b> ये नौकरियाँ दूसरी जॉब साइट्स से आती हैं। Kodivo हर नौकरी को चेक नहीं करता। असली कंपनी कभी पैसे नहीं माँगती: "रजिस्ट्रेशन फ़ीस", "ट्रेनिंग फ़ीस" या "यूनिफ़ॉर्म डिपॉज़िट" कभी न दें। OTP कभी शेयर न करें। इंटरव्यू के लिए सिर्फ़ ऑफ़िस, दुकान या मॉल में, दिन में ही जाएँ।',
       cityLabel: 'शहर', typeLabel: 'नौकरी का प्रकार',
       all: 'सभी', lko: 'लखनऊ', ncr: 'दिल्ली NCR',
       count: (n) => n + ' नौकरियाँ',
-      emptyH: 'अभी यहाँ कोई नौकरी नहीं है',
-      emptyP: 'नई नौकरियाँ अक्सर जोड़ी जाती हैं। अपनी जानकारी WhatsApp पर भेजें, सही नौकरी आते ही हम आपको मैसेज करेंगे।',
+      updated: (d) => 'अपडेट: ' + d,
+      emptyH: 'अभी यहाँ कोई नौकरी नहीं मिली',
+      emptyP: 'दूसरा शहर या नौकरी का प्रकार चुनें, या नीचे दी गई जॉब साइट्स पर खोजें।',
       apply: '✅ WhatsApp पर अप्लाई करें', share: '📤 शेयर करें',
+      applyOn: (s) => s + ' पर अप्लाई करें ↗',
+      source: (s) => 'स्रोत: ' + s + ' · Kodivo ने चेक नहीं किया',
       salary: (a, b) => b && b !== a ? '₹' + inr(a) + ' – ₹' + inr(b) + ' / महीना' : '₹' + inr(a) + ' / महीना',
-      salaryNA: 'सैलरी: इंटरव्यू में बताई जाएगी',
+      salaryNA: 'सैलरी: कंपनी से पूछें',
       openings: (n) => n + ' पद',
       verified: '✔ Kodivo ने चेक किया',
       posted: 'डाली गई', lastDate: 'आख़िरी तारीख़',
-      hireH: 'स्टाफ़ चाहिए? फ़्री में जॉब डालें',
-      hireP: 'लखनऊ और दिल्ली NCR की दुकानें, मॉल, क्लिनिक, ऑफ़िस, शोरूम और कोचिंग सेंटर यहाँ फ़्री में जॉब डाल सकते हैं। जानकारी WhatsApp पर भेजें। हर जॉब को लाइव करने से पहले हम फ़ोन करके चेक करते हैं।',
-      hireCta: '💬 WhatsApp पर जॉब की जानकारी भेजें',
+      sitesH: 'भरोसेमंद जॉब साइट्स पर खोजें',
+      sitesP: 'ये लिंक ऊपर चुने गए शहर और नौकरी के प्रकार की खोज खोलते हैं।',
+      privateSites: 'जॉब साइट्स',
+      govtSites: 'सरकारी पोर्टल (फ़्री, सुरक्षित)',
       tipsH: 'इंटरव्यू के लिए टिप्स',
       tips: [
         'Resume की 2 प्रिंट कॉपी, आधार की कॉपी और 2 फ़ोटो साथ रखें।',
@@ -173,28 +184,29 @@
         'जॉइन करने से पहले ऑफ़र या अपॉइंटमेंट लेटर माँगें।',
       ],
       foot: 'Kodivo · लखनऊ और दिल्ली NCR · Kodivo नौकरी ढूँढने वालों से कोई फ़ीस नहीं लेता',
-      alertMsg: 'Hi Kodivo, मुझे लोकल जॉब अलर्ट भेजें।\nनाम:\nशहर / एरिया:\nकौन सी जॉब चाहिए:\nपढ़ाई:\nअनुभव:',
-      hireMsg: 'Hi Kodivo, मुझे जॉब डालनी है।\nबिज़नेस का नाम:\nजॉब का नाम:\nएरिया और शहर:\nमहीने की सैलरी:\nटाइमिंग:\nपढ़ाई / अनुभव:\nकितने लोग चाहिए:\nसंपर्क व्यक्ति और नंबर:',
+      pageShareMsg: 'लखनऊ और दिल्ली NCR की लोकल नौकरियाँ, फ़्री: फ्रंट ऑफिस, टेलीकॉलर, स्टोर, बैक ऑफिस और मॉल जॉब्स। रोज़ अपडेट।\n' + PAGE_URL + '?lang=hi',
       applyMsg: (j) => 'Hi Kodivo, मुझे जॉब ' + j.id + ' के लिए अप्लाई करना है: ' + j.title + ', ' + place(j) + '।\nनाम:\nपढ़ाई:\nअनुभव:\nमैं अपना resume यहीं भेज दूँगा/दूँगी।',
-      shareMsg: (j) => '💼 जॉब: ' + j.title + ' (' + place(j) + ')\n' + (j.salary_min ? '₹' + inr(j.salary_min) + (j.salary_max && j.salary_max !== j.salary_min ? '–' + inr(j.salary_max) : '') + '/महीना\n' : '') + 'फ़्री में अप्लाई करें: ' + PAGE_URL + '?id=' + encodeURIComponent(j.id),
+      shareMsg: (j) => '💼 जॉब: ' + j.title + ' (' + place(j) + ')\n' + (j.salary_min ? '₹' + inr(j.salary_min) + (j.salary_max && j.salary_max !== j.salary_min ? '–' + inr(j.salary_max) : '') + '/महीना\n' : '') + 'देखें और अप्लाई करें: ' + PAGE_URL + '?id=' + encodeURIComponent(j.id) + '&lang=hi',
     },
   };
 
+  // term = what to search on other job sites for this type
   const TYPES = [
-    { k: 'all' },
-    { k: 'front-office', en: 'Front office / Reception', hi: 'फ्रंट ऑफिस / रिसेप्शन' },
-    { k: 'back-office', en: 'Back office / Data entry', hi: 'बैक ऑफिस / डेटा एंट्री' },
-    { k: 'telecaller', en: 'Telecaller / BPO', hi: 'टेलीकॉलर / BPO' },
-    { k: 'store-manager', en: 'Store manager', hi: 'स्टोर मैनेजर' },
-    { k: 'store-assistant', en: 'Store assistant / Sales staff', hi: 'स्टोर असिस्टेंट / सेल्स स्टाफ़' },
-    { k: 'mall', en: 'Mall jobs', hi: 'मॉल जॉब्स' },
-    { k: 'accounts', en: 'Accounts / Billing', hi: 'अकाउंट्स / बिलिंग' },
-    { k: 'field-sales', en: 'Field sales / Marketing', hi: 'फ़ील्ड सेल्स / मार्केटिंग' },
-    { k: 'delivery', en: 'Delivery / Driver', hi: 'डिलीवरी / ड्राइवर' },
-    { k: 'security', en: 'Security / Housekeeping', hi: 'सिक्योरिटी / हाउसकीपिंग' },
-    { k: 'other', en: 'Other', hi: 'अन्य' },
+    { k: 'all', term: '' },
+    { k: 'front-office', en: 'Front office / Reception', hi: 'फ्रंट ऑफिस / रिसेप्शन', term: 'front office' },
+    { k: 'back-office', en: 'Back office / Data entry', hi: 'बैक ऑफिस / डेटा एंट्री', term: 'back office' },
+    { k: 'telecaller', en: 'Telecaller / BPO', hi: 'टेलीकॉलर / BPO', term: 'telecaller' },
+    { k: 'store-manager', en: 'Store manager', hi: 'स्टोर मैनेजर', term: 'store manager' },
+    { k: 'store-assistant', en: 'Store assistant / Sales staff', hi: 'स्टोर असिस्टेंट / सेल्स स्टाफ़', term: 'retail sales' },
+    { k: 'mall', en: 'Mall jobs', hi: 'मॉल जॉब्स', term: 'mall' },
+    { k: 'accounts', en: 'Accounts / Billing', hi: 'अकाउंट्स / बिलिंग', term: 'accountant' },
+    { k: 'field-sales', en: 'Field sales / Marketing', hi: 'फ़ील्ड सेल्स / मार्केटिंग', term: 'field sales' },
+    { k: 'delivery', en: 'Delivery / Driver', hi: 'डिलीवरी / ड्राइवर', term: 'delivery' },
+    { k: 'security', en: 'Security / Housekeeping', hi: 'सिक्योरिटी / हाउसकीपिंग', term: 'security guard' },
+    { k: 'other', en: 'Other', hi: 'अन्य', term: '' },
   ];
   const CITIES = ['all', 'lko', 'ncr'];
+  const SOURCE_SITES = { Adzuna: 'https://www.adzuna.in/', Jooble: 'https://in.jooble.org/' };
 
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -203,8 +215,9 @@
   function wa(text) { return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text); }
   function store(get, val) { try { return get ? localStorage.getItem('kodivo-local-jobs-lang') : localStorage.setItem('kodivo-local-jobs-lang', val); } catch (e) { return null; } }
   function today() { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); }
-  function fmtDate(s, lang) { return s ? new Date(s + 'T00:00:00').toLocaleDateString(lang === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short' }) : ''; }
-  function isNcr(city) { return NCR.some((c) => c.toLowerCase() === String(city || '').toLowerCase()); }
+  function fmtDate(s, lang) { return s ? new Date(s.slice(0, 10) + 'T00:00:00').toLocaleDateString(lang === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short' }) : ''; }
+  function isNcr(c) { return NCR.some((x) => x.toLowerCase() === String(c || '').toLowerCase()); }
+  const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
   const params = new URLSearchParams(location.search);
   let lang = params.get('lang') === 'hi' || params.get('lang') === 'en' ? params.get('lang') : (store(true) === 'hi' ? 'hi' : 'en');
@@ -212,13 +225,16 @@
   let type = TYPES.some((t) => t.k === params.get('type')) ? params.get('type') : 'all';
   const focusId = (params.get('id') || '').toUpperCase();
   let jobs = [];
-  let loadError = false;
+  let feedInfo = { updated: null, sources: [] };
+  let loaded = false;
 
   function typeLabel(k) { const t = TYPES.find((x) => x.k === k) || TYPES[TYPES.length - 1]; return k === 'all' ? T[lang].all : t[lang]; }
 
   function chips(box, keys, current, label, onPick) {
     box.innerHTML = keys.map((k) => '<button type="button" class="chip" data-k="' + k + '" aria-pressed="' + (k === current) + '">' + esc(label(k)) + '</button>').join('');
     box.querySelectorAll('.chip').forEach((b) => b.addEventListener('click', () => onPick(b.dataset.k)));
+    const on = box.querySelector('[aria-pressed="true"]');
+    if (on) { const x = on.offsetLeft - box.offsetLeft; if (x + on.offsetWidth > box.clientWidth) box.scrollLeft = x - 16; }
   }
 
   function visible() {
@@ -227,7 +243,12 @@
       .filter((j) => !j.expires || j.expires >= now)
       .filter((j) => city === 'all' || (city === 'lko' ? String(j.city).toLowerCase() === 'lucknow' : isNcr(j.city)))
       .filter((j) => type === 'all' || j.category === type || (type === 'mall' && j.mall))
-      .sort((a, b) => (a.id.toUpperCase() === focusId ? -1 : b.id.toUpperCase() === focusId ? 1 : String(b.posted).localeCompare(String(a.posted))));
+      .sort((a, b) => {
+        if (String(a.id).toUpperCase() === focusId) return -1;
+        if (String(b.id).toUpperCase() === focusId) return 1;
+        if (!!a.verified !== !!b.verified) return a.verified ? -1 : 1; // jobs Kodivo checked come first
+        return String(b.posted || '').localeCompare(String(a.posted || ''));
+      });
   }
 
   function card(j) {
@@ -239,16 +260,46 @@
     if (j.education) facts.push('🎓 ' + j.education);
     if (j.openings) facts.push('👥 ' + L.openings(j.openings));
     const dates = [j.posted ? L.posted + ': ' + fmtDate(j.posted, lang) : '', j.expires ? L.lastDate + ': ' + fmtDate(j.expires, lang) : ''].filter(Boolean).join(' · ');
-    return '<article class="job' + (j.id.toUpperCase() === focusId ? ' hl' : '') + '" id="job-' + esc(j.id) + '">' +
+    const external = j.source && /^https:\/\//.test(j.url || '');
+    const applyBtn = external
+      ? '<a class="btn btn-wa" target="_blank" rel="noopener nofollow" href="' + esc(j.url) + '">' + esc(L.applyOn(j.source)) + '</a>'
+      : '<a class="btn btn-wa" target="_blank" rel="noopener" href="' + wa(L.applyMsg(j)) + '">' + esc(L.apply) + '</a>';
+    return '<article class="job' + (String(j.id).toUpperCase() === focusId ? ' hl' : '') + '" id="job-' + esc(String(j.id).toUpperCase()) + '">' +
       '<h2>' + esc(j.title) + '</h2>' +
       '<p class="meta">📍 ' + esc(place(j)) + (j.company ? ' · 🏢 ' + esc(j.company) : '') + (j.verified ? ' · <span class="tag-ok">' + esc(L.verified) + '</span>' : '') + '</p>' +
-      '<p class="salary">' + esc(j.salary_min ? L.salary(j.salary_min, j.salary_max) : L.salaryNA) + '</p>' +
+      (j.salary_min ? '<p class="salary">' + esc(L.salary(j.salary_min, j.salary_max)) + '</p>' : '<p class="meta">💰 ' + esc(L.salaryNA) + '</p>') +
       '<ul class="facts">' + facts.map((f) => '<li>' + esc(f) + '</li>').join('') + '</ul>' +
-      (j.details ? '<p class="details">' + esc(j.details) + '</p>' : '') +
-      '<p class="meta">' + esc(dates) + ' · ID ' + esc(j.id) + '</p>' +
-      '<div class="row"><a class="btn btn-wa" target="_blank" rel="noopener" href="' + wa(L.applyMsg(j)) + '">' + esc(L.apply) + '</a>' +
+      (j.details || j.snippet ? '<p class="details">' + esc(j.details || j.snippet) + '</p>' : '') +
+      (external ? '<p class="src">' + esc(L.source(j.source)) + '</p>' : '') +
+      '<p class="meta">' + esc(dates) + '</p>' +
+      '<div class="row">' + applyBtn +
       '<a class="btn btn-out" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(L.shareMsg(j)) + '">' + esc(L.share) + '</a></div>' +
       '</article>';
+  }
+
+  function siteLinks() {
+    const L = T[lang];
+    const term = (TYPES.find((t) => t.k === type) || TYPES[0]).term;
+    const places = city === 'lko' ? ['Lucknow'] : city === 'ncr' ? ['Delhi NCR'] : ['Lucknow', 'Delhi NCR'];
+    const q = (p) => (term ? term + ' ' : '') + 'jobs in ' + p;
+    const enc = encodeURIComponent;
+    let html = '';
+    for (const p of places) {
+      const indeedLoc = p === 'Delhi NCR' ? 'Delhi' : p;
+      const naukri = 'https://www.naukri.com/' + (term ? slug(term) + '-' : '') + 'jobs-in-' + slug(p);
+      const links = [
+        ['Naukri', naukri],
+        ['Indeed', 'https://in.indeed.com/jobs?q=' + enc(term) + '&l=' + enc(indeedLoc)],
+        ['LinkedIn', 'https://www.linkedin.com/jobs/search/?keywords=' + enc(term) + '&location=' + enc(indeedLoc)],
+        ['Google Jobs', 'https://www.google.com/search?q=' + enc(q(p)) + '&ibp=htl;jobs'],
+      ];
+      html += '<h3>' + esc(L.privateSites) + ': ' + esc(p === 'Lucknow' ? L.lko : L.ncr) + (term ? ' · ' + esc(typeLabel(type)) : '') + '</h3><div class="chips">' +
+        links.map(([n, u]) => '<a class="chip" target="_blank" rel="noopener nofollow" href="' + esc(u) + '">' + esc(n) + ' ↗</a>').join('') + '</div>';
+    }
+    const govt = [['National Career Service (NCS)', 'https://www.ncs.gov.in/']];
+    if (city !== 'ncr') govt.push(['UP Rojgaar Sangam', 'https://rojgaarsangam.up.gov.in/']);
+    html += '<h3>' + esc(L.govtSites) + '</h3><div class="chips">' + govt.map(([n, u]) => '<a class="chip" target="_blank" rel="noopener" href="' + u + '">' + esc(n) + ' ↗</a>').join('') + '</div>';
+    $('siteLinks').innerHTML = html;
   }
 
   function render() {
@@ -260,43 +311,54 @@
       if (typeof v === 'string') el.innerHTML = v;
     });
     $('tips').innerHTML = L.tips.map((t) => '<li>' + esc(t) + '</li>').join('');
-    $('alertBtn').href = wa(L.alertMsg);
-    $('hireBtn').href = wa(L.hireMsg);
+    $('shareBtn').href = 'https://wa.me/?text=' + encodeURIComponent(L.pageShareMsg);
     chips($('cities'), CITIES, city, (k) => L[k], (k) => { city = k; render(); });
     chips($('types'), TYPES.map((t) => t.k), type, typeLabel, (k) => { type = k; render(); });
+    siteLinks();
 
     const list = visible();
-    $('count').textContent = loadError ? '' : L.count(list.length);
+    $('count').textContent = loaded ? L.count(list.length) + (feedInfo.updated ? ' · ' + L.updated(fmtDate(feedInfo.updated, lang)) : '') : '';
     $('list').innerHTML = list.length
       ? list.map(card).join('')
-      : '<div class="empty"><p><b>' + esc(L.emptyH) + '</b></p><p>' + esc(L.emptyP) + '</p><p><a class="btn btn-wa" target="_blank" rel="noopener" href="' + wa(L.alertMsg) + '">' + esc(L.alerts) + '</a></p></div>';
+      : loaded ? '<div class="empty"><p><b>' + esc(L.emptyH) + '</b></p><p>' + esc(L.emptyP) + '</p><p><a class="btn btn-out" href="#sites">' + esc(L.sitesBtn) + '</a></p></div>' : '';
+    const credits = (feedInfo.sources || []).filter((s) => SOURCE_SITES[s]);
+    $('credit').innerHTML = credits.length ? 'Jobs by ' + credits.map((s) => '<a href="' + SOURCE_SITES[s] + '" target="_blank" rel="noopener">' + s + '</a>').join(' and ') + ' · ' : '';
   }
 
-  // Google for Jobs: only for jobs that are checked and name the employer.
+  // Google for Jobs: only for jobs Kodivo checked itself (never for jobs taken from other sites).
   function addJsonLd() {
     const now = today();
-    const items = jobs.filter((j) => j.verified && j.company && (!j.expires || j.expires >= now)).map((j) => ({
-      '@context': 'https://schema.org/', '@type': 'JobPosting',
-      title: j.title,
-      description: '<p>' + esc(j.details || j.title) + '</p>',
-      identifier: { '@type': 'PropertyValue', name: 'Kodivo', value: j.id },
-      datePosted: j.posted,
-      validThrough: j.expires ? j.expires + 'T23:59' : undefined,
-      employmentType: j.employment_type || 'FULL_TIME',
-      hiringOrganization: { '@type': 'Organization', name: j.company },
-      jobLocation: { '@type': 'Place', address: { '@type': 'PostalAddress', addressLocality: j.city, streetAddress: j.area, addressRegion: isNcr(j.city) ? (['Noida', 'Greater Noida', 'Ghaziabad'].includes(j.city) ? 'UP' : ['Gurugram', 'Gurgaon', 'Faridabad'].includes(j.city) ? 'HR' : 'DL') : 'UP', addressCountry: 'IN' } },
-      baseSalary: j.salary_min ? { '@type': 'MonetaryAmount', currency: 'INR', value: { '@type': 'QuantitativeValue', minValue: j.salary_min, maxValue: j.salary_max || j.salary_min, unitText: 'MONTH' } } : undefined,
-    }));
-    items.forEach((it) => { const s = document.createElement('script'); s.type = 'application/ld+json'; s.textContent = JSON.stringify(it); document.head.appendChild(s); });
+    jobs.filter((j) => j.verified && !j.source && j.company && (!j.expires || j.expires >= now)).forEach((j) => {
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.textContent = JSON.stringify({
+        '@context': 'https://schema.org/', '@type': 'JobPosting',
+        title: j.title, description: '<p>' + esc(j.details || j.title) + '</p>',
+        identifier: { '@type': 'PropertyValue', name: 'Kodivo', value: j.id },
+        datePosted: j.posted, validThrough: j.expires ? j.expires + 'T23:59' : undefined,
+        employmentType: j.employment_type || 'FULL_TIME',
+        hiringOrganization: { '@type': 'Organization', name: j.company },
+        jobLocation: { '@type': 'Place', address: { '@type': 'PostalAddress', addressLocality: j.city, streetAddress: j.area, addressRegion: ['Noida', 'Greater Noida', 'Ghaziabad', 'Lucknow'].includes(j.city) ? 'UP' : ['Gurugram', 'Gurgaon', 'Faridabad'].includes(j.city) ? 'HR' : 'DL', addressCountry: 'IN' } },
+        baseSalary: j.salary_min ? { '@type': 'MonetaryAmount', currency: 'INR', value: { '@type': 'QuantitativeValue', minValue: j.salary_min, maxValue: j.salary_max || j.salary_min, unitText: 'MONTH' } } : undefined,
+      });
+      document.head.appendChild(s);
+    });
   }
 
   $('lang').addEventListener('click', () => { lang = lang === 'hi' ? 'en' : 'hi'; store(false, lang); render(); });
 
+  const get = (f) => fetch(f + '?t=' + Date.now(), { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   render();
-  fetch('local-jobs.json?t=' + Date.now(), { cache: 'no-store' })
-    .then((r) => { if (!r.ok) throw new Error('load'); return r.json(); })
-    .then((data) => { jobs = Array.isArray(data) ? data.filter((j) => j && j.id && j.title) : []; addJsonLd(); render(); if (focusId) { const el = document.getElementById('job-' + focusId); if (el) el.scrollIntoView({ block: 'center' }); } })
-    .catch(() => { loadError = true; render(); });
+  Promise.all([get('local-jobs.json'), get('feed.json')]).then(([own, feed]) => {
+    const mine = Array.isArray(own) ? own : [];
+    const fed = feed && Array.isArray(feed.jobs) ? feed.jobs : [];
+    feedInfo = { updated: feed && feed.updated, sources: (feed && feed.sources) || [] };
+    jobs = mine.concat(fed).filter((j) => j && j.id && j.title);
+    loaded = true;
+    addJsonLd();
+    render();
+    if (focusId) { const el = document.getElementById('job-' + focusId); if (el) el.scrollIntoView({ block: 'center' }); }
+  });
 })();
 </script>
 </body>
