@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Job Post Maker</title>
+<link rel="stylesheet" href="../notes.css">
+<style>
+  form{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+  form .full{grid-column:1/-1}
+  label{display:block;font-size:14px;font-weight:600}
+  input,select,textarea{width:100%;font:inherit;font-size:16px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text)}
+  textarea{min-height:70px}
+  .check{display:flex;gap:8px;align-items:center;font-weight:600}
+  .check input{width:auto}
+  button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:10px 16px;background:#1d4ed8;color:#fff;cursor:pointer;margin:4px 6px 4px 0}
+  button.alt{background:#16a34a}
+  textarea.out{min-height:160px;font-family:Consolas,monospace;font-size:13px}
+  .err{color:#b91c1c;font-weight:600}
+  @media (max-width:560px){form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="top"><a href="../index.html">← All notes</a></nav>
+<h1>Job Post Maker</h1>
+<p class="muted">For the public page <a href="../../jobs/local.html" target="_blank">jobs/local.html</a>. Only post jobs you have checked by calling the employer. Never post a job that asks candidates for money.</p>
+
+<h2>1. Job details</h2>
+<form id="f" onsubmit="return false">
+  <div class="full"><label>Job title<input id="title" placeholder="Front Office Executive"></label></div>
+  <div><label>Job type<select id="category">
+    <option value="front-office">Front office / Reception</option>
+    <option value="back-office">Back office / Data entry</option>
+    <option value="telecaller">Telecaller / BPO</option>
+    <option value="store-manager">Store manager</option>
+    <option value="store-assistant">Store assistant / Sales staff</option>
+    <option value="mall">Mall jobs</option>
+    <option value="accounts">Accounts / Billing</option>
+    <option value="field-sales">Field sales / Marketing</option>
+    <option value="delivery">Delivery / Driver</option>
+    <option value="security">Security / Housekeeping</option>
+    <option value="other">Other</option>
+  </select></label></div>
+  <div><label class="check"><input type="checkbox" id="mall"> Job is inside a mall</label></div>
+  <div><label>City<select id="city">
+    <option>Lucknow</option><option>Delhi</option><option>Noida</option><option>Greater Noida</option>
+    <option>Gurugram</option><option>Ghaziabad</option><option>Faridabad</option>
+  </select></label></div>
+  <div><label>Area<input id="area" placeholder="Gomti Nagar / Phoenix Palassio"></label></div>
+  <div><label>Company (leave empty to hide)<input id="company" placeholder="Shown on the public page"></label></div>
+  <div><label>Openings<input id="openings" type="number" min="1" value="1"></label></div>
+  <div><label>Salary from (₹/month)<input id="salary_min" type="number" min="0" step="500" placeholder="12000"></label></div>
+  <div><label>Salary to (₹/month)<input id="salary_max" type="number" min="0" step="500" placeholder="15000"></label></div>
+  <div><label>Timings<input id="shift" placeholder="10 AM – 7 PM, Sunday off"></label></div>
+  <div><label>Experience<input id="experience" placeholder="Fresher OK / 1+ year"></label></div>
+  <div><label>Education<input id="education" placeholder="12th pass / Graduate"></label></div>
+  <div><label>Last date<input id="expires" type="date"></label></div>
+  <div class="full"><label>Details (short, simple)<textarea id="details" placeholder="Greet visitors, answer calls, keep the visitor register. Basic computer needed."></textarea></label></div>
+  <div class="full"><label class="check"><input type="checkbox" id="verified"> I called the employer and checked this job is real and free for candidates</label></div>
+  <div class="full muted" style="font-size:14px">Private (not published): <input id="contact" placeholder="Employer name + phone, for your records only" style="margin-top:4px"></div>
+</form>
+<p><button id="make">Make job post</button> <span id="err" class="err"></span></p>
+
+<h2>2. Add to the website</h2>
+<p class="muted">Open <code>jobs/local-jobs.json</code> on GitHub, copy all of it, paste it below, then click the button. Expired jobs are removed automatically. Copy the result back to GitHub and commit.</p>
+<textarea class="out" id="current" placeholder="[]">[]</textarea>
+<p><button id="merge">Add this job to the list</button></p>
+<textarea class="out" id="merged" readonly></textarea>
+<p><button class="alt" data-copy="merged">Copy new local-jobs.json</button></p>
+
+<h2>3. Message for the WhatsApp group</h2>
+<textarea class="out" id="msg" readonly></textarea>
+<p><button class="alt" data-copy="msg">Copy message</button> <a id="waShare" target="_blank" rel="noopener">Open in WhatsApp</a></p>
+
+<h2>4. Private record (for your Excel)</h2>
+<textarea class="out" id="csv" readonly style="min-height:60px"></textarea>
+<p><button class="alt" data-copy="csv">Copy CSV row</button></p>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const KEY = 'kjob_next';
+  const PAGE = 'https://agamsahu017.github.io/jobs/local.html';
+  function today(add) { const d = new Date(); d.setDate(d.getDate() + (add || 0)); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); }
+  function getNext() { try { return parseInt(localStorage.getItem(KEY) || '1', 10) || 1; } catch (e) { return 1; } }
+  function setNext(n) { try { localStorage.setItem(KEY, String(n)); } catch (e) {} }
+  const inr = (n) => Number(n).toLocaleString('en-IN');
+  $('expires').value = today(30);
+  let job = null;
+
+  $('make').addEventListener('click', () => {
+    $('err').textContent = '';
+    const v = (id) => $(id).value.trim();
+    if (!v('title') || !v('area')) { $('err').textContent = 'Title and area are required.'; return; }
+    if (!$('verified').checked) { $('err').textContent = 'Call the employer and tick the check box first.'; return; }
+    const min = Number(v('salary_min')) || 0, max = Number(v('salary_max')) || 0;
+    if (max && min && max < min) { $('err').textContent = 'Salary "to" is less than "from".'; return; }
+    const prefix = v('city') === 'Lucknow' ? 'LKO' : 'NCR';
+    const n = getNext();
+    job = {
+      id: prefix + '-' + String(n).padStart(3, '0'),
+      title: v('title'), category: $('category').value, mall: $('mall').checked || $('category').value === 'mall',
+      city: v('city'), area: v('area'), company: v('company') || undefined,
+      salary_min: min || undefined, salary_max: max || undefined,
+      shift: v('shift') || undefined, experience: v('experience') || undefined, education: v('education') || undefined,
+      openings: Number(v('openings')) || undefined, details: v('details') || undefined,
+      posted: today(0), expires: v('expires') || undefined, verified: true,
+    };
+    setNext(n + 1);
+    contact = v('contact');
+    buildOutputs();
+    $('merged').value = '';
+  });
+
+  let contact = '';
+  function buildOutputs() {
+    const min = job.salary_min || 0, max = job.salary_max || 0;
+    const pay = min ? '₹' + inr(min) + (max && max !== min ? '–' + inr(max) : '') + ' / month' : 'Salary in interview';
+    const lines = [
+      '💼 *' + job.title + '*' + (job.openings > 1 ? ' (' + job.openings + ' posts)' : ''),
+      '📍 ' + job.area + ', ' + job.city + (job.mall && !/mall/i.test(job.area) ? ' (mall)' : ''),
+      '💰 ' + pay,
+      job.shift ? '🕘 ' + job.shift : '',
+      job.education ? '🎓 ' + job.education : '',
+      job.experience ? '🧾 ' + job.experience : '',
+      '',
+      '✅ Apply free: ' + PAGE + '?id=' + job.id + '&lang=hi',
+      '⚠️ No fees. Kodivo never asks candidates for money.',
+    ].filter((l, i, a) => l !== '' || a[i - 1] !== '');
+    $('msg').value = lines.join('\n');
+    $('waShare').href = 'https://wa.me/?text=' + encodeURIComponent($('msg').value);
+    const csvCell = (s) => '"' + String(s ?? '').replace(/"/g, '""') + '"';
+    $('csv').value = [job.id, job.posted, job.title, job.city, job.area, job.company || '', min || '', max || '', contact].map(csvCell).join(',');
+  }
+
+  $('merge').addEventListener('click', () => {
+    if (!job) { alert('Make the job post first (step 1).'); return; }
+    let list;
+    try { list = JSON.parse($('current').value.trim() || '[]'); if (!Array.isArray(list)) throw 0; }
+    catch (e) { alert('The pasted text is not a valid list. Copy the whole local-jobs.json file again.'); return; }
+    const now = today(0);
+    // If this ID is already used (e.g. made on another computer), take the next free number.
+    if (list.some((j) => j.id === job.id)) {
+      const top = list.reduce((m, j) => Math.max(m, parseInt(String(j.id).split('-')[1], 10) || 0), 0);
+      job.id = job.id.split('-')[0] + '-' + String(top + 1).padStart(3, '0');
+      setNext(top + 2);
+      buildOutputs();
+      alert('That ID was already used, so this job is now ' + job.id + '. The WhatsApp message is updated.');
+    }
+    list = list.filter((j) => !j.expires || j.expires >= now);
+    list.unshift(JSON.parse(JSON.stringify(job)));
+    $('merged').value = JSON.stringify(list, null, 2) + '\n';
+  });
+
+  document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
+    const t = $(b.dataset.copy).value;
+    try { await navigator.clipboard.writeText(t); b.textContent = 'Copied ✓'; } catch (e) { $(b.dataset.copy).select(); document.execCommand('copy'); b.textContent = 'Copied ✓'; }
+    setTimeout(() => { b.textContent = b.dataset.copy === 'merged' ? 'Copy new local-jobs.json' : b.dataset.copy === 'msg' ? 'Copy message' : 'Copy CSV row'; }, 1500);
+  }));
+})();
+</script>
+</body>
+</html>
