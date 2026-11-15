@@ -7,7 +7,7 @@
 // matching key here too; a missing key simply stays in English.
 (function () {
   const SELECTOR =
-    "h1, h2, h3, p, li, summary, .offer-banner, .nav-links a, .nav-actions a.btn, .pill, .float-card, " +
+    "h1, h2, h3, h4, p, li, summary, .offer-banner, .nav-links a, .nav-actions a.btn, .pill, .float-card, " +
     ".founder-tag, .strip-inner > span, .strip-inner > b, .eyebrow, .tag, .price, .mini b, .mini span, " +
     "a.btn, .socials span, .socials-inline a, .footer .container, .logo-sub, .biz-tab, .chat-status, " +
     ".lead-empty, .demo-note, .work-link, label, option, button.btn";
@@ -314,9 +314,35 @@
      `बॉट जो भी पूछताछ लेता है, वो यहाँ आती है (असली वर्ज़न में मालिक के WhatsApp / ईमेल पर भी)।`],
     [`No leads yet. Try booking in the chat →`, `अभी कोई लीड नहीं। चैट में बुकिंग करके देखिए →`],
     [`✨ In the real version`, `✨ असली वर्ज़न में`],
+    [`What works today, and what comes next`, `आज क्या चलता है, और आगे क्या आएगा`],
+    [`✅ Working now <span class="muted">(try it above)</span>`, `✅ अभी चालू है <span class="muted">(ऊपर आज़माइए)</span>`],
+    [`🛠 Next, built for your business`, `🛠 आगे, आपके बिज़नेस के लिए बनेगा`],
+    [`Real AI replies in <b>English, Hindi and Hinglish</b>`, `असली AI <b>इंग्लिश, हिंदी और हिंग्लिश</b> में जवाब देता है`],
+    [`Answers only from the business details it is given`, `सिर्फ़ दी गई बिज़नेस जानकारी से जवाब देता है`],
+    [`Says "our team will confirm" instead of making up prices`, `अपने मन से रेट नहीं बताता, कहता है "हमारी टीम कन्फ़र्म करेगी"`],
+    [`Make a bot for <b>your own business</b> in seconds (✨ Your business tab)`, `कुछ ही सेकंड में <b>अपने बिज़नेस</b> का बॉट बनाइए (✨ Your business टैब)`],
+    [`Takes name and number for a booking, shown in "What the owner sees"`, `बुकिंग के लिए नाम और नंबर लेता है, जो "मालिक को क्या दिखता है" में आता है`],
+    [`Trained on your FAQs, price lists and PDF documents`, `आपके FAQ, रेट लिस्ट और PDF डॉक्यूमेंट्स पर ट्रेन किया हुआ`],
+    [`Leads sent to your WhatsApp / Google Sheet`, `लीड्स आपके WhatsApp / Google Sheet पर`],
+    [`🧾 Try the AI Bill Reader demo`, `🧾 AI बिल रीडर डेमो आज़माइए`],
+    [`Reads printed GST, medical and <b>handwritten</b> bills (photo or PDF)`, `छपे GST, मेडिकल और <b>हाथ से लिखे</b> बिल पढ़ता है (फ़ोटो या PDF)`],
+    [`Items, rate, GST and totals in a table`, `आइटम, रेट, GST और टोटल एक टेबल में`],
+    [`Checks the maths: qty × rate, items vs bill total, CGST = SGST`, `हिसाब जाँचता है: मात्रा × रेट, आइटम बनाम बिल टोटल, CGST = SGST`],
+    [`Checks the <b>GSTIN</b> for mistakes`, `<b>GSTIN</b> में ग़लती पकड़ता है`],
+    [`Correct any value and the checks run again`, `कोई भी वैल्यू ठीक कीजिए, जाँच फिर से चलती है`],
+    [`Read bills one by one, download all in <b>one Excel</b> or CSV`, `एक-एक करके बिल पढ़िए, सब <b>एक Excel</b> या CSV में डाउनलोड कीजिए`],
+    [`Upload many bills at once`, `एक साथ कई बिल अपलोड`],
+    [`Send bill photos on <b>WhatsApp</b>, get the Excel back`, `बिल की फ़ोटो <b>WhatsApp</b> पर भेजिए, Excel वापस पाइए`],
+    [`Export ready for <b>Tally</b> / your accounting software`, `<b>Tally</b> / आपके अकाउंटिंग सॉफ़्टवेयर के लिए तैयार export`],
+    [`Duplicate bill alerts across months`, `महीनों में दोहराए गए बिल का अलर्ट`],
+    [`Stock entry with batch and expiry alerts for medical stores`, `मेडिकल स्टोर के लिए batch और expiry अलर्ट के साथ स्टॉक एंट्री`],
+    [`💬 Get this for my shop / CA firm`, `💬 मेरी दुकान / CA फ़र्म के लिए चाहिए`],
     [`Trained on <b>your</b> fees, timings, FAQs &amp; documents`, `<b>आपकी</b> फ़ीस, टाइमिंग, FAQ और डॉक्यूमेंट्स पर ट्रेन किया हुआ`],
     [`Works on your website <b>and WhatsApp</b>`, `आपकी वेबसाइट <b>और WhatsApp</b>, दोनों पर काम करता है`],
     [`Understands any question, not just keywords`, `सिर्फ़ कीवर्ड नहीं, हर तरह का सवाल समझता है`],
+    [`A chat button on <b>your own website</b>`, `<b>आपकी अपनी वेबसाइट</b> पर चैट बटन`],
+    [`The same bot on <b>WhatsApp</b>`, `यही बॉट <b>WhatsApp</b> पर भी`],
+    [`Monthly report: how many chats and leads you got`, `हर महीने रिपोर्ट: कितनी चैट और कितनी लीड्स आईं`],
     [`Sends leads to WhatsApp / Google Sheet / CRM`, `लीड्स WhatsApp / Google Sheet / CRM पर भेजता है`],
     [`Automatic reminders &amp; follow-ups`, `अपने आप रिमाइंडर और फ़ॉलो-अप`],
     [`💬 Get this for my business`, `💬 मेरे बिज़नेस के लिए चाहिए`],

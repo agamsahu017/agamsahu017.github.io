@@ -416,3 +416,12 @@ details p { color: var(--muted); margin-top: 10px; }
 @media (max-width: 720px) {
   .local-founder { flex-direction: column; text-align: center; gap: 16px; }
 }
+
+/* "Working now / Next" card on the demo pages */
+.status-card { margin-top: 24px; }
+.status-card:hover { transform: none; }
+.status-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 32px; }
+.status-cols h4 { margin: 14px 0 0; font-size: 1rem; }
+.status-cols h4 .muted { font-weight: 500; font-size: 0.85rem; }
+.ticks.next-list li::before, :root[data-theme="dark"] .ticks.next-list li::before { content: "→"; color: var(--primary); }
+@media (max-width: 760px) { .status-cols { grid-template-columns: 1fr; } }
