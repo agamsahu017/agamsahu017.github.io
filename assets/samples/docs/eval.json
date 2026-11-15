@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-15",
+  "total": 40,
+  "answerable": 33,
+  "unanswerable": 7,
+  "correct": 40,
+  "right_page": 31,
+  "retrieval": 33,
+  "refused_ok": 7,
+  "model": "claude-haiku-5-5",
+  "grader": "claude-sonnet-5-5"
+}

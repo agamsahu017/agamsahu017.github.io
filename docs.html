@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ask Your Documents: AI Demo | Kodivo</title>
+  <meta name="description" content="Upload a PDF (rulebook, handbook, policy, syllabus) and ask questions in English, Hindi or Hinglish. Every answer shows the page it came from." />
+  <link rel="canonical" href="https://agamsahu017.github.io/docs.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/docs.html" />
+  <meta property="og:title" content="Ask your documents: AI with page numbers | Kodivo" />
+  <meta property="og:description" content="Upload a PDF and ask anything. Answers come with the page number and the exact line from the document." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=4" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Kodivo: AI chatbots, websites and smart software" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="demo.css" />
+  <style>
+    .doc-pick { max-width: 900px; margin: 0 auto 24px; display: grid; gap: 14px; }
+    .doc-pick:hover { transform: none; }
+    .doc-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
+    .doc-file { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .doc-status { text-align: center; font-size: 0.92rem; min-height: 1.4em; }
+    .doc-status.err { color: #dc2626; }
+    .doc-status .spinner { display: inline-block; width: 16px; height: 16px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: -3px; margin-right: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .ref { font: inherit; font-size: 0.72rem; font-weight: 700; vertical-align: super; line-height: 0; margin: 0 2px 0 4px; padding: 1px 5px; border-radius: 6px; border: none; cursor: pointer; background: color-mix(in srgb, var(--primary) 15%, transparent); color: var(--primary); }
+    .msg.bot .src-line { display: block; margin-top: 6px; font-size: 0.78rem; color: var(--muted); }
+    .sources { display: grid; gap: 10px; margin-top: 12px; }
+    .src { padding: 10px 12px; border-radius: 12px; background: var(--bg-alt); border-left: 4px solid var(--primary); font-size: 0.86rem; }
+    .src.flash { animation: flash 1.2s ease; }
+    @keyframes flash { 0%, 40% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 45%, transparent); } }
+    .src-head { display: flex; gap: 8px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+    .src-head b { color: var(--text); }
+    .src q { display: block; margin-top: 6px; color: var(--text); font-style: italic; white-space: pre-line; }
+    .src q::before, .src q::after { content: ""; }
+    .page-btn { font: inherit; font-size: 0.78rem; font-weight: 600; cursor: pointer; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--primary); background: transparent; color: var(--primary); }
+    .src-empty { padding: 16px; text-align: center; color: var(--muted); font-size: 0.88rem; border: 1px dashed var(--border); border-radius: 12px; }
+    .pg-modal { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); display: grid; place-items: center; z-index: 50; padding: 16px; }
+    .pg-modal[hidden] { display: none; }
+    .pg-box { background: var(--surface); border-radius: 16px; max-width: 760px; width: 100%; max-height: 92vh; display: flex; flex-direction: column; overflow: hidden; }
+    .pg-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .pg-scroll { overflow: auto; padding: 12px; background: #f1f5f9; }
+    .pg-scroll canvas { width: 100%; height: auto; display: block; box-shadow: 0 2px 10px rgba(0,0,0,0.15); background: #fff; }
+    .pg-quote { padding: 10px 14px; font-size: 0.85rem; border-top: 1px solid var(--border); background: color-mix(in srgb, #facc15 18%, var(--surface)); white-space: pre-line; }
+    .eval-card:hover { transform: none; }
+    .eval-card { margin-top: 24px; }
+    .eval-nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 14px 0 6px; }
+    .eval-num { padding: 12px; border-radius: 12px; background: var(--bg-alt); text-align: center; }
+    .eval-num b { display: block; font-size: 1.6rem; color: var(--primary); }
+    .eval-num span { font-size: 0.82rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo"><span class="logo-badge">K</span> Kodivo</a>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-outline btn-sm" href="demo.html">🤖 Chatbot demo</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section demo-page">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Live Demo</span>
+        <h1>Ask your documents 📄</h1>
+        <p>Upload a PDF (rulebook, handbook, policy, syllabus, price list) and ask anything in English, Hindi or Hinglish. Every answer shows the page it came from, so you can check it.</p>
+      </div>
+
+      <div class="card doc-pick">
+        <div class="doc-row">
+          <button type="button" class="biz-tab" data-ns="sample-school">🏫 School handbook (sample)</button>
+          <button type="button" class="biz-tab" data-ns="sample-coaching">🎓 Coaching rules (sample)</button>
+          <label class="btn btn-primary btn-sm" for="pdfFile">📤 Upload your PDF</label>
+          <input class="doc-file" id="pdfFile" type="file" accept="application/pdf,.pdf" />
+        </div>
+        <div class="doc-status" id="docStatus" role="status" aria-live="polite">Pick a sample document or upload your own PDF.</div>
+        <p class="demo-note">PDFs with text work (up to 40 pages, 10 MB). Scanned photos of pages need the real version. Your PDF is kept for 24 hours so you can ask questions, then deleted. Sample documents are fictional. Please don't upload private or sensitive documents.</p>
+      </div>
+
+      <div class="demo-grid">
+        <div class="chat">
+          <div class="chat-head">
+            <div class="chat-avatar">📄</div>
+            <div>
+              <div class="chat-name" id="docName">No document yet</div>
+              <div class="chat-status"><span class="dot"></span> Live AI · answers with page numbers</div>
+            </div>
+          </div>
+          <div class="chat-body" id="chatBody" aria-live="polite"></div>
+          <div class="chips-row" id="quickQs"></div>
+          <form class="chat-input" id="askForm" autocomplete="off">
+            <input id="askInput" type="text" maxlength="300" placeholder="Pick a document first" aria-label="Question" disabled />
+            <button type="submit" class="send-btn" aria-label="Ask" id="askBtn" disabled>➤</button>
+          </form>
+        </div>
+
+        <aside class="owner">
+          <div class="card">
+            <h3>📑 Sources for the last answer</h3>
+            <p class="muted">The exact lines the answer is based on. Tap a number in the answer, or open the page to check.</p>
+            <div class="sources" id="sources"><div class="src-empty">Ask a question to see its sources here.</div></div>
+          </div>
+          <div class="card">
+            <h3>📎 Sample PDFs</h3>
+            <p class="muted">Open them to check the answers yourself.</p>
+            <p><a href="assets/samples/docs/school-handbook.pdf" target="_blank" rel="noopener">🏫 Sunrise Public School handbook (6 pages)</a><br/>
+               <a href="assets/samples/docs/coaching-rules.pdf" target="_blank" rel="noopener">🎓 BrightPath Classes rules (4 pages)</a></p>
+          </div>
+        </aside>
+      </div>
+
+      <div class="card eval-card" id="evalCard" hidden>
+        <h3>🧪 How we test it</h3>
+        <p class="muted" id="evalIntro"></p>
+        <div class="eval-nums" id="evalNums"></div>
+        <p class="muted" id="evalNote"></p>
+      </div>
+
+      <div class="card status-card">
+        <h3>What works today, and what comes next</h3>
+        <div class="status-cols">
+          <div>
+            <h4>✅ Working now <span class="muted">(try it above)</span></h4>
+            <ul class="ticks">
+              <li>Upload any text PDF, up to 40 pages</li>
+              <li>Ask in <b>English, Hindi or Hinglish</b></li>
+              <li>Every answer shows the <b>page number</b> and the exact line</li>
+              <li>Open the page to check the answer yourself</li>
+              <li>Says "not written in the document" instead of guessing</li>
+            </ul>
+          </div>
+          <div>
+            <h4>🛠 Next, built for your business</h4>
+            <ul class="ticks next-list">
+              <li>Many documents together: rulebooks, circulars, price lists</li>
+              <li>Scanned and photographed pages</li>
+              <li>The same bot on your website and <b>WhatsApp</b></li>
+              <li>Only your staff or members can see private documents</li>
+              <li>Monthly report: the questions people ask most</li>
+            </ul>
+          </div>
+        </div>
+        <a class="btn btn-wa btn-block" href="https://wa.me/919235266579?text=Hi%20Kodivo%2C%20I%20tried%20the%20Ask%20your%20documents%20demo.%20I%20want%20it%20for%20my%20school%20%2F%20business." target="_blank" rel="noopener">💬 Get this for my school / business</a>
+        <a class="btn btn-outline btn-block" href="bill-reader.html" style="margin-top:10px">🧾 Try the AI Bill Reader demo</a>
+      </div>
+    </div>
+  </main>
+
+  <div class="pg-modal" id="pgModal" hidden>
+    <div class="pg-box" role="dialog" aria-modal="true" aria-labelledby="pgTitle">
+      <div class="pg-top"><b id="pgTitle">Page</b><button type="button" class="page-btn" id="pgClose">✕ Close</button></div>
+      <div class="pg-scroll"><canvas id="pgCanvas"></canvas></div>
+      <div class="pg-quote" id="pgQuote"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="pricing.html">Pricing</a> · <a href="website-development.html">Website Development</a> · <a href="custom-software-development.html">Custom Software</a> · <a href="ai-chatbot-whatsapp-automation.html">AI Chatbot &amp; WhatsApp Automation</a> · <a href="privacy.html">Privacy</a></div>
+    <div class="container">© <span id="year"></span> Kodivo · Delhi NCR &amp; Lucknow</div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="docs.js"></script>
+  <script src="counter.js" defer></script>
+</body>
+</html>
