@@ -140,14 +140,14 @@
       const res = await post('/docs/ingest', { name: file.name, pages });
 
       // The search index takes a few seconds to include new pages.
-      setStatus('<span class="spinner"></span>Almost ready…');
+      setStatus('<span class="spinner"></span>Making it searchable… this takes about a minute.');
       const t0 = Date.now();
       for (;;) {
         const r = await fetch(API + '/docs/ready?ns=' + encodeURIComponent(res.ns));
         const j = await r.json().catch(() => ({}));
         if (j.ready) break;
         if (j.error) throw Object.assign(new Error(), { code: j.error });
-        if (Date.now() - t0 > 90000) throw Object.assign(new Error(), { code: 'ai_unavailable' });
+        if (Date.now() - t0 > 150000) throw Object.assign(new Error(), { code: 'ai_unavailable' });
         await new Promise((ok) => setTimeout(ok, 2500));
       }
 
