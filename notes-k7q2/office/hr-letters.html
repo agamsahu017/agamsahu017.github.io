@@ -63,6 +63,16 @@
   .net .amt{font-size:14pt;color:var(--blue)}
   .small{font-size:8.5pt;color:var(--muted)}
   .blank{color:#b45309;background:#fef3c7;padding:0 1mm;border-radius:1mm}
+  .fill{display:grid;grid-template-columns:42mm 1fr;gap:0 4mm;font-size:10pt}
+  .fill div{border-bottom:1px solid #94a3b8;min-height:8.5mm;padding:2mm 0 0}
+  .fill .k{border-bottom:0;color:var(--muted)}
+  .chk{list-style:none;padding-left:0!important}
+  .chk li::before{content:"";display:inline-block;width:3.6mm;height:3.6mm;border:1px solid var(--ink);margin-right:2.5mm;vertical-align:-.5mm}
+  .rate td.b{text-align:center;width:9mm}
+  .rate td.b span{display:inline-block;width:5mm;height:5mm;border:1px solid var(--ink);border-radius:1mm}
+  .lines div{border-bottom:1px solid #94a3b8;height:8mm}
+  .compact h2{margin-top:4mm!important} .compact h3{margin:2.5mm 0 .5mm} .compact .sigs{margin-top:7mm}
+  .compact .fill div{min-height:6.2mm;padding:.8mm 0 0} .compact .lines div{height:7mm} .compact .chk li{margin:0 0 1mm}
 
   @media print{
     @page{size:A4;margin:0}
@@ -84,13 +94,24 @@
 
   <label for="type">Letter</label>
   <select id="type">
-    <option value="offer">Offer letter</option>
-    <option value="appt">Appointment (joining) letter</option>
-    <option value="slip">Salary slip</option>
-    <option value="exp">Experience letter</option>
-    <option value="rel">Relieving letter</option>
-    <option value="comm">Commission agreement (telecaller / freelancer)</option>
-    <option value="blank">Blank letterhead</option>
+    <optgroup label="Staff">
+      <option value="offer">Offer letter</option>
+      <option value="appt">Appointment (joining) letter</option>
+      <option value="slip">Salary slip</option>
+      <option value="exp">Experience letter</option>
+      <option value="rel">Relieving letter</option>
+      <option value="comm">Commission agreement (telecaller / freelancer)</option>
+    </optgroup>
+    <optgroup label="Interns">
+      <option value="ioffer">Internship offer letter</option>
+      <option value="iagree">Internship agreement (NDA + work ownership)</option>
+      <option value="ijoin">Intern joining form (to fill by hand)</option>
+      <option value="ieval">Intern evaluation form</option>
+      <option value="icomp">Internship completion letter</option>
+    </optgroup>
+    <optgroup label="Other">
+      <option value="blank">Blank letterhead</option>
+    </optgroup>
   </select>
 
   <details class="box" id="bizBox"><summary>1. Business details (saved)</summary>
@@ -124,15 +145,20 @@
       <div class="g-offer g-appt g-slip g-exp g-rel"><label>Designation</label><input id="desig" value="Telecaller"></div>
       <div class="g-offer g-appt g-slip g-exp"><label>Department</label><input id="dept" value="Sales"></div>
       <div class="g-appt"><label>Reports to</label><input id="boss"></div>
-      <div class="g-offer g-appt"><label>Work location</label><input id="loc" value="Lucknow (office)"></div>
+      <div class="g-offer g-appt g-ioffer g-iagree"><label>Work location</label><input id="loc" value="Lucknow (office)"></div>
+      <div class="g-ioffer g-iagree g-ijoin g-ieval g-icomp"><label>Internship role</label><input id="irole" value="Web Development Intern"></div>
+      <div class="g-ioffer g-iagree g-ijoin g-ieval g-icomp"><label>Mentor</label><input id="mentor" placeholder="Who guides the intern"></div>
+      <div class="full g-ioffer g-iagree g-ijoin g-icomp"><label>College / university</label><input id="college" placeholder="e.g. ABC Institute of Technology, Lucknow"></div>
+      <div class="full g-ioffer g-iagree g-ijoin g-icomp"><label>Course and year</label><input id="course" placeholder="e.g. B.Tech CSE, 3rd year"></div>
     </div>
   </details>
 
   <details class="box" open><summary>3. Dates</summary>
     <div class="grid">
       <div><label>Letter date</label><input id="ldate" type="date"></div>
-      <div class="g-offer g-appt g-slip g-exp g-comm"><label>Joining / start date</label><input id="jdate" type="date"></div>
-      <div class="g-offer"><label>Accept offer by</label><input id="acceptBy" type="date"></div>
+      <div class="g-offer g-appt g-slip g-exp g-comm g-ioffer g-iagree g-ijoin g-ieval g-icomp"><label>Joining / start date</label><input id="jdate" type="date"></div>
+      <div class="g-ioffer g-iagree g-ieval g-icomp"><label>Internship end date</label><input id="iend" type="date"></div>
+      <div class="g-offer g-ioffer"><label>Accept offer by</label><input id="acceptBy" type="date"></div>
       <div class="g-rel"><label>Resignation date</label><input id="resDate" type="date"></div>
       <div class="g-exp g-rel"><label>Last working day</label><input id="lastDay" type="date"></div>
       <div class="g-slip"><label>Salary month</label><input id="month" type="month"></div>
@@ -176,6 +202,23 @@ Kept the lead tracker up to date</textarea></div>
     </div>
   </details>
 
+  <details class="box g-ioffer g-iagree g-ieval g-icomp" open><summary>5. Internship details</summary>
+    <div class="grid">
+      <div class="g-ioffer g-iagree"><label>Mode</label><select id="imode"><option>Remote (work from home)</option><option>In office</option><option>Hybrid (office + remote)</option></select></div>
+      <div class="g-ioffer g-iagree"><label>Stipend per month (₹, 0 = unpaid)</label><input id="stipend" type="number" min="0" value="5000"></div>
+      <div class="full g-ioffer g-iagree"><label>Working time</label><input id="ihours" value="Monday to Friday, about 4 hours a day (flexible), plus one weekly review call"></div>
+      <div class="g-iagree"><label>Leave allowed (days per month)</label><input id="ileave" type="number" min="0" value="2"></div>
+      <div class="g-iagree"><label>Notice to end early (days)</label><input id="inotice" type="number" min="0" value="7"></div>
+      <div class="full g-ioffer g-iagree g-icomp"><label>Work / learning areas (one per line)</label><textarea id="iwork">Build website pages with HTML, CSS and JavaScript
+Work on AI chatbot features
+Test the work and fix bugs</textarea></div>
+      <div class="g-ieval"><label>Evaluation</label><select id="ietype"><option value="Mid-term">Mid-term</option><option value="Final">Final</option></select></div>
+      <div class="g-icomp"><label>Certificate ID (from Certificate Maker)</label><input id="certid" placeholder="KOD-2026-0001"></div>
+      <div class="full g-icomp"><label>Closing line</label><input id="iconduct" value="During the internship, the work was sincere and the conduct was good."></div>
+    </div>
+    <p class="help g-ioffer g-iagree" style="margin:8px 0 0">Interns must be 18 or older. Never charge an intern any fee.</p>
+  </details>
+
   <details class="box g-comm" open><summary>5. Commission terms</summary>
     <div class="grid">
       <div class="full"><label>Commission</label><textarea id="commText">10% of the amount Kodivo receives from each new client you bring, for the first project or first 3 months of a monthly plan.</textarea></div>
@@ -206,6 +249,7 @@ const iso = (d) => new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOStri
 $('ldate').value = iso(today);
 $('jdate').value = iso(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7));
 $('acceptBy').value = iso(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 3));
+$('iend').value = iso(new Date(today.getFullYear(), today.getMonth() + 2, today.getDate() + 6)); // about 2 months
 const pm = new Date(today.getFullYear(), today.getMonth() - 1, 1);
 $('month').value = pm.getFullYear() + '-' + String(pm.getMonth()+1).padStart(2,'0');
 $('paidOn').value = iso(today);
@@ -340,8 +384,94 @@ const L = {
       '<li><b>Law.</b> This agreement is governed by the laws of India, and courts at ' + B('city') + ' will have jurisdiction.</li></ol>' +
       signBlock('<div class="sig"><div class="img"></div><div class="line"><b>Associate</b><br>' + B('name') + '<br>Date:</div></div>');
   },
+  ioffer(){
+    return head() + meta() + to() + '<h2>INTERNSHIP OFFER LETTER</h2>' +
+      '<p>Dear ' + B('name','Name') + ',</p>' +
+      '<p>We are happy to offer you an internship as <b>' + B('irole') + '</b> at <b>' + bizName() + '</b>. This internship is for learning and real work experience. The main terms are below.</p>' +
+      '<table><tr><th style="width:38%">Role</th><td>' + B('irole') + '</td></tr>' +
+      '<tr><th>College and course</th><td>' + B('college') + (v('course') ? ', ' + esc(v('course')) : '') + '</td></tr>' +
+      '<tr><th>Duration</th><td>' + iPeriod() + '</td></tr>' +
+      '<tr><th>Mode and location</th><td>' + esc(v('imode')) + (v('imode').startsWith('Remote') ? '' : ', ' + B('loc')) + '</td></tr>' +
+      '<tr><th>Working time</th><td>' + B('ihours') + '</td></tr>' +
+      '<tr><th>Stipend</th><td>' + stipendText() + '</td></tr>' +
+      '<tr><th>Mentor</th><td>' + B('mentor') + '</td></tr></table>' +
+      workList('You will work on and learn:') +
+      '<p>On completing the internship with good attendance and work, you will get an <b>internship certificate</b> (with a QR code that anyone can verify) and a completion letter.</p>' +
+      '<p>Please note: this is an internship, not a job. It does not promise a job later. <b>Kodivo never charges any fee for an internship.</b></p>' +
+      '<p>On your first day, please share: your college ID card, a masked Aadhaar copy (only the last 4 digits visible), your college NOC or internship letter if your college needs one, a photo' + (num('stipend') ? ', and bank details for the stipend' : '') + '. You will also sign the internship agreement (confidentiality and work ownership).</p>' +
+      '<p>Please sign below and send a copy back by <b>' + D('acceptBy') + '</b>.</p>' +
+      signBlock() +
+      '<div class="accept"><b>Acceptance</b><p>I accept this internship offer. I confirm that I am 18 years or older.</p><div class="sigs" style="margin-top:8mm"><div class="sig"><div class="line">Signature</div></div><div class="sig"><div class="line">Name: ' + B('name') + '<br>Date:</div></div></div></div>';
+  },
+  iagree(){
+    return head() + meta() + '<h2>INTERNSHIP AGREEMENT</h2>' +
+      '<p>This agreement is made on ' + D('ldate') + ' between:</p>' +
+      '<p><b>1. ' + ownerLine() + '</b>, ' + (v('addr') ? esc(v('addr')) : '<span class="blank">office address</span>') + ' ("Kodivo"), and<br><b>2. ' + B('name','Full name') + '</b>, ' + (v('eaddr') ? esc(v('eaddr')) : '<span class="blank">address</span>') + (v('ephone') ? ', phone ' + esc(v('ephone')) : '') + ', student of ' + B('college') + (v('course') ? ' (' + esc(v('course')) + ')' : '') + ' ("the Intern").</p><ol>' +
+      '<li><b>Purpose.</b> The internship is for the Intern to learn and get real work experience as <b>' + B('irole') + '</b>, guided by ' + B('mentor') + '. The Intern is not an employee of Kodivo, and this agreement does not promise a job.</li>' +
+      '<li><b>Duration and time.</b> ' + iPeriod() + '. Mode: ' + esc(v('imode')) + '. Working time: ' + B('ihours') + '. The Intern can take up to ' + num('ileave') + ' days of leave a month (for example, for exams) by telling the mentor in advance.</li>' +
+      '<li><b>Stipend.</b> ' + (num('stipend') ? 'Kodivo pays a stipend of ' + inr(num('stipend')) + ' a month (' + words(num('stipend')) + ' Rupees only) by bank transfer by the 7th of the next month, in proportion to the days attended. The stipend is not a salary, and there are no other benefits.' : 'This is an unpaid internship.') + ' Kodivo never charges the Intern any fee.</li>' +
+      '<li><b>Confidential information.</b> Client details, code, prices, leads, passwords and business plans are confidential. The Intern will use them only for Kodivo\'s work and will not share them with anyone, during or after the internship.</li>' +
+      '<li><b>Data privacy.</b> The Intern will not copy client or customer data (names, phone numbers, documents) to personal phones, laptops or accounts, will not take screenshots of it, and will work with test data unless the mentor allows otherwise.</li>' +
+      '<li><b>Accounts and security.</b> The Intern will keep the passwords and access given by Kodivo private, will never share or post API keys or passwords (for example, on GitHub or WhatsApp), and will tell the mentor at once if anything is leaked. All access ends on the last day.</li>' +
+      '<li><b>Work ownership.</b> All work the Intern creates for Kodivo during the internship (code, designs, content, documents) belongs to Kodivo. The Intern may show this work in a personal portfolio or resume only after removing client names and data, and with written (WhatsApp is enough) permission from Kodivo.</li>' +
+      '<li><b>Conduct.</b> The Intern will treat everyone with respect. Harassment of any kind, including sexual harassment, is not allowed. Plagiarism and copying others\' paid work is not allowed.</li>' +
+      '<li><b>Ending early.</b> Either side can end the internship with ' + num('inotice') + ' days\' notice (WhatsApp message is enough). Kodivo may end it at once if rules 4, 5, 6 or 8 are broken. Stipend for the days attended will be paid.</li>' +
+      '<li><b>Certificate.</b> On completing the internship with good attendance and work, the Intern gets an internship certificate and a completion letter.</li>' +
+      '<li><b>Age.</b> The Intern confirms that they are 18 years or older.</li>' +
+      '<li><b>Law.</b> This agreement is governed by the laws of India, and courts at ' + B('city') + ' will have jurisdiction.</li></ol>' +
+      signBlock('<div class="sig"><div class="img"></div><div class="line"><b>Intern</b><br>' + B('name') + '<br>Date:</div></div>');
+  },
+  ijoin(){
+    const row = (k, val) => '<div class="k">' + k + '</div><div>' + (val ? esc(val) : '') + '</div>';
+    return head() + '<div class="compact"><h2 style="margin-top:8mm">INTERN JOINING FORM</h2>' +
+      '<p class="small" style="text-align:center;margin-top:-3mm">Please fill in capital letters. Kodivo keeps this form private.</p>' +
+      '<h3>1. Personal details</h3><div class="fill">' + row('Full name', v('name')) + row('Date of birth', '') + row('Phone (WhatsApp)', v('ephone')) + row('Email', '') + row('Address', v('eaddr')) + '</div>' +
+      '<h3>2. College details</h3><div class="fill">' + row('College', v('college')) + row('Course and year', v('course')) + row('College roll no.', '') + row('Internship role', v('irole')) + row('Start date', v('jdate') ? new Date(v('jdate') + 'T00:00:00').toLocaleDateString('en-IN') : '') + '</div>' +
+      '<h3>3. Emergency contact</h3><div class="fill">' + row('Name and relation', '') + row('Phone', '') + '</div>' +
+      '<h3>4. Bank details (for stipend)</h3><div class="fill">' + row('Account holder name', '') + row('Bank and branch', '') + row('Account number', '') + row('IFSC', '') + row('UPI ID (optional)', '') + '</div>' +
+      '<h3>5. Documents given</h3><ul class="chk"><li>College ID card (copy)</li><li>Aadhaar copy, masked (only the last 4 digits visible)</li><li>College NOC / internship letter (if the college needs one)</li><li>Passport-size photo</li><li>Signed internship offer letter and internship agreement</li></ul>' +
+      '<h3>6. Declaration</h3><p>The details above are true. I am 18 years or older. I have read and signed the internship agreement.</p>' +
+      '<div class="sigs"><div class="sig"><div class="line">Intern signature<br>Date:</div></div><div class="sig"><div class="line">Received by (Kodivo)<br>Date:</div></div></div></div>';
+  },
+  ieval(){
+    const crit = ['Technical skills', 'Quality of work', 'Speed of learning', 'Communication', 'Punctuality and attendance', 'Teamwork and attitude', 'Following data and security rules'];
+    const boxes = '<td class="b"><span></span></td>'.repeat(5);
+    return head() + '<div class="compact"><h2 style="margin-top:8mm">INTERN EVALUATION FORM: ' + esc(v('ietype')).toUpperCase() + '</h2>' +
+      '<table><tr><th style="width:30%">Intern</th><td>' + B('name') + '</td></tr><tr><th>Role</th><td>' + B('irole') + '</td></tr><tr><th>Period</th><td>' + iPeriod() + '</td></tr><tr><th>Mentor</th><td>' + B('mentor') + '</td></tr></table>' +
+      '<p class="small">Tick one box: 1 = needs a lot of work, 3 = good, 5 = excellent.</p>' +
+      '<table class="rate"><tr><th>Area</th><th style="text-align:center">1</th><th style="text-align:center">2</th><th style="text-align:center">3</th><th style="text-align:center">4</th><th style="text-align:center">5</th></tr>' +
+      crit.map((c) => '<tr><td>' + c + '</td>' + boxes + '</tr>').join('') + '<tr class="tot"><td>Overall</td>' + boxes + '</tr></table>' +
+      '<h3>Strengths</h3><div class="lines"><div></div><div></div></div>' +
+      '<h3>What to improve</h3><div class="lines"><div></div><div></div></div>' +
+      '<h3>' + (v('ietype') === 'Final' ? 'Certificate' : 'Next steps') + '</h3>' +
+      (v('ietype') === 'Final'
+        ? '<ul class="chk"><li>Give the internship certificate</li><li>Give the certificate with a special mention (excellent work)</li><li>Do not give a certificate (reason below)</li></ul><div class="lines"><div></div></div>'
+        : '<div class="lines"><div></div><div></div></div>') +
+      '<div class="sigs"><div class="sig"><div class="line">Mentor signature<br>Date:</div></div><div class="sig"><div class="line">Intern signature (seen)<br>Date:</div></div></div></div>';
+  },
+  icomp(){
+    return head() + meta() + '<h2>INTERNSHIP COMPLETION LETTER</h2><p style="text-align:center;margin-top:-2mm"><b>To whom it may concern</b></p>' +
+      '<p>This is to certify that <b>' + B('name','Full name') + '</b>, a student of ' + B('college') + (v('course') ? ' (' + esc(v('course')) + ')' : '') + ', completed an internship at <b>' + bizName() + '</b> as <b>' + B('irole') + '</b> from <b>' + D('jdate') + '</b> to <b>' + D('iend') + '</b>' + (v('mentor') ? ', under the guidance of ' + esc(v('mentor')) : '') + '.</p>' +
+      workList('During the internship, the work included:') +
+      '<p>' + esc(v('iconduct')) + '</p>' +
+      (v('certid') ? '<p>Internship certificate ID: <b>' + esc(v('certid')) + '</b>. It can be checked at agamsahu017.github.io/verify.html</p>' : '') +
+      '<p>We wish ' + B('name','them') + ' all the best for the future.</p>' + signBlock();
+  },
   blank(){ return head() + meta(true) + '<div style="min-height:200mm"></div>'; }
 };
+function iPeriod(){
+  if (!v('jdate') || !v('iend')) return D('jdate') + ' to ' + D('iend');
+  const days = Math.round((new Date(v('iend')) - new Date(v('jdate'))) / 86400000) + 1;
+  const weeks = Math.round(days / 7);
+  return D('jdate') + ' to ' + D('iend') + (days > 0 ? ' (about ' + weeks + ' week' + (weeks === 1 ? '' : 's') + ')' : ' <span class="blank">end date is before start date</span>');
+}
+function stipendText(){
+  return num('stipend') ? '<b>' + inr(num('stipend')) + ' per month</b> (' + words(num('stipend')) + ' Rupees only), paid by bank transfer by the 7th of the next month, for the days attended' : 'Unpaid internship';
+}
+function workList(intro){
+  const items = v('iwork').split('\n').map((s) => s.trim()).filter(Boolean);
+  return items.length ? '<p>' + intro + '</p><ol>' + items.map((s) => '<li>' + esc(s) + '</li>').join('') + '</ol>' : '';
+}
 
 function render(){
   const t = $('type').value;
@@ -350,13 +480,13 @@ function render(){
     if (groups.length) el.classList.toggle('hide', !groups.includes('g-' + t));
   });
   $('paper').innerHTML = L[t]();
-  document.title = ({offer:'Offer Letter',appt:'Appointment Letter',slip:'Salary Slip',exp:'Experience Letter',rel:'Relieving Letter',comm:'Commission Agreement',blank:'Letterhead'})[t] + (v('name') ? ' - ' + v('name') : '');
+  document.title = ({offer:'Offer Letter',appt:'Appointment Letter',slip:'Salary Slip',exp:'Experience Letter',rel:'Relieving Letter',comm:'Commission Agreement',ioffer:'Internship Offer Letter',iagree:'Internship Agreement',ijoin:'Intern Joining Form',ieval:'Intern Evaluation',icomp:'Internship Completion Letter',blank:'Letterhead'})[t] + (v('name') ? ' - ' + v('name') : '');
 }
 $('form').addEventListener('input', (e) => { if (e.target.hasAttribute('data-save')) st.set(e.target.id, e.target.value); if (e.target.id === 'month') $('pdays').value = ''; render(); });
 $('form').addEventListener('change', render);
 $('print').onclick = () => { render(); window.print(); };
 $('nextRef').onclick = () => { $('refn').value = (num('refn') || 1) + 1; st.set('refn', $('refn').value); render(); };
-$('clear').onclick = () => { ['name','eid','ephone','eaddr','pan','bank4','boss','utr','pdays'].forEach(id => $(id).value = ''); ['incAmt','adv','ded'].forEach(id => $(id).value = 0); render(); };
+$('clear').onclick = () => { ['name','eid','ephone','eaddr','pan','bank4','boss','utr','pdays','college','course','certid'].forEach(id => $(id).value = ''); ['incAmt','adv','ded'].forEach(id => $(id).value = 0); render(); };
 render();
 </script>
 </body>
