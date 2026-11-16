@@ -243,6 +243,10 @@
     [`📞 Call Now`, `📞 अभी कॉल करें`],
     [`✉️ Email`, `✉️ ईमेल`],
     [`📍 Delhi NCR &amp; Lucknow, India`, `📍 दिल्ली NCR और लखनऊ, भारत`],
+    // footer-address-hi: business address (footer, homepage contact, privacy)
+    [`📍 <a href="https://www.google.com/maps/search/?api=1&amp;query=Plot+No.+33%2C+Vigyan+Khand%2C+Gomti+Nagar%2C+Lucknow+226010" target="_blank" rel="noopener">Plot No. 33, Vigyan Khand, Gomti Nagar, Lucknow, Uttar Pradesh 226010</a>`, `📍 <a href="https://www.google.com/maps/search/?api=1&amp;query=Plot+No.+33%2C+Vigyan+Khand%2C+Gomti+Nagar%2C+Lucknow+226010" target="_blank" rel="noopener">प्लॉट नं. 33, विज्ञान खंड, गोमती नगर, लखनऊ, उत्तर प्रदेश 226010</a>`],
+    [`🏢 <a href="https://www.google.com/maps/search/?api=1&amp;query=Plot+No.+33%2C+Vigyan+Khand%2C+Gomti+Nagar%2C+Lucknow+226010" target="_blank" rel="noopener">Plot No. 33, Vigyan Khand, Gomti Nagar, Lucknow, Uttar Pradesh 226010</a>`, `🏢 <a href="https://www.google.com/maps/search/?api=1&amp;query=Plot+No.+33%2C+Vigyan+Khand%2C+Gomti+Nagar%2C+Lucknow+226010" target="_blank" rel="noopener">प्लॉट नं. 33, विज्ञान खंड, गोमती नगर, लखनऊ, उत्तर प्रदेश 226010</a>`],
+    [`Address: Plot No. 33, Vigyan Khand, Gomti Nagar, Lucknow, Uttar Pradesh 226010.`, `पता: प्लॉट नं. 33, विज्ञान खंड, गोमती नगर, लखनऊ, उत्तर प्रदेश 226010।`],
     [`© <span id="year"></span> Kodivo · Delhi NCR &amp; Lucknow · <a href="privacy.html">Privacy</a>`,
      `© <span id="year"></span> Kodivo · दिल्ली NCR और लखनऊ · <a href="privacy.html">प्राइवेसी</a>`],
 
