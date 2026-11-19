@@ -7,9 +7,11 @@
 <title>Level 1: AI Basics</title>
 <link rel="stylesheet" href="../notes.css">
 <style>blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid var(--boxline);background:var(--box);border-radius:6px}blockquote p{margin:4px 0}table{display:block;overflow-x:auto}</style>
+<script src="../notes-lang.js"></script>
 </head>
 <body>
 <nav class="top"><a href="../index.html">← All notes</a><a href="index.html">AI notes home</a></nav>
+<div class="en" lang="en">
 <h1>Level 1: AI Basics</h1>
 <h2>In one line</h2>
 <blockquote>
@@ -30,6 +32,7 @@
 <li>In English, 1 token is about ¾ of a word. Hindi uses more tokens.</li>
 <li><strong>You pay for AI APIs by the token</strong> (tokens you send + tokens you get back).</li>
 </ul>
+<p class="example"><b>Example:</b> a taxi meter charges per kilometre. AI APIs charge per token.</p>
 <p>🎤 <em>&quot;Tokens are the small units an LLM reads. Price, speed and limits are all counted in tokens.&quot;</em></p>
 <h2>3. Context window</h2>
 <p>The AI&#39;s <strong>short-term memory</strong>: how many tokens it can see at one time.</p>
@@ -45,12 +48,14 @@
 <li>✅ &quot;Write a polite 5-line email to a clinic owner offering a free AI chatbot demo&quot;</li>
 <li>A clearer prompt gives a better answer. This skill is called <strong>prompt engineering</strong>.</li>
 </ul>
+<p class="example"><b>Example:</b> telling a tailor "make a shirt" vs "make a white cotton shirt, size 40, full sleeves, ready by Friday". The second one gets you what you want.</p>
 <h2>5. System prompt</h2>
 <p><strong>Fixed instructions</strong> written by the developer. The user does not see them, but the AI always follows them.</p>
 <pre><code>You are the receptionist of CareWell Clinic.
 Only answer questions about the clinic. Always be polite.
 Fee: ₹400. Timing: 9 AM–9 PM. Never give medical advice.
 </code></pre>
+<p class="example"><b>Example:</b> the shop owner's instructions to a new salesman before the shop opens. Customers never see them, but he follows them all day.</p>
 <p>🎤 <em>&quot;The system prompt sets the model&#39;s role, rules and behaviour. The developer writes it, not the user.&quot;</em></p>
 <h2>6. Temperature</h2>
 <p>The <strong>creativity knob</strong> (from 0 to about 1).</p>
@@ -73,10 +78,12 @@ Fee: ₹400. Timing: 9 AM–9 PM. Never give medical advice.
 <td>Marketing ideas, captions, stories</td>
 </tr>
 </tbody></table></div>
+<p class="example"><b>Example:</b> a bank cashier (low temperature) must give the same exact answer every time. A copywriter (high temperature) should give a new idea every time.</p>
 <h2>7. Hallucination</h2>
 <p>When the AI <strong>says something wrong but sounds sure</strong>.</p>
 <ul>
 <li>Why: the LLM guesses the most likely next word. It does not check facts.</li>
+<li><strong>Example:</strong> a student who didn't study but writes a confident, long answer in the exam anyway.</li>
 <li>Fix: give it the right data (<strong>RAG</strong>), tell it &quot;If you don&#39;t know, say so&quot;, use low temperature, and check the output.</li>
 </ul>
 <p>🎤 <em>&quot;Hallucination is when the model writes something that sounds right but is false. We reduce it with RAG, clear rules, low temperature and checks.&quot;</em></p>
@@ -104,6 +111,94 @@ Fee: ₹400. Timing: 9 AM–9 PM. Never give medical advice.
 <li>How are AI APIs billed? → <em>By tokens (sent + received).</em></li>
 <li>The bot told a customer the wrong fee. What is this called, and how do you stop it? → <em>Hallucination. Use RAG with the real clinic data, a system prompt rule to say &quot;I&#39;ll confirm&quot; when unsure, and low temperature.</em></li>
 </ol>
-
+</div>
+<div class="hi" lang="hi">
+<h1>Level 1: AI की Basics</h1>
+<h2>एक line में</h2>
+<blockquote>
+<p><strong>LLM</strong> एक बहुत समझदार auto-complete है → यह <strong>tokens</strong> पढ़ता है → एक बार में तय मात्रा का text ही देख सकता है (<strong>context window</strong>) → आप इसे <strong>prompt</strong> भेजते हो → <strong>system prompt</strong> इसे पक्के rules देता है → <strong>temperature</strong> तय करता है कि यह कितना creative होगा → भरोसे से दिया गया गलत जवाब <strong>hallucination</strong> है → जवाब बनाने को <strong>inference</strong> कहते हैं।</p>
+</blockquote>
+<hr>
+<h2>1. LLM (Large Language Model)</h2>
+<p>एक program जिसने बहुत सारी किताबें, websites और code पढ़ा है, और <strong>अगला शब्द (token)</strong> guess करना सीख लिया है।</p>
+<ul>
+<li>जैसे आपका phone keyboard "Good" के बाद "morning" suggest करता है, बस इतना ताक़तवर कि पूरे emails, code और जवाब लिख दे।</li>
+<li>उदाहरण: ChatGPT, Claude, Gemini।</li>
+</ul>
+<p>🎤 <em>"An LLM is a model trained on a huge amount of text to guess the next token. That is how it writes text, code and answers."</em></p>
+<h2>2. Token</h2>
+<p>AI पूरे शब्द नहीं, <strong>tokens</strong> (शब्दों के छोटे टुकड़े) पढ़ता है।</p>
+<ul>
+<li>"Hello" = 1 token। "Unbelievable" = "Un" + "believ" + "able" = 3 tokens।</li>
+<li>English में 1 token लगभग ¾ शब्द होता है। Hindi में ज़्यादा tokens लगते हैं।</li>
+<li><strong>AI APIs का पैसा tokens के हिसाब से लगता है</strong> (भेजे गए tokens + वापस आए tokens)।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> taxi का meter: किलोमीटर के हिसाब से पैसा। यहाँ tokens के हिसाब से।</p>
+<p>🎤 <em>"Tokens are the small units an LLM reads. Price, speed and limits are all counted in tokens."</em></p>
+<h2>3. Context window</h2>
+<p>AI की <strong>short-term memory</strong>: एक बार में यह कितने tokens देख सकता है।</p>
+<ul>
+<li>एक page की cheat sheet जैसा। भर जाए तो पुराना text गिर जाता है। इसीलिए बहुत लंबी chat में AI शुरुआत "भूल" जाता है।</li>
+<li>नए models लाखों tokens तक देख सकते हैं।</li>
+</ul>
+<p>🎤 <em>"The context window is the most tokens the model can see at once: the prompt, the chat history and the answer together."</em></p>
+<h2>4. Prompt</h2>
+<p>वह message जो आप AI को भेजते हो।</p>
+<ul>
+<li>❌ "Write an email"</li>
+<li>✅ "Clinic के मालिक को free AI chatbot demo offer करते हुए 5 lines का विनम्र email लिखो"</li>
+<li>Prompt जितना साफ़, जवाब उतना अच्छा। इस skill को <strong>prompt engineering</strong> कहते हैं।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> दर्ज़ी से "shirt बना दो" कहना vs "सफ़ेद cotton shirt, size 40, full sleeves, शुक्रवार तक"। दूसरे में वही मिलेगा जो चाहिए।</p>
+<h2>5. System prompt</h2>
+<p>Developer के लिखे <strong>पक्के निर्देश</strong>। User इन्हें नहीं देखता, पर AI हमेशा इन्हें मानता है।</p>
+<pre><code>You are the receptionist of CareWell Clinic.
+Only answer questions about the clinic. Always be polite.
+Fee: ₹400. Timing: 9 AM–9 PM. Never give medical advice.
+</code></pre>
+<p class="example"><b>उदाहरण:</b> दुकान खुलने से पहले मालिक का नए salesman को समझाना। Customers को ये बातें नहीं दिखतीं, पर वह पूरा दिन इन्हें मानता है।</p>
+<p>🎤 <em>"The system prompt sets the model's role, rules and behaviour. The developer writes it, not the user."</em></p>
+<h2>6. Temperature</h2>
+<p><strong>Creativity का knob</strong> (0 से लगभग 1 तक)।</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Temperature</th><th>क्या होता है</th><th>कहाँ इस्तेमाल करें</th></tr></thead>
+<tbody>
+<tr><td>Low (0)</td><td>हर बार एक जैसे, सुरक्षित जवाब</td><td>Support bots, documents से data निकालना, code</td></tr>
+<tr><td>High (लगभग 1)</td><td>हर बार नए और अलग जवाब</td><td>Marketing ideas, captions, कहानियाँ</td></tr>
+</tbody></table></div>
+<p class="example"><b>उदाहरण:</b> bank cashier (low temperature) को हर बार बिल्कुल वही सही जवाब देना है। Ad बनाने वाला (high temperature) हर बार नया idea दे।</p>
+<h2>7. Hallucination</h2>
+<p>जब AI <strong>गलत बात पूरे भरोसे से बोलता है</strong>।</p>
+<ul>
+<li>क्यों: LLM सबसे संभावित अगला शब्द guess करता है। वह facts check नहीं करता।</li>
+<li><strong>उदाहरण:</strong> वह student जिसने पढ़ाई नहीं की, फिर भी exam में पूरे भरोसे से लंबा जवाब लिख आया।</li>
+<li>इलाज: सही data दो (<strong>RAG</strong>), कहो "पता न हो तो बोल दो", temperature कम रखो, और output check करो।</li>
+</ul>
+<p>🎤 <em>"Hallucination is when the model writes something that sounds right but is false. We reduce it with RAG, clear rules, low temperature and checks."</em></p>
+<h2>8. Inference</h2>
+<p>जब AI <strong>जवाब बनाता है</strong>।</p>
+<ul>
+<li><strong>Training</strong> = student का सालों पढ़ाई करना (AI companies करती हैं, करोड़ों का खर्च)।</li>
+<li><strong>Inference</strong> = student का exam में जवाब लिखना (आप API call करते हो, हर call पर थोड़ा खर्च)।</li>
+<li>Developer के रूप में आप <strong>inference</strong> इस्तेमाल करते हो, training नहीं।</li>
+</ul>
+<hr>
+<h2>Interview सवाल (English में ज़ोर से जवाब दो)</h2>
+<ol>
+<li>What is an LLM, and how does it write text?</li>
+<li>What is a token, and why does it matter for cost?</li>
+<li>What happens when a chat is longer than the context window?</li>
+<li>What is the difference between a system prompt and a user prompt?</li>
+<li>Which temperature would you use for a customer support bot, and why?</li>
+<li>What is hallucination, and how do you reduce it in a live app?</li>
+<li>What is the difference between training and inference?</li>
+</ol>
+<h2>Quiz</h2>
+<ol>
+<li>Clinic bot के लिए high या low temperature? क्यों? → <em>Low, क्योंकि fees जैसे जवाब हर बार एक जैसे और सही होने चाहिए।</em></li>
+<li>AI APIs का bill कैसे बनता है? → <em>Tokens के हिसाब से (भेजे + वापस आए)।</em></li>
+<li>Bot ने customer को गलत fee बता दी। इसे क्या कहते हैं, और कैसे रोकोगे? → <em>Hallucination। Clinic के असली data के साथ RAG, system prompt में rule कि पक्का न हो तो "confirm करके बताता हूँ" बोले, और low temperature।</em></li>
+</ol>
+</div>
 </body>
 </html>

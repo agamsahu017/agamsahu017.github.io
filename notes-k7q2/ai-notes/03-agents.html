@@ -7,9 +7,11 @@
 <title>Level 3: Tool Calling, AI Agents and MCP ⭐</title>
 <link rel="stylesheet" href="../notes.css">
 <style>blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid var(--boxline);background:var(--box);border-radius:6px}blockquote p{margin:4px 0}table{display:block;overflow-x:auto}</style>
+<script src="../notes-lang.js"></script>
 </head>
 <body>
 <nav class="top"><a href="../index.html">← All notes</a><a href="index.html">AI notes home</a></nav>
+<div class="en" lang="en">
 <h1>Level 3: Tool Calling, AI Agents and MCP ⭐</h1>
 <h2>The problem</h2>
 <p>An LLM alone can only <strong>talk</strong>. It cannot check a database, book an appointment, send a WhatsApp message or even know today&#39;s date.
@@ -31,6 +33,7 @@ Your code → runs the database query → [&quot;11:00&quot;, &quot;16:00&quot;]
 LLM → &quot;Tomorrow at 11 AM or 4 PM. Which time works for you?&quot;
 </code></pre>
 <p><strong>Key point:</strong> the model never runs anything itself. It only asks. Your backend decides and runs it. That is where you add checks and permissions.</p>
+<p class="example"><b>Example:</b> a hotel guest calls reception: "Send a pizza to room 204." The receptionist (LLM) only passes the order; the kitchen (your code) decides if it can make it and actually cooks it.</p>
 <p>🎤 <em>&quot;With tool calling, the model sends back a request to run one of my functions. My app runs it and returns the result. The model decides <strong>what</strong> to call; my code decides <strong>whether and how</strong> it runs.&quot;</em></p>
 <h2>2. AI agent</h2>
 <p>An LLM running in a <strong>loop</strong>: <strong>think → act (call a tool) → look at the result → repeat</strong> until the goal is done.</p>
@@ -42,7 +45,7 @@ Loop 3: Think: need a time slot        → Act: getAvailableSlots()    → Resul
 Loop 4: Think: user chose 4 PM         → Act: bookSiteVisit(...)     → Result: booked ✅
 Loop 5: Think: tell the broker         → Act: notifyBroker(...)      → Done
 </code></pre>
-<p><strong>Real example:</strong> Claude Code is an agent. It reads files, runs commands, checks the output and decides the next step by itself.</p>
+<p><strong>Real example:</strong> Claude Code is an agent. It reads files, runs commands, checks the output and decides the next step by itself. Everyday version: a travel agent who first checks flights, then picks a hotel that fits the flight, then books a cab.</p>
 <p>🎤 <em>&quot;An agent is an LLM that plans and does a task in many steps. It calls tools in a loop and uses each result to choose the next step, until the goal is done.&quot;</em></p>
 <h2>3. Chatbot vs workflow vs agent</h2>
 <div class="table-wrap"><table>
@@ -80,15 +83,18 @@ Loop 5: Think: tell the broker         → Act: notifyBroker(...)      → Done
 </tr>
 </tbody></table></div>
 <p><strong>Senior tip:</strong> <em>don&#39;t use an agent when a workflow is enough.</em> Workflows are cheaper, faster and easier to fix. Use agents only when the steps really change each time.</p>
+<p class="example"><b>Example:</b> the milkman takes the same route every day (workflow). An ambulance driver picks a new route each time based on traffic (agent).</p>
 <h2>4. Memory</h2>
 <ul>
 <li><strong>Short-term:</strong> the current chat (inside the context window).</li>
 <li><strong>Long-term:</strong> facts saved across chats (stored in your database, found again with RAG). For example: &quot;This lead wanted a 3BHK under 1.5 Cr last week.&quot;</li>
 </ul>
+<p class="example"><b>Example:</b> short-term = what you remember during a phone call. Long-term = the shopkeeper's diary of regular customers ("Sharma ji always takes Amul butter").</p>
 <h2>5. Multi-agent</h2>
 <p>Several agents, each with its own job, tools and prompt, working together.
 Example: <strong>Qualifier agent</strong> (asks questions) → <strong>Property agent</strong> (searches listings) → <strong>Scheduler agent</strong> (books visits).
 Useful for big systems, but it costs more and is harder to manage. Start with <strong>one</strong> agent.</p>
+<p class="example"><b>Example:</b> a hospital: the reception desk, the doctor and the billing counter each do one job and pass the patient along.</p>
 <h2>6. MCP (Model Context Protocol)</h2>
 <p>An <strong>open standard</strong> (made by Anthropic in 2024) for connecting AI apps to tools and data.</p>
 <ul>
@@ -107,6 +113,7 @@ Useful for big systems, but it costs more and is harder to manage. Start with <s
 <li><strong>Log</strong> every tool call, for fixing bugs and for audits</li>
 <li><strong>Evals:</strong> test the agent on sample chats before every release</li>
 </ul>
+<p class="example"><b>Example:</b> a new driver. You give them a company car (access), a route limit (step limit), a fuel card with a spending cap (permissions), a GPS log (logging), and big trips need the manager's OK (human approval).</p>
 <p>🎤 <em>&quot;In a live app I would check tool inputs, give only the access needed, ask a human before actions that can&#39;t be undone, limit the steps, log every tool call, and run evals.&quot;</em></p>
 <h2>8. Agents with tools you already use</h2>
 <div class="table-wrap"><table>
@@ -155,6 +162,113 @@ Useful for big systems, but it costs more and is harder to manage. Start with <s
 <li>A process always runs the same way: &quot;new lead → send welcome message → add to CRM&quot;. Agent or workflow? Why?</li>
 <li>Name 3 safety checks you would add before letting an agent book site visits.</li>
 </ol>
+</div>
+<div class="hi" lang="hi">
+<h1>Level 3: Tool Calling, AI Agents और MCP ⭐</h1>
+<h2>समस्या</h2>
+<p>अकेला LLM सिर्फ़ <strong>बात</strong> कर सकता है। यह database check नहीं कर सकता, appointment book नहीं कर सकता, WhatsApp message नहीं भेज सकता, यहाँ तक कि आज की तारीख भी नहीं जानता।
+<strong>Tool calling</strong> इसे हाथ देता है। <strong>Agent</strong> इन हाथों से एक-एक step करके goal पूरा करता है।</p>
+<h2>एक line में</h2>
+<blockquote>
+<p><strong>Tool calling</strong> = LLM आपके code से कोई function चलाने को कहता है → <strong>agent</strong> = loop में चलता LLM जो goal पूरा होने तक tools चुनता रहता है → <strong>MCP</strong> = tools को किसी भी AI app से जोड़ने का एक standard plug।</p>
+</blockquote>
+<hr>
+<h2>1. Tool calling (function calling)</h2>
+<p>आप LLM को बताते हो कि आपके पास कौन से functions हैं। जब उसे किसी की ज़रूरत होती है, वह जवाब देता है <strong>"यह function इन inputs के साथ चलाओ"</strong> (JSON में)। <strong>उसे आपका code चलाता है</strong> और result वापस भेजता है। फिर LLM final जवाब लिखता है।</p>
+<pre><code>LLM को दिए गए tools:
+  getAvailableSlots(date)
+  bookSiteVisit(name, phone, propertyId, slot)
 
+User: "मुझे कल Sector 150 वाला 3BHK देखना है"
+LLM → { tool: "getAvailableSlots", args: { date: "2026-10-19" } }   ← LLM सिर्फ़ माँगता है
+आपका code → database query चलाता है → ["11:00", "16:00"]            ← चलाता आपका code है
+LLM → "कल सुबह 11 बजे या शाम 4 बजे। आपको कौन सा समय ठीक रहेगा?"
+</code></pre>
+<p><strong>मुख्य बात:</strong> model खुद कभी कुछ नहीं चलाता। वह सिर्फ़ माँगता है। चलाना है या नहीं, यह आपका backend तय करता है। Checks और permissions यहीं लगाते हो।</p>
+<p class="example"><b>उदाहरण:</b> hotel का मेहमान reception पर फ़ोन करता है: "Room 204 में pizza भेज दो।" Receptionist (LLM) बस order आगे बढ़ाती है; बन सकता है या नहीं और असल में बनाना, यह kitchen (आपका code) करता है।</p>
+<p>🎤 <em>"With tool calling, the model sends back a request to run one of my functions. My app runs it and returns the result. The model decides <strong>what</strong> to call; my code decides <strong>whether and how</strong> it runs."</em></p>
+<h2>2. AI agent</h2>
+<p><strong>Loop</strong> में चलता LLM: <strong>सोचो → काम करो (tool call) → result देखो → फिर से</strong>, जब तक goal पूरा न हो।</p>
+<pre><code>Goal: "इस lead को check करो और site visit book करो"
+
+Loop 1: सोचो: budget नहीं पता          → काम: user से budget पूछो    → Result: "1.5 Cr"
+Loop 2: सोचो: कोई matching property?   → काम: searchProperties(...)  → Result: 2 options
+Loop 3: सोचो: time slot चाहिए          → काम: getAvailableSlots()    → Result: 11:00, 16:00
+Loop 4: सोचो: user ने 4 बजे चुना        → काम: bookSiteVisit(...)     → Result: booked ✅
+Loop 5: सोचो: broker को बताओ           → काम: notifyBroker(...)      → Done
+</code></pre>
+<p class="example"><b>असली उदाहरण:</b> Claude Code एक agent है। यह files पढ़ता है, commands चलाता है, output देखता है और अगला step खुद तय करता है। रोज़मर्रा का उदाहरण: travel agent जो पहले flight देखता है, फिर उसके हिसाब से hotel, फिर cab।</p>
+<p>🎤 <em>"An agent is an LLM that plans and does a task in many steps. It calls tools in a loop and uses each result to choose the next step, until the goal is done."</em></p>
+<h2>3. Chatbot vs workflow vs agent</h2>
+<div class="table-wrap"><table>
+<thead><tr><th></th><th>Chatbot</th><th>Workflow</th><th>Agent</th></tr></thead>
+<tbody>
+<tr><td>क्या करता है</td><td>सवालों के जवाब देता है</td><td>आपके लिखे तय steps (step 1 → 2 → 3)</td><td><strong>Steps खुद चुनता है</strong></td></tr>
+<tr><td>Flexible?</td><td>कम</td><td>मध्यम</td><td>ज़्यादा</td></tr>
+<tr><td>पहले से अंदाज़ा लगाना आसान?</td><td>ज़्यादा</td><td><strong>ज़्यादा</strong></td><td>कम</td></tr>
+<tr><td>उदाहरण</td><td>FAQ bot</td><td>"नई lead → message भेजो → CRM में डालो"</td><td>"इस lead को check करो और visit book करो, जैसे भी हो"</td></tr>
+</tbody></table></div>
+<p><strong>Senior tip:</strong> <em>जहाँ workflow से काम चल जाए, वहाँ agent मत लगाओ।</em> Workflows सस्ते, तेज़ और ठीक करने में आसान होते हैं। Agent तभी जब steps सच में हर बार बदलते हों।</p>
+<p class="example"><b>उदाहरण:</b> दूधवाला रोज़ एक ही रास्ते से जाता है (workflow)। Ambulance driver हर बार traffic देख कर रास्ता चुनता है (agent)।</p>
+<h2>4. Memory</h2>
+<ul>
+<li><strong>Short-term:</strong> अभी की chat (context window के अंदर)।</li>
+<li><strong>Long-term:</strong> chats के पार याद रखे गए facts (आपके database में, RAG से दोबारा निकाले गए)। जैसे: "इस lead को पिछले हफ़्ते 1.5 Cr से कम का 3BHK चाहिए था।"</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> short-term = phone call के दौरान याद रहने वाली बात। Long-term = दुकानदार की पक्के customers वाली diary ("शर्मा जी हमेशा Amul butter लेते हैं")।</p>
+<h2>5. Multi-agent</h2>
+<p>कई agents, हर एक का अपना काम, tools और prompt, मिलकर काम करते हुए।
+उदाहरण: <strong>Qualifier agent</strong> (सवाल पूछता है) → <strong>Property agent</strong> (listings ढूँढता है) → <strong>Scheduler agent</strong> (visits book करता है)।
+बड़े systems के लिए काम का, पर खर्च ज़्यादा और संभालना मुश्किल। शुरुआत <strong>एक</strong> agent से करो।</p>
+<p class="example"><b>उदाहरण:</b> अस्पताल: reception, डॉक्टर और billing counter, हर कोई एक काम करता है और मरीज़ को आगे भेजता है।</p>
+<h2>6. MCP (Model Context Protocol)</h2>
+<p>AI apps को tools और data से जोड़ने का एक <strong>open standard</strong> (Anthropic ने 2024 में बनाया)।</p>
+<ul>
+<li>MCP से पहले: हर AI app को हर tool के लिए अपना अलग connection code चाहिए था।</li>
+<li>MCP के साथ: एक बार <strong>MCP server</strong> बनाओ (जैसे "Kodivo CRM"), और MCP support करने वाला कोई भी AI app (Claude, code editors, agents) उसे इस्तेमाल कर सकता है।</li>
+<li><strong>उदाहरण:</strong> AI के लिए USB-C। एक plug, कई devices।</li>
+</ul>
+<p>🎤 <em>"MCP is an open standard for connecting AI apps to tools and data. You build a tool once as an MCP server, and any MCP app can use it."</em></p>
+<h2>7. Safety checks (live app में ज़रूरी)</h2>
+<p>Agents गलती कर सकते हैं, इसलिए live app में:</p>
+<ul>
+<li><strong>Tool inputs check करो</strong> (phone number सही है? slot मौजूद है?)</li>
+<li><strong>Permissions:</strong> agent listings पढ़ सकता है पर delete नहीं कर सकता</li>
+<li>Risky कामों (refund, payment, bulk messages) के लिए <strong>इंसान की approval</strong></li>
+<li><strong>Step limit और timeout</strong> ताकि loop हमेशा न चलता रहे (और पैसा न बहाए)</li>
+<li>हर tool call का <strong>log</strong>, bugs ठीक करने और audit के लिए</li>
+<li><strong>Evals:</strong> हर release से पहले sample chats पर agent को test करो</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> नया driver। उसे company की गाड़ी (access), रास्ते की सीमा (step limit), खर्च की सीमा वाला fuel card (permissions), GPS log (logging) देते हो, और लंबी trip के लिए manager की हाँ ज़रूरी (human approval)।</p>
+<p>🎤 <em>"In a live app I would check tool inputs, give only the access needed, ask a human before actions that can't be undone, limit the steps, log every tool call, and run evals."</em></p>
+<h2>8. आपके जाने हुए tools से agents</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Agent का हिस्सा</th><th>आपकी दुनिया</th></tr></thead>
+<tbody>
+<tr><td>Tools</td><td>NestJS service methods / REST APIs</td></tr>
+<tr><td>Tool permissions</td><td>आपका बनाया role-based access (RBAC)</td></tr>
+<tr><td>Long-term memory</td><td>PostgreSQL + pgvector</td></tr>
+<tr><td>इंसान की approval</td><td>आपके बनाए approval workflows (approve / reject)</td></tr>
+<tr><td>Logging</td><td>Audit log table</td></tr>
+</tbody></table></div>
+<p>आप approval workflows और audit trails पहले बना चुके हो। Interview में इन्हें agent safety से जोड़ो। यह एक मज़बूत senior जवाब है।</p>
+<hr>
+<h2>Interview सवाल (English में ज़ोर से जवाब दो)</h2>
+<ol>
+<li>What is tool calling? Who actually runs the function?</li>
+<li>What is an AI agent? Explain the agent loop.</li>
+<li>Agent vs workflow: when do you pick each?</li>
+<li>How do you stop an agent from doing something harmful or costly?</li>
+<li>What is MCP and why does it matter?</li>
+<li>How would you give an agent long-term memory?</li>
+<li>Design an AI agent that checks real estate leads on WhatsApp. (Tools, flow, safety checks.)</li>
+</ol>
+<h2>Quiz</h2>
+<ol>
+<li>Tool calling में क्या LLM database query खुद चलाता है?</li>
+<li>एक process हमेशा एक ही तरह चलता है: "नई lead → welcome message → CRM में डालो"। Agent या workflow? क्यों?</li>
+<li>Agent को site visits book करने देने से पहले कौन से 3 safety checks लगाओगे?</li>
+</ol>
+</div>
 </body>
 </html>

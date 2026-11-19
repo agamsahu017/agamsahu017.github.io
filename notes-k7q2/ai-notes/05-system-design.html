@@ -7,15 +7,18 @@
 <title>Level 5: System Design (HLD + LLD) for Interviews</title>
 <link rel="stylesheet" href="../notes.css">
 <style>blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid var(--boxline);background:var(--box);border-radius:6px}blockquote p{margin:4px 0}table{display:block;overflow-x:auto}</style>
+<script src="../notes-lang.js"></script>
 </head>
 <body>
 <nav class="top"><a href="../index.html">← All notes</a><a href="index.html">AI notes home</a></nav>
+<div class="en" lang="en">
 <h1>Level 5: System Design (HLD + LLD) for Interviews</h1>
 <p>With 8 years of experience, this round decides if you are seen as <strong>senior</strong>. You don&#39;t need fancy words. You need to <strong>explain clearly, think about scale, and talk about trade-offs</strong> (what you gain and what you lose with each choice).</p>
 <h2>In one line</h2>
 <blockquote>
 <p><strong>HLD</strong> (high-level design) = draw the big picture: which services, database, cache and queue, and how they talk → <strong>LLD</strong> (low-level design) = design the classes and code inside one part (clean code, SOLID, patterns) → in both, always say <strong>why</strong> you chose something and <strong>what breaks</strong> when the system grows.</p>
 </blockquote>
+<p class="example"><b>Example:</b> building a house. HLD = the floor plan (how many rooms, where the kitchen and water tank go). LLD = the wiring and furniture inside one room.</p>
 <hr>
 <h2>Part A: How to answer an HLD question (use this every time)</h2>
 <p>Don&#39;t jump straight to the diagram. Follow these 7 steps, out loud:</p>
@@ -64,6 +67,7 @@
 </tr>
 </tbody></table></div>
 <p>🎤 <em>&quot;Before I design, let me confirm what the system must do and how big it is, because the design is very different for 1,000 users and 10 million users.&quot;</em> (Interviewers like this first line.)</p>
+<p class="example"><b>Example:</b> a tailor takes measurements before cutting cloth. Designing without requirements = stitching without measurements.</p>
 <h3>Quick estimate maths (remember these)</h3>
 <ul>
 <li>1 day ≈ <strong>1 lakh seconds</strong> (86,400, round it to 100,000)</li>
@@ -86,6 +90,7 @@
 <li><strong>Vertical</strong> = a bigger machine (more RAM and CPU). Easy, but it has a limit, and if it fails everything fails.</li>
 <li><strong>Horizontal</strong> = more machines behind a load balancer. This is how real systems grow.</li>
 </ul>
+<p class="example"><b>Example:</b> a busy dhaba. Vertical = buying a bigger stove for the same cook. Horizontal = hiring more cooks with more stoves.</p>
 <h3>3. Database: SQL vs NoSQL</h3>
 <div class="table-wrap"><table>
 <thead>
@@ -107,6 +112,7 @@
 <td>You need very fast writes</td>
 </tr>
 </tbody></table></div>
+<p class="example"><b>Example:</b> SQL = a bank ledger where every column is fixed and the totals must match. NoSQL = labelled boxes in a cupboard where each box can hold anything.</p>
 <p>🎤 <em>&quot;Payments and orders go in SQL because I need safe transactions. Large, simple data like sessions or download logs can go in NoSQL.&quot;</em> (You did this on ampleimages: MySQL + DynamoDB.)</p>
 <h3>4. Indexing</h3>
 <p>Like the index at the back of a book. Makes reads fast, makes writes a little slower. Add indexes on the columns you <strong>filter, join or sort</strong> on.</p>
@@ -115,12 +121,14 @@
 <li>The <strong>primary</strong> database takes writes. <strong>Read replicas</strong> (copies) take reads.</li>
 <li>Good for apps with many reads. Copies get new data after a small delay (<strong>replication lag</strong>).</li>
 </ul>
+<p class="example"><b>Example:</b> a school notice. The principal writes the original (primary); photocopies go to every class notice board (replicas). Students read the copies, and a new notice reaches the boards a few minutes later (lag).</p>
 <h3>6. Sharding (splitting)</h3>
 <p>When one database is too big, split the data over many databases. For example users A–M in database 1 and N–Z in database 2, or by <code>user_id % 4</code>.</p>
 <ul>
 <li>Choose a <strong>shard key</strong> that spreads data evenly. A bad key puts all the load on one database (a &quot;hot shard&quot;).</li>
 <li>Joins across shards are hard, so avoid them.</li>
 </ul>
+<p class="example"><b>Example:</b> a bank with too many customers for one branch opens more branches by area. If every new customer is sent to the Gomti Nagar branch, that one branch gets crowded (hot shard).</p>
 <h3>7. Cache (Redis)</h3>
 <p>Keep often-read data in memory, so reads are very fast.</p>
 <ul>
@@ -128,12 +136,14 @@
 <li><strong>Problem:</strong> when data changes, the cache can show old data. Delete or update the cache key on every change.</li>
 <li><strong>Cache stampede:</strong> many requests miss the cache at the same time and all hit the database. Fix it with a lock or different expiry times.</li>
 </ul>
+<p class="example"><b>Example:</b> a shopkeeper keeps the 20 most-sold items on the front counter (cache) instead of going to the godown (database) every time. When the price changes, he must change the price tag on the counter too.</p>
 <p>🎤 <em>&quot;I&#39;d use cache-aside with Redis and a TTL, and delete the key on update so users don&#39;t see old data.&quot;</em></p>
 <h3>8. CDN</h3>
 <p>Keeps copies of static files (images, JS, CSS, videos) on servers near the user. A Delhi user gets images from a server in Delhi, not from the US.</p>
 <ul>
 <li>You used this on ampleimages for 15,000 images ✅</li>
 </ul>
+<p class="example"><b>Example:</b> Amul milk comes from your city's local depot, not from Anand (Gujarat) every time.</p>
 <h3>9. Message queue (Kafka, SQS, RabbitMQ)</h3>
 <p>Do slow work <strong>in the background</strong>. The API replies fast; a worker does the job later.</p>
 <ul>
@@ -146,8 +156,10 @@
 <ul>
 <li><strong>Pre-signed URL:</strong> the browser uploads straight to S3, so your server does not carry the heavy file.</li>
 </ul>
+<p class="example"><b>Example:</b> a library register stores the rack number, not the book. A pre-signed URL is a one-time pass from the guard that lets you drop goods straight into the godown.</p>
 <h3>11. WebSockets</h3>
 <p>A connection that stays open, so the server can <strong>push</strong> data (chat, live notifications, live scores). With normal HTTP, the browser has to ask every time.</p>
+<p class="example"><b>Example:</b> HTTP = calling again and again to ask "have you reached?". WebSocket = keeping the call on, so they tell you the moment they reach.</p>
 <hr>
 <h2>Part C: Important ideas (follow-up questions)</h2>
 <h3>CAP theorem (simple)</h3>
@@ -156,6 +168,7 @@
 <li><strong>Consistency:</strong> everyone sees the latest data (or gets an error). Use for <strong>bank balance, seat booking</strong>.</li>
 <li><strong>Availability:</strong> always reply, even if the data is a little old. Use for <strong>like counts, news feed</strong>.</li>
 </ul>
+<p class="example"><b>Example:</b> the bank's link is down. An ATM can refuse to give money (consistency: no risk of wrong balance) or show your last known balance (availability: always answers, maybe old).</p>
 <p>🎤 <em>&quot;For payments I choose consistency. For a feed or a like counter, slightly old data is fine, so I choose availability.&quot;</em></p>
 <h3>Eventual consistency</h3>
 <p>The data becomes the same everywhere <strong>after a short time</strong>. Example: you post on Instagram and your friend sees it 2 seconds later. That is fine.</p>
@@ -166,6 +179,7 @@
 <li><strong>Fix:</strong> the client sends an <strong>idempotency key</strong> (a unique ID). The server saves it. If the same key comes again, it returns the saved result instead of charging again.</li>
 <li>Also: payment gateway callbacks (webhooks) can arrive <strong>twice</strong>. Check if the order is already paid before updating it.</li>
 </ul>
+<p class="example"><b>Example:</b> pressing the lift button 5 times still calls the lift once. Paying twice for the same order must still charge once.</p>
 <h3>Rate limiting methods</h3>
 <ul>
 <li><strong>Fixed window:</strong> 100 requests per minute. Simple, but a burst at the edge of two windows can let in about 200.</li>
@@ -173,12 +187,14 @@
 <li><strong>Token bucket</strong> ⭐: a bucket fills with tokens at a fixed speed; each request uses one token. Allows small bursts. The most common answer.</li>
 <li>Keep the counters in <strong>Redis</strong> so all servers share them.</li>
 </ul>
+<p class="example"><b>Example:</b> a token bucket is like a ration shop that gets 10 tokens every hour. Each customer needs one token. If tokens run out, the next person waits.</p>
 <h3>Transactions across services: Saga</h3>
 <p>One order touches many services (order, payment, stock). If payment fails, run <strong>undo steps</strong> (give back the stock, cancel the order) instead of one big transaction.</p>
+<p class="example"><b>Example:</b> booking a trip: train, hotel and cab. If the hotel booking fails, you cancel the train ticket you already booked (an undo step).</p>
 <h3>Reliability tools</h3>
 <ul>
 <li><strong>Retry with growing wait:</strong> wait 1s, then 2s, then 4s… (don&#39;t keep hitting a failing service)</li>
-<li><strong>Circuit breaker:</strong> if a service keeps failing, stop calling it for a while and return a backup answer.</li>
+<li><strong>Circuit breaker:</strong> if a service keeps failing, stop calling it for a while and return a backup answer. <em>Example: the MCB at home trips when there is a fault, so the whole house does not burn.</em></li>
 <li><strong>Monitoring:</strong> logs, metrics and alerts (CloudWatch, Grafana).</li>
 </ul>
 <h3>Optimistic vs pessimistic locking (booking problems)</h3>
@@ -186,6 +202,7 @@
 <li><strong>Pessimistic:</strong> lock the row while booking (<code>SELECT ... FOR UPDATE</code>). Safe but slower.</li>
 <li><strong>Optimistic:</strong> read the row with a <code>version</code> number; update only <code>WHERE version = old_version</code>. If 0 rows change, someone else booked first, so show an error.</li>
 </ul>
+<p class="example"><b>Example:</b> pessimistic = locking the changing-room door while you try clothes. Optimistic = two people fill the last form; whoever submits first wins, the second is told "already taken".</p>
 <hr>
 <h2>Part D: Top HLD questions with short answers</h2>
 <p>These are <strong>outlines</strong>: what to draw, plus the 1–2 key points the interviewer wants to hear.</p>
@@ -196,6 +213,7 @@
 <li><strong>Many more reads than writes</strong> → Redis cache for popular links.</li>
 <li><strong>Key point:</strong> how you make unique codes without clashes (a counter, or a range of IDs given to each server).</li>
 </ul>
+<p class="example"><b>Example:</b> a courier tracking number: a short code instead of the long address, and it leads to all the details.</p>
 <h3>2. Rate limiter</h3>
 <ul>
 <li>Sits before the services (middleware or API gateway). <strong>Token bucket</strong> in Redis, with the key = user ID or IP.</li>
@@ -208,6 +226,7 @@
 <li>Table of user choices (did they turn off SMS?), templates, <strong>retry + DLQ</strong>, priority (OTP = high, marketing = low).</li>
 <li><strong>Key point:</strong> send in the background with queues; never send inside the API call.</li>
 </ul>
+<p class="example"><b>Example:</b> a post office. Letters go to sorting (queue), then separate postmen for speed post, normal post and courier (workers). Urgent letters (OTP) go first.</p>
 <h3>4. Chat app (like WhatsApp)</h3>
 <ul>
 <li><strong>WebSocket</strong> servers keep connections open. Redis remembers &quot;user X is connected to server 3&quot;.</li>
@@ -221,6 +240,7 @@
 <li><strong>Fan-out on read:</strong> build the feed when the user opens the app. Slow to read.</li>
 <li><strong>Mix</strong> ⭐: normal users = on write; celebrities = on read, then merge.</li>
 </ul>
+<p class="example"><b>Example:</b> on write = the newspaper boy drops a paper at every house. A celebrity has too many houses to deliver to, so people pick it up from the stall themselves (on read).</p>
 <h3>6. Ticket booking (like BookMyShow)</h3>
 <ul>
 <li>Hardest part: <strong>two people booking the same seat</strong>.</li>
@@ -246,6 +266,7 @@
 <li>A <strong>trie</strong> (prefix tree) that keeps the top 5–10 suggestions at each node.</li>
 <li>Work out popular searches in advance, cache results for common starting letters, and wait about 300 ms after typing before calling the API (debounce).</li>
 </ul>
+<p class="example"><b>Example:</b> a dictionary opens straight to the pages for "s", so you don't flip through the whole book.</p>
 <h3>10. Job scheduler / cron at scale</h3>
 <ul>
 <li>A jobs table (<code>run_at</code>, <code>status</code>); workers check it or use a delayed queue.</li>
@@ -264,11 +285,13 @@ Answering (live):            question → embedding → find top pieces → (re-
 <li><strong>Use a queue for saving</strong> (making embeddings for big PDFs is slow).</li>
 <li><strong>Test it:</strong> a set of questions and answers; measure if the right pieces were found and if the answers are good.</li>
 </ul>
+<p class="example"><b>Example:</b> a CA firm with 100 clients keeps each client's file in a separate cupboard, and an employee gets the key to that client's cupboard only (tenant filter).</p>
 <h3>12. LLM gateway (one service in front of all AI calls)</h3>
 <ul>
 <li>One place for: API keys, <strong>model routing</strong> (cheap model for easy tasks, big model for hard ones), <strong>backup</strong> if a provider is down, <strong>rate limits</strong> per user, <strong>token and cost tracking</strong>, logs and caching.</li>
 <li><strong>Key point:</strong> cost control + reliability.</li>
 </ul>
+<p class="example"><b>Example:</b> an office reception desk. Every outside call goes through it, gets written in the register, and is sent to the right department.</p>
 <h3>13. AI agent system</h3>
 <ul>
 <li>Loop: the LLM decides → calls a <strong>tool</strong> (API or database) → gets the result → decides again → final answer.</li>
@@ -310,12 +333,12 @@ Answering (live):            question → embedding → find top pieces → (re-
 <tbody><tr>
 <td><strong>S</strong> Single responsibility</td>
 <td>One class = one job</td>
-<td><code>InvoiceService</code> does not also send emails</td>
+<td><code>InvoiceService</code> does not also send emails. (A tailor stitches; he doesn't also deliver.)</td>
 </tr>
 <tr>
 <td><strong>O</strong> Open/closed</td>
 <td>Add new features without changing old code</td>
-<td>A new payment method = a new class, not a new <code>if</code></td>
+<td>A new payment method = a new class, not a new <code>if</code>. (Plug a new device into the extension board; don't rewire the house.)</td>
 </tr>
 <tr>
 <td><strong>L</strong> Liskov substitution</td>
@@ -330,7 +353,7 @@ Answering (live):            question → embedding → find top pieces → (re-
 <tr>
 <td><strong>D</strong> Dependency inversion</td>
 <td>Depend on interfaces, not on exact classes</td>
-<td>A service gets a <code>PaymentGateway</code> injected (NestJS DI!)</td>
+<td>A service gets a <code>PaymentGateway</code> injected (NestJS DI!). (A phone charges from any brand's USB-C cable.)</td>
 </tr>
 </tbody></table></div>
 <h3>Design patterns (most asked)</h3>
@@ -345,7 +368,7 @@ Answering (live):            question → embedding → find top pieces → (re-
 <tbody><tr>
 <td><strong>Strategy</strong> ⭐</td>
 <td>Swap the method at runtime</td>
-<td>Fee: hourly vs daily; Notification: email / SMS / push</td>
+<td>Fee: hourly vs daily; Notification: email / SMS / push. (Choosing car / bike / walk in Google Maps.)</td>
 </tr>
 <tr>
 <td><strong>Factory</strong></td>
@@ -355,7 +378,7 @@ Answering (live):            question → embedding → find top pieces → (re-
 <tr>
 <td><strong>Observer</strong></td>
 <td>Tell subscribers when something changes</td>
-<td>Seat freed → tell waiting users; event emitters</td>
+<td>Seat freed → tell waiting users; event emitters. (YouTube's bell icon.)</td>
 </tr>
 <tr>
 <td><strong>Singleton</strong></td>
@@ -365,12 +388,12 @@ Answering (live):            question → embedding → find top pieces → (re-
 <tr>
 <td><strong>Decorator</strong></td>
 <td>Add behaviour without changing the class</td>
-<td>Add logging or caching around a service; NestJS decorators</td>
+<td>Add logging or caching around a service; NestJS decorators. (Putting a cover on your phone.)</td>
 </tr>
 <tr>
 <td><strong>Adapter</strong></td>
 <td>Make a different interface fit</td>
-<td>Put BillDesk and Razorpay behind one <code>PaymentGateway</code></td>
+<td>Put BillDesk and Razorpay behind one <code>PaymentGateway</code>. (A travel plug adapter.)</td>
 </tr>
 <tr>
 <td><strong>State</strong></td>
@@ -380,7 +403,7 @@ Answering (live):            question → embedding → find top pieces → (re-
 <tr>
 <td><strong>Builder</strong></td>
 <td>Build a complex object step by step</td>
-<td>Query builders, report builders</td>
+<td>Query builders, report builders. (Ordering a Subway sandwich step by step.)</td>
 </tr>
 </tbody></table></div>
 <h3>NestJS angle (your strength, use it!)</h3>
@@ -402,6 +425,7 @@ Answering (live):            question → embedding → find top pieces → (re-
 <li>Vending machine (State), Snake &amp; Ladder, Logger (Chain of Responsibility).</li>
 </ol>
 <h3>Mini code: LRU cache (JS, often asked live)</h3>
+<p class="example"><b>Example:</b> your phone's "recent apps": when space runs out, the app you used longest ago is removed first.</p>
 <pre><code class="language-js">class LRUCache {
   constructor(capacity) { this.capacity = capacity; this.map = new Map(); }
   get(key) {
@@ -484,6 +508,380 @@ Answering (live):            question → embedding → find top pieces → (re-
 </tr>
 </tbody></table></div>
 <p><strong>Tip:</strong> draw on paper or on excalidraw.com while practising. In interviews you will draw live, so get used to talking while drawing.</p>
-
+</div>
+<div class="hi" lang="hi">
+<h1>Level 5: Interviews के लिए System Design (HLD + LLD)</h1>
+<p>8 साल के experience पर यही round तय करता है कि आपको <strong>senior</strong> माना जाए या नहीं। भारी शब्दों की ज़रूरत नहीं। ज़रूरत है <strong>साफ़ समझाने, scale के बारे में सोचने, और trade-offs बताने की</strong> (हर फ़ैसले से क्या मिलता है और क्या खोते हो)।</p>
+<h2>एक line में</h2>
+<blockquote>
+<p><strong>HLD</strong> (high-level design) = बड़ी तस्वीर बनाओ: कौन सी services, database, cache और queue, और वे आपस में कैसे बात करते हैं → <strong>LLD</strong> (low-level design) = एक हिस्से के अंदर classes और code design करो (clean code, SOLID, patterns) → दोनों में हमेशा बताओ कि कोई चीज़ <strong>क्यों</strong> चुनी और system बढ़ने पर <strong>क्या टूटेगा</strong>।</p>
+</blockquote>
+<p class="example"><b>उदाहरण:</b> घर बनाना। HLD = नक्शा (कितने कमरे, kitchen कहाँ, पानी की tank कहाँ)। LLD = एक कमरे के अंदर की wiring और furniture।</p>
+<hr>
+<h2>Part A: HLD सवाल का जवाब कैसे दें (हर बार यही करो)</h2>
+<p>सीधे diagram पर मत कूदो। ये 7 steps ज़ोर से बोलते हुए करो:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Step</th><th>आप क्या बोलते हो</th><th>समय</th></tr></thead>
+<tbody>
+<tr><td>1. <strong>Requirements</strong></td><td>"इसे क्या करना है? कितना तेज़, कितने users, कितना भरोसेमंद?"</td><td>3–5 min</td></tr>
+<tr><td>2. <strong>Estimates</strong></td><td>रोज़ के users → हर second की requests → storage</td><td>3 min</td></tr>
+<tr><td>3. <strong>APIs</strong></td><td>3–5 मुख्य endpoints</td><td>3 min</td></tr>
+<tr><td>4. <strong>Data model</strong></td><td>मुख्य tables, और कौन सा database</td><td>5 min</td></tr>
+<tr><td>5. <strong>Diagram</strong></td><td>Client → Load balancer → Services → Cache / Database / Queue</td><td>10 min</td></tr>
+<tr><td>6. <strong>Deep dive</strong></td><td>सबसे मुश्किल 1–2 हिस्से चुन कर विस्तार से समझाओ</td><td>15 min</td></tr>
+<tr><td>7. <strong>Trade-offs</strong></td><td>"यह हिस्सा fail हो तो क्या होगा? 10 गुना users पर मैं क्या बदलूँगा?"</td><td>5 min</td></tr>
+</tbody></table></div>
+<p>🎤 <em>"Before I design, let me confirm what the system must do and how big it is, because the design is very different for 1,000 users and 10 million users."</em> (Interviewers को यह पहली line पसंद आती है।)</p>
+<p class="example"><b>उदाहरण:</b> दर्ज़ी पहले नाप लेता है, फिर कपड़ा काटता है। नाप (requirements) के बिना design करना = बिना नाप के सिलाई।</p>
+<h3>जल्दी वाला अंदाज़े का गणित (याद रखो)</h3>
+<ul>
+<li>1 दिन ≈ <strong>1 लाख seconds</strong> (86,400, गोल करके 100,000)</li>
+<li>दिन में 10 लाख (1 million) requests ≈ <strong>12 requests हर second</strong>। Peak = average का 2–3 गुना।</li>
+<li>दिन में 1 करोड़ (10 million) requests ≈ <strong>120 requests हर second</strong></li>
+<li>1 image ≈ 200 KB से 1 MB। 1 text row ≈ 1 KB।</li>
+<li>Reads आमतौर पर writes से <strong>10 से 100 गुना ज़्यादा</strong> होते हैं, इसलिए <strong>cache</strong> बहुत मदद करता है।</li>
+</ul>
+<hr>
+<h2>Part B: Building blocks</h2>
+<p>हर HLD इन्हीं हिस्सों से बनता है। जानो कि <strong>हर एक क्या करता है और कब इस्तेमाल होता है</strong>।</p>
+<h3>1. Load balancer</h3>
+<p>आने वाला traffic कई servers में बाँटता है ताकि किसी एक server पर ज़्यादा बोझ न पड़े।</p>
+<ul>
+<li><strong>उदाहरण:</strong> अस्पताल का token counter जो हर मरीज़ को उस डॉक्टर के पास भेजता है जो खाली है।</li>
+<li>Servers को <strong>stateless</strong> रखो (user sessions server पर नहीं, Redis या JWT में), ताकि कोई भी server कोई भी request संभाल सके।</li>
+</ul>
+<h3>2. Scaling</h3>
+<ul>
+<li><strong>Vertical</strong> = बड़ी machine (ज़्यादा RAM और CPU)। आसान, पर एक सीमा है, और वह fail हुई तो सब कुछ fail।</li>
+<li><strong>Horizontal</strong> = load balancer के पीछे ज़्यादा machines। असली systems ऐसे ही बढ़ते हैं।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> भीड़ वाला ढाबा। Vertical = उसी cook के लिए बड़ा चूल्हा। Horizontal = ज़्यादा cooks और ज़्यादा चूल्हे।</p>
+<h3>3. Database: SQL vs NoSQL</h3>
+<div class="table-wrap"><table>
+<thead><tr><th><strong>SQL</strong> (Postgres, MySQL) तब इस्तेमाल करो जब</th><th><strong>NoSQL</strong> (DynamoDB, Mongo) तब इस्तेमाल करो जब</th></tr></thead>
+<tbody>
+<tr><td>Data आपस में जुड़ा हो (users, orders, payments)</td><td>बहुत बड़ा scale, key से सीधी lookup</td></tr>
+<tr><td>Transactions चाहिए (पैसा!)</td><td>Structure बार-बार बदलता हो</td></tr>
+<tr><td>Complex queries और reports चाहिए</td><td>बहुत तेज़ writes चाहिए</td></tr>
+</tbody></table></div>
+<p class="example"><b>उदाहरण:</b> SQL = बैंक का ledger, हर column तय और हिसाब पक्का। NoSQL = अलमारी के डिब्बे, हर डिब्बे पर label, अंदर कुछ भी रख सकते हो।</p>
+<p>🎤 <em>"Payments and orders go in SQL because I need safe transactions. Large, simple data like sessions or download logs can go in NoSQL."</em> (आपने ampleimages पर यही किया था: MySQL + DynamoDB।)</p>
+<h3>4. Indexing</h3>
+<p>किताब के पीछे वाले index जैसा। Reads तेज़ करता है, writes थोड़े धीमे। जिन columns पर <strong>filter, join या sort</strong> करते हो, उन पर index लगाओ।</p>
+<h3>5. Replication (copies)</h3>
+<ul>
+<li><strong>Primary</strong> database writes लेता है। <strong>Read replicas</strong> (copies) reads लेती हैं।</li>
+<li>ज़्यादा reads वाले apps के लिए अच्छा। Copies को नया data थोड़ी देर से मिलता है (<strong>replication lag</strong>)।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> school का notice। Principal original लिखते हैं (primary); photocopies हर class के notice board पर लगती हैं (replicas)। बच्चे copies पढ़ते हैं, और नया notice boards तक कुछ मिनट बाद पहुँचता है (lag)।</p>
+<h3>6. Sharding (बाँटना)</h3>
+<p>जब एक database बहुत बड़ा हो जाए, data को कई databases में बाँट दो। जैसे A–M वाले users database 1 में और N–Z वाले database 2 में, या <code>user_id % 4</code> से।</p>
+<ul>
+<li>ऐसी <strong>shard key</strong> चुनो जो data बराबर बाँटे। खराब key सारा बोझ एक database पर डाल देती है ("hot shard")।</li>
+<li>Shards के पार joins मुश्किल हैं, इनसे बचो।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> एक branch में ज़्यादा customers हो गए तो bank इलाकों के हिसाब से नई branches खोलता है। अगर हर नए customer को Gomti Nagar branch ही भेजो, तो वही branch भर जाएगी (hot shard)।</p>
+<h3>7. Cache (Redis)</h3>
+<p>बार-बार पढ़ा जाने वाला data memory में रखो, ताकि reads बहुत तेज़ हों।</p>
+<ul>
+<li><strong>Cache-aside</strong> (सबसे common): app पहले cache देखता है → न मिले तो database से पढ़ो → <strong>TTL</strong> (expiry time) के साथ cache में रख दो।</li>
+<li><strong>समस्या:</strong> data बदलने पर cache पुराना data दिखा सकता है। हर बदलाव पर cache key delete या update करो।</li>
+<li><strong>Cache stampede:</strong> बहुत सारी requests एक साथ cache miss करती हैं और सब database पर टूट पड़ती हैं। Lock या अलग-अलग expiry times से ठीक करो।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> दुकानदार सबसे ज़्यादा बिकने वाली 20 चीज़ें सामने counter पर रखता है (cache), हर बार godown (database) नहीं जाता। दाम बदले तो counter वाला price tag भी बदलना पड़ता है।</p>
+<p>🎤 <em>"I'd use cache-aside with Redis and a TTL, and delete the key on update so users don't see old data."</em></p>
+<h3>8. CDN</h3>
+<p>Static files (images, JS, CSS, videos) की copies user के पास वाले servers पर रखता है। Delhi का user images Delhi के server से लेता है, US से नहीं।</p>
+<ul>
+<li>आपने ampleimages पर 15,000 images के लिए यह इस्तेमाल किया था ✅</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> Amul का दूध हर शहर के local depot से आता है, हर बार Anand (Gujarat) से नहीं।</p>
+<h3>9. Message queue (Kafka, SQS, RabbitMQ)</h3>
+<p>धीमे काम <strong>background में</strong> करो। API जल्दी जवाब देती है; worker काम बाद में करता है।</p>
+<ul>
+<li><strong>उदाहरण:</strong> restaurant की order पर्ची। Waiter order लेकर चला जाता है; kitchen अपनी speed से खाना बनाती है।</li>
+<li>Emails, notifications, image resize, reports और AI के काम के लिए इस्तेमाल करो।</li>
+<li>Fail हुए jobs को <strong>retry</strong> करो। कुछ बार fail होने के बाद job को <strong>dead letter queue (DLQ)</strong> में डाल दो ताकि बाद में देख सको।</li>
+</ul>
+<h3>10. Object storage (S3)</h3>
+<p>Files के लिए। Database में सिर्फ़ <strong>file का path या URL</strong> रखो, file खुद कभी नहीं।</p>
+<ul>
+<li><strong>Pre-signed URL:</strong> browser सीधे S3 पर upload करता है, ताकि आपके server को भारी file न ढोनी पड़े।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> library के register में किताब का rack number लिखा होता है, किताब नहीं। Pre-signed URL = guard का दिया एक बार का pass, जिससे आप सीधे godown में सामान रख आओ।</p>
+<h3>11. WebSockets</h3>
+<p>एक connection जो खुला रहता है, ताकि server खुद data <strong>push</strong> कर सके (chat, live notifications, live scores)। Normal HTTP में browser को हर बार पूछना पड़ता है।</p>
+<p class="example"><b>उदाहरण:</b> HTTP = बार-बार फ़ोन करके पूछना "पहुँचे क्या?"। WebSocket = call चालू रखना, जैसे ही पहुँचे वह खुद बता दे।</p>
+<hr>
+<h2>Part C: ज़रूरी ideas (follow-up सवाल)</h2>
+<h3>CAP theorem (आसान भाषा में)</h3>
+<p>जब servers के बीच network टूट जाए, तो एक चुनना पड़ता है:</p>
+<ul>
+<li><strong>Consistency:</strong> सबको सबसे नया data दिखे (या error मिले)। <strong>Bank balance, seat booking</strong> के लिए।</li>
+<li><strong>Availability:</strong> हमेशा जवाब दो, भले data थोड़ा पुराना हो। <strong>Like counts, news feed</strong> के लिए।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> bank का link down है। ATM या तो पैसे देने से मना कर दे (consistency: गलत balance का खतरा नहीं) या आपका आखिरी पता balance दिखा दे (availability: जवाब हमेशा, शायद पुराना)।</p>
+<p>🎤 <em>"For payments I choose consistency. For a feed or a like counter, slightly old data is fine, so I choose availability."</em></p>
+<h3>Eventual consistency</h3>
+<p>Data हर जगह <strong>थोड़ी देर बाद</strong> एक जैसा हो जाता है। उदाहरण: आप Instagram पर post करते हो और आपके दोस्त को 2 second बाद दिखती है। यह ठीक है।</p>
+<h3>Idempotency ⭐ (payments के लिए बहुत ज़रूरी)</h3>
+<p>एक ही request दो बार भेजने पर <strong>नतीजा वही हो जो एक बार भेजने पर होता</strong>।</p>
+<ul>
+<li><strong>समस्या:</strong> user "Pay" दो बार दबा देता है, या network retry करता है, और पैसा दो बार कट जाता है ❌</li>
+<li><strong>इलाज:</strong> client एक <strong>idempotency key</strong> (unique ID) भेजता है। Server उसे save करता है। वही key दोबारा आए, तो दोबारा charge करने की जगह save किया हुआ result लौटा देता है।</li>
+<li>साथ ही: payment gateway के callbacks (webhooks) <strong>दो बार</strong> आ सकते हैं। Update से पहले check करो कि order पहले से paid तो नहीं।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> lift का button 5 बार दबाओ, lift एक ही बार आती है। एक order के लिए दो बार pay दबाया, तो भी पैसा एक ही बार कटना चाहिए।</p>
+<h3>Rate limiting के तरीके</h3>
+<ul>
+<li><strong>Fixed window:</strong> हर minute 100 requests। आसान, पर दो windows की सीमा पर burst से लगभग 200 घुस सकती हैं।</li>
+<li><strong>Sliding window:</strong> ज़्यादा smooth और सटीक।</li>
+<li><strong>Token bucket</strong> ⭐: एक बाल्टी तय speed से tokens से भरती है; हर request एक token लेती है। छोटे bursts की इजाज़त देता है। सबसे common जवाब।</li>
+<li>Counters <strong>Redis</strong> में रखो ताकि सारे servers उन्हें share करें।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> token bucket = राशन की दुकान जिसे हर घंटे 10 tokens मिलते हैं। हर customer को एक token चाहिए। Tokens खत्म तो अगला इंतज़ार करे।</p>
+<h3>Services के पार transactions: Saga</h3>
+<p>एक order कई services को छूता है (order, payment, stock)। Payment fail हो तो एक बड़े transaction की जगह <strong>undo steps</strong> चलाओ (stock वापस करो, order cancel करो)।</p>
+<p class="example"><b>उदाहरण:</b> trip book करना: train, hotel और cab। Hotel booking fail हुई तो पहले से book train ticket cancel कर दो (undo step)।</p>
+<h3>Reliability के tools</h3>
+<ul>
+<li><strong>बढ़ते इंतज़ार के साथ retry:</strong> 1s रुको, फिर 2s, फिर 4s… (fail हो रही service को लगातार मत ठोको)</li>
+<li><strong>Circuit breaker:</strong> कोई service बार-बार fail हो, तो थोड़ी देर उसे call करना बंद करो और backup जवाब दो। <em>उदाहरण: घर का MCB, fault होते ही trip हो जाता है ताकि पूरा घर न जले।</em></li>
+<li><strong>Monitoring:</strong> logs, metrics और alerts (CloudWatch, Grafana)।</li>
+</ul>
+<h3>Optimistic vs pessimistic locking (booking की समस्याएँ)</h3>
+<ul>
+<li><strong>Pessimistic:</strong> booking के दौरान row lock करो (<code>SELECT ... FOR UPDATE</code>)। सुरक्षित पर धीमा।</li>
+<li><strong>Optimistic:</strong> row को <code>version</code> number के साथ पढ़ो; update सिर्फ़ <code>WHERE version = old_version</code> पर। 0 rows बदलीं, मतलब किसी और ने पहले book कर लिया, error दिखाओ।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> pessimistic = trial room में कपड़े पहनते समय दरवाज़ा lock करना। Optimistic = आखिरी seat के लिए दो लोग form भरते हैं; जो पहले submit करे वह जीते, दूसरे को "पहले ही ले ली गई" बताया जाए।</p>
+<hr>
+<h2>Part D: Top HLD सवाल, छोटे जवाबों के साथ</h2>
+<p>ये <strong>outlines</strong> हैं: क्या बनाना है, और वे 1–2 मुख्य बातें जो interviewer सुनना चाहता है।</p>
+<h3>1. URL shortener (bit.ly जैसा)</h3>
+<ul>
+<li><strong>API:</strong> <code>POST /shorten {longUrl}</code> → <code>abc123</code>; <code>GET /abc123</code> → redirect (301/302)</li>
+<li><strong>Short code:</strong> auto-increment ID को <strong>base62</strong> (a–z, A–Z, 0–9) में बदलो। 7 characters से लगभग 3.5 लाख करोड़ combinations।</li>
+<li><strong>Writes से बहुत ज़्यादा reads</strong> → popular links के लिए Redis cache।</li>
+<li><strong>मुख्य बात:</strong> बिना टकराव के unique codes कैसे बनाते हो (एक counter, या हर server को IDs की एक range)।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> courier का tracking number: लंबे पते की जगह छोटा code, जिससे पूरी जानकारी निकल आती है।</p>
+<h3>2. Rate limiter</h3>
+<ul>
+<li>Services से पहले बैठता है (middleware या API gateway)। Redis में <strong>token bucket</strong>, key = user ID या IP।</li>
+<li><strong>HTTP 429</strong> लौटाओ, <code>Retry-After</code> header के साथ।</li>
+<li><strong>मुख्य बात:</strong> Redis में साझा counter, ताकि कई servers पर काम करे।</li>
+</ul>
+<h3>3. Notification system (email, SMS, push)</h3>
+<ul>
+<li>API → <strong>queue</strong> → हर channel का अलग worker → provider (SES, SMS gateway, FCM)।</li>
+<li>User की पसंद की table (SMS बंद किया है?), templates, <strong>retry + DLQ</strong>, priority (OTP = high, marketing = low)।</li>
+<li><strong>मुख्य बात:</strong> queues से background में भेजो; API call के अंदर कभी मत भेजो।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> post office: चिट्ठियाँ छँटाई (queue) में जाती हैं, फिर speed post, साधारण डाक, courier के अलग डाकिए (workers)। ज़रूरी चिट्ठी (OTP) पहले।</p>
+<h3>4. Chat app (WhatsApp जैसा)</h3>
+<ul>
+<li><strong>WebSocket</strong> servers connections खुले रखते हैं। Redis याद रखता है "user X server 3 से जुड़ा है"।</li>
+<li>Message का रास्ता: भेजने वाला → chat server → database में save → receiver online हो तो push; नहीं तो save करके push notification।</li>
+<li>Ticks: sent ✓, delivered ✓✓, read 🔵 status updates हैं।</li>
+<li><strong>मुख्य बात:</strong> messages का क्रम (हर chat का sequence number) और offline users तक पहुँचाना।</li>
+</ul>
+<h3>5. News feed (Instagram या LinkedIn जैसा)</h3>
+<ul>
+<li><strong>Fan-out on write:</strong> आप post करो तो हर follower के feed cache में डाल दो। पढ़ने में तेज़। 1 करोड़ followers वाले celebrities के लिए खराब।</li>
+<li><strong>Fan-out on read:</strong> user app खोले तब feed बनाओ। पढ़ने में धीमा।</li>
+<li><strong>Mix</strong> ⭐: आम users = on write; celebrities = on read, फिर दोनों मिलाओ।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> on write = अख़बार वाला हर घर में अख़बार डाल आए। Celebrity = इतने घर कि बाँटना मुश्किल, तो लोग खुद stall से उठाएँ (on read)।</p>
+<h3>6. Ticket booking (BookMyShow जैसा)</h3>
+<ul>
+<li>सबसे मुश्किल हिस्सा: <strong>दो लोग एक ही seat book करें</strong>।</li>
+<li>User seat चुने → उसे 5–10 मिनट के लिए <strong>hold</strong> करो (expiry वाली Redis key, या expiry time के साथ <code>LOCKED</code> status)।</li>
+<li>Payment सफल → <code>BOOKED</code>। Payment fail या time out → hold खत्म → seat फिर से खाली।</li>
+<li><strong>मुख्य बात:</strong> strong consistency + locking + idempotent payment।</li>
+</ul>
+<h3>7. Online store checkout + payment</h3>
+<ul>
+<li>Order status: <code>CREATED → PAYMENT_PENDING → PAID → SHIPPED</code> (या <code>FAILED / CANCELLED</code>)।</li>
+<li>User को payment gateway पर भेजो → <strong>webhook</strong> वापस आता है → उसका signature check करो → paid mark करो (idempotent!)।</li>
+<li>एक cron job pending orders को gateway से check करता है, अगर कोई webhook खो गया हो।</li>
+<li><strong>मुख्य बात:</strong> idempotency, webhooks की जाँच, और frontend से आए "success" पर कभी भरोसा मत करो।</li>
+</ul>
+<h3>8. Image / file upload service</h3>
+<ul>
+<li>Browser API से <strong>pre-signed URL</strong> माँगता है → सीधे S3 पर upload → S3 event → queue → worker thumbnails या watermarks बनाता है → files <strong>CDN</strong> से दिखती हैं।</li>
+<li>Database details रखता है (path, size, owner, tags)।</li>
+<li><strong>मुख्य बात:</strong> बड़ी files अपने server से मत गुज़ारो; reads के लिए CDN।</li>
+</ul>
+<h3>9. Search autocomplete</h3>
+<ul>
+<li>एक <strong>trie</strong> (prefix tree) जो हर node पर top 5–10 suggestions रखता है।</li>
+<li>Popular searches पहले से निकाल कर रखो, आम शुरुआती अक्षरों के results cache करो, और type करने के बाद API call से पहले लगभग 300 ms रुको (debounce)।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> dictionary में "स" से शुरू वाले पन्ने सीधे खुल जाते हैं, पूरी किताब नहीं पलटनी पड़ती।</p>
+<h3>10. बड़े scale पर job scheduler / cron</h3>
+<ul>
+<li>एक jobs table (<code>run_at</code>, <code>status</code>); workers इसे check करते हैं या delayed queue इस्तेमाल करते हैं।</li>
+<li>एक <strong>distributed lock</strong> (Redis) ताकि दो servers एक ही job न चलाएँ। Retries + ऐसे jobs जो दो बार चलें तो भी नुकसान न हो।</li>
+</ul>
+<hr>
+<h2>Part E: AI system design (AI full stack jobs में आपकी बढ़त 🔥)</h2>
+<h3>11. बड़े scale पर RAG chatbot</h3>
+<pre><code>Save करना (background में):  documents → हिस्सों में काटो → embeddings → vector database (pgvector / Pinecone)
+जवाब देना (live):            सवाल → embedding → top हिस्से ढूँढो → (re-rank) → prompt + हिस्से → LLM → जवाब stream करो
+</code></pre>
+<ul>
+<li>दोहराए गए सवालों के जवाब <strong>cache</strong> करो।</li>
+<li><strong>मनगढ़ंत जवाब रोको:</strong> "सिर्फ़ context से जवाब दो, नहीं तो कहो पता नहीं"; sources दिखाओ।</li>
+<li><strong>हर customer का data अलग:</strong> हर search में <code>tenant_id</code> से filter, ताकि company A कभी company B के documents न देखे।</li>
+<li><strong>Save करने के लिए queue</strong> (बड़े PDFs के embeddings बनाना धीमा है)।</li>
+<li><strong>Test करो:</strong> सवाल-जवाब का एक set; नापो कि सही हिस्से मिले या नहीं और जवाब अच्छे हैं या नहीं।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> एक CA firm जिसके 100 clients हैं: हर client की file अलग अलमारी में, और employee को सिर्फ़ उसी client की अलमारी की चाबी मिलती है (tenant filter)।</p>
+<h3>12. LLM gateway (सारी AI calls के आगे एक service)</h3>
+<ul>
+<li>एक जगह पर: API keys, <strong>model routing</strong> (आसान काम के लिए सस्ता model, मुश्किल के लिए बड़ा), provider down हो तो <strong>backup</strong>, हर user की <strong>rate limits</strong>, <strong>tokens और cost की tracking</strong>, logs और caching।</li>
+<li><strong>मुख्य बात:</strong> खर्च पर control + भरोसेमंदी।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> office का reception: हर बाहरी call यहीं से होकर जाती है, यहीं register में लिखा जाता है, और ज़रूरत के हिसाब से सही विभाग में भेजा जाता है।</p>
+<h3>13. AI agent system</h3>
+<ul>
+<li>Loop: LLM तय करता है → कोई <strong>tool</strong> call करता है (API या database) → result लेता है → फिर तय करता है → final जवाब।</li>
+<li>जोड़ो: step limit, timeouts, risky कामों (payments, deletes) के लिए <strong>इंसान की approval</strong>, memory (chat + database में long-term)। लंबे काम <strong>queue/worker</strong> में चलें, और user को polling या WebSocket से progress दिखे।</li>
+</ul>
+<h3>14. WhatsApp AI support bot</h3>
+<ul>
+<li>WhatsApp webhook → queue → worker: user की history लाओ (Redis या database) → RAG → LLM → WhatsApp API से जवाब।</li>
+<li>Bot को पक्का न पता हो या user कहे "इंसान से बात करनी है", तो इंसान को सौंप दो।</li>
+</ul>
+<p>🎤 <em>"The main problems in LLM systems are speed, cost and made-up answers, so I'd add streaming, caching, model routing, RAG and regular tests."</em></p>
+<hr>
+<h2>Part F: LLD (Low-Level Design)</h2>
+<h3>वे क्या जाँचते हैं</h3>
+<ol>
+<li>क्या आप किसी problem से सही <strong>classes</strong> निकाल सकते हो?</li>
+<li>Clean code: <strong>SOLID</strong>, design patterns, बड़े-बड़े <code>if-else</code> नहीं।</li>
+<li>Edge cases और दो users का एक ही समय पर एक ही काम करना।</li>
+<li>(Machine coding round) 60–90 मिनट में <strong>चलता हुआ code</strong>।</li>
+</ol>
+<h3>LLD जवाब के steps</h3>
+<ol>
+<li>पूछो कि scope में क्या है।</li>
+<li><strong>चीज़ों</strong> की list बनाओ (संज्ञाएँ classes बनती हैं): <code>ParkingLot, Floor, Spot, Vehicle, Ticket</code>।</li>
+<li>वे कैसे जुड़ी हैं (has-a / is-a)।</li>
+<li>मुख्य methods (क्रियाएँ): <code>park()</code>, <code>unpark()</code>, <code>calculateFee()</code>।</li>
+<li>जहाँ अपने आप फ़िट हों, वहाँ patterns लगाओ।</li>
+<li>पहले मुख्य flow का code लिखो, फिर extras।</li>
+</ol>
+<h3>SOLID आसान शब्दों में</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>अक्षर</th><th>मतलब</th><th>आसान उदाहरण</th></tr></thead>
+<tbody>
+<tr><td><strong>S</strong> Single responsibility</td><td>एक class = एक काम</td><td><code>InvoiceService</code> साथ में emails नहीं भेजती। (दर्ज़ी सिलाई करता है, delivery नहीं।)</td></tr>
+<tr><td><strong>O</strong> Open/closed</td><td>पुराना code बदले बिना नए features जोड़ो</td><td>नया payment method = नई class, नया <code>if</code> नहीं। (Extension board में नया plug लगाओ, wiring मत तोड़ो।)</td></tr>
+<tr><td><strong>L</strong> Liskov substitution</td><td>Child class वहाँ चलनी चाहिए जहाँ parent चलता है</td><td><code>Bike extends Vehicle</code> से <code>park()</code> नहीं टूटना चाहिए</td></tr>
+<tr><td><strong>I</strong> Interface segregation</td><td>छोटे, focused interfaces</td><td><code>Printer</code> पर <code>fax()</code> ज़बरदस्ती मत थोपो</td></tr>
+<tr><td><strong>D</strong> Dependency inversion</td><td>Exact classes पर नहीं, interfaces पर निर्भर रहो</td><td>Service को <code>PaymentGateway</code> inject होता है (NestJS DI!)। (Phone charger किसी भी company के USB-C से चले।)</td></tr>
+</tbody></table></div>
+<h3>Design patterns (सबसे ज़्यादा पूछे जाने वाले)</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Pattern</th><th>एक line में</th><th>उदाहरण</th></tr></thead>
+<tbody>
+<tr><td><strong>Strategy</strong> ⭐</td><td>Runtime पर तरीका बदलो</td><td>Fee: घंटे के हिसाब से vs दिन के हिसाब से; Notification: email / SMS / push। (Google Maps में car / bike / पैदल चुनना।)</td></tr>
+<tr><td><strong>Factory</strong></td><td>एक जगह सही object बनाती है</td><td><code>VehicleFactory.create('car')</code></td></tr>
+<tr><td><strong>Observer</strong></td><td>कुछ बदले तो subscribers को बताओ</td><td>Seat खाली → इंतज़ार कर रहे users को बताओ; event emitters। (YouTube का bell icon।)</td></tr>
+<tr><td><strong>Singleton</strong></td><td>Class का सिर्फ़ एक object</td><td>Database pool, config, logger</td></tr>
+<tr><td><strong>Decorator</strong></td><td>Class बदले बिना व्यवहार जोड़ो</td><td>Service के चारों ओर logging या caching; NestJS decorators। (Phone पर cover चढ़ाना।)</td></tr>
+<tr><td><strong>Adapter</strong></td><td>अलग interface को फ़िट करो</td><td>BillDesk और Razorpay को एक <code>PaymentGateway</code> के पीछे रखो। (Travel adapter plug।)</td></tr>
+<tr><td><strong>State</strong></td><td>State के साथ व्यवहार बदलता है</td><td>Order: Created → Paid → Shipped; approval workflows</td></tr>
+<tr><td><strong>Builder</strong></td><td>Complex object को step by step बनाओ</td><td>Query builders, report builders। (Subway में sandwich step by step बनवाना।)</td></tr>
+</tbody></table></div>
+<h3>NestJS वाला नज़रिया (आपकी ताक़त, इस्तेमाल करो!)</h3>
+<ul>
+<li><strong>DI</strong> (dependency injection) असल में dependency inversion है: services को जो चाहिए वह constructor से मिलता है।</li>
+<li><strong>Guards</strong> = permission checks, <strong>Interceptors</strong> = Decorators जैसे (logging, response को shape देना), <strong>Pipes</strong> = input checks, <strong>Modules</strong> = features अलग रखना।</li>
+</ul>
+<p>🎤 <em>"In NestJS, my service depends on an interface token like PAYMENT_GATEWAY. Switching from BillDesk to Razorpay is just a new provider, with no change in the service. That is Strategy plus dependency inversion."</em></p>
+<h3>Top LLD problems (इनकी practice करो)</h3>
+<ol>
+<li><strong>Parking lot</strong> ⭐: fee के लिए Strategy, vehicles और spots के लिए Factory, दो गाड़ियों का एक ही spot लेना संभालो।</li>
+<li><strong>LRU cache</strong> ⭐: HashMap + doubly linked list → <code>get</code>/<code>put</code> O(1) में। (JS में <code>Map</code> insert का क्रम रखता है: हर इस्तेमाल पर delete करके फिर set करो।)</li>
+<li><strong>BookMyShow</strong>: Show, Screen, Seat, Booking; expiry वाला seat hold।</li>
+<li><strong>Splitwise</strong>: User, Group, Expense, split के तरीके (बराबर / exact / percent), कर्ज़ simplify करना।</li>
+<li><strong>Rate limiter class</strong>: <code>allowRequest(userId)</code> वाला token bucket।</li>
+<li><strong>Elevator</strong>: State pattern, requests का क्रम।</li>
+<li><strong>Notification service</strong>: हर channel के लिए Strategy + Observer।</li>
+<li>Expiry वाला <strong>in-memory key-value store</strong>।</li>
+<li>Vending machine (State), Snake &amp; Ladder, Logger (Chain of Responsibility)।</li>
+</ol>
+<h3>छोटा code: LRU cache (JS, अक्सर live पूछा जाता है)</h3>
+<p class="example"><b>उदाहरण:</b> आपके phone के "recent apps": सबसे पुराना इस्तेमाल हुआ app जगह भरने पर सबसे पहले हटता है।</p>
+<pre><code class="language-js">class LRUCache {
+  constructor(capacity) { this.capacity = capacity; this.map = new Map(); }
+  get(key) {
+    if (!this.map.has(key)) return -1;
+    const val = this.map.get(key);
+    this.map.delete(key); this.map.set(key, val); // "सबसे नया" बना दो
+    return val;
+  }
+  put(key, val) {
+    if (this.map.has(key)) this.map.delete(key);
+    this.map.set(key, val);
+    if (this.map.size &gt; this.capacity) this.map.delete(this.map.keys().next().value); // सबसे पुराना
+  }
+}
+</code></pre>
+<hr>
+<h2>Part G: आपकी अपनी कहानियाँ (ये 3 तैयार करो, ज़रूर पूछेंगे)</h2>
+<p>Interviewers किताबी जवाबों से ज़्यादा असली काम पर भरोसा करते हैं। वही 7 steps इस्तेमाल करो।</p>
+<h3>कहानी 1: ampleimages.com (India TV)</h3>
+<ul>
+<li>Next.js frontend + Node/Express APIs + <strong>MySQL</strong> (users, orders, payments) + <strong>DynamoDB</strong> (बड़ा data) + <strong>Redis</strong> (cache, sessions) + लगभग 15,000 images के लिए <strong>CDN</strong>।</li>
+<li><strong>BillDesk</strong> से payment: order बना → redirect → callback → check → download unlock। <strong>Idempotency</strong> और server पर callback की जाँच ज़रूर बताओ।</li>
+<li><strong>OpenSearch</strong> से search, API <strong>rate limiting</strong>, <strong>JWT</strong> login + role-based admin access, database <strong>indexes</strong>।</li>
+<li>Emails, order receipts और <strong>image watermarking</strong> के लिए <strong>AWS Lambda</strong> (धीमे काम main API से बाहर)।</li>
+<li>Admin panel: <strong>S3</strong> upload के साथ images जोड़ना/बदलना, categories, order history, error codes के साथ payment history।</li>
+<li>इसके लिए तैयार रहो: "How do you stop someone downloading without paying?" → CDN पर watermark वाले previews; original file private storage में रहती है और payment के बाद ही <strong>कम समय में expire होने वाले signed URL</strong> से मिलती है।</li>
+</ul>
+<h3>कहानी 2: Multi-level approval system (general रखो)</h3>
+<ul>
+<li>Roles → कई approval steps (submit → review → approve / send back / reject), <strong>status state machine</strong>, <strong>audit logs</strong> (किसने क्या कब बदला), role-based access, <strong>read replica</strong> से reports, तेज़ dashboards के लिए cron से बनी summary tables।</li>
+<li>⚠️ Client का नाम या अंदर की details मत बताओ। ज़्यादा से ज़्यादा "a large training platform" बोलो।</li>
+</ul>
+<h3>कहानी 3: RAG chatbot (आपका अपना project)</h3>
+<ul>
+<li>Local embeddings + Neon पर <strong>pgvector</strong> + streaming के साथ Claude API। Chunking, top हिस्से ढूँढना, और "सिर्फ़ context से जवाब" क्यों, यह समझाओ।</li>
+</ul>
+<hr>
+<h2>Practice के लिए interview सवाल (English में ज़ोर से जवाब दो)</h2>
+<ol>
+<li>Design a URL shortener. How do you make unique short codes?</li>
+<li>How do you stop two people booking the same seat?</li>
+<li>Payment worked but the webhook never came. What do you do?</li>
+<li>SQL or NoSQL for an orders system? Why?</li>
+<li>What is idempotency? Where have you used it?</li>
+<li>Your API is slow at peak time. How would you find and fix the problem?</li>
+<li>Cache-aside vs write-through? How do you handle old data in the cache?</li>
+<li>Explain the CAP theorem with a real example.</li>
+<li>Design a notification system that sends 1 crore messages a day.</li>
+<li>Design a RAG chatbot for 100 companies, each with private documents.</li>
+<li>How do you control LLM cost and speed in a live app?</li>
+<li>Design a parking lot (classes + code).</li>
+<li>Write an LRU cache.</li>
+<li>Which design patterns have you used in NestJS? Give real examples.</li>
+<li>Explain the design of the best system you built.</li>
+</ol>
+<hr>
+<h2>4 हफ़्ते का plan (रोज़ 1 घंटा)</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>हफ़्ता</th><th>Focus</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Part B + C (building blocks + ideas)। Paper पर URL shortener और rate limiter design करो।</td></tr>
+<tr><td>2</td><td>Part D: notification, chat, feed, booking, payment।</td></tr>
+<tr><td>3</td><td>Part E (AI design) + Part G (अपनी 3 कहानियाँ 7 steps में लिखो)।</td></tr>
+<tr><td>4</td><td>Part F: parking lot, LRU, Splitwise, BookMyShow code में + practice interviews।</td></tr>
+</tbody></table></div>
+<p><strong>Tip:</strong> practice करते समय paper या excalidraw.com पर बनाओ। Interview में live बनाना होगा, इसलिए बनाते-बनाते बोलने की आदत डालो।</p>
+</div>
 </body>
 </html>

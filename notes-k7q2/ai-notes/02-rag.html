@@ -7,9 +7,11 @@
 <title>Level 2: Embeddings, Vector Database and RAG ⭐</title>
 <link rel="stylesheet" href="../notes.css">
 <style>blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid var(--boxline);background:var(--box);border-radius:6px}blockquote p{margin:4px 0}table{display:block;overflow-x:auto}</style>
+<script src="../notes-lang.js"></script>
 </head>
 <body>
 <nav class="top"><a href="../index.html">← All notes</a><a href="index.html">AI notes home</a></nav>
+<div class="en" lang="en">
 <h1>Level 2: Embeddings, Vector Database and RAG ⭐</h1>
 <h2>The problem</h2>
 <p>An LLM does not know <strong>your</strong> data: your clinic&#39;s fees, your company&#39;s PDFs, your database. If you ask, it will guess (hallucinate).
@@ -38,6 +40,7 @@
 <li>Normal SQL: <code>WHERE name = &#39;fees&#39;</code> (exact match).</li>
 <li>Vector database: &quot;find the 5 rows whose <strong>meaning</strong> is closest to this question&quot;.</li>
 </ul>
+<p class="example"><b>Example:</b> a normal database is a phone book (search by exact name). A vector database is a good shopkeeper: you say "something for a headache" and he hands you the right medicine even though you never said its name.</p>
 <p>🎤 <em>&quot;A vector database stores embeddings and can quickly find the ones closest to a question.&quot;</em></p>
 <h2>3. Keyword search vs semantic search</h2>
 <div class="table-wrap"><table>
@@ -97,6 +100,7 @@
 <li>✅ Cheaper: you send only the useful pieces, not everything</li>
 <li>✅ You can <strong>show the source</strong> (&quot;from: fee-list.pdf&quot;)</li>
 </ul>
+<p class="example"><b>Example:</b> an open-book exam. The student first finds the right page (retrieval), then writes the answer from it (generation), and can point to the page number (source).</p>
 <p>🎤 <em>&quot;RAG finds the right pieces of my documents using embeddings, adds them to the prompt, and the LLM answers only from them. This cuts hallucination and keeps answers up to date without retraining.&quot;</em></p>
 <h2>6. RAG vs fine-tuning (very common question)</h2>
 <div class="table-wrap"><table>
@@ -129,6 +133,7 @@
 </tr>
 </tbody></table></div>
 <p><strong>Easy rule:</strong> <em>facts → RAG; style → fine-tuning.</em> Most business apps need RAG.</p>
+<p class="example"><b>Example:</b> RAG = giving a new receptionist the latest price list every morning. Fine-tuning = sending them on a months-long training course to change how they talk.</p>
 <h2>7. RAG with tools you already use</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -172,6 +177,123 @@
 <li>A user asks &quot;how much will it cost?&quot; but the document says &quot;Consultation fee: ₹400&quot;. Will keyword search find it? Will semantic search?</li>
 <li>Which two things are saved for each piece in the vector database?</li>
 </ol>
-
+</div>
+<div class="hi" lang="hi">
+<h1>Level 2: Embeddings, Vector Database और RAG ⭐</h1>
+<h2>समस्या</h2>
+<p>LLM को <strong>आपका</strong> data नहीं पता: आपके clinic की fees, आपकी company के PDFs, आपका database। पूछोगे तो अंदाज़ा लगाएगा (hallucinate करेगा)।
+<strong>RAG</strong> इसका इलाज है। यह पहले सही जानकारी ढूँढता है, फिर सवाल के साथ AI को देता है।</p>
+<h2>एक line में</h2>
+<blockquote>
+<p>Text को numbers में बदलो (<strong>embeddings</strong>) → उन्हें <strong>vector database</strong> में रखो → सवाल आए तो सबसे करीबी हिस्से ढूँढो (<strong>semantic search</strong>) → वे हिस्से + सवाल LLM को दो → वह आपके data से जवाब देता है। यह पूरा flow <strong>RAG</strong> है।</p>
+</blockquote>
+<hr>
+<h2>1. Embedding</h2>
+<p>Text को <strong>numbers की list</strong> में बदलना, जिसमें उसका <strong>मतलब</strong> छिपा हो।</p>
+<pre><code>"What are the clinic fees?"        → [0.12, -0.53, 0.88, ...]
+"How much is the consultation?"    → [0.11, -0.50, 0.85, ...]  ← बहुत करीबी numbers
+"How is the weather today?"        → [-0.70, 0.31, -0.10, ...] ← बिल्कुल अलग numbers
+</code></pre>
+<ul>
+<li><strong>एक जैसा मतलब = करीबी numbers</strong>, चाहे शब्द अलग हों (दूसरी भाषा में भी)।</li>
+<li>Embeddings एक <strong>embedding model</strong> की API call करके बनते हैं।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> मतलब का map location। "Fees" और "charges" एक ही मोहल्ले में रहते हैं। "Weather" किसी दूसरे शहर में।</p>
+<p>🎤 <em>"An embedding is a list of numbers that stands for the meaning of a text. Texts with similar meaning get numbers that are close together."</em></p>
+<h2>2. Vector database</h2>
+<p>Embeddings रखने और सबसे <strong>करीबी</strong> embeddings जल्दी ढूँढने के लिए बना database।</p>
+<ul>
+<li>उदाहरण: <strong>pgvector</strong> (PostgreSQL का add-on, जो आप पहले से जानते हो), Pinecone, Qdrant, Weaviate, Chroma।</li>
+<li>Normal SQL: <code>WHERE name = 'fees'</code> (बिल्कुल वही शब्द)।</li>
+<li>Vector database: "वे 5 rows ढूँढो जिनका <strong>मतलब</strong> इस सवाल के सबसे करीब है"।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> normal database = phone book (सही नाम से ही मिलेगा)। Vector database = समझदार दुकानदार: आप कहो "सिर दर्द के लिए कुछ दो", वह सही दवा दे देता है, भले आपने दवा का नाम न लिया हो।</p>
+<p>🎤 <em>"A vector database stores embeddings and can quickly find the ones closest to a question."</em></p>
+<h2>3. Keyword search vs semantic search</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Keyword search</th><th>Semantic search</th></tr></thead>
+<tbody>
+<tr><td>बिल्कुल वही शब्द match करता है</td><td><strong>मतलब</strong> match करता है</td></tr>
+<tr><td>"fees" ≠ "charges"</td><td>"fees" ≈ "charges" ≈ "कितना खर्च होगा"</td></tr>
+<tr><td>SQL <code>LIKE</code>, Elasticsearch</td><td>Embeddings + vector database</td></tr>
+</tbody></table></div>
+<p>करीबी आमतौर पर <strong>cosine similarity</strong> से नापी जाती है: 1 = एक ही मतलब, 0 = कोई संबंध नहीं।</p>
+<p><strong>Note:</strong> हमारा Kodivo demo bot <strong>keyword</strong> matching इस्तेमाल करता है। असली version <strong>semantic</strong> search करेगा, ताकि किसी भी तरह पूछा सवाल समझ सके।</p>
+<h2>4. Chunking</h2>
+<p>Embeddings बनाने से पहले बड़े documents को <strong>छोटे हिस्सों</strong> में काटना।</p>
+<ul>
+<li>क्यों: 50 pages के PDF का एक embedding बहुत धुंधला होता है, और पूरा PDF prompt में ठीक से नहीं आता।</li>
+<li>आम size: हर हिस्सा कुछ सौ tokens का, थोड़े <strong>overlap</strong> के साथ ताकि वाक्य बीच से न कटें।</li>
+<li>बेहतर कटाई (heading, section या FAQ के हिसाब से) = बेहतर जवाब।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> किसी को पूरी किताब नहीं थमाते। सही page खोल कर देते हो।</p>
+<h2>5. RAG (Retrieval-Augmented Generation) ⭐⭐</h2>
+<p>सही जानकारी <strong>ढूँढो</strong> → prompt में <strong>जोड़ो</strong> → जवाब <strong>लिखो</strong>।</p>
+<h3>दो हिस्से</h3>
+<p><strong>A) Data save करना (एक बार, या data बदलने पर)</strong></p>
+<pre><code>Clinic PDF / FAQs / database rows
+   → हिस्सों में काटो
+   → हर हिस्से का embedding बनाओ
+   → (हिस्से का text + embedding) vector database में save करो
+</code></pre>
+<p><strong>B) जवाब देना (हर सवाल पर)</strong></p>
+<pre><code>User: "क्या clinic रविवार को खुला है?"
+   → सवाल का embedding बनाओ
+   → vector database: 3 सबसे करीबी हिस्से ढूँढो
+        → "Sunday: 10 AM – 1 PM"
+   → LLM को prompt:
+        System: Answer ONLY from the context. If it is not there, say you will confirm.
+        Context: &lt;वे 3 हिस्से&gt;
+        Question: क्या clinic रविवार को खुला है?
+   → LLM: "हाँ, clinic रविवार को सुबह 10 से दोपहर 1 बजे तक खुला है। 🙂"
+</code></pre>
+<h3>RAG ही क्यों (बहुत बड़ा prompt या fine-tuning क्यों नहीं)?</h3>
+<ul>
+<li>✅ जवाब <strong>आपके असली data</strong> से आते हैं, इसलिए hallucination बहुत कम</li>
+<li>✅ Data कभी भी update करो: बस दोबारा save करो, retraining नहीं</li>
+<li>✅ सस्ता: सिर्फ़ काम के हिस्से भेजते हो, सब कुछ नहीं</li>
+<li>✅ <strong>Source दिखा सकते हो</strong> ("from: fee-list.pdf")</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> open-book exam। Student पहले सही page ढूँढता है (retrieval), फिर उससे जवाब लिखता है (generation), और page number भी बता सकता है (source)।</p>
+<p>🎤 <em>"RAG finds the right pieces of my documents using embeddings, adds them to the prompt, and the LLM answers only from them. This cuts hallucination and keeps answers up to date without retraining."</em></p>
+<h2>6. RAG vs fine-tuning (बहुत common सवाल)</h2>
+<div class="table-wrap"><table>
+<thead><tr><th></th><th>RAG</th><th>Fine-tuning</th></tr></thead>
+<tbody>
+<tr><td>क्या करता है</td><td>सवाल के समय model को <strong>facts</strong> देता है</td><td>Training से model के <strong>व्यवहार या लिखने का तरीका</strong> बदलता है</td></tr>
+<tr><td>Data बार-बार बदलता है?</td><td>✅ बस दोबारा save करो</td><td>❌ हर बार दोबारा training</td></tr>
+<tr><td>खर्च</td><td>कम</td><td>ज़्यादा</td></tr>
+<tr><td>किसके लिए सबसे अच्छा</td><td>FAQs, documents, company data</td><td>तय tone, तय format, खास काम</td></tr>
+</tbody></table></div>
+<p><strong>आसान rule:</strong> <em>facts → RAG; style → fine-tuning।</em> ज़्यादातर business apps को RAG चाहिए।</p>
+<p class="example"><b>उदाहरण:</b> RAG = नई receptionist को हर सुबह ताज़ा price list देना। Fine-tuning = उसे बात करने का तरीका बदलने के लिए महीनों के course पर भेजना।</p>
+<h2>7. आपके पहले से जाने हुए tools से RAG</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>RAG का हिस्सा</th><th>आपकी दुनिया</th></tr></thead>
+<tbody>
+<tr><td>Vector database</td><td>PostgreSQL + <strong>pgvector</strong></td></tr>
+<tr><td>Save करने वाला job</td><td>NestJS cron या queue job जो नई rows या files के embeddings बनाए</td></tr>
+<tr><td>हिस्से ढूँढना</td><td>एक SQL query: <code>ORDER BY embedding &lt;=&gt; $questionEmbedding LIMIT 5</code></td></tr>
+<tr><td>जवाब लिखना</td><td>हिस्सों + सवाल के साथ LLM की एक API call</td></tr>
+</tbody></table></div>
+<p>RAG आप उन्हीं tools से बना सकते हो जो पहले से इस्तेमाल करते हो। Interview में यह ज़रूर बोलो।</p>
+<hr>
+<h2>Interview सवाल (English में ज़ोर से जवाब दो)</h2>
+<ol>
+<li>What is an embedding? Give an example.</li>
+<li>How is semantic search different from keyword search?</li>
+<li>Explain the full RAG flow (saving + answering).</li>
+<li>Why do we cut documents into pieces? What if the pieces are too big or too small?</li>
+<li>RAG vs fine-tuning: when do you use each?</li>
+<li>How does RAG reduce hallucination? Can it stop it fully? (→ नहीं। Model को सिर्फ़ context से जवाब देने को भी कहो, sources दिखाओ, और eval set से test करो।)</li>
+<li>Which vector database would you pick and why? (→ अगर PostgreSQL पहले से है तो pgvector: चलाने के लिए एक system कम।)</li>
+</ol>
+<h2>Quiz</h2>
+<ol>
+<li>Clinic हर महीने fees बदलता है। RAG या fine-tuning? क्यों?</li>
+<li>User पूछता है "कितना खर्च होगा?" पर document में लिखा है "Consultation fee: ₹400"। Keyword search इसे ढूँढेगा? Semantic search?</li>
+<li>Vector database में हर हिस्से के लिए कौन सी दो चीज़ें save होती हैं?</li>
+</ol>
+</div>
 </body>
 </html>

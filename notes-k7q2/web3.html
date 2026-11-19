@@ -6,10 +6,11 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Web1 vs Web2 vs Web3</title>
 <link rel="stylesheet" href="notes.css">
+<script src="notes-lang.js"></script>
 </head>
 <body>
 <nav class="top"><a href="index.html">← All notes</a><a href="ai-interview.html">AI interview</a></nav>
-
+<div class="en" lang="en">
 <h1>Web1 vs Web2 vs Web3</h1>
 <p class="muted">Private notes in easy English. Enough for 2 or 3 interview questions about Web3. Reading time: about 1 hour.</p>
 
@@ -46,12 +47,14 @@
   <li><b>Transparent:</b> anyone can see the transactions (for example on Etherscan).</li>
   <li><b>Trustless:</b> you trust the code and maths, not a middleman.</li>
 </ul>
+<p class="example"><b>Example:</b> UPI vs cash in a chit fund. In a chit fund you trust one organiser to keep the money honestly. On a blockchain, every member holds the same account book, so nobody has to trust one person.</p>
 
 <h2>4. How everyone agrees (consensus)</h2>
 <ul>
   <li><b>Proof of Work (PoW):</b> computers (miners) race to solve a hard maths puzzle. The winner adds the next block. Very safe, but uses a lot of electricity. Bitcoin uses this.</li>
   <li><b>Proof of Stake (PoS):</b> people lock up their coins (stake). The network picks one of them to add the next block. If they cheat, they lose coins. Uses far less electricity. <b>Ethereum moved to PoS in 2022</b> ("The Merge").</li>
 </ul>
+<p class="example"><b>Example:</b> PoW = a race in which whoever runs fastest (spends the most electricity) wins the right to write. PoS = a security deposit for a rented flat: you lock money, and if you damage things you lose the deposit.</p>
 
 <h2>5. Bitcoin vs Ethereum</h2>
 <div class="table-wrap"><table>
@@ -60,6 +63,7 @@
   <tr><td>Cannot run apps</td><td>Runs apps (DeFi, NFTs, tokens)</td></tr>
   <tr><td>Proof of Work</td><td>Proof of Stake</td></tr>
 </table></div>
+<p class="example"><b>Example:</b> Bitcoin is like digital gold: you hold it and send it. Ethereum is like a smartphone: you can also install apps on it.</p>
 
 <h2>6. Smart contract</h2>
 <p>A small program saved on the blockchain that runs by itself when its conditions are met. After it is saved (deployed), it cannot be changed, unless it was built to be upgradeable.</p>
@@ -76,6 +80,7 @@ contract Counter {
 
 <h2>7. Gas</h2>
 <p>The fee you pay (in ETH) to save anything on Ethereum or to run a contract function that changes data. <b>Reading data is free.</b> More complex code costs more gas, so contracts are kept small.</p>
+<p class="example"><b>Example:</b> a registry office. Reading old records in the register is free, but registering a new property deed costs a stamp fee, and a bigger deed costs more.</p>
 
 <h2>8. Tokens: ERC-20 vs ERC-721 (NFT) ⭐ most asked</h2>
 <div class="table-wrap"><table>
@@ -111,6 +116,7 @@ contract Counter {
 
 <h2>11. Web3.js and Ethers.js</h2>
 <p>JavaScript libraries that let your app talk to Ethereum: read balances, call contract functions, send transactions. To call a contract you need its <b>address</b> and its <b>ABI</b> (a JSON list of its functions, like a Swagger file). Ethers.js is more popular now. I used Web3.js.</p>
+<p class="example"><b>Example:</b> like axios for a REST API, but for the blockchain. The ABI is the menu card: it tells you which dishes (functions) you can order.</p>
 
 <h2>12. Other words you may hear</h2>
 <ul>
@@ -148,5 +154,151 @@ contract Counter {
 </ol>
 
 <p><a href="index.html">← All notes</a></p>
+</div>
+<div class="hi" lang="hi">
+<h1>Web1 vs Web2 vs Web3</h1>
+<p class="muted">आसान Hindi में private notes। Web3 के 2-3 interview सवालों के लिए काफ़ी। पढ़ने का समय: लगभग 1 घंटा। 🎤 वाली lines English में हैं, interview में वैसे ही बोलना।</p>
+
+<h2>1. तीनों Web एक table में</h2>
+<p class="muted">Phone पर table को side में swipe करें →</p>
+<div class="table-wrap"><table style="min-width:600px">
+  <tr><th></th><th>Web1 (लगभग 1990–2004)</th><th>Web2 (लगभग 2004–अब तक)</th><th>Web3 (नया)</th></tr>
+  <tr><td><b>एक line में</b></td><td>पढ़ो</td><td>पढ़ो + लिखो</td><td>पढ़ो + लिखो + मालिक बनो</td></tr>
+  <tr><td><b>आप क्या करते हो</b></td><td>कुछ लोगों के बनाए सीधे-सादे pages पढ़ते हो</td><td>Post, comment, share, खरीदारी, video upload</td><td>ऐसे apps जहाँ आपका पैसा, data और चीज़ें आपके अपने wallet में रहती हैं</td></tr>
+  <tr><td><b>Control किसके पास</b></td><td>Site का मालिक</td><td>बड़ी companies (Google, Meta, Amazon)</td><td>कोई एक मालिक नहीं: computers का network (blockchain)</td></tr>
+  <tr><td><b>Data कहाँ रहता है</b></td><td>Site का अपना server</td><td>Company के servers और databases</td><td>Blockchain पर, कई computers पर copy</td></tr>
+  <tr><td><b>Login</b></td><td>ज़्यादातर नहीं</td><td>Email + password, या "Login with Google"</td><td>Wallet connect करो (जैसे MetaMask)</td></tr>
+  <tr><td><b>कमाई कैसे</b></td><td>Banner ads</td><td>आपके data से ads, subscriptions</td><td>Tokens, crypto में fees</td></tr>
+  <tr><td><b>उदाहरण</b></td><td>पुरानी news sites, Yahoo pages</td><td>Facebook, Instagram, YouTube, Amazon</td><td>Bitcoin, Ethereum, Uniswap, OpenSea (NFTs)</td></tr>
+  <tr><td><b>मुख्य कमी</b></td><td>Interactive नहीं</td><td>Companies आपके data की मालिक हैं और आपको block कर सकती हैं</td><td>धीमा, महँगी fees, scams, कानून साफ़ नहीं</td></tr>
+</table></div>
+
+<div class="box"><b>याद रखने का आसान तरीका:</b> Web1 = अख़बार (सिर्फ़ पढ़ सकते हो)। Web2 = shopping mall (बहुत कुछ कर सकते हो, पर rules mall का मालिक बनाता है)। Web3 = गाँव का हाट जिसे सब मिलकर चलाते हैं (कोई एक मालिक नहीं, पर धीमा और कम सुरक्षित)।</div>
+
+<p class="say">"Web1 was read-only. Web2 lets users create content, but big platforms own the data. Web3 tries to let users own their data and money using blockchains and wallets, with no central company in the middle."</p>
+
+<h2>2. Blockchain क्या है?</h2>
+<p>एक हिसाब की किताब (ledger) जिसकी copy हज़ारों computers पर है। नए transactions को मिलाकर एक <b>block</b> बनता है। हर block अपने से पहले वाले block का <b>hash</b> (एक तरह का fingerprint) रखता है, इसलिए वे एक chain बना लेते हैं।</p>
+<ul>
+  <li><b>उदाहरण:</b> society का register जिसकी photocopy हर सदस्य के पास है। अगर कोई अपनी copy बदल दे, तो वह बाकी copies से match नहीं करेगी, और सबको पता चल जाएगा कि वह नकली है।</li>
+  <li>अगर कोई पुराना block बदले, तो उसका fingerprint बदल जाता है और chain टूट जाती है। Network उसे reject कर देता है। इसीलिए इसे <b>immutable</b> (बदला न जा सके) कहते हैं।</li>
+</ul>
+<p class="say">"A blockchain is a shared record that can only be added to. Each block holds the previous block's hash, so changing old data breaks the chain. The computers in the network agree on the correct chain using consensus."</p>
+
+<h2>3. चार ज़रूरी शब्द</h2>
+<ul>
+  <li><b>Decentralized:</b> कोई एक मालिक नहीं, बीच में कोई bank नहीं।</li>
+  <li><b>Immutable:</b> पुराने records बदले नहीं जा सकते।</li>
+  <li><b>Transparent:</b> कोई भी transactions देख सकता है (जैसे Etherscan पर)।</li>
+  <li><b>Trustless:</b> आप किसी बिचौलिए पर नहीं, code और गणित पर भरोसा करते हो।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> मोहल्ले की कमेटी (chit fund) में पैसा एक organiser के भरोसे रहता है। Blockchain में हर सदस्य के पास वही हिसाब की किताब है, इसलिए किसी एक इंसान पर भरोसा करने की ज़रूरत नहीं।</p>
+
+<h2>4. सब सहमत कैसे होते हैं (consensus)</h2>
+<ul>
+  <li><b>Proof of Work (PoW):</b> computers (miners) एक मुश्किल गणित की पहेली सुलझाने की दौड़ लगाते हैं। जीतने वाला अगला block जोड़ता है। बहुत सुरक्षित, पर बिजली बहुत लगती है। Bitcoin यही इस्तेमाल करता है।</li>
+  <li><b>Proof of Stake (PoS):</b> लोग अपने coins lock (stake) करते हैं। Network उनमें से किसी एक को अगला block जोड़ने के लिए चुनता है। धोखा दिया तो coins गए। बिजली बहुत कम लगती है। <b>Ethereum 2022 में PoS पर आ गया</b> ("The Merge")।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> PoW = दौड़: जो सबसे तेज़ भागे (सबसे ज़्यादा बिजली खर्च करे) वही लिखने का हक़ जीते। PoS = किराए के flat का security deposit: पैसा जमा रखो, नुकसान किया तो deposit कटेगा।</p>
+
+<h2>5. Bitcoin vs Ethereum</h2>
+<div class="table-wrap"><table>
+  <tr><th>Bitcoin</th><th>Ethereum</th></tr>
+  <tr><td>सिर्फ़ digital पैसा</td><td>पैसा + programs (smart contracts)</td></tr>
+  <tr><td>Apps नहीं चला सकता</td><td>Apps चलाता है (DeFi, NFTs, tokens)</td></tr>
+  <tr><td>Proof of Work</td><td>Proof of Stake</td></tr>
+</table></div>
+<p class="example"><b>उदाहरण:</b> Bitcoin = digital सोना: रखो और भेजो। Ethereum = smartphone: इस पर apps भी install कर सकते हो।</p>
+
+<h2>6. Smart contract</h2>
+<p>Blockchain पर रखा एक छोटा program जो शर्तें पूरी होते ही अपने आप चलता है। एक बार save (deploy) होने के बाद बदला नहीं जा सकता, जब तक उसे upgradeable न बनाया गया हो।</p>
+<ul>
+  <li><b>उदाहरण:</b> vending machine। पैसे डालो, button दबाओ, सामान बाहर। दुकानदार की ज़रूरत नहीं।</li>
+  <li><b>Solidity</b> में लिखा जाता है (थोड़ा JavaScript जैसा)। <b>EVM</b> (Ethereum Virtual Machine) पर चलता है।</li>
+</ul>
+<pre>// एक बहुत छोटा contract
+contract Counter {
+    uint public count;
+    function increment() public { count += 1; }
+}</pre>
+<p class="say">"A smart contract is a program on the blockchain that runs automatically. In my project, the tokens for real-estate shares were ERC-20 smart contracts."</p>
+
+<h2>7. Gas</h2>
+<p>Ethereum पर कुछ भी save करने या data बदलने वाला contract function चलाने के लिए दी जाने वाली fee (ETH में)। <b>Data पढ़ना free है।</b> Code जितना complex, gas उतनी ज़्यादा, इसलिए contracts छोटे रखे जाते हैं।</p>
+<p class="example"><b>उदाहरण:</b> रजिस्ट्री office। पुराने records देखना free है, पर नई property की registry पर stamp fee लगती है, और बड़े deed पर ज़्यादा।</p>
+
+<h2>8. Tokens: ERC-20 vs ERC-721 (NFT) ⭐ सबसे ज़्यादा पूछा जाता है</h2>
+<div class="table-wrap"><table>
+  <tr><th>ERC-20</th><th>ERC-721 (NFT)</th></tr>
+  <tr><td><b>सारे tokens एक जैसे</b>, जैसे ₹10 के नोट</td><td><b>हर token अलग (unique)</b>, जैसे property के कागज़ या कोई painting</td></tr>
+  <tr><td>इस्तेमाल: coins, shares, <b>property में हिस्सेदारी</b></td><td>इस्तेमाल: art, game items, collectibles (<b>ORE game items</b>)</td></tr>
+  <tr><td>मुख्य functions: totalSupply, balanceOf, transfer, approve, transferFrom, allowance</td><td>मुख्य functions: ownerOf, transferFrom, safeTransferFrom, tokenURI</td></tr>
+</table></div>
+<p><b>अपने projects से जोड़ो:</b></p>
+<ul>
+  <li><b>Salcedo (real estate):</b> एक property को, मान लो, 1,000 ERC-20 tokens में बाँटा। 10 tokens खरीदे = property के 1% के मालिक।</li>
+  <li><b>ORE System (NFT):</b> हर game item (तलवार, skin) एक unique ERC-721 NFT है जिसे players trade कर सकते हैं।</li>
+</ul>
+<p><b>Bonus, ERC-1155:</b> एक contract जो दोनों तरह के tokens रख सकता है। Games में popular।</p>
+
+<h2>9. Wallet, public key, private key</h2>
+<ul>
+  <li><b>Wallet</b> (MetaMask, Coinbase Wallet): एक app जो आपकी keys रखता है और transactions sign (approve) करता है।</li>
+  <li><b>Public key / address:</b> bank account number जैसा। Share करना safe है।</li>
+  <li><b>Private key / seed phrase:</b> ATM PIN और password दोनों एक साथ। <b>कभी share मत करो।</b> जिसके पास यह है, पैसा उसका।</li>
+  <li>Wallet में coins नहीं होते। Coins blockchain पर रहते हैं; wallet सिर्फ़ keys रखता है।</li>
+</ul>
+
+<h2>10. मेरा Coinbase Wallet वाला काम कैसे चलता था (समझाने को तैयार रहो)</h2>
+<ol>
+  <li>User <b>"Connect Wallet"</b> दबाता है। App Coinbase Wallet से permission माँगता है और user का <b>address</b> लेता है।</li>
+  <li>App एक transaction बनाता है (जैसे tokens खरीदने के लिए कुछ ETH देना, या contract का buy function call करना)।</li>
+  <li><b>Wallet pop-up खुलता है</b>। User check करके <b>sign</b> करता है। मेरे app को private key कभी नहीं दिखती।</li>
+  <li>Transaction network पर जाता है। हमें एक <b>transaction hash</b> मिलता है और हम <b>confirmation</b> का इंतज़ार करते हैं।</li>
+  <li>Backend blockchain पर transaction check करता है, फिर हमारा database update करके "Purchase successful" दिखाता है।</li>
+</ol>
+<p class="say">"I connected Coinbase Wallet using Web3.js: connect the wallet, get the address, build the transaction, let the wallet sign it, then confirm it on the blockchain before updating our database."</p>
+
+<h2>11. Web3.js और Ethers.js</h2>
+<p>JavaScript libraries जिनसे आपका app Ethereum से बात करता है: balance पढ़ना, contract functions call करना, transactions भेजना। Contract call करने के लिए उसका <b>address</b> और <b>ABI</b> (उसके functions की JSON list, Swagger file जैसी) चाहिए। आजकल Ethers.js ज़्यादा popular है। मैंने Web3.js इस्तेमाल किया।</p>
+<p class="example"><b>उदाहरण:</b> REST API के लिए जैसे axios, वैसे ही blockchain के लिए ये libraries। ABI = menu card: बताता है कौन सी dishes (functions) order कर सकते हो।</p>
+
+<h2>12. और शब्द जो सुनने को मिल सकते हैं</h2>
+<ul>
+  <li><b>Testnet</b> (Sepolia): practice के लिए free blockchain, नकली ETH के साथ।</li>
+  <li><b>Etherscan:</b> कोई भी transaction, address या contract देखने की website।</li>
+  <li><b>dApp:</b> normal frontend + backend के रूप में smart contracts।</li>
+  <li><b>DeFi:</b> bank जैसी services (loan, trading) जो smart contracts चलाते हैं।</li>
+  <li><b>Oracle</b> (जैसे Chainlink): बाहर का data (prices, मौसम) contracts तक लाता है, क्योंकि contracts खुद API call नहीं कर सकते।</li>
+  <li><b>Layer 2</b> (Polygon, Arbitrum): Ethereum के ऊपर बने तेज़ और सस्ते networks।</li>
+  <li><b>Tokenization:</b> असली चीज़ (property, सोना) को tokens में बदलना।</li>
+</ul>
+
+<h2>13. Web3 की कमियाँ (इससे दिखता है कि आप साफ़ सोचते हो)</h2>
+<ul>
+  <li>Normal database से धीमा और महँगा (gas fees, confirmation का इंतज़ार)।</li>
+  <li>Smart contract का bug हमेशा के लिए रहता है और पैसा डूब सकता है। Hacks होते हैं।</li>
+  <li>कई देशों में कानून साफ़ नहीं। India में crypto के मुनाफ़े पर 30% tax + 1% TDS।</li>
+  <li><b>ज़्यादातर apps को blockchain की ज़रूरत नहीं।</b> जब एक भरोसेमंद मालिक हो, तो normal database बेहतर है।</li>
+</ul>
+<p class="say">"I would use a blockchain only when many parties who don't trust each other need one shared record that nobody can change. Otherwise a normal database is faster, cheaper and simpler."</p>
+
+<h2>14. Practice सवाल (English में जवाब बोलो)</h2>
+<ol>
+  <li>Web1 vs Web2 vs Web3?</li>
+  <li>What is a blockchain? Why can't old data be changed?</li>
+  <li>Proof of Work vs Proof of Stake?</li>
+  <li>What is a smart contract? Which language?</li>
+  <li>What is gas? Why is reading free?</li>
+  <li>ERC-20 vs ERC-721? Which one did your real-estate project use, and why?</li>
+  <li>How does tokenized real estate work?</li>
+  <li>Public key vs private key? Where is the private key in your wallet integration?</li>
+  <li>Explain your Coinbase Wallet integration step by step.</li>
+  <li>What is an ABI?</li>
+  <li>When should you NOT use a blockchain?</li>
+</ol>
+
+<p><a href="index.html">← सारे notes</a></p>
+</div>
 </body>
 </html>

@@ -7,9 +7,11 @@
 <title>Level 4: How LLMs Work (Interview Theory)</title>
 <link rel="stylesheet" href="../notes.css">
 <style>blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid var(--boxline);background:var(--box);border-radius:6px}blockquote p{margin:4px 0}table{display:block;overflow-x:auto}</style>
+<script src="../notes-lang.js"></script>
 </head>
 <body>
 <nav class="top"><a href="../index.html">← All notes</a><a href="index.html">AI notes home</a></nav>
+<div class="en" lang="en">
 <h1>Level 4: How LLMs Work (Interview Theory)</h1>
 <p>You will not build models, but interviewers ask these to check your depth. Goal: explain each one in <strong>2 or 3 clear sentences</strong>.</p>
 <h2>In one line</h2>
@@ -24,6 +26,7 @@
 <li>A Transformer looks at <strong>all tokens at once</strong>. So training is faster, and it handles long text better.</li>
 <li>Chat models like GPT and Claude <strong>write one token at a time</strong>, and each new token depends on everything before it (&quot;decoder-only&quot;).</li>
 </ul>
+<p class="example"><b>Example:</b> an old RNN is like reading a long WhatsApp message word by word with your finger and forgetting the start. A Transformer is like seeing the whole message at once on screen.</p>
 <p>🎤 <em>&quot;A Transformer reads all tokens at the same time and uses attention to link them. Chat models like GPT and Claude are Transformers that write one token at a time.&quot;</em></p>
 <h2>2. Attention (self-attention)</h2>
 <p>How the model decides <strong>which other words matter</strong> for understanding each word.</p>
@@ -83,7 +86,7 @@
 <p>Training an existing model more on <strong>your own examples</strong>.</p>
 <ul>
 <li><strong>Full fine-tuning:</strong> change all parameters. Costly, needs big GPUs.</li>
-<li><strong>LoRA:</strong> train only small add-on parts and keep the rest frozen. Much cheaper. Most teams do this.</li>
+<li><strong>LoRA:</strong> train only small add-on parts and keep the rest frozen. Much cheaper. Most teams do this. <em>Example: instead of rebuilding a car, you add a small attachment, like a roof carrier.</em></li>
 <li><strong>When to fine-tune:</strong> to fix a <strong>style, format or special behaviour</strong> (always reply in a strict JSON format, a brand&#39;s tone, sorting texts into fixed groups).</li>
 <li><strong>When NOT to:</strong> to add <strong>facts</strong> that change. Use <strong>RAG</strong> for that (see Level 2).</li>
 </ul>
@@ -131,6 +134,7 @@
 <td>Strict privacy (hospitals, banks), very large volume</td>
 </tr>
 </tbody></table></div>
+<p class="example"><b>Example:</b> closed model = taking an Uber (no car to maintain, pay per ride). Open-weight model = buying your own car (more control and privacy, but you handle the servicing).</p>
 <p>🎤 <em>&quot;I would start with an API model for speed and quality. I would move to an open-weight model only when data privacy, cost at large scale or deep changes make the extra work worth it.&quot;</em></p>
 <h2>8. Multimodal</h2>
 <p>Models that understand more than text: <strong>images, audio, PDFs, video</strong>.</p>
@@ -140,7 +144,7 @@
 <h2>9. Speed basics (bonus)</h2>
 <ul>
 <li>The answer is written <strong>token by token</strong>, so long answers take longer. That is why we <strong>stream</strong> answers (show them as they are written).</li>
-<li><strong>Time to first token</strong> = how fast the user sees the answer start. This matters more to users than the total time.</li>
+<li><strong>Time to first token</strong> = how fast the user sees the answer start. This matters more to users than the total time. <em>Example: a restaurant that serves soup first feels faster, even if the main course takes the same time.</em></li>
 <li>Ways to cut cost and time: shorter prompts, smaller models for easy tasks, <strong>caching</strong> repeated prompts, and sending only the useful RAG pieces.</li>
 </ul>
 <hr>
@@ -162,6 +166,121 @@
 <li>A client wants the bot to always reply in their brand&#39;s exact tone and format. The facts don&#39;t change. RAG or fine-tuning?</li>
 <li>A hospital says patient data cannot leave their servers. API model or open-weight model? Why?</li>
 </ol>
-
+</div>
+<div class="hi" lang="hi">
+<h1>Level 4: LLM कैसे काम करता है (Interview Theory)</h1>
+<p>आप models नहीं बनाओगे, पर interviewer आपकी गहराई जाँचने के लिए ये पूछते हैं। Goal: हर एक को <strong>2-3 साफ़ वाक्यों</strong> में समझाना।</p>
+<h2>एक line में</h2>
+<blockquote>
+<p><strong>Transformer</strong> सारे tokens एक साथ पढ़ता है और <strong>attention</strong> से तय करता है कि कौन से शब्द एक-दूसरे के लिए ज़रूरी हैं → बहुत सारे text पर अगला token guess करने की <strong>pre-training</strong> → अच्छे सवाल-जवाब examples पर <strong>fine-tuning</strong> → <strong>RLHF</strong> से सुधार ताकि मददगार और सुरक्षित बने → <strong>parameters</strong> वह है जो उसने सीखा → <strong>quantization</strong> उसे छोटा और सस्ता बनाता है → <strong>open-weight</strong> models खुद चलाते हो, <strong>closed</strong> models API से।</p>
+</blockquote>
+<hr>
+<h2>1. Transformer</h2>
+<p>लगभग सभी आधुनिक LLMs के पीछे का design (Google के 2017 के paper <em>"Attention Is All You Need"</em> से)।</p>
+<ul>
+<li>पुराने models (RNNs) text को <strong>एक-एक शब्द</strong> करके पढ़ते थे, जैसे उंगली रख कर पढ़ना। धीमे थे और शुरुआती शब्द भूल जाते थे।</li>
+<li>Transformer <strong>सारे tokens एक साथ</strong> देखता है। इसलिए training तेज़ होती है और लंबा text बेहतर संभालता है।</li>
+<li>GPT और Claude जैसे chat models <strong>एक बार में एक token लिखते हैं</strong>, और हर नया token पहले के सब कुछ पर निर्भर होता है ("decoder-only")।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> RNN = लंबा WhatsApp message उंगली रख कर शब्द-शब्द पढ़ना और शुरुआत भूल जाना। Transformer = पूरा message एक साथ screen पर देख लेना।</p>
+<p>🎤 <em>"A Transformer reads all tokens at the same time and uses attention to link them. Chat models like GPT and Claude are Transformers that write one token at a time."</em></p>
+<h2>2. Attention (self-attention)</h2>
+<p>Model कैसे तय करता है कि हर शब्द को समझने के लिए <strong>बाकी कौन से शब्द ज़रूरी हैं</strong>।</p>
+<pre><code>"The broker called the client because HE was late."
+   → "he" का ध्यान "broker" (या "client") पर ज़्यादा, "called" पर कम।
+"She sat on the bank of the river" vs "She put money in the bank"
+   → "bank" देखता है "river" (नदी का किनारा) vs "money" (पैसों वाला bank)।
+</code></pre>
+<ul>
+<li>हर शब्द को बाकी हर शब्द के साथ एक score मिलता है: ऊँचा score = "यह मेरे मतलब के लिए ज़रूरी है"।</li>
+<li><strong>Multi-head attention:</strong> एक साथ कई "नज़रिए" (एक grammar देखता है, एक मतलब, वगैरह)।</li>
+<li><strong>Positional encoding:</strong> सारे शब्द एक साथ पढ़े जाते हैं, इसलिए model position numbers जोड़ता है ताकि शब्दों का क्रम पता रहे।</li>
+</ul>
+<p class="example"><b>उदाहरण:</b> "आम" शब्द। "मैंने आम खाया" में फल, "आम आदमी" में साधारण। दिमाग आसपास के शब्द देख कर मतलब पकड़ता है, यही attention है।</p>
+<p>🎤 <em>"Self-attention lets each token look at every other token, so the model understands words from their context, like what 'he' or 'bank' means."</em></p>
+<p><strong>आपके लिए क्यों ज़रूरी:</strong> हर token की तुलना हर दूसरे token से होती है, इसलिए text लंबा होने पर खर्च तेज़ी से बढ़ता है। इसीलिए लंबे prompts धीमे और महँगे होते हैं।</p>
+<h2>3. Parameters</h2>
+<p>Training में model के सीखे हुए numbers (weights): उसका "ज्ञान और हुनर"।</p>
+<ul>
+<li>"7B model" = 7 billion parameters। ज़्यादा parameters आमतौर पर ज़्यादा समझदार, पर चलाने में धीमा और महँगा।</li>
+<li><strong>उदाहरण:</strong> parameters दिमाग के connections जैसे हैं; training उन्हें adjust करती है।</li>
+</ul>
+<h2>4. LLM कैसे बनता है: 3 stages</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Stage</th><th>क्या होता है</th><th>उदाहरण</th></tr></thead>
+<tbody>
+<tr><td><strong>1. Pre-training</strong></td><td>बहुत सारा text पढ़ता है और <strong>अगला token guess करना</strong> सीखता है। सबसे महँगा stage।</td><td>वह बच्चा जिसने पूरी library पढ़ ली: बहुत कुछ जानता है, पर interview में कैसे बर्ताव करना है नहीं जानता</td></tr>
+<tr><td><strong>2. Fine-tuning (instruction tuning)</strong></td><td>अच्छे <em>सवाल → जवाब</em> pairs के examples पर training</td><td>Coaching: "जब कोई यह पूछे, तो ऐसे जवाब दो"</td></tr>
+<tr><td><strong>3. Alignment (RLHF वगैरह)</strong></td><td>लोग जवाबों की तुलना करते हैं; model मददगार, ईमानदार, सुरक्षित जवाब पसंद करना सीखता है</td><td>Mentor का कहना: "यह जवाब उस वाले से बेहतर है"</td></tr>
+</tbody></table></div>
+<h3>RLHF (Reinforcement Learning from Human Feedback)</h3>
+<ol>
+<li>Model एक ही सवाल के कुछ जवाब लिखता है।</li>
+<li>लोग उन्हें सबसे अच्छे से सबसे खराब तक <strong>rank</strong> करते हैं।</li>
+<li>एक <strong>reward model</strong> सीखता है कि लोगों को क्या पसंद है।</li>
+<li>LLM को ऐसे जवाब लिखना सिखाया जाता है जिन्हें reward model ऊँचा score दे।</li>
+</ol>
+<p>नए तरीके भी हैं (जैसे <strong>DPO</strong>, और Anthropic का <strong>Constitutional AI</strong>, जो लिखे हुए rules और AI feedback इस्तेमाल करता है), पर idea वही है: <strong>model वही जवाब दे जो लोग सच में चाहते हैं</strong>।</p>
+<p>🎤 <em>"LLMs first learn to guess the next token from huge text, then learn from good question-answer examples, then learn from human ratings (like RLHF), so they are helpful and safe, not just fluent."</em></p>
+<h2>5. Fine-tuning (developer के नज़रिए से)</h2>
+<p>पहले से बने model को <strong>अपने examples</strong> पर और train करना।</p>
+<ul>
+<li><strong>Full fine-tuning:</strong> सारे parameters बदलो। महँगा, बड़े GPUs चाहिए।</li>
+<li><strong>LoRA:</strong> सिर्फ़ छोटे add-on हिस्से train करो, बाकी जमा कर रखो। बहुत सस्ता। ज़्यादातर teams यही करती हैं। <em>उदाहरण: पूरी गाड़ी दोबारा बनाने की जगह छत पर carrier लगा देना।</em></li>
+<li><strong>Fine-tune कब करें:</strong> कोई <strong>style, format या खास व्यवहार</strong> पक्का करने के लिए (हमेशा सख्त JSON format में जवाब, brand का tone, texts को तय groups में छाँटना)।</li>
+<li><strong>कब नहीं:</strong> बदलते <strong>facts</strong> जोड़ने के लिए। उसके लिए <strong>RAG</strong> (Level 2 देखो)।</li>
+</ul>
+<p>🎤 <em>"I try a good prompt first, then RAG for facts, and fine-tune only for a fixed behaviour or format, usually with LoRA to keep the cost low."</em></p>
+<p><strong>याद रखने का क्रम:</strong> <strong>Prompt → RAG → Fine-tune</strong> (सबसे सस्ते से सबसे महँगे तक)।</p>
+<h2>6. Quantization</h2>
+<p>Model के numbers को <strong>कम bits</strong> में रखना (16-bit → 8-bit या 4-bit)।</p>
+<ul>
+<li>✅ छोटा, तेज़, सस्ता: छोटे GPUs या laptops पर भी चल जाता है</li>
+<li>❌ Quality थोड़ी कम</li>
+<li><strong>उदाहरण:</strong> photo को RAW की जगह JPEG में save करना। बहुत छोटी file, और दिखने में लगभग वैसी ही।</li>
+</ul>
+<h2>7. Open-weight vs closed models</h2>
+<div class="table-wrap"><table>
+<thead><tr><th></th><th>Closed (API)</th><th>Open-weight (खुद चलाओ)</th></tr></thead>
+<tbody>
+<tr><td>उदाहरण</td><td>Claude, GPT, Gemini</td><td>Llama, Mistral, Qwen, Gemma</td></tr>
+<tr><td>कैसे इस्तेमाल</td><td>API call करो</td><td>Download करके अपने servers पर चलाओ</td></tr>
+<tr><td>✅ अच्छा</td><td>सबसे अच्छी quality, servers संभालने की ज़रूरत नहीं, जल्दी शुरुआत</td><td>Data आपके पास, पूरा control, fine-tune कर सकते हो, बहुत बड़े scale पर सस्ता</td></tr>
+<tr><td>❌ बुरा</td><td>हर token का पैसा, data provider के पास जाता है</td><td>GPUs, scaling और updates आपको संभालने</td></tr>
+<tr><td>किसके लिए सबसे अच्छा</td><td>ज़्यादातर startups और छोटे business apps (जैसे Kodivo)</td><td>सख्त privacy (hospitals, banks), बहुत बड़ा volume</td></tr>
+</tbody></table></div>
+<p class="example"><b>उदाहरण:</b> closed model = Uber लेना (गाड़ी संभालने का झंझट नहीं, हर ride का पैसा)। Open-weight = अपनी गाड़ी खरीदना (ज़्यादा control और privacy, पर servicing खुद करनी)।</p>
+<p>🎤 <em>"I would start with an API model for speed and quality. I would move to an open-weight model only when data privacy, cost at large scale or deep changes make the extra work worth it."</em></p>
+<h2>8. Multimodal</h2>
+<p>ऐसे models जो text से ज़्यादा समझते हैं: <strong>images, audio, PDFs, video</strong>।</p>
+<ul>
+<li>Kodivo के उदाहरण: bill की photo पढ़ना (CA firms के लिए, जैसे हमारा Bill Reader), WhatsApp voice note वाला order समझना (wholesalers के लिए), property brochure PDF पढ़ना (real estate के लिए)।</li>
+</ul>
+<h2>9. Speed की basics (bonus)</h2>
+<ul>
+<li>जवाब <strong>token-token</strong> करके लिखा जाता है, इसलिए लंबे जवाब में ज़्यादा समय लगता है। इसीलिए हम जवाब <strong>stream</strong> करते हैं (लिखते-लिखते दिखाते हैं)।</li>
+<li><strong>Time to first token</strong> = user को जवाब शुरू होता कितनी जल्दी दिखता है। Users के लिए यह कुल समय से ज़्यादा मायने रखता है। <em>उदाहरण: जो restaurant पहले soup दे दे वह तेज़ लगता है, भले main course उतने ही समय में आए।</em></li>
+<li>खर्च और समय घटाने के तरीके: छोटे prompts, आसान कामों के लिए छोटे models, बार-बार वाले prompts की <strong>caching</strong>, और RAG के सिर्फ़ काम के हिस्से भेजना।</li>
+</ul>
+<hr>
+<h2>Interview सवाल (English में ज़ोर से जवाब दो)</h2>
+<ol>
+<li>What is a Transformer, and why did it replace RNNs?</li>
+<li>Explain self-attention with an example.</li>
+<li>What are the stages of training an LLM?</li>
+<li>What is RLHF, and why is it needed?</li>
+<li>Prompt vs RAG vs fine-tuning: how do you choose?</li>
+<li>What is LoRA?</li>
+<li>What is quantization, and what do you lose?</li>
+<li>When would you choose an open-weight model over an API model?</li>
+<li>How would you cut the time and cost of an LLM feature?</li>
+</ol>
+<h2>Quiz</h2>
+<ol>
+<li>एक वाक्य में "bank" नदी का किनारा है, दूसरे में पैसों वाला bank। Model को फ़र्क समझने में क्या मदद करता है?</li>
+<li>Client चाहता है कि bot हमेशा उसके brand के exact tone और format में जवाब दे। Facts नहीं बदलते। RAG या fine-tuning?</li>
+<li>Hospital कहता है कि मरीज़ों का data उनके servers से बाहर नहीं जा सकता। API model या open-weight model? क्यों?</li>
+</ol>
+</div>
 </body>
 </html>

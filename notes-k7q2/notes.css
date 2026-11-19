@@ -24,3 +24,11 @@ pre{background:var(--copy);border:1px solid var(--line);padding:10px;border-radi
 ul.cards{list-style:none;padding:0}
 ul.cards li{border:1px solid var(--line);border-radius:10px;padding:14px;margin:10px 0}
 ul.cards a{font-size:19px;font-weight:600;text-decoration:none}
+/* English / Hindi switch (notes-lang.js) */
+html:not([lang="hi"]) .hi{display:none!important}
+html[lang="hi"] .en{display:none!important}
+nav.top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+nav.top a{margin-right:0}
+.lang-btn{margin-left:auto;font:inherit;font-size:15px;font-weight:600;padding:5px 14px;border-radius:999px;border:1px solid var(--boxline);background:var(--box);color:var(--text);cursor:pointer}
+.lang-btn:hover{background:var(--boxline);color:#fff}
+.example{background:var(--soft);border-left:4px solid #16a34a;padding:8px 14px;margin:10px 0;border-radius:6px}
