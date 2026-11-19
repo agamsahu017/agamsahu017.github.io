@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> React Query is a smart helper for API data: it caches, retries, refetches and tracks loading for you.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A smart office peon who remembers the last file you asked for, fetches a fresh copy when it's old, and tries again if the office was closed.</p></div>
             
             <p>With useEffect you write loading, error, cancellation, retries and caching yourself, in every component. React Query gives all of that out of the box:</p><ul><li><b>caching</b>: the same data isn't fetched twice,</li><li><b>request de-duplication</b>: 5 components asking for the same key make 1 call,</li><li><b>background refetch</b> when data is stale (on window focus or reconnect),</li><li><b>retries</b>, pagination, and mutations with cache updates,</li><li>no race conditions.</li></ul><p>It treats API data as <b>server state</b>: a cache of data that lives on the server, not app state you own.</p>
             
@@ -132,6 +133,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> The queryKey is the name of a cache drawer. Same name, same data. Put every filter in the name.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Labelled drawers in a cupboard: "Bills / March / Paid". Same label = same drawer. Change the filter = new label = new drawer.</p></div>
             
             <p>The <code>queryKey</code> is the <b>cache id</b> of the data. Same key = same cached data. If any part of the key changes, it is a different query, and it fetches.</p><p>Put <b>everything the query depends on</b> into the key: <code>["employees", { page, search, status }]</code>. Then changing the page fetches the new page automatically.</p><p>Keep keys in one place (a key factory), so invalidation is easy and has no typos.</p>
             
@@ -169,6 +171,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> isPending = no data yet. isFetching = a request is running now. isLoading = both, meaning the first load.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> isPending = the plate is still empty. isFetching = the waiter is in the kitchen right now. isLoading = empty plate and the waiter is in the kitchen (the first serving).</p></div>
             
             <ul><li><code>isPending</code>: there is <b>no data yet</b> (status is <code>pending</code>). Show a skeleton.</li><li><code>isFetching</code>: a request is <b>running right now</b>, including background refetches. Show a small spinner.</li><li><code>isLoading</code>: <code>isPending &amp;&amp; isFetching</code>, meaning the very first load is happening.</li></ul><p>In v5 the old <code>loading</code> status was renamed to <code>pending</code>. Other v5 changes: only the object syntax <code>useQuery({ queryKey, queryFn })</code> is allowed, <code>cacheTime</code> became <code>gcTime</code>, <code>keepPreviousData</code> became <code>placeholderData: keepPreviousData</code>, and <code>onSuccess</code>/<code>onError</code> were removed from <code>useQuery</code> (they still exist on mutations).</p>
             
@@ -183,6 +186,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> For pages, keep the old page on screen while the next one loads. For infinite scroll, load the next page when the user reaches the bottom.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Pages = a menu book where you keep the current page open until the next one is ready. Infinite scroll = a buffet where more dishes come as you reach the end of the table.</p></div>
             
             <p><b>Pagination</b>: put <code>page</code> in the key and use <code>placeholderData: keepPreviousData</code>, so the old page stays visible while the next one loads, instead of the table flashing empty.</p><p><b>Infinite scroll</b>: <code>useInfiniteQuery</code> with <code>initialPageParam</code> (required in v5) and <code>getNextPageParam</code>. Call <code>fetchNextPage()</code> when the user reaches the bottom (an IntersectionObserver).</p>
             
@@ -212,6 +216,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> After saving, tell React Query 'this list is old now' (invalidate), and it fetches the fresh list.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> After you add a new contact, you tell the phone "my contact list is old", and it reloads the full list.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;The manager clicks Approve on a leave.&quot;,&quot;useMutation sends the approve request to the API.&quot;,&quot;On success, we invalidate every query whose key starts with 'leaves', which marks them as old.&quot;,&quot;All leave lists on screen fetch fresh data automatically, so the approved leave moves out of 'pending'.&quot;]"><div class="flow-row"><div class="node">Click Approve</div><div class="arrow" aria-hidden="true">→</div><div class="node">useMutation calls API</div><div class="arrow" aria-hidden="true">→</div><div class="node">onSuccess: invalidate ['leaves']</div><div class="arrow" aria-hidden="true">→</div><div class="node">Leave lists refetch</div></div><figcaption><span class="en">Invalidate = mark old and refresh what's on screen.</span><span class="hi">Invalidate = mark old and refresh what's on screen.</span></figcaption></figure>
             <p>Use <code>useMutation</code>, and in <code>onSuccess</code> <b>invalidate</b> the related queries. Invalidation marks them stale and refetches the ones on screen.</p><p>If the API returns the updated object, you can also put it straight into the cache with <code>setQueryData</code> and skip one network call.</p>
             
@@ -234,6 +239,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Change the screen first, save a backup, and put the backup back if the request fails.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> You mark your attendance on the board immediately, but keep a photo of the old board. If the office says "rejected", you put the old board back.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;Before the request, onMutate saves a backup of the current list and updates the screen straight away.&quot;,&quot;The real request goes to the server.&quot;,&quot;If it fails, the backup is put back. If it finishes, the list is refetched so it matches the server exactly.&quot;]"><div class="flow-row"><div class="node">onMutate: save snapshot + update screen</div><div class="arrow" aria-hidden="true">→</div><div class="node">Request runs</div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node">Error → restore snapshot</div><div class="node">Done → refetch to sync</div></div></div><figcaption><span class="en">Optimistic update with rollback.</span><span class="hi">Optimistic update with rollback.</span></figcaption></figure>
             <p>Update the screen <b>before</b> the server replies, and undo it if the request fails:</p><ul><li><code>onMutate</code>: cancel running fetches for that key, save a <b>snapshot</b> of the old data, write the new data with <code>setQueryData</code>, and return the snapshot.</li><li><code>onError</code>: put the snapshot back.</li><li><code>onSettled</code>: invalidate, to sync with the real server data.</li></ul>
             
@@ -259,6 +265,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Set the rules once for the whole app: when to retry, how long data stays fresh, and how to show errors.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> One house rule written on the fridge: "if the milkman doesn't come, call him twice; milk is fresh for 1 day". Everyone follows it, so nobody writes it again.</p></div>
             
             <p>Set defaults on the <code>QueryClient</code>: a sensible <code>staleTime</code>, and a <code>retry</code> function that <b>doesn't retry 4xx errors</b> (a 403 won't fix itself) but retries network and 5xx errors up to 2–3 times.</p><p>For global error toasts, use a <code>QueryCache</code> / <code>MutationCache</code> with an <code>onError</code> callback, since <code>onError</code> was removed from <code>useQuery</code> in v5. Show page-level errors with an error boundary or the <code>isError</code> state.</p>
             

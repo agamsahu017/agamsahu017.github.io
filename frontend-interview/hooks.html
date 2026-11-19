@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Inside one click, <code>count</code> is frozen at its old value. Use <code>setCount(c =&gt; c + 1)</code> to always add to the latest value.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Three people each look at the same old scoreboard showing 5 and write "6". The score becomes 6, not 8. With <code>c =&gt; c + 1</code>, each person looks at the latest score before adding.</p></div>
             
             <p>Inside one render, <code>count</code> is a <b>fixed value</b> (a snapshot). All three calls say "set to 0 + 1", so the result is 1. React also <b>batches</b> them into one render.</p><p>Fix: use the <b>updater function</b> <code>setCount(c =&gt; c + 1)</code>. React passes the latest value each time, so you get 3.</p>
             
@@ -140,6 +141,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> The dependency array says when the effect should run again: every render, only once, or when certain values change.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A watchman's instructions. No list = check every hour. Empty list = check once on the first day. <code>[gate]</code> = check again only when the gate changes.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;The component renders (draws itself).&quot;,&quot;React checks the dependency array: did any of these values change since last time?&quot;,&quot;If yes, it runs the old cleanup first, then the effect again. If no, it skips the effect.&quot;]"><div class="flow-row"><div class="node">Component renders</div><div class="arrow" aria-hidden="true">→</div><div class="node">Did a dependency change?</div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node">Yes → run cleanup, then effect</div><div class="node">No → skip</div></div></div><figcaption><span class="en">Cleanup always runs before the next effect and when the component leaves the screen.</span><span class="hi">Cleanup always runs before the next effect and when the component leaves the screen.</span></figcaption></figure>
             <ul><li><b>No array</b>: runs after <b>every</b> render.</li><li><b>Empty <code>[]</code></b>: runs once after the first render (and cleanup on unmount).</li><li><b><code>[userId]</code></b>: runs after the first render and again whenever <code>userId</code> changes.</li></ul><p>The <b>cleanup</b> function (the function you return) runs before the next effect and on unmount. Use it to clear timers, remove listeners and cancel requests.</p><p>Rule: include everything from the component that the effect uses. Don't silence the ESLint <code>exhaustive-deps</code> warning; fix the code instead.</p>
             
@@ -161,6 +163,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> If an old request finishes late, it can overwrite new data. Cancel the old request when a new one starts.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> You order chai, then change it to coffee. If the chai arrives late, it shouldn't replace your coffee. Cancel the first order when you place the new one.</p></div>
             
             <p>If the user switches from employee 1 to employee 2 quickly, the reply for 1 may arrive <b>after</b> 2 and show the wrong data.</p><p>Fix: in the cleanup, <b>abort</b> the old request with <code>AbortController</code>, or set an <code>ignore</code> flag. Better still, use <b>TanStack Query</b>, which handles this, caching and retries for you.</p>
             
@@ -182,6 +185,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> A function made in an old render still sees old values, like reading yesterday's newspaper.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A photo of the fridge taken this morning. If you plan dinner from the photo, you won't know someone ate the paneer at lunch.</p></div>
             
             <p>A function created in an old render <b>remembers old state</b>. Classic example: a <code>setInterval</code> started in <code>useEffect(..., [])</code> always sees <code>count = 0</code>, because the callback closed over the first render's value.</p><p>Fixes:</p><ul><li>use the updater <code>setCount(c =&gt; c + 1)</code>,</li><li>add the value to the dependency array,</li><li>or keep the latest value in a <code>useRef</code>.</li></ul>
             
@@ -206,6 +210,7 @@ useEffect(() =&gt; {
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> useEffect is for talking to things outside React. If you can calculate something during render, just calculate it.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> You don't call a friend to ask what 2 + 2 is. Calculate simple things yourself; call outside (useEffect) only for outside work like an API or a timer.</p></div>
             
             <p>Effects are for <b>syncing with outside systems</b> (network, timers, browser APIs, third-party widgets). They are often overused:</p><ul><li><b>Derived data</b>: don't store <code>fullName</code> in state and sync it with an effect. Just calculate <code>first + " " + last</code> during render.</li><li><b>User events</b>: put the logic in the click handler, not in an effect that watches a flag.</li><li><b>Resetting state on a prop change</b>: give the component a <code>key</code> instead.</li><li><b>Data fetching</b>: prefer TanStack Query.</li></ul>
             
@@ -224,6 +229,7 @@ useEffect(() =&gt; {
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> useMemo remembers a value, useCallback remembers a function, and memo skips redrawing a component when its props didn't change.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> useMemo = writing a long sum's answer on a sticky note. useCallback = keeping the same phone number instead of getting a new SIM every day. memo = a teacher who doesn't recheck a copy that hasn't changed.</p></div>
             
             <ul><li><code>useMemo(fn, deps)</code>: remembers a <b>calculated value</b>, like a filtered list.</li><li><code>useCallback(fn, deps)</code>: remembers a <b>function</b>, so its identity stays the same.</li><li><code>memo(Component)</code>: skips re-rendering a <b>component</b> if its props are the same (shallow compare).</li></ul><p>They work together: <code>memo</code> on a child is useless if the parent passes a new function or object every render. That is where <code>useCallback</code> and <code>useMemo</code> help.</p><p>Don't wrap everything. Memoisation has its own cost; use it for heavy calculations or a memoised child that renders a lot.</p>
             
@@ -240,6 +246,7 @@ useEffect(() =&gt; {
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> useRef is a box that keeps a value between renders without causing a redraw, often used to grab a DOM element.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A locker in the office: you can keep something there between visits, and changing it doesn't call a meeting (no re-render).</p></div>
             
             <p><code>useRef</code> gives a box (<code>ref.current</code>) that <b>survives renders</b> and <b>does not cause a re-render</b> when changed.</p><p>Two uses: reaching a <b>DOM element</b> (focus an input, scroll to a row), and keeping a <b>mutable value</b> like a timer id, the previous value, or "is this the first render".</p>
             
@@ -258,6 +265,7 @@ useEffect(() =&gt; {
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> When state has many parts that change together, put all the update rules in one reducer function.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A bank passbook with fixed entry types (deposit, withdraw, interest). Instead of many people editing the balance, one clerk (the reducer) applies each entry by the rules.</p></div>
             
             <p>Use <code>useReducer</code> when state has <b>many related fields</b> or the next state depends on <b>what happened</b> (an action), like a multi-step form, a cart, or a table with filters, sort and page.</p><p>All the update logic sits in one pure function, which is easy to test and read: <code>dispatch({ type: "addItem", item })</code>.</p>
             
@@ -280,6 +288,7 @@ useEffect(() =&gt; {
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> useEffect runs after the screen is painted. useLayoutEffect runs just before, for measuring things without flicker.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> useEffect = hanging a painting after the guests are seated. useLayoutEffect = measuring the wall before the curtain opens, so nobody sees it move.</p></div>
             
             <p><code>useEffect</code> runs <b>after</b> the browser paints, so it doesn't block the screen. Use it for almost everything.</p><p><code>useLayoutEffect</code> runs <b>after DOM changes but before paint</b>. Use it only when you must measure the DOM and fix the position before the user sees a flicker, like placing a tooltip.</p>
             
@@ -294,6 +303,7 @@ useEffect(() =&gt; {
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> A custom hook is your own reusable <code>useSomething</code> function that packs hook logic, like useDebounce.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Your mother's masala mix: make it once, keep it in a jar, and use the same mix in every dish (component).</p></div>
             
             <p>A custom hook is a function starting with <code>use</code> that <b>reuses stateful logic</b> (not UI) across components. Each component that uses it gets its <b>own</b> state.</p><p>Good examples: <code>useDebounce</code>, <code>useOnlineStatus</code>, <code>usePermission</code>, <code>useLocalStorage</code>.</p>
             

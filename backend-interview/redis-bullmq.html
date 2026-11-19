@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Redis is a super-fast memory store, used for caching, OTPs, counters, locks and job queues.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Redis is the counter shelf near the shopkeeper: very fast to grab things from, used for popular items, OTP slips, token counts and the order queue.</p></div>
             
             <p>Redis is an <b>in-memory</b> key-value store, very fast (well under a millisecond for simple operations), with data types beyond strings:</p><ul><li><b>String</b>: cache values, counters (<code>INCR</code> for rate limits), OTPs with expiry.</li><li><b>Hash</b>: an object with fields, like a session.</li><li><b>List</b>: simple queues.</li><li><b>Set</b>: unique items, like online user ids.</li><li><b>Sorted set</b>: leaderboards, or "top 10 by score".</li><li><b>Streams and Pub/Sub</b>: events and messaging.</li></ul><p>Common uses: <b>caching</b>, sessions, rate limiting, OTP storage, distributed locks, and <b>job queues</b> (BullMQ is built on Redis).</p>
             
@@ -132,6 +133,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Look in the cache first. If it's not there, read the database and keep a copy for a few minutes.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Check the front counter first. If the item isn't there, fetch it from the godown and keep one on the counter for a while.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;A request asks for employee 42.&quot;,&quot;The app first checks Redis for the key employee:42.&quot;,&quot;If Redis has it, it answers in about a millisecond. If not, the app reads the database, saves a copy in Redis with a TTL, and answers.&quot;]"><div class="flow-row"><div class="node">Request</div><div class="arrow" aria-hidden="true">→</div><div class="node">Redis has it?</div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node">Yes → return fast</div><div class="node">No → read DB, save in Redis with TTL, return</div></div></div><figcaption><span class="en">On update: delete the key so the next read is fresh.</span><span class="hi">On update: delete the key so the next read is fresh.</span></figcaption></figure>
             <p><b>Cache-aside</b> (lazy loading): the app checks Redis first; on a <b>miss</b>, it reads the database, saves the result in Redis with a <b>TTL</b>, and returns it.</p><p>Keeping it correct, which is the hard part:</p><ul><li><b>Always set a TTL</b>, so wrong data fixes itself eventually.</li><li>On update, <b>delete</b> the key (don't update it), so the next read loads fresh data.</li><li>Use clear key names: <code>employee:42</code>, <code>master:states:v2</code>.</li><li>Cache what is <b>read often and changes rarely</b>: master data, permissions, config.</li></ul>
             
@@ -176,6 +178,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> A shared 'occupied' sign in Redis, so only one server does the job at a time. The sign removes itself after a timeout.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> An "Occupied" sign on a single washroom: only one person at a time, and the sign falls off by itself if someone forgets (timeout).</p></div>
             
             <p>When you run 5 copies of a service, an in-memory lock isn't enough. Use Redis:</p><ul><li><b>Acquire</b>: <code>SET lock:key &lt;random-token&gt; NX PX 30000</code>. NX means only if it doesn't exist; PX sets an expiry, so a crashed holder doesn't block others forever.</li><li><b>Release</b>: delete the key <b>only if the token is still yours</b>, using a small Lua script, so you don't delete someone else's lock after yours expired.</li></ul><p>Use it for things like "only one instance runs this cron job". For money-critical correctness, still rely on <b>database constraints and transactions</b>; a Redis lock is a helper, not a guarantee.</p>
             
@@ -224,6 +227,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Add jobs with retry settings; a worker class picks them up. A failing job is tried again after 2, 4, 8 seconds.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A courier: if nobody answers the door, he tries again after 2 hours, then 4, then 8, before marking it failed.</p></div>
             
             <p>Register the queue, add jobs from a service, and process them in a class that extends <code>WorkerHost</code>. Set <b>attempts</b> and <b>exponential backoff</b>, so temporary failures (an SMTP timeout) are retried after 2 s, 4 s, 8 s...</p><p>A custom <code>jobId</code> stops duplicate jobs for the same thing.</p>
             
@@ -272,6 +276,7 @@ declare <span class="kw">function</span> sendWelcomeEmail(to: string): Promise&l
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> A job can run twice, so before acting it checks 'did I already do this?'.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Before paying a bill, the accountant checks the register: "Is this bill already marked paid?" If yes, he doesn't pay it again.</p></div>
             
             <p>Queues guarantee <b>at-least-once</b> delivery: after a crash or a stalled job, a job can run <b>again</b>. So design every job to be safe to repeat:</p><ul><li>before sending, check a <b>"sent" flag or a unique row</b> (<code>notification_id</code> with a unique constraint),</li><li>use <b>upserts</b> instead of blind inserts,</li><li>pass an <b>idempotency key</b> to payment and SMS providers,</li><li>use a deterministic <code>jobId</code> to avoid adding duplicates.</li></ul>
             
@@ -286,6 +291,7 @@ declare <span class="kw">function</span> sendWelcomeEmail(to: string): Promise&l
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Jobs that fail every retry go to a 'failed' list for checking. Jobs can also wait (delayed) or repeat on a schedule.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Undelivered parcels go to a "returned" shelf to be checked (failed list). Some parcels are scheduled for later (delayed), and a milk subscription repeats every day (repeat jobs).</p></div>
             
             <p>After all attempts fail, the job moves to the <b>failed</b> set, which works like a <b>dead letter queue</b>. Keep failed jobs (<code>removeOnFail</code> with a limit), <b>alert</b> on them (a failed count above a threshold), inspect them in a dashboard (like Bull Board), and <b>retry</b> them after fixing the cause.</p><ul><li><b>Delayed jobs</b>: <code>{ delay: 24 * 3600 * 1000 }</code> for "send a reminder after 24 hours".</li><li><b>Repeatable / scheduled jobs</b>: cron-like schedules (BullMQ's job schedulers), for example a daily 8 AM report. Only one scheduled job runs per schedule, even with many workers.</li></ul>
             

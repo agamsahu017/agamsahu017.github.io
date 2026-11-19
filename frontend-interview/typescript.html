@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Both describe the shape of data. Use <code>interface</code> for objects, and <code>type</code> when you need 'this OR that'.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Both are forms. <code>interface</code> is a standard admission form for one thing. <code>type</code> can also say "this OR that", like "Aadhaar OR passport".</p></div>
             
             <p>Both describe the shape of an object, and for most props they work the same.</p><ul><li><code>interface</code> can be <b>extended</b> with <code>extends</code> and can be <b>re-opened</b> (declaration merging), which is useful for libraries.</li><li><code>type</code> can describe <b>anything</b>: unions (<code>"admin" | "user"</code>), tuples, function types, and mapped types.</li></ul><p>A simple team rule: <code>interface</code> for object shapes like props and API responses, <code>type</code> for unions and combinations. Being consistent matters more than the choice.</p>
             
@@ -136,6 +137,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> <code>any</code> = 'don't check anything'. <code>unknown</code> = 'check before you use it'. <code>never</code> = 'this can't happen'.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> <code>any</code> = no security check at the gate. <code>unknown</code> = stop and check ID before entry. <code>never</code> = a door that is bricked shut; nobody can come through.</p></div>
             
             <ul><li><code>any</code> switches type checking <b>off</b>. You can do anything with it, so bugs slip through.</li><li><code>unknown</code> means "I don't know the type yet". You <b>must check</b> it before using it. Use it for API responses and <code>catch</code> errors.</li><li><code>never</code> means "this can never happen". It is used for functions that always throw, and for exhaustive checks in a <code>switch</code>.</li></ul>
             
@@ -187,6 +189,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Ready-made type tools: make all fields optional (Partial), pick some (Pick), remove some (Omit), or build a map (Record).</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Ready-made form templates: Partial = all fields optional, Pick = only name and phone, Omit = everything except password, Record = a register with one row per key.</p></div>
             
             <ul><li><code>Partial&lt;T&gt;</code>: all fields optional. Good for an "update" form.</li><li><code>Required&lt;T&gt;</code>: all fields required.</li><li><code>Pick&lt;T, "a" | "b"&gt;</code>: only some fields.</li><li><code>Omit&lt;T, "password"&gt;</code>: everything except some fields.</li><li><code>Record&lt;K, V&gt;</code>: an object map, like <code>Record&lt;Role, string[]&gt;</code>.</li><li><code>ReturnType&lt;typeof fn&gt;</code>: the type a function returns.</li></ul>
             
@@ -205,6 +208,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> A list of allowed strings like <code>"open" | "closed"</code> is simpler than an enum, and adds no extra code.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A union is a simple printed list of allowed options on the form ("Open / Closed"). An enum is a separate rule book you also have to carry around.</p></div>
             
             <p>Many teams now prefer <b>union types of strings</b> (<code>type Status = "open" | "closed"</code>) because they add no extra JavaScript code and work directly with API JSON.</p><p><code>enum</code> creates a real object at runtime. It is fine, but numeric enums can accept wrong numbers silently. If you need a list you can loop over, use a <code>const</code> object with <code>as const</code> and derive the type from it.</p>
             
@@ -220,6 +224,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Describe props with an interface, tell useState the type when it's not obvious, and use React's event types in handlers.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Labelling every box before shifting house: what's in it (props), what can change (state), and what to do when someone opens it (events).</p></div>
             
             <ul><li>Props: an <code>interface</code> and destructure it in the function signature. In React 19 you don't need <code>React.FC</code>.</li><li>State: <code>useState&lt;User | null&gt;(null)</code> when the start value doesn't show the full type.</li><li>Events: <code>React.ChangeEvent&lt;HTMLInputElement&gt;</code>, <code>React.FormEvent&lt;HTMLFormElement&gt;</code>, <code>React.MouseEvent&lt;HTMLButtonElement&gt;</code>.</li><li>Children: <code>children: React.ReactNode</code>.</li></ul>
             
@@ -244,6 +249,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> After an <code>if</code> check, TypeScript understands the exact type. A type guard is your own checking function that TypeScript trusts.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A guard at a hospital: after checking "is this person a doctor?", he lets them into the OT. A type guard is your own ID-checking function that TypeScript trusts.</p></div>
             
             <p><b>Narrowing</b> is TypeScript making a type more specific after a check. <code>typeof</code>, <code>instanceof</code>, <code>in</code>, and checking a shared field (a <b>discriminated union</b>) all narrow types.</p><p>A <b>type guard</b> is your own function that returns <code>value is SomeType</code>, so TypeScript trusts your check.</p>
             

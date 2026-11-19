@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Ask questions first, then explain the stack, the folder structure, the shared pieces (auth, errors), speed and quality.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> An architect asks how many family members, the budget and the plot size before drawing anything.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;Clarify: ask who the users are, how many screens there are, and what matters most.&quot;,&quot;Choose the stack: React, TypeScript, Router, React Query, a form library.&quot;,&quot;Plan the structure: feature folders, a shared UI kit, an API layer.&quot;,&quot;Cover the shared concerns: login, roles, error handling, logging.&quot;,&quot;Talk about speed: lazy routes, server pagination, virtualised tables.&quot;,&quot;End with trade-offs: what you chose, what you gave up, and what changes at 10x scale.&quot;]"><div class="flow-row"><div class="node">Clarify needs</div><div class="arrow" aria-hidden="true">→</div><div class="node">Stack</div><div class="arrow" aria-hidden="true">→</div><div class="node">Structure</div><div class="arrow" aria-hidden="true">→</div><div class="node">Auth, RBAC, errors</div><div class="arrow" aria-hidden="true">→</div><div class="node">Performance</div><div class="arrow" aria-hidden="true">→</div><div class="node">Trade-offs</div></div><figcaption><span class="en">A simple order to answer any frontend design question.</span><span class="hi">A simple order to answer any frontend design question.</span></figcaption></figure>
             <p>Use a simple structure and talk through it:</p><ul><li><b>Clarify</b>: users, roles, number of screens, devices, languages, data size, offline needs.</li><li><b>Stack</b>: React + TypeScript + Vite, React Router, TanStack Query for API data, Context for auth/RBAC, react-hook-form + zod for forms, a component library or a small design system.</li><li><b>Structure</b>: feature-based folders, a shared UI kit, an API layer with typed clients, and route config with permissions.</li><li><b>Cross-cutting</b>: auth and token refresh, RBAC (menu, routes, buttons), error boundaries, toasts, logging (Sentry), i18n, accessibility.</li><li><b>Performance</b>: lazy routes, virtualised tables, server-side pagination and filtering.</li><li><b>Quality</b>: ESLint, Prettier, tests, CI checks, preview deploys.</li></ul><p>Finish with the <b>trade-offs</b> you made and what you would change at 10x scale.</p>
             
@@ -132,6 +133,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Keep everything for one feature in one folder, plus a shared folder for common UI pieces.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A kitchen where each dish has its own shelf (feature folders), plus a common shelf for salt, oil and spoons (shared folder).</p></div>
             
             <p>Organise <b>by feature</b>, not by file type. Everything for "leaves" lives together, so a developer working on leaves stays in one folder.</p>
             
@@ -154,6 +156,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Micro-frontends split one website into small apps that deploy separately. Useful for many teams, extra work for one team.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A food court: each stall runs and changes its own menu separately. Great for a mall with many owners, extra work for one small family dhaba.</p></div>
             
             <p>Micro-frontends split one big frontend into <b>separately built and deployed apps</b> (for example with Module Federation), often owned by different teams.</p><p>Benefits: independent deploys, and teams don't block each other. Costs: duplicate dependencies, version mismatches, shared state and auth getting harder, inconsistent UI, and more DevOps work.</p><p>An honest answer: "Only when several teams have to deploy independently. For one or two teams, a well-structured monorepo with feature folders is simpler and faster."</p>
             
@@ -168,6 +171,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Upgrade in small steps (build tool, then TypeScript, then data fetching), not by rewriting everything at once.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Renovating a house one room at a time while the family still lives in it, instead of demolishing it and staying on the road.</p></div>
             
             <p><b>Step by step, never a big-bang rewrite:</b></p><ul><li>Move the build from Create React App (deprecated in 2025) to <b>Vite</b> first. It is mostly config, with a big speed gain.</li><li>Turn on TypeScript with <code>allowJs</code>, and type new and changed files only.</li><li>Move API data from Redux to <b>TanStack Query</b> one feature at a time; keep Redux for what is left.</li><li>Write new screens with hooks; convert class components only when you touch them.</li><li>Keep tests and the release going; measure bundle size and errors before and after.</li></ul>
             
@@ -200,6 +204,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Break the work into small tasks, estimate each, add a buffer, and if the date is too tight, offer to cut scope.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Planning a wedding: list every task, estimate each, keep extra days for surprises, and if the date is too close, cut the guest list instead of the quality.</p></div>
             
             <p>Break the feature into small tasks (UI, API integration, validation, edge cases, tests, review), estimate each, and add a buffer for unknowns. Share <b>assumptions</b> along with the number.</p><p>If the deadline is too tight, don't just say yes. Offer options: <b>reduce the scope</b> (an MVP first), add people where it actually helps, or move the date. Raise the risk early, not on the last day.</p>
             
@@ -214,6 +219,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Let tools check the formatting, review the logic and risks yourself, explain why, and help juniors quickly.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A driving instructor doesn't comment on seat colour (a tool handles formatting); he points out dangerous turns and explains why.</p></div>
             
             <p>Code reviews: automate style with ESLint and Prettier so reviews focus on <b>logic, edge cases, security, naming and tests</b>. Keep PRs small, give reasons ("this re-renders on every key press because..."), and separate must-fix comments from suggestions.</p><p>Mentoring: pair on tricky tasks, give juniors ownership of small features, share a checklist, and review their PRs quickly so they aren't blocked.</p>
             
@@ -228,6 +234,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Listen, use facts or a small demo, agree on the goal, decide, then fully support the decision.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Two family members disagree on a car. Test drive both (facts/demo), agree on what matters (budget, mileage), decide, then nobody sulks afterwards.</p></div>
             
             <p>Listen first, then move the discussion to <b>facts</b>: data, a small prototype, or a quick spike. Agree on the goal (user, deadline, cost), list the options with trade-offs, and decide together or escalate politely. Once decided, commit fully, even if your option wasn't chosen.</p><p>In a <b>client round</b> (common in service companies), be clear and confident, and never criticise your current employer or client.</p>
             

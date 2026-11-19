@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> SQL databases are neat tables with strict rules, good for money and records. NoSQL is flexible, good for changing shapes or huge scale.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> SQL = a bank ledger with fixed columns, where totals must always match. NoSQL = a box of index cards where each card can have different notes.</p></div>
             
             <p><b>SQL (PostgreSQL, MySQL)</b>: tables with a fixed schema, relations and joins, strong <b>ACID transactions</b>. Best when data is related and correctness matters: payments, orders, HR, approvals, government records.</p><p><b>NoSQL</b> is a family:</p><ul><li><b>document</b> stores (MongoDB): flexible JSON-like documents,</li><li><b>key-value</b> stores (Redis),</li><li><b>wide-column</b> stores (Cassandra),</li><li><b>graph</b> databases (Neo4j).</li></ul><p>It's good for flexible or changing shapes, very high write volume, or data always read as one whole document.</p><p>Honest answer: <b>"Start with PostgreSQL unless there's a clear reason not to."</b> It also handles JSON well with JSONB. Many systems use both: Postgres for core data, Redis for cache, and Mongo or Elasticsearch for logs or search.</p>
             
@@ -132,6 +133,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Both are good SQL databases. Postgres has more advanced features; MySQL is simple and very common.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Two good cars: Postgres is the feature-loaded model, MySQL is the simple, popular one you find serviced everywhere.</p></div>
             
             <p>Both are solid, open-source relational databases. Differences that come up in interviews:</p><ul><li><b>PostgreSQL</b>: richer features (JSONB with GIN indexes, arrays, CTEs, partial and expression indexes, strong extensions like PostGIS), strict about data types, default isolation Read Committed.</li><li><b>MySQL</b> (InnoDB): very common in web apps and hosting, simple to run, great read performance with replicas, default isolation <b>Repeatable Read</b>. Historically it was more relaxed about bad data (it depends on <code>sql_mode</code>).</li><li>Both support window functions (MySQL 8+), JSON, and replication.</li></ul><p>Choose by team skills and features needed, not by hype.</p>
             
@@ -164,6 +166,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Keep things together in one document if they're always read together; store just an id if the thing is shared.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Keep your address inside your own profile (embed). But your company's details live in one place, and many profiles just write the company's id (reference).</p></div>
             
             <p>Design for <b>how the data is read</b>:</p><ul><li><b>Embed</b> when the child data is <b>owned by</b> the parent, always read together, and limited in size: an order with its line items, a user with addresses.</li><li><b>Reference</b> (store ids) when the data is <b>shared</b>, read separately, or grows without limit: a product used by many orders, the comments on a viral post.</li></ul><p>Remember the <b>16 MB document limit</b>, and avoid arrays that grow forever.</p>
             
@@ -182,6 +185,7 @@ db.orders.insertOne({ _id: <span class="st">"ord_2"</span>, userId: <span class=
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Mongo indexes work like SQL indexes. Order the fields: exact matches first, then sort, then ranges.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Searching a train chart: first the exact train number (Equality), then the sorting by coach (Sort), then the seat range (Range). Same order for the index.</p></div>
             
             <p>MongoDB also uses B-tree indexes, including <b>compound</b> indexes where the order matters. Check queries with <code>.explain("executionStats")</code> and look for <code>COLLSCAN</code> (a full scan) vs <code>IXSCAN</code>.</p><p>The <b>ESR rule</b> for compound index order: <b>Equality</b> fields first, then <b>Sort</b> fields, then <b>Range</b> fields.</p>
             
@@ -198,6 +202,7 @@ db.orders.find({ status: <span class="st">"pending"</span>, amount: { $gt: 1000 
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> An aggregation pipeline is an assembly line: filter → group → sort → limit, one step after another.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A factory assembly line: sort out bad pieces (match) → group by colour (group) → arrange by size (sort) → pack the top 10 (limit).</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;$match keeps only paid orders. Doing this first lets it use an index.&quot;,&quot;$group adds up the total amount for each city.&quot;,&quot;$sort puts the highest total first.&quot;,&quot;$limit keeps only the top 5 cities.&quot;]"><div class="flow-row"><div class="node">$match (paid)</div><div class="arrow" aria-hidden="true">→</div><div class="node">$group (by city)</div><div class="arrow" aria-hidden="true">→</div><div class="node">$sort (total)</div><div class="arrow" aria-hidden="true">→</div><div class="node">$limit 5</div></div><figcaption><span class="en">Each stage passes its output to the next.</span><span class="hi">Each stage passes its output to the next.</span></figcaption></figure>
             <p>A pipeline is a list of <b>stages</b>; each stage transforms the documents and passes them on, like SQL's WHERE, GROUP BY and ORDER BY in steps:</p><ul><li><code>$match</code> (filter, put it first so it can use indexes),</li><li><code>$group</code>, <code>$sort</code>, <code>$project</code>, <code>$lookup</code> (a join), <code>$unwind</code> (split an array into separate documents).</li></ul>
             
@@ -218,6 +223,7 @@ db.orders.aggregate([
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Yes, but they're slower. Good Mongo design keeps changes that belong together inside one document.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Changing two lockers together needs a manager present (transaction, slower). Better: keep things that change together in one locker.</p></div>
             
             <p>Yes. <b>Single-document</b> operations have always been atomic. <b>Multi-document</b> transactions exist since MongoDB 4.0 (replica sets) and 4.2 (sharded clusters), and they need a <b>replica set</b>, even in development.</p><p>They are slower than in SQL databases, so good MongoDB design tries to keep data that changes together <b>in one document</b>. If you need transactions everywhere, a relational database may be the better choice.</p>
             

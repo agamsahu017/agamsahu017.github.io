@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> The layout (header and sidebar) stays; only the middle part, the Outlet, changes with the URL.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A TV: the frame and buttons stay the same, only the picture (Outlet) changes when you switch channels (URL).</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;The parent route draws the layout: header and sidebar that stay on every page.&quot;,&quot;Inside the layout, Outlet is an empty slot.&quot;,&quot;The URL decides what fills the slot: /employees shows the list, /employees/7 shows one employee.&quot;]"><div class="flow-row"><div class="node">/ → AppLayout (header, sidebar)</div><div class="arrow" aria-hidden="true">→</div><div class="node">Outlet</div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node">/employees → EmployeeList</div><div class="node">/employees/7 → EmployeeDetail</div></div></div><figcaption><span class="en">Child routes appear inside the parent's Outlet.</span><span class="hi">Child routes appear inside the parent's Outlet.</span></figcaption></figure>
             <p>A parent route renders a <b>layout</b> (header and sidebar), and <code>&lt;Outlet /&gt;</code> is the slot where the matching <b>child route</b> appears. The layout stays on screen while only the inner part changes.</p><p>An <code>index</code> route is the default child, and <code>path="*"</code> catches unknown URLs for a 404 page.</p>
             
@@ -140,6 +141,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> If not logged in, send the user to login and remember where they wanted to go. After login, send them back there.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A guard sends a visitor to the reception for a pass, but notes "going to flat 402". After the pass, he takes them straight to 402.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;The user opens /reports.&quot;,&quot;They aren't logged in, so the guard sends them to /login and remembers '/reports' in state.&quot;,&quot;The user logs in successfully.&quot;,&quot;The login page reads the remembered path and sends them back to /reports.&quot;]"><div class="flow-row"><div class="node">Open /reports</div><div class="arrow" aria-hidden="true">→</div><div class="node">Not logged in → /login (remember /reports)</div><div class="arrow" aria-hidden="true">→</div><div class="node">Login success</div><div class="arrow" aria-hidden="true">→</div><div class="node">Back to /reports</div></div><figcaption><span class="en">Navigate with state={{ from }} and replace.</span><span class="hi">Navigate with state={{ from }} and replace.</span></figcaption></figure>
             <p>Make a guard component. If there is no user, <code>&lt;Navigate&gt;</code> to <code>/login</code> with <code>replace</code>, and pass the current location in <code>state</code>. After a successful login, navigate to <code>state.from</code>.</p><p>Use it as a <b>layout route</b> with <code>&lt;Outlet /&gt;</code>, so you protect a whole group of pages at once. Add a permission check for role-based pages.</p>
             
@@ -169,6 +171,7 @@ navigate(<span class="kw">from</span>, { replace: <span class="kw">true</span> }
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> useParams reads the 'which item' part of the URL. useSearchParams reads the filters after the <code>?</code>. Keep filters in the URL.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> <code>/orders/42</code> is the house number (which item). <code>?status=paid&amp;page=2</code> are the instructions on the parcel. Put filters in the URL so you can share the exact view.</p></div>
             
             <ul><li><code>useParams</code>: values from the <b>path</b>, like <code>/employees/:id</code> → <code>id</code>. Used for "which item".</li><li><code>useSearchParams</code>: values from the <b>query string</b>, like <code>?status=pending&amp;page=2</code>. Used for filters, sort and page.</li></ul><p>Keep table filters in the <b>URL</b>: the page then survives a refresh, the browser Back button works, and users can share the link. Combine it with React Query by putting the params in the queryKey.</p>
             
@@ -187,6 +190,7 @@ navigate(<span class="kw">from</span>, { replace: <span class="kw">true</span> }
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Load a page's code only when the user opens that page, so the first load is smaller.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A wedding caterer doesn't bring all dishes at once; dessert arrives only when people reach the dessert counter.</p></div>
             
             <p>Use <code>React.lazy</code> with a dynamic <code>import()</code>, and wrap the routes in <code>&lt;Suspense&gt;</code> with a fallback. Each page becomes a <b>separate JS file</b>, downloaded only when the user opens it.</p><p>Good candidates: admin screens, reports and chart-heavy pages. Keep the login and dashboard in the main bundle so they open fast.</p>
             
@@ -207,6 +211,7 @@ navigate(<span class="kw">from</span>, { replace: <span class="kw">true</span> }
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Loaders fetch a page's data before it shows, and actions handle form submits. v7 merged Remix in.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A loader is the waiter who brings your plate before you sit (data before the page shows). An action is the cashier who handles your bill when you submit.</p></div>
             
             <p>From 6.4, you can create the router with <code>createBrowserRouter</code> and give routes a <code>loader</code> (fetch data <b>before</b> the page renders), an <code>action</code> (handle form submits) and an <code>errorElement</code>. This avoids "render, then fetch" waterfalls.</p><p>React Router <b>v7</b> combined React Router with Remix. Upgrading from v6 is mostly smooth if you turn on the v6 "future flags" first. Many projects in NCR are still on v6, which is fine. Say which one your project uses and why.</p>
             
@@ -225,6 +230,7 @@ navigate(<span class="kw">from</span>, { replace: <span class="kw">true</span> }
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> react-hook-form doesn't redraw the whole form on every key press, so big forms stay fast.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A teacher who checks only the answer you just changed, not the whole exam copy after every word you write.</p></div>
             
             <p>It keeps inputs <b>uncontrolled</b> and registers them with refs, so typing doesn't re-render the whole form. Only the parts that subscribe to a value (like an error message or a <code>useWatch</code>) re-render.</p><p>For a 60-field registration form, a controlled approach re-renders the full form on every key press. RHF doesn't.</p>
             
@@ -250,6 +256,7 @@ navigate(<span class="kw">from</span>, { replace: <span class="kw">true</span> }
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> MUI selects and date pickers need value and onChange, so wrap them in Controller to connect them to the form.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A travel adapter: MUI's date picker has a different plug, and <code>Controller</code> is the adapter that fits it into the form's socket.</p></div>
             
             <p>Those components are <b>controlled</b> (they need <code>value</code> and <code>onChange</code>) and don't accept <code>register</code>. Use <code>&lt;Controller&gt;</code> (or <code>useController</code>), which connects them to the form state.</p>
             
@@ -271,6 +278,7 @@ navigate(<span class="kw">from</span>, { replace: <span class="kw">true</span> }
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Write all form rules in one schema (zod), and the form uses it for validation and for TypeScript types.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> One rule book for an exam (zod schema): the checker (form) and the question paper (TypeScript types) both follow it, so they never disagree.</p></div>
             
             <p>Write the rules once as a <b>schema</b> and pass it with <code>resolver: zodResolver(schema)</code> from <code>@hookform/resolvers</code>. Benefits: all rules in one place, cross-field rules (end date after start date, password match), and with zod you get the TypeScript type for free with <code>z.infer&lt;typeof schema&gt;</code>.</p><p>Remember: frontend validation is for user experience. The backend must validate again.</p>
             
@@ -285,6 +293,7 @@ navigate(<span class="kw">from</span>, { replace: <span class="kw">true</span> }
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Load the data, then call reset(data) to fill the form. For 'add another row' sections, use useFieldArray.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Editing a saved address: first the old address is filled in (<code>reset(data)</code>), and "add another phone number" adds a new row (<code>useFieldArray</code>).</p></div>
             
             <p><b>Edit form</b>: fetch with React Query, then call <code>reset(data)</code> when the data arrives (or render the form only after loading, passing <code>defaultValues</code>). <code>reset</code> also sets the "clean" state, so <code>isDirty</code> works correctly.</p><p><b>Dynamic rows</b> (add another education entry, another document): use <code>useFieldArray</code>. Use <code>field.id</code> as the key, not the index.</p><p>Use <code>useWatch</code> instead of <code>watch</code> to read one field without re-rendering the whole form.</p>
             

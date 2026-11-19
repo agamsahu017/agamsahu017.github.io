@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> NestJS gives Node.js a fixed, tidy structure (modules, controllers, services), so big teams write code the same way.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Express is an empty plot where everyone builds in their own style. NestJS is a planned colony with fixed blocks, so every house is easy to find.</p></div>
             
             <p>NestJS is a Node.js framework built on top of Express (or Fastify) that gives a <b>fixed structure</b>: modules, controllers, services, dependency injection, and decorators, in TypeScript.</p><p>Plain Express is flexible, but every team invents its own structure, which gets messy in big projects. Nest gives <b>one standard way</b> for validation, auth guards, logging, config, testing, queues and microservices. That is why enterprise and government projects with big teams like it.</p>
             
@@ -152,6 +153,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> A module is a box for one feature. It shares things through exports, and uses other boxes through imports.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Departments in a company: each department (module) shares some services with others (exports) and uses services from others (imports).</p></div>
             
             <p>A module groups related code (a feature like Leaves).</p><ul><li><code>controllers</code>: handle HTTP routes.</li><li><code>providers</code>: services, repositories and helpers that this module creates.</li><li><code>exports</code>: the providers that <b>other modules may use</b>.</li><li><code>imports</code>: other modules whose exported providers this module needs.</li></ul><p>A provider is private to its module unless exported. A common error, "Nest can't resolve dependencies of X", usually means you forgot to export it or to import its module.</p>
             
@@ -172,6 +174,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> By default each service is created once and shared. A circular dependency means two services need each other; split out the shared part.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> One office printer shared by everyone (default singleton). A circular dependency is two people each waiting for the other to sign first; a third person (a new service) breaks the loop.</p></div>
             
             <p><b>Scopes</b>:</p><ul><li><b>DEFAULT</b> (singleton): one instance for the whole app. Fastest. Use it almost always.</li><li><b>REQUEST</b>: a new instance per request, for per-request data like a tenant. It also makes everything that depends on it request-scoped, which costs performance.</li><li><b>TRANSIENT</b>: a new instance for every consumer.</li></ul><p><b>Circular dependency</b> (A needs B, and B needs A): the best fix is to <b>redesign</b>, by moving the shared logic into a third service or using events. If you must keep it, use <code>forwardRef(() =&gt; B)</code> on both sides.</p>
             
@@ -204,6 +207,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Put a @Roles() label on a route. The guard reads the label and checks if the user has one of those roles.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A board on a door saying "Staff only" (<code>@Roles</code>). The guard at the door reads the board and checks your ID before letting you in.</p></div>
             
             <p>Store the required roles as <b>metadata</b> with a custom decorator, read it in a guard with <code>Reflector</code>, and compare it with the user that the auth guard put on the request.</p>
             
@@ -236,6 +240,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Describe the allowed body in a DTO class. ValidationPipe checks it and removes any extra fields.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A form at a bank counter with fixed boxes. The clerk (ValidationPipe) rejects wrong entries and crosses out anything written outside the boxes (whitelist).</p></div>
             
             <p>Create a <b>DTO class</b> with <code>class-validator</code> decorators, and turn on a global <code>ValidationPipe</code>.</p><ul><li><code>whitelist: true</code>: <b>removes</b> properties not in the DTO, so a client can't sneak in <code>isAdmin: true</code>.</li><li><code>forbidNonWhitelisted: true</code>: rejects the request instead of silently removing extra fields.</li><li><code>transform: true</code>: converts the plain body into the DTO class and converts types (like <code>"5"</code> to 5 for query params).</li></ul>
             
@@ -269,6 +274,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> An interceptor wraps your handler, like a stopwatch around it, to log timing or reshape the reply.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A stopwatch around every race: it notes start and end time and can also wrap the medal nicely before it's handed out.</p></div>
             
             <p>Interceptors run code <b>before and after</b> the handler, using RxJS. Common uses:</p><ul><li>logging and timing every request,</li><li>wrapping all responses in one format (<code>{ data, meta }</code>),</li><li>caching,</li><li>timeouts,</li><li>mapping errors.</li></ul>
             
@@ -295,6 +301,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Throw Nest's ready-made errors, and one global filter turns every error into the same neat JSON reply.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Every complaint, whatever the problem, gets the same printed reply slip format from the help desk (global exception filter).</p></div>
             
             <p>Throw Nest's built-in exceptions in services (<code>NotFoundException</code>, <code>ConflictException</code>, <code>ForbiddenException</code>), and add a <b>global exception filter</b> that formats every error the same way and logs unknown ones.</p><p><b>Never leak stack traces or SQL errors</b> to the client. Map a database unique violation (Postgres code <code>23505</code>) to a 409.</p>
             
@@ -325,6 +332,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> In tests, give the service fake helpers (a fake repository) and check its logic alone.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Testing a new cook with plastic vegetables (fake repository): you check the cooking steps without buying real groceries.</p></div>
             
             <p>Use <code>Test.createTestingModule</code> and give <b>fake providers</b> for dependencies (the repository, the mail service), then test the service's logic in isolation with Jest.</p><p>For APIs, write <b>e2e tests</b> with Supertest against the real app and a test database (often Docker). Test the important business rules: "only Pending leaves can be approved" and "HR can't approve their own leave".</p>
             

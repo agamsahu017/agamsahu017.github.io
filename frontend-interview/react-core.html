@@ -132,6 +132,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Keys are name tags for list items. If you use the position as the name tag, items get mixed up when the list changes.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Keys are name tags at a wedding table. If tags just say "seat 1, seat 2" and someone leaves, everyone's plate goes to the wrong person.</p></div>
             
             <p>Keys tell React <b>which item is which</b> between renders. With a stable key (like <code>order.id</code>), React can move, add or remove items correctly.</p><p>With the <b>index</b> as key, inserting or deleting at the top shifts every index. React then thinks item 0 is still item 0, so <b>state stays with the wrong row</b>: a typed input or a checkbox appears on the wrong item. Index keys are only safe for static lists that never reorder.</p>
             
@@ -150,6 +151,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> A component redraws when its state changes, its parent redraws, or a context it reads changes.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A notice board is redrawn when its own notice changes, when the main board above it is redone, or when the shared announcement it shows is updated.</p></div>
             
             <p>A component re-renders when:</p><ul><li>its own <b>state</b> changes,</li><li>its <b>parent re-renders</b> (by default, all children re-render too, even with the same props),</li><li>a <b>context</b> it uses changes.</li></ul><p>A re-render is not always slow: React still updates only the changed DOM. It becomes a problem when the component is heavy or the list is long. Then use <code>memo</code>, move state down, or split context.</p>
             
@@ -164,6 +166,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Controlled: React holds the input's value. Uncontrolled: the input holds its own value and you read it when needed.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Controlled = a teacher writes on your notebook for you. Uncontrolled = you write yourself, and the teacher reads it at the end.</p></div>
             
             <p><b>Controlled</b>: React state holds the value (<code>value={name}</code> + <code>onChange</code>). Easy to validate on every key press, but each key press re-renders.</p><p><b>Uncontrolled</b>: the DOM holds the value, and you read it when needed (a ref, or <code>FormData</code> on submit). Fewer re-renders.</p><p><code>react-hook-form</code> is fast because it is mostly uncontrolled.</p>
             
@@ -178,6 +181,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> In development only, StrictMode runs things twice on purpose to catch missing cleanup. Production runs them once.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A trial run of a fire drill. In practice (development) you do it twice to catch mistakes; on the real day (production) it runs once.</p></div>
             
             <p>That is <b>StrictMode</b> in development. React renders components twice and runs effects as <b>mount → unmount → mount</b> to catch bugs like missing cleanup or impure render code.</p><p>It does <b>not</b> happen in production. The fix is not to remove StrictMode, but to write effects with proper cleanup (cancel the request, remove the listener).</p>
             
@@ -192,6 +196,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> If two children need the same data, keep it in their parent. Passing props through many layers that don't need them is prop drilling.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Two kids need the same TV remote, so the parent keeps it (lifting state). Prop drilling = passing the remote hand to hand through five people who don't watch TV.</p></div>
             
             <p><b>Lifting state up</b>: when two siblings need the same data, move the state to their <b>nearest common parent</b> and pass it down.</p><p><b>Prop drilling</b>: passing props through many layers that don't use them, just to reach a deep child. Fix it with <b>composition</b> (pass components as <code>children</code>), <b>Context</b> for app-wide values like the logged-in user, or a state library.</p>
             
@@ -210,6 +215,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> React 19 handles form loading and errors for you (Actions), shows results instantly (useOptimistic), and lets you pass ref like any prop.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Like a food app update: it shows "order placed" instantly (useOptimistic) and handles payment loading and errors for you (Actions).</p></div>
             
             <ul><li><b>Actions</b>: you can pass an async function to a transition or to <code>&lt;form action={fn}&gt;</code>. React tracks the pending state, errors and form reset for you.</li><li>New hooks: <code>useActionState</code> (state and pending for an action), <code>useFormStatus</code> (pending state of the parent form), <code>useOptimistic</code> (show the result before the server replies).</li><li>The <code>use()</code> API: read a promise or context, and it can even be called inside an <code>if</code>.</li><li><b><code>ref</code> as a normal prop</b>: function components no longer need <code>forwardRef</code>.</li><li><code>&lt;Context&gt;</code> can be used directly as the provider.</li><li><code>&lt;title&gt;</code> and <code>&lt;meta&gt;</code> tags inside components are moved into the document head automatically.</li><li>Server Components and Server Actions are stable (used through frameworks like Next.js).</li></ul>
             
@@ -224,6 +230,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Instead of writing your own loading and error state, useActionState gives you the result and an 'isPending' flag.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Instead of you writing "loading..." and "error" signs by hand, the form comes with a built-in status light (<code>isPending</code>) and result.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;The user fills the form and clicks Save.&quot;,&quot;React sets isPending to true automatically, so the button can show 'Saving...'.&quot;,&quot;Your async function runs: it calls the API and waits.&quot;,&quot;Whatever the function returns becomes the new state (like an error message), and isPending goes back to false.&quot;]"><div class="flow-row"><div class="node">User submits form</div><div class="arrow" aria-hidden="true">→</div><div class="node">isPending = true (button: Saving...)</div><div class="arrow" aria-hidden="true">→</div><div class="node">Async action runs</div><div class="arrow" aria-hidden="true">→</div><div class="node">Result becomes the new state, isPending = false</div></div><figcaption><span class="en">useActionState does the loading-state work for you.</span><span class="hi">useActionState does the loading-state work for you.</span></figcaption></figure>
             <p>Before, we wrote <code>const [loading, setLoading] = useState(false)</code>, set it before and after the call, and handled errors ourselves. <code>useActionState</code> gives you the <b>last result</b> and a <b>pending flag</b> for an async action, with much less code.</p>
             
@@ -270,6 +277,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> The React Compiler adds the 'remember this' optimisations for you, so you write fewer useMemo and useCallback by hand.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Like a car with automatic gears: you no longer change gears (useMemo/useCallback) by hand for most driving.</p></div>
             
             <p>The React Compiler is a build-time tool that <b>adds memoisation automatically</b>. It understands your components and skips work that doesn't need to rerun, which is what we did by hand with <code>useMemo</code>, <code>useCallback</code> and <code>memo</code>.</p><p>With the compiler on, you need much less manual memoisation. But many existing projects don't use it yet, so you must still know when and why to use these hooks. A safe answer: "If the project has the compiler, I rely on it and remove noisy memo code; if not, I memoise only after measuring with the Profiler."</p>
             

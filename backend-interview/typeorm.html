@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Many employees belong to one department. The employee table holds the department_id.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Many students belong to one class. Each student's register row writes the class id, not the other way round.</p></div>
             
             <p>The <b>ManyToOne</b> side owns the foreign key column. OneToMany is just the reverse view and needs the ManyToOne on the other side.</p><p>Name your columns explicitly (<code>@JoinColumn({ name: "department_id" })</code>), so the database schema is readable and matches your migrations.</p>
             
@@ -150,6 +151,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> One query for the list, then one extra query per row: 101 queries instead of 1. Join the data in a single query.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A teacher fetching 100 students' marks by walking to the staff room 100 times, instead of bringing the whole marks register once (a join).</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;Query 1 loads 100 employees.&quot;,&quot;Then, for each employee, one more query loads their department: 100 extra queries.&quot;,&quot;The fix: one query with a JOIN loads employees and departments together.&quot;]"><div class="flow-row"><div class="node">Query 1: 100 employees</div><div class="arrow" aria-hidden="true">→</div><div class="node">Query 2…101: each department</div><div class="arrow" aria-hidden="true">→</div><div class="node">Fix: one JOIN query</div></div><figcaption><span class="en">N+1 is fast in dev with 10 rows and slow in production.</span><span class="hi">N+1 is fast in dev with 10 rows and slow in production.</span></figcaption></figure>
             <p>You load 100 employees with <b>1 query</b>, then access each employee's department, causing <b>100 more queries</b>: 101 in total. It is fast with 10 rows in dev and terrible with 10,000 in production.</p><p>Fix: load the relation in the <b>same query</b>, with <code>relations</code> in <code>find</code>, or <code>leftJoinAndSelect</code> in QueryBuilder. For GraphQL, use <b>DataLoader</b> to batch the queries. Detect it by turning on query logging in dev and counting queries per request.</p>
             
@@ -177,6 +179,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Don't load related data automatically. Ask for it in each query, so you always know what's being fetched.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Eager = a waiter bringing every dish on the menu with your order. Better: order exactly what you'll eat each time.</p></div>
             
             <ul><li><code>eager: true</code>: the relation loads <b>every time</b> you use <code>find</code>. Convenient, but you load data you don't need, and it can chain into big joins.</li><li><b>lazy</b> (a <code>Promise&lt;T&gt;</code> type): loads when you access it, which can quietly create <b>N+1</b> queries.</li></ul><p>A safe default: <b>neither</b>. Load relations explicitly per query with <code>relations</code> or joins, so every query shows exactly what it fetches.</p>
             
@@ -191,6 +194,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Simple CRUD: repository. Lists with filters: QueryBuilder. Heavy reports: raw SQL with parameters.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Repository = buying a ready packet (simple). QueryBuilder = custom order at a sweet shop (filters). Raw SQL = calling the halwai directly for a huge wedding order (heavy reports).</p></div>
             
             <ul><li><b>Repository</b> (<code>find</code>, <code>save</code>, <code>update</code>): simple CRUD and simple filters.</li><li><b>QueryBuilder</b>: dynamic filters, joins, aggregates, subqueries and pagination for list screens, still with <b>parameters</b> (safe from SQL injection).</li><li><b>Raw SQL</b> (<code>dataSource.query(sql, params)</code>): heavy reports, window functions, CTEs, or database-specific features. Always use <b>parameters</b> (<code>$1</code>), never string concatenation.</li></ul><p>Also: <code>save()</code> does a SELECT and then an INSERT or UPDATE. For bulk updates, <code>update()</code> or <code>insert()</code> is much faster.</p>
             
@@ -209,6 +213,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Run all steps with the same transaction 'manager'. If any step throws, everything is undone.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Shifting house: one truck (the transaction manager) carries everything. If one box breaks the rules, the whole trip is cancelled and everything stays at the old house.</p></div>
             
             <p>Inject the <code>DataSource</code> and use <code>dataSource.transaction(async (manager) =&gt; ...)</code>. <b>Every</b> query inside must use that <code>manager</code> (not the injected repositories), or it runs outside the transaction.</p><p>For more control (several steps, custom error handling), use a <code>QueryRunner</code> with <code>startTransaction</code>, <code>commitTransaction</code>, <code>rollbackTransaction</code>, and <code>release</code> in <code>finally</code>.</p>
             
@@ -239,6 +244,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> <code>synchronize</code> changes tables automatically and can delete data. Migrations are planned, reviewed change scripts.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> synchronize = a contractor who rebuilds walls on his own whenever he sees a new drawing (can break your furniture). Migrations = planned renovation steps you approve first.</p></div>
             
             <p><code>synchronize: true</code> changes the database schema to match your entities <b>on every start</b>. If you rename a column, it may <b>drop the old column and its data</b>. Use it only for local experiments, never in staging or production.</p><p><b>Migrations</b> are versioned files with <code>up</code> and <code>down</code>, committed to git, reviewed, and run in the deploy pipeline (<code>typeorm migration:generate</code> / <code>migration:run</code>). Every environment then gets the same changes in the same order.</p><p>For zero-downtime changes, use <b>expand and contract</b>: add the new column, deploy code that writes to both, backfill, switch reads, then drop the old column in a later release.</p>
             
@@ -253,6 +259,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Soft delete hides a row with a deleted date instead of removing it. A version number stops two people overwriting each other's edits.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Soft delete = putting a file in the "archived" cupboard instead of shredding it. Optimistic lock = a register page with a version number; if someone else updated it first, your edit is refused.</p></div>
             
             <p><b>Soft delete</b>: add <code>@DeleteDateColumn() deletedAt</code>. <code>softDelete(id)</code> sets the timestamp instead of deleting, and normal <code>find</code> calls skip those rows automatically. Use <code>withDeleted: true</code> to include them. Useful for audit and undo. Remember that unique indexes still see the deleted rows.</p><p><b>Optimistic locking</b>: add <code>@VersionColumn() version</code>. TypeORM increases it on every save. To stop "two admins editing the same record" overwriting each other, update with <code>WHERE id = :id AND version = :version</code> (or pass the version and check the affected row count); if nothing was updated, return <b>409 Conflict</b>.</p>
             

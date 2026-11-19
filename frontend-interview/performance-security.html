@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Three scores for how a page feels: how fast it shows (LCP), how fast it reacts (INP), and how much it jumps (CLS).</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A restaurant visit: how fast food arrives (LCP), how fast the waiter responds when you call (INP), and whether the table shakes while you eat (CLS).</p></div>
             
             <p>Google's three user-experience numbers:</p><ul><li><b>LCP</b> (Largest Contentful Paint): how fast the main content appears. Good: <b>2.5 s or less</b>.</li><li><b>INP</b> (Interaction to Next Paint): how fast the page responds to clicks and typing. Good: <b>200 ms or less</b>. It replaced FID in 2024.</li><li><b>CLS</b> (Cumulative Layout Shift): how much the layout jumps around. Good: <b>0.1 or less</b>.</li></ul><p>Check them with Lighthouse, PageSpeed Insights, or the <code>web-vitals</code> library for real users.</p>
             
@@ -132,6 +133,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Measure first, find the biggest problem, fix it, and measure again.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A doctor doesn't guess; he takes tests first (measure), treats the main problem, then checks again.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;Measure first: the Network tab, Lighthouse and the React Profiler show where time goes.&quot;,&quot;Pick the single biggest cause, like a 3 MB bundle or 400 re-renders.&quot;,&quot;Fix that one thing: lazy-load the page, memoise the component, or virtualise the list.&quot;,&quot;Measure again and note the numbers, for example LCP from 4.1 s to 1.8 s.&quot;]"><div class="flow-row"><div class="node">Measure (Network, Lighthouse, Profiler)</div><div class="arrow" aria-hidden="true">→</div><div class="node">Find biggest cause</div><div class="arrow" aria-hidden="true">→</div><div class="node">Fix (lazy load, memo, virtualise)</div><div class="arrow" aria-hidden="true">→</div><div class="node">Measure again</div></div><figcaption><span class="en">Always quote before and after numbers.</span><span class="hi">Always quote before and after numbers.</span></figcaption></figure>
             <p><b>Measure first, don't guess:</b></p><ul><li><b>Network tab</b>: big bundles, slow or repeated API calls, waterfalls.</li><li><b>Lighthouse / Performance tab</b>: long tasks blocking the main thread.</li><li><b>React DevTools Profiler</b>: which components re-render, and how long they take.</li></ul><p><b>Then fix what you find:</b></p><ul><li>Big bundle → lazy-load routes, remove heavy libraries (moment → date-fns or dayjs), import only what you use, and check with a bundle analyser.</li><li>Too many re-renders → move state down, split context, use <code>memo</code> and <code>useCallback</code>.</li><li>Long lists → <b>virtualise</b> (react-window, TanStack Virtual).</li><li>Slow typing → debounce, or <code>useDeferredValue</code> / <code>useTransition</code>.</li><li>Images → correct size, <code>loading="lazy"</code>, WebP/AVIF, and fixed width and height to avoid CLS.</li></ul><p>Then <b>measure again</b> and quote the numbers: "LCP went from 4.1 s to 1.8 s".</p>
             
@@ -146,6 +148,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Mark heavy updates as 'not urgent', so typing stays smooth while a big list updates a bit later.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A shop counter: serve the customer standing in front first (typing), and update the stock register a little later (the big list).</p></div>
             
             <p>They mark some updates as <b>not urgent</b>. Typing in the input stays instant (urgent), while filtering a big list (non-urgent) can lag behind and be interrupted.</p><p><code>useTransition</code> wraps the state update you control. <code>useDeferredValue</code> gives a "lagging" copy of a value you received.</p>
             
@@ -166,6 +169,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> XSS is a bad script running on your page. React blocks most of it, except when you insert raw HTML yourself.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> XSS is like someone slipping a fake notice onto your shop's notice board. React shows text as text, but <code>dangerouslySetInnerHTML</code> is pasting the notice without reading it.</p></div>
             
             <p>XSS (Cross-Site Scripting) is when an attacker's script runs on your page, for example through a comment field, and steals tokens or acts as the user.</p><p>React <b>escapes</b> values in JSX by default, so <code>{comment}</code> shows text, not HTML. You are still at risk with:</p><ul><li><code>dangerouslySetInnerHTML</code>: sanitise with <b>DOMPurify</b> first,</li><li>user-supplied URLs in <code>href</code>, like <code>javascript:...</code>: allow only http/https,</li><li>third-party scripts, and directly editing the DOM.</li></ul><p>Add a <b>Content Security Policy (CSP)</b> header as a second layer.</p>
             
@@ -181,6 +185,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> CORS is the browser asking the server 'may this site read your reply?'. Only the server can say yes.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A guest asks your building's guard if they may enter. Only the flat owner (the server) can tell the guard "allow them"; the guest (frontend) can't give themselves permission.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;Your page on app.site.com calls an API on api.other.com, a different origin.&quot;,&quot;The browser checks the reply for the Access-Control-Allow-Origin header from the server.&quot;,&quot;If the server allows your site, the page reads the reply. If not, the browser blocks it with a CORS error.&quot;]"><div class="flow-row"><div class="node">app.site.com calls api.other.com</div><div class="arrow" aria-hidden="true">→</div><div class="node">Browser checks server's Allow-Origin header</div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node">Allowed → page reads reply</div><div class="node">Not allowed → CORS error</div></div></div><figcaption><span class="en">Postman doesn't show CORS errors because it isn't a browser.</span><span class="hi">Postman doesn't show CORS errors because it isn't a browser.</span></figcaption></figure>
             <p>CORS is a <b>browser</b> rule. A page from <code>app.example.com</code> can't read responses from <code>api.other.com</code> unless that server says it's allowed with the <code>Access-Control-Allow-Origin</code> header. For some requests the browser first sends an <b>OPTIONS preflight</b> request.</p><p>The frontend <b>cannot</b> fix it in production. The <b>backend</b> must allow the origin. In development you can use the Vite dev-server proxy. Postman works because it is not a browser.</p>
             
@@ -195,6 +200,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> CSRF tricks your browser into sending a request with your cookies from another website.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Someone fills a cheque and gets you to sign it without reading. Your signature (cookie) is real, but the request isn't from you.</p></div>
             
             <p>CSRF (Cross-Site Request Forgery) tricks a logged-in user's browser into sending a request to your site from another site, using the browser's <b>cookies</b> automatically.</p><p>It matters when auth uses <b>cookies</b>. Defences: <code>SameSite=Lax</code> or <code>Strict</code> cookies, a CSRF token, and checking the Origin header. If you send a Bearer token in a header from JavaScript, classic CSRF doesn't apply, but then you must protect that token from XSS.</p>
             
@@ -209,6 +215,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> No. Anything in frontend code is visible to everyone. Secrets stay on the server.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Writing your ATM PIN on the card itself. Anyone who holds the card (opens the website) can read it.</p></div>
             
             <p><b>No secret is safe in frontend code.</b> <code>VITE_*</code> (or <code>REACT_APP_*</code>) variables are <b>copied into the JavaScript bundle at build time</b>, and anyone can read them in DevTools.</p><p>Only put <b>public</b> config there: the API base URL, the Keycloak client id, a public analytics id. Secrets like payment keys or AI API keys must stay on the <b>backend</b>, which calls the third party for you.</p>
             
@@ -227,6 +234,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> An error boundary is a safety net that shows a friendly message instead of a blank page when a component crashes.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> An MCB in a house: if one room shorts, only that room goes dark and the rest of the house works. A blank page is the whole house losing power.</p></div>
             
             <p>An error boundary catches errors <b>during rendering</b> in its child tree and shows a fallback UI instead of a blank white screen. Put one around each major page or widget, and log the errors to a tool like Sentry.</p><p>It still needs a <b>class component</b> (or the <code>react-error-boundary</code> package). It does <b>not</b> catch errors in event handlers, async code (<code>setTimeout</code>, promises), or in the boundary itself. Use try/catch there.</p>
             
@@ -241,6 +249,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Test like a user: find the button by its name, click it, and check what appears on screen.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Test a new lift like a passenger: press the floor button and see if the right floor comes, not by opening the motor box.</p></div>
             
             <p>Use <b>React Testing Library</b> with <b>Vitest</b> or Jest. Test what the <b>user</b> sees and does, not internal state:</p><ul><li>find elements by role and label (<code>getByRole("button", { name: /save/i })</code>),</li><li>interact with <code>userEvent</code>,</li><li>assert on visible results.</li></ul><p>Mock the network with <b>MSW</b> (Mock Service Worker), so components use their real fetch code. Test hooks with <code>renderHook</code>. Add a few Playwright end-to-end tests for critical flows like login and submit.</p>
             

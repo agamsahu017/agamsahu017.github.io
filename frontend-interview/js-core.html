@@ -168,6 +168,7 @@ console.log(next());</pre>
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> With <code>var</code> all three timers share one <code>i</code>, which is already 3. With <code>let</code>, each timer gets its own <code>i</code>.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> With <code>var</code>, three kids share one blackboard and read it after the teacher has written 3. With <code>let</code>, each kid gets their own slate with their own number.</p></div>
             
             <p>It prints <code>3 3 3</code>. There is only <b>one</b> <code>i</code> because <code>var</code> is function-scoped, and by the time the timers run, the loop has finished and <code>i</code> is 3.</p><p>Fix: use <code>let</code>. <code>let</code> creates a new <code>i</code> for every loop round, so each callback closes over its own copy and you get <code>0 1 2</code>.</p>
             
@@ -183,6 +184,7 @@ console.log(next());</pre>
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> <code>===</code> checks 'same value and same type'. <code>==</code> first tries to convert types, which surprises people.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> <code>===</code> checks both the name and the photo on an ID card. <code>==</code> only checks if they "look similar", so "5" and 5 pass, which causes surprises.</p></div>
             
             <p><code>===</code> checks value <b>and</b> type, with no conversion. <code>==</code> converts types first and then compares, which gives surprising results like <code>0 == ""</code> being true.</p><p>Use <code>===</code> always. The only common exception is <code>x == null</code>, which checks for both <code>null</code> and <code>undefined</code> in one go.</p>
             
@@ -199,6 +201,7 @@ console.log(typeof <span class="kw">null</span>); <span class="cm">// a famous o
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> <code>this</code> means 'the object before the dot when the function is called'. Arrow functions don't have their own <code>this</code>; they borrow it from outside.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> <code>this</code> is "the person who called". If Rahul calls the delivery boy, "this customer" = Rahul. An arrow function doesn't ask who called; it uses whoever was in charge where it was written.</p></div>
             
             <p><code>this</code> depends on <b>how a function is called</b>, not where it is written:</p><ul><li><code>obj.method()</code> → <code>this</code> is <code>obj</code></li><li>a plain call <code>fn()</code> → <code>undefined</code> in strict mode</li><li><code>new Fn()</code> → the new object</li><li><code>fn.call(x)</code> / <code>apply</code> / <code>bind</code> → <code>x</code></li></ul><p>Arrow functions <b>do not have their own <code>this</code></b>. They use the <code>this</code> of the code around them. That is why arrow functions are handy inside callbacks, and why you should not use an arrow function as an object method that needs <code>this</code>.</p>
             
@@ -243,6 +246,7 @@ console.log(4);</pre>
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> JavaScript has one worker. The event loop is the manager who gives it the next ready job only when it is free.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> One chef in a small dhaba. Orders wait in a line; the manager (event loop) gives the chef the next order only when his hands are free.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;The call stack is what JavaScript is doing right now. It can do only one thing at a time.&quot;,&quot;Slow work like a timer or a network call is handed to the browser (or Node). JavaScript doesn't wait for it.&quot;,&quot;When the slow work finishes, its callback joins a queue and waits its turn.&quot;,&quot;The event loop keeps checking: is the stack empty? If yes, it sends the next waiting callback in.&quot;]"><div class="flow-row"><div class="node">Call stack (doing now)</div><div class="arrow" aria-hidden="true">→</div><div class="node">Browser / Node does the slow work (timer, network)</div><div class="arrow" aria-hidden="true">→</div><div class="node">Finished callbacks wait in queues</div><div class="arrow" aria-hidden="true">→</div><div class="node">Event loop: stack empty? → send the next callback</div></div><figcaption><span class="en">The worker never waits for slow work; it only runs callbacks that are ready.</span><span class="hi">The worker never waits for slow work; it only runs callbacks that are ready.</span></figcaption></figure>
             <p>JavaScript runs on <b>one main thread</b>. The event loop is the system that lets it handle many things without blocking:</p><ul><li>The <b>call stack</b> runs your current code.</li><li>Slow work (timers, network, file reads) is handed to the browser or Node.js.</li><li>When that work finishes, its callback waits in a queue.</li><li>When the call stack is empty, the event loop moves callbacks in: microtasks first, then one macrotask, then rendering in the browser.</li></ul><p>This is why a long <code>for</code> loop freezes the page: the stack never becomes empty, so nothing else (clicks, painting) can run.</p>
             
@@ -257,6 +261,7 @@ console.log(4);</pre>
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> all = 'everyone must pass'. allSettled = 'tell me everyone's result'. race = 'first to finish'. any = 'first to succeed'.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> all = a group trip happens only if everyone says yes. allSettled = collect everyone's answer, yes or no. race = whoever replies first decides. any = the first "yes" wins.</p></div>
             
             <ul><li><code>Promise.all</code>: waits for all. <b>Fails fast</b> if any one fails.</li><li><code>Promise.allSettled</code>: waits for all and gives each result as fulfilled or rejected. Never fails.</li><li><code>Promise.race</code>: settles with the <b>first one to finish</b>, success or failure.</li><li><code>Promise.any</code>: gives the <b>first success</b>. Fails only if all fail.</li></ul><p>Real use: a dashboard that loads 4 widgets should use <code>allSettled</code>, so one broken widget doesn't blank the whole page. A timeout wrapper uses <code>race</code>.</p>
             
@@ -280,6 +285,7 @@ console.log(4);</pre>
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Both do the same thing; async/await just reads like normal top-to-bottom code. Wrap it in try/catch for errors.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Same recipe, written as a list of numbered steps (async/await) instead of "do this, then this, then this" in one long sentence (.then).</p></div>
             
             <p>Both use promises underneath. <code>async/await</code> reads like normal top-to-bottom code, so it is easier to follow. Handle errors with <code>try/catch</code>.</p><p>A common mistake: awaiting independent calls one by one. If two API calls don't depend on each other, start both and <code>await Promise.all</code>, which can halve the waiting time.</p>
             
@@ -331,6 +337,7 @@ search(<span class="st">"n"</span>); search(<span class="st">"no"</span>); searc
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> A shallow copy copies only the outer box; the inner boxes are still shared. A deep copy copies every box.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Shallow copy = photocopying a file folder's cover, but the papers inside are still the same papers. Deep copy = photocopying every page too.</p></div>
             
             <p>A <b>shallow copy</b> (<code>{...obj}</code>, <code>Object.assign</code>, <code>[...arr]</code>) copies only the top level. Nested objects are still shared, so changing them changes the original too.</p><p>A <b>deep copy</b> copies everything. Use <code>structuredClone(obj)</code>, which is built into modern browsers and Node.js. <code>JSON.parse(JSON.stringify(obj))</code> is the old trick, but it loses dates, <code>undefined</code>, Maps and functions.</p><p>In React this matters a lot: you must create new objects for the parts you change, or React may not re-render.</p>
             
@@ -352,6 +359,7 @@ console.log(order.address.city); <span class="cm">// original safe</span></pre>
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Every object has a hidden 'parent' object. If a property isn't found, JavaScript asks the parent. <code>class</code> is a neat way to set that up.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A child who doesn't know an answer asks the parent; if the parent doesn't know, they ask the grandparent. That chain of asking is the prototype chain.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;We call e.greet(). JavaScript first looks on the object e itself. greet isn't there.&quot;,&quot;So it walks up to e's prototype, Employee.prototype. greet is found here, so it runs.&quot;,&quot;If it wasn't there, the next stop is Object.prototype, where shared methods like toString live.&quot;,&quot;The chain ends at null. If the property still isn't found, the result is undefined.&quot;]"><div class="flow-row"><div class="node">e (Aman)</div><div class="arrow" aria-hidden="true">→</div><div class="node">Employee.prototype (greet)</div><div class="arrow" aria-hidden="true">→</div><div class="node">Object.prototype (toString)</div><div class="arrow" aria-hidden="true">→</div><div class="node">null</div></div><figcaption><span class="en">e.greet() is not on e, so JavaScript walks up this chain to find it.</span><span class="hi">e.greet() is not on e, so JavaScript walks up this chain to find it.</span></figcaption></figure>
             <p>Every object has a hidden link to another object called its <b>prototype</b>. When you read a property that the object doesn't have, JavaScript looks up this chain. That is how arrays get <code>.map</code>: from <code>Array.prototype</code>.</p><p><code>class</code> is mostly <b>cleaner syntax over prototypes</b>. Methods written in a class are placed on <code>ClassName.prototype</code> and shared by all objects, which saves memory.</p>
             
@@ -372,6 +380,7 @@ console.log(e.hasOwnProperty(<span class="st">"greet"</span>)); <span class="cm"
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> <code>map</code> gives parseInt two values (item and index), and parseInt treats the index as the number base. That breaks it.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> You hand someone two things, "the item and its seat number", but they think the seat number is the language to read in. So they read "2" in base 1 and get nonsense.</p></div>
             
             <p>It gives <code>[1, NaN, NaN]</code>. <code>map</code> passes <b>three</b> arguments: value, index and array. <code>parseInt</code> takes the second argument as the <b>radix</b> (number base):</p><ul><li><code>parseInt(1, 0)</code> → radix 0 means 'guess', so 1</li><li><code>parseInt(2, 1)</code> → base 1 is invalid, so NaN</li><li><code>parseInt(3, 2)</code> → "3" is not a valid binary digit, so NaN</li></ul><p>Lesson: pass a small arrow function, like <code>.map((x) =&gt; parseInt(x, 10))</code> or <code>.map(Number)</code>.</p>
             

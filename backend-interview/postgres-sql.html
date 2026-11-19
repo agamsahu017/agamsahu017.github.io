@@ -148,6 +148,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Find the slow query, ask the database how it runs it (EXPLAIN), fix the reason, and measure again.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A slow train: check the timetable (find the query), ask the driver which route he took (EXPLAIN), fix the bad track (index), then time it again.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;Find the slow query using pg_stat_statements or the slow query log.&quot;,&quot;Run EXPLAIN ANALYZE to see how the database actually runs it.&quot;,&quot;Look for the reason: a full table scan, or a bad estimate of how many rows match.&quot;,&quot;Fix it: add the right index, or rewrite the query.&quot;,&quot;Measure again and note the numbers, for example 412 ms down to 0.9 ms.&quot;]"><div class="flow-row"><div class="node">Find it (pg_stat_statements)</div><div class="arrow" aria-hidden="true">→</div><div class="node">EXPLAIN ANALYZE</div><div class="arrow" aria-hidden="true">→</div><div class="node">Seq Scan? Bad estimate?</div><div class="arrow" aria-hidden="true">→</div><div class="node">Index or rewrite</div><div class="arrow" aria-hidden="true">→</div><div class="node">Measure again</div></div><figcaption><span class="en">The slow-query routine.</span><span class="hi">The slow-query routine.</span></figcaption></figure>
             <ul><li>Find it: the slow query log, or <code>pg_stat_statements</code> (sort by total time).</li><li>Run <code>EXPLAIN (ANALYZE, BUFFERS)</code> on it (carefully on production, since ANALYZE really executes the query).</li><li>Look for a <b>Seq Scan</b> on a big table, a large gap between <b>estimated and actual rows</b> (stale statistics), expensive sorts or hash joins spilling to disk, and nested loops over many rows.</li><li>Fix: add the right index, rewrite the query (avoid <code>SELECT *</code>, use joins instead of N+1 queries), paginate, cache, or move the report to a <b>read replica</b>.</li><li>Measure again, and record the before/after numbers.</li></ul>
             
@@ -186,6 +187,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Isolation decides how much two transactions running together can see of each other. Postgres's default shows only committed data.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Students writing an exam in the same room: isolation decides how much they can see of each other's paper. Postgres's default: you only see answers someone has already submitted.</p></div>
             
             <p>From weakest to strongest:</p><ul><li><b>Read Uncommitted</b>: in PostgreSQL it behaves like Read Committed (no dirty reads ever).</li><li><b>Read Committed</b> (<b>PostgreSQL's default</b>): each statement sees data committed before <b>that statement</b> started. Two reads in one transaction can differ.</li><li><b>Repeatable Read</b>: the whole transaction sees one <b>snapshot</b>.</li><li><b>Serializable</b>: as if transactions ran one at a time. It may fail with a serialization error, which you must <b>retry</b>.</li></ul><p>PostgreSQL uses <b>MVCC</b>: readers don't block writers, because each transaction sees a version of the row. (MySQL InnoDB's default is Repeatable Read.)</p>
             
@@ -218,6 +220,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Two transactions each hold something the other needs, so both wait forever. Postgres stops one of them.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Two cars at a narrow lane, each waiting for the other to reverse. Postgres is the traffic police who makes one of them back out.</p></div>
             
             <p>Transaction A locks row 1 and wants row 2; transaction B locks row 2 and wants row 1. Both wait forever.</p><p>PostgreSQL <b>detects</b> this (after <code>deadlock_timeout</code>, 1 second by default) and <b>cancels one</b> transaction with an error.</p><p>Avoid it: always lock rows in the <b>same order</b> (for example by id), keep transactions <b>short</b> (no API calls inside a transaction), and retry on deadlock errors.</p>
             
@@ -236,6 +239,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Rank salaries from high to low with DENSE_RANK, then pick rank 2.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A class result: rank marks from top (DENSE_RANK, ties share a rank), then call the student at rank 2.</p></div>
             
             <p>Use <code>DENSE_RANK()</code>, which gives equal salaries the same rank with no gaps. Change <code>= 2</code> to <code>= N</code> for any N. This works in PostgreSQL, MySQL 8+ and SQLite.</p><p><code>LIMIT 1 OFFSET 1</code> on distinct salaries also works for a fixed N.</p>
             
@@ -252,6 +256,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Rank salaries inside each department separately (PARTITION BY), then keep rank 1.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Each section of a school gets its own topper list (PARTITION BY section), then you pick rank 1 from each.</p></div>
             
             <p>Use a window function with <code>PARTITION BY</code>. This keeps ties (two people with the same top salary) and is easier to read than a correlated subquery.</p>
             
@@ -272,6 +277,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Group by email and count. Keep the row with the smallest id for each email, delete the rest.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A guest list with the same person written three times: keep the first entry (smallest id) and strike out the rest.</p></div>
             
             <p>Find them with <code>GROUP BY ... HAVING COUNT(*) &gt; 1</code>. Delete every row whose id is <b>not</b> the smallest id for its email. Then add a <b>unique index</b> so it can't happen again.</p>
             
@@ -291,6 +297,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> WHERE filters single rows, HAVING filters groups. INNER JOIN keeps only matches; LEFT JOIN keeps all rows from the left table.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> WHERE = checking each student at the gate. HAVING = checking whole classes after grouping ("classes with more than 40 students"). INNER JOIN = only couples who both came; LEFT JOIN = every guest from list A, with or without a partner.</p></div>
             
             <p><code>WHERE</code> filters <b>rows before</b> grouping. <code>HAVING</code> filters <b>groups after</b> <code>GROUP BY</code>, so it can use <code>COUNT</code> or <code>SUM</code>.</p><p>Joins:</p><ul><li><b>INNER JOIN</b>: only rows that match in both tables.</li><li><b>LEFT JOIN</b>: all rows from the left table, with NULLs where the right side has no match. "All employees, even those without a department."</li><li><b>RIGHT JOIN</b>: the opposite (rarely used).</li><li><b>FULL JOIN</b>: everything from both sides.</li></ul>
             

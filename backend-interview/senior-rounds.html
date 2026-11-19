@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Ask questions, design the APIs and data, draw the big picture, go deep on the hardest part, then talk about trade-offs.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> An architect: ask the family's needs, plan the rooms and pipes, draw the full map, detail the hardest part (staircase), then explain what you gave up for the budget.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;Clarify: who uses it, how many users, and what matters most.&quot;,&quot;Write down the main APIs and tables.&quot;,&quot;Draw the big picture: clients, load balancer, services, database, cache, queue.&quot;,&quot;Go deep into the hardest part, like failures or the bottleneck.&quot;,&quot;Discuss trade-offs and what you'd change at 10x the scale.&quot;]"><div class="flow-row"><div class="node">Clarify</div><div class="arrow" aria-hidden="true">→</div><div class="node">APIs + data</div><div class="arrow" aria-hidden="true">→</div><div class="node">High-level design</div><div class="arrow" aria-hidden="true">→</div><div class="node">Deep dive</div><div class="arrow" aria-hidden="true">→</div><div class="node">Trade-offs</div></div><figcaption><span class="en">The same 5 steps for every design question.</span><span class="hi">The same 5 steps for every design question.</span></figcaption></figure>
             <p>Use the same 5 steps every time:</p><ul><li><b>Clarify requirements</b>: users, main features, scale (users per day, requests per second), and what matters most (consistency, speed, cost).</li><li><b>APIs and data model</b>: the main endpoints and tables.</li><li><b>High-level design</b>: clients → load balancer → services → DB, cache, queue, storage.</li><li><b>Deep dive</b> into the hardest part: the bottleneck, failures, retries, consistency.</li><li><b>Trade-offs and scaling</b>: what breaks at 10x, and what you would add.</li></ul><p>Talk while you draw. Interviewers score your <b>thinking</b>, not one "right" diagram.</p>
             
@@ -146,6 +147,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Don't build the file during the request. A background job builds it, stores it in S3, and sends the user a download link.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A bakery doesn't bake a 500-cake order while you stand at the counter. They bake it in the back, keep it in the fridge (S3), and call you when it's ready (download link).</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;The user asks for an export. The API replies 202 with an export id at once.&quot;,&quot;A job is added to the queue.&quot;,&quot;A worker reads rows from a read replica in batches and streams them into the file.&quot;,&quot;The finished file is uploaded to S3.&quot;,&quot;The user gets a notification with a short-lived download link.&quot;]"><div class="flow-row"><div class="node">Request export → 202</div><div class="arrow" aria-hidden="true">→</div><div class="node">Job queued</div><div class="arrow" aria-hidden="true">→</div><div class="node">Worker streams rows from replica</div><div class="arrow" aria-hidden="true">→</div><div class="node">Upload file to S3</div><div class="arrow" aria-hidden="true">→</div><div class="node">Notify user with a link</div></div><figcaption><span class="en">The API answers in milliseconds even for 10 lakh rows.</span><span class="hi">The API answers in milliseconds even for 10 lakh rows.</span></figcaption></figure>
             <ul><li><code>POST /reports/exports</code> with the filters → create an export record (status <b>queued</b>) → add a BullMQ job → return <b>202</b> with the export id.</li><li><b>Worker</b>: read from a <b>read replica</b> in batches or with a cursor, <b>stream</b> rows into a CSV/Excel writer, upload to <b>S3</b> (streamed or multipart), then set the status to <b>ready</b> with the key.</li><li><b>Notify</b> the user (in-app or email). Downloads use a <b>short-lived pre-signed URL</b>.</li><li><b>Limits</b>: one running export per user, a row cap, a cleanup lifecycle rule (delete after 7 days), and an audit log of who exported what.</li></ul>
             
@@ -160,6 +162,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Start with one well-organised app. Split it into separate services only when teams or load really need it.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Start as one well-organised family home. Split into separate flats only when the family really grows and needs separate kitchens.</p></div>
             
             <p><b>Monolith</b> (or a <b>modular monolith</b> with clean module boundaries, which NestJS modules make easy): one deploy, simple transactions, easy debugging. Best for most teams and products early on.</p><p><b>Microservices</b>: independent deploys and scaling per service, and teams own services. But you pay for network calls, <b>distributed transactions</b> (sagas), tracing, versioning, and much more DevOps.</p><p>Choose microservices when <b>team size and independent scaling</b> really need it. A good answer: "We started as a modular monolith and split out the report service, because its heavy load affected the main APIs."</p>
             
@@ -174,6 +177,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Call directly when you need the answer now (with timeouts). Send an event when the other service can do it later.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Sync = a phone call (you wait for the answer). Async = a WhatsApp message (they reply when they can).</p></div>
             
             <ul><li><b>Sync</b> (REST/gRPC): when you need the answer now (check a user's permissions). Add <b>timeouts, retries with backoff, and circuit breakers</b>, or one slow service brings down all the others.</li><li><b>Async</b> (queues and events: BullMQ, Kafka, RabbitMQ, SNS/SQS): when the caller doesn't need to wait (send an email when a leave is approved). Services stay loosely coupled and survive each other's downtime.</li></ul><p>For data that must stay consistent across services, use the <b>outbox pattern</b>: write the event to an outbox table <b>in the same DB transaction</b> as the change, and a publisher sends it reliably.</p>
             
@@ -188,6 +192,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Observability means you can see inside your running system: logs (what happened), metrics (how much), traces (where time went).</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A car dashboard: the trip log (logs), the speed and fuel meters (metrics), and the GPS route history (traces) together tell you what's going on.</p></div>
             
             <p>Being able to understand <b>what is happening inside</b> from the outside:</p><ul><li><b>Logs</b>: structured JSON with a <b>request/correlation id</b>, user id and no sensitive data.</li><li><b>Metrics</b>: request rate, error rate, latency (p95/p99), queue length, DB pool usage, event loop lag. Prometheus/Grafana or CloudWatch.</li><li><b>Traces</b>: one request's path across services and DB calls (OpenTelemetry, Jaeger, X-Ray).</li><li><b>Alerts</b> on symptoms users feel (error rate, p95 latency, failed jobs), not on every CPU spike.</li></ul>
             
@@ -220,6 +225,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Clear rules, good reviews, automatic checks and monitoring, and helping juniors.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A restaurant kitchen: a fixed recipe book (rules), the head chef tastes every dish (reviews), a thermometer alarm (monitoring), and training new cooks.</p></div>
             
             <ul><li><b>Standards</b>: lint, formatting, PR templates, a definition of done (tests, migrations reviewed, API docs updated).</li><li><b>Reviews</b>: focus on correctness, security (authorization checks), performance (queries), and backwards compatibility.</li><li><b>Safety nets</b>: CI tests, staging that looks like production, feature flags, monitoring dashboards and alerts.</li><li><b>People</b>: pair with juniors on risky changes, share incident learnings, and keep a runbook for common failures.</li></ul>
             
@@ -238,6 +244,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Match your stack, show a result with numbers, and show you take ownership.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Like a cricketer's selection: show the format you play (stack match), your scores (numbers), and that you finish matches (ownership).</p></div>
             
             <p>Match <b>3 points to their job description</b>:</p><ul><li>the stack you've used in production (NestJS, PostgreSQL, Redis/BullMQ, Keycloak, S3, Docker),</li><li>a <b>result with numbers</b> (cut an API from 8 s to 120 ms; handled 5 lakh notifications a day),</li><li><b>ownership</b> (designed a module, handled incidents, mentored juniors).</li></ul><p>Finish with what you want to build in their team.</p>
             

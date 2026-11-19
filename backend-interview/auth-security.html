@@ -132,6 +132,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> A JWT is a signed pass. Anyone can read it, but nobody can change it without breaking the signature.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A sealed envelope with a see-through window. Anyone can read the details, but if someone changes them, the seal (signature) breaks.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;The header says which algorithm signed the token.&quot;,&quot;The payload holds the facts: user id, roles, expiry. Anyone can read it.&quot;,&quot;The signature is the seal. Change one letter in the payload and the seal no longer matches.&quot;]"><div class="flow-row"><div class="node">Header (algorithm)</div><div class="arrow" aria-hidden="true">→</div><div class="node">Payload (user, roles, expiry)</div><div class="arrow" aria-hidden="true">→</div><div class="node">Signature (seal)</div></div><figcaption><span class="en">Check the seal, the expiry, and who issued it.</span><span class="hi">Check the seal, the expiry, and who issued it.</span></figcaption></figure>
             <p>A JWT has three Base64URL parts: <b>header.payload.signature</b>. The payload holds claims: <code>sub</code> (user id), <code>exp</code> (expiry), <code>iss</code> (issuer), <code>aud</code> (audience), and roles.</p><p>The payload is only <b>encoded, not encrypted</b>: anyone can read it, so never put secrets in it. But nobody can <b>change</b> it without breaking the <b>signature</b>.</p><p>Verification: check the signature (with Keycloak, <b>RS256</b> using the public key from its <b>JWKS</b> endpoint), then check <code>exp</code>, <code>iss</code> and the audience or client. Never accept <code>alg: none</code>, and fix the allowed algorithm.</p>
             
@@ -146,6 +147,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> The access token is a short day-pass for API calls. The refresh token is used quietly to get a new day-pass.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Access token = a one-day visitor pass at an office gate. Refresh token = your ID card kept at reception to quietly get a new pass each day.</p></div>
             
             <ul><li><b>Access token</b>: sent with every API call, <b>short-lived</b> (5–15 minutes). A JWT can't easily be cancelled before it expires, so keeping it short limits the damage if it leaks.</li><li><b>Refresh token</b>: long-lived, used <b>only</b> with the auth server to get new access tokens. Store it more safely (an HttpOnly cookie), and <b>rotate</b> it on every use; reuse of an old refresh token signals theft.</li></ul><p>Logout or blocking a user: revoke the refresh token or session in Keycloak. Access tokens then die within minutes. For instant blocking, keep a small denylist in Redis.</p>
             
@@ -160,6 +162,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Users logging in: Authorization Code + PKCE. A service calling another service: Client Credentials.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> People entering a building show ID at reception and get a pass (Authorization Code + PKCE). A delivery company's van has its own standing permit (Client Credentials).</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;First question: is a person logging in, or is a machine calling?&quot;,&quot;A person in a web or mobile app uses Authorization Code with PKCE. A service with no user uses Client Credentials.&quot;]"><div class="flow-row"><div class="node">Who is calling?</div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node">A person (web/mobile app) → Code + PKCE</div><div class="node">A machine (service) → Client Credentials</div></div></div><figcaption><span class="en">Pick the flow by who is calling: a person or a machine.</span><span class="hi">Pick the flow by who is calling: a person or a machine.</span></figcaption></figure>
             <ul><li><b>Authorization Code + PKCE</b>: users logging in from a browser SPA or mobile app. The standard today.</li><li><b>Client Credentials</b>: <b>service-to-service</b> calls with no user (a cron service calling the report service). The service uses its own client id and secret.</li><li><b>Refresh Token</b>: getting new access tokens.</li><li>Avoid the old <b>Implicit</b> and <b>Password</b> grants.</li></ul><p><b>OIDC</b> is a layer on OAuth2 for <b>identity</b>: it adds the <b>ID token</b> and the userinfo endpoint. OAuth2 alone is about access, not "who is this user".</p>
             
@@ -178,6 +181,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> A realm is a separate world of users. A client is an app. Roles are what users may do.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Realm = a whole housing society. Client = one building's gate. Roles = what each resident may do (owner, tenant, guard).</p></div>
             
             <ul><li><b>Realm</b>: an isolated space with its own users, roles and settings (often one per product or environment).</li><li><b>Client</b>: an application that uses Keycloak (the web app is a public client, the backend a confidential client).</li><li><b>Realm roles</b>: global roles (<code>admin</code>). <b>Client roles</b>: roles specific to one app.</li><li><b>Groups</b>: assign roles to many users at once.</li></ul><p>Roles appear in the access token under <code>realm_access.roles</code> and <code>resource_access.&lt;client&gt;.roles</code>.</p>
             
@@ -192,6 +196,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> The backend downloads Keycloak's public key once and checks every token's seal by itself, without calling Keycloak each time.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A shopkeeper who keeps a sample of the real ₹500 note's watermark. He checks every note himself, without calling RBI each time.</p></div>
             
             <p>Use Passport's JWT strategy with <b>jwks-rsa</b>, so Nest fetches (and caches) Keycloak's public keys and verifies the RS256 signature, the issuer and the expiry <b>locally</b>, with no call to Keycloak on every request.</p><p><code>validate()</code> maps the token to your user shape, and a global guard plus a roles or permission guard handles the rest.</p>
             
@@ -237,6 +242,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Roles are bundles of permissions. Check the permission on the endpoint, and also check the user owns that specific record.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A role is a job title ("teacher"). Permissions are what the title allows ("enter marks"). And a teacher can enter marks only for her own class.</p></div>
             
             <p>Guards check <b>permissions</b> (<code>leave:approve</code>), and roles are just <b>bundles of permissions</b> kept in config or a table. Adding a role then needs no code change.</p><p>Two levels of checks:</p><ul><li><b>endpoint level</b>: can this user call approve at all? (a guard)</li><li><b>data level</b>: can this user approve <b>this</b> leave? It must be in their department, branch or region. This happens in the service or query (<code>WHERE approver_id = :me</code>). Most real security bugs (IDOR) are missing data-level checks.</li></ul><p>Log every sensitive action in an <b>audit log</b>.</p>
             
@@ -255,6 +261,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Store a slow, salted hash (bcrypt or argon2) — never the password itself.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A bank never keeps your PIN, only a scrambled fingerprint of it. Even if the register is stolen, the PINs can't be read back.</p></div>
             
             <p><b>Never</b> in plain text, and never with plain fast hashes like MD5 or SHA-256. Use a <b>slow, salted</b> password hash: <b>bcrypt</b> (cost 10–12), <b>argon2id</b>, or scrypt. The salt makes the same password hash differently each time, and slowness makes guessing expensive.</p><p>Even better: let an identity server like <b>Keycloak</b> handle passwords, so your application never touches them. Add rate limiting and lockout on login and OTP endpoints.</p>
             
@@ -269,6 +276,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Most attacks come from missing ownership checks, unsafe SQL, accepting extra fields, no rate limits, and secrets in the wrong place.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Most house thefts happen through an unlocked back door (missing ownership checks), a fake key (SQL injection), or a spare key left under the pot (secrets in code).</p></div>
             
             <ul><li><b>Broken access control / IDOR</b>: <code>GET /orders/123</code> returns someone else's order. Always check ownership.</li><li><b>SQL injection</b>: always use parameters or the ORM; never build SQL by joining strings.</li><li><b>Mass assignment</b>: the client sends <code>role: "admin"</code>. Use DTOs with <code>whitelist: true</code>.</li><li><b>No rate limiting</b>: brute force on login and OTP endpoints.</li><li><b>Sensitive data in logs or responses</b>: mask Aadhaar, phone numbers and tokens; never return password hashes.</li><li><b>Misconfiguration</b>: open CORS (<code>*</code> with credentials), debug errors in production, public S3 buckets.</li><li><b>Vulnerable packages</b>: run <code>npm audit</code> and Dependabot.</li></ul><p>Also: HTTPS everywhere, the <code>helmet</code> middleware for security headers, and secrets in a secrets manager.</p>
             

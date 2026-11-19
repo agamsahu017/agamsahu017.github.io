@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Your API gives the browser a short-lived permission slip, and the browser uploads the file straight to S3.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Instead of carrying a heavy sofa through your shop (server), you give the customer a 10-minute gate pass to deliver it straight to the godown (S3).</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;The browser tells your API: 'I want to upload photo.jpg'.&quot;,&quot;The API checks permission, type and size, and returns a pre-signed URL valid for 5 minutes.&quot;,&quot;The browser uploads the file directly to S3 using that URL. Your server never touches the file.&quot;,&quot;The browser tells the API it's done, and the API saves the file key in the database.&quot;]"><div class="flow-row"><div class="node">Browser: 'I want to upload'</div><div class="arrow" aria-hidden="true">→</div><div class="node">API checks + returns pre-signed URL</div><div class="arrow" aria-hidden="true">→</div><div class="node">Browser uploads directly to S3</div><div class="arrow" aria-hidden="true">→</div><div class="node">API saves the file key</div></div><figcaption><span class="en">Big files never pass through your server.</span><span class="hi">Big files never pass through your server.</span></figcaption></figure>
             <p><b>Pre-signed URL flow:</b></p><ul><li>The frontend asks your API: "I want to upload <code>photo.jpg</code>, image/jpeg, 2 MB".</li><li>The API checks permissions, the file type and the size, decides the <b>key</b> (<code>users/42/photo-uuid.jpg</code>), and returns a <b>pre-signed PUT URL</b> valid for a few minutes.</li><li>The browser uploads <b>directly to S3</b>.</li><li>The frontend tells the API "done" with the key; the API saves the key in the database.</li></ul><p>Why: big files don't pass through your Node.js server (no memory or bandwidth load), the bucket stays <b>private</b>, and the URL works only for that key, for a short time.</p>
             
@@ -148,6 +149,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Keep buckets private. For downloads, give a link that works for only a few minutes.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A locker room: lockers stay locked (private bucket). For a download, the guard gives a token that opens one locker for 5 minutes.</p></div>
             
             <p>Keep buckets <b>private</b> (Block Public Access on). For a download, the API checks the user may see the file, then returns a <b>pre-signed GET URL</b> valid for a few minutes. For public assets like a website's images, serve them through <b>CloudFront</b>.</p><p>Store only the <b>key</b> in the database, not a full URL. You can then change buckets, add a CDN, or re-sign URLs anytime.</p>
             
@@ -162,6 +164,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> On AWS, the app gets temporary permissions from its role; no keys in code. Big files upload in parts.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> An employee gets a temporary access card from HR for their shift (IAM role), not a master key kept in their pocket. A big shifting truck is unloaded in parts (multipart upload).</p></div>
             
             <p><b>Credentials</b>: never put access keys in code or images. On AWS, use <b>IAM roles</b> (an ECS task role, an EC2 instance profile, or IRSA on EKS); the SDK picks them up automatically. Give <b>least privilege</b>: only <code>s3:PutObject</code> and <code>s3:GetObject</code> on that bucket's prefix.</p><p><b>Big files</b> (over about 100 MB, or on unreliable networks): use <b>multipart upload</b>. The file goes in parts (5 MB minimum each, except the last), parts upload in parallel and are retried individually, and S3 joins them at the end. Add a lifecycle rule to clean up incomplete multipart uploads.</p>
             
@@ -194,6 +197,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Build in one stage, then copy only the finished app into a small, clean final image.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Cooking in the big kitchen with all the utensils, then packing only the finished food into a small tiffin box to send.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;Stage 1 installs all packages, including dev tools, and builds the app.&quot;,&quot;Only the built dist folder and production packages are copied out.&quot;,&quot;Stage 2 starts from a clean, small Node.js image with just those files.&quot;,&quot;The app runs as a normal user, not root, which is safer.&quot;]"><div class="flow-row"><div class="node">Stage 1: install all + build</div><div class="arrow" aria-hidden="true">→</div><div class="node">Copy dist + prod packages</div><div class="arrow" aria-hidden="true">→</div><div class="node">Stage 2: small runtime image</div><div class="arrow" aria-hidden="true">→</div><div class="node">Run as non-root</div></div><figcaption><span class="en">Multi-stage builds keep images small and safe.</span><span class="hi">Multi-stage builds keep images small and safe.</span></figcaption></figure>
             <p>Use a <b>multi-stage build</b>: build with dev dependencies, then copy only the compiled <code>dist</code> and production dependencies into a small final image. Run as a <b>non-root</b> user, and copy <code>package*.json</code> first so the dependency layer is cached between builds.</p>
             
@@ -225,6 +229,7 @@ CMD ["node", "dist/main.js"]</pre>
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Settings come from environment variables at run time; real secrets come from a secrets manager, never from the image.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A restaurant franchise: the same recipe (image) everywhere, but each branch gets its own address and cash locker key at opening time (env vars + secrets manager).</p></div>
             
             <ul><li><b>Never bake secrets into the image</b> or commit <code>.env</code> files to git. Anyone with the image can read them.</li><li>Pass config as <b>environment variables</b> at runtime. In NestJS, use <code>@nestjs/config</code> and <b>validate</b> the variables at startup, so a missing <code>DB_HOST</code> fails immediately and clearly.</li><li>Store real secrets in <b>AWS Secrets Manager / SSM Parameter Store</b> (or Kubernetes secrets), injected into the task or pod.</li><li>Use separate values per environment (dev, QA, UAT, prod), and rotate them.</li></ul>
             
@@ -239,6 +244,7 @@ CMD ["node", "dist/main.js"]</pre>
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Health checks are a doctor's check-up: liveness asks 'are you alive?', readiness asks 'can you take work now?'.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Liveness = "is the guard awake?". Readiness = "is the shop open and ready for customers right now?".</p></div>
             
             <p>The load balancer or orchestrator calls a health endpoint to decide whether to <b>send traffic</b> to a container or <b>restart</b> it.</p><ul><li><b>Liveness</b>: is the process alive and not stuck? Keep it simple; don't check the DB here, or a DB blip restarts every pod.</li><li><b>Readiness</b>: can it serve traffic now? Check the DB and Redis connections.</li></ul><p><code>@nestjs/terminus</code> provides ready-made indicators. Also log to <b>stdout</b> as JSON, and let the platform collect the logs (CloudWatch, ELK, Loki).</p>
             
@@ -253,6 +259,7 @@ CMD ["node", "dist/main.js"]</pre>
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Every change is checked automatically, packed into an image, and deployed step by step, with a quick way back.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A factory line: every product is checked (tests), packed (image), sent to one shop first, then all shops, and you can recall it quickly if something is wrong (rollback).</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;A developer pushes code.&quot;,&quot;Lint and tests run automatically. If they fail, nothing deploys.&quot;,&quot;A Docker image is built and tagged with the commit id.&quot;,&quot;Database migrations run.&quot;,&quot;The image is deployed to dev and QA, then to production after approval.&quot;,&quot;Health checks confirm it works. If errors go up, it rolls back.&quot;]"><div class="flow-row"><div class="node">Push code</div><div class="arrow" aria-hidden="true">→</div><div class="node">Lint + tests</div><div class="arrow" aria-hidden="true">→</div><div class="node">Build image</div><div class="arrow" aria-hidden="true">→</div><div class="node">Migrate</div><div class="arrow" aria-hidden="true">→</div><div class="node">Deploy dev → QA → prod</div><div class="arrow" aria-hidden="true">→</div><div class="node">Health check / rollback</div></div><figcaption><span class="en">A typical backend pipeline.</span><span class="hi">A typical backend pipeline.</span></figcaption></figure>
             <p>On every pull request: install → <b>lint</b> → <b>type check</b> → <b>unit tests</b> → build. On merge to main:</p><ul><li>build the <b>Docker image</b>, tagged with the git commit SHA, and push it to a registry (ECR),</li><li>run <b>migrations</b>,</li><li>deploy to dev/QA automatically, and to UAT/prod with an approval,</li><li>use a <b>rolling or blue-green</b> deploy with health checks,</li><li>run smoke tests, and roll back automatically if errors go up.</li></ul><p>Tools: GitHub Actions, GitLab CI, Jenkins or Azure DevOps; ECS or Kubernetes to run it.</p>
             

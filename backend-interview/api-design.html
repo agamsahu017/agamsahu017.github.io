@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Every thing gets an address (URL), and the HTTP method says what to do with it: GET read, POST create, PATCH change, DELETE remove.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A post office: every house has an address (URL), and the form type says what you want: view a parcel (GET), send one (POST), change the address on it (PATCH), cancel it (DELETE).</p></div>
             
             <p>REST treats everything as a <b>resource</b> with a URL, and uses <b>HTTP methods</b> for actions. It is <b>stateless</b>: every request carries everything needed (like the token), so any server can handle it.</p><p>Good design: <b>nouns</b> in URLs, plural, nested only one level, and filters in the query string.</p>
             
@@ -153,6 +154,7 @@ POST   /api/v1/leaves/7/approve                 <span class="cm"># an action tha
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> PUT replaces the whole thing, PATCH changes some fields. Idempotent means doing it twice gives the same result as once.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> PUT = replacing the whole sofa. PATCH = only changing the cushion cover. Idempotent = pressing the lift button 5 times still calls the lift once.</p></div>
             
             <ul><li><b>PUT</b> replaces the <b>whole</b> resource with what you send.</li><li><b>PATCH</b> changes <b>only the fields</b> you send.</li></ul><p><b>Idempotent</b> means doing it once or ten times gives the <b>same final result</b>. GET, PUT and DELETE are idempotent. POST is not: two POSTs create two orders. PATCH may or may not be (<code>{"count": +1}</code> isn't).</p><p>Idempotency matters because networks retry. If a client retries a timed-out request, an idempotent API is safe.</p>
             
@@ -185,6 +187,7 @@ POST   /api/v1/leaves/7/approve                 <span class="cm"># an action tha
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Offset says 'skip 1 lakh rows, then give 20' (slow). Cursor says 'give 20 after this id' (fast).</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Offset = "count 1 lakh pages from the start, then read 20". Cursor = "open the book at my bookmark and read the next 20".</p></div>
             
             <p><b>Offset</b> (<code>LIMIT 20 OFFSET 100000</code>): simple, and you can jump to page 50. But the database still reads and <b>skips</b> 1 lakh rows, so deep pages get slow. And if rows are inserted meanwhile, users see duplicates or miss rows.</p><p><b>Cursor / keyset</b> (<code>WHERE id &lt; :lastId ORDER BY id DESC LIMIT 20</code>): uses the index to start right after the last row seen, so it is <b>fast at any depth</b> and stable while data changes. You can't jump to a page number.</p><p>Use offset for admin tables with page numbers and modest data. Use cursor for feeds, infinite scroll, big tables and exports.</p>
             
@@ -203,6 +206,7 @@ POST   /api/v1/leaves/7/approve                 <span class="cm"># an action tha
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Put the version in the URL (/v1), add new fields freely, and remove old ones only after warning everyone.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A bus route number: route 101 keeps running as before while new route 101-A is introduced; the old one stops only after passengers are told.</p></div>
             
             <p>Most teams use the URL: <code>/api/v1/...</code> (NestJS supports this with <code>app.enableVersioning()</code>). Headers also work, but they are harder to test.</p><p>The real skill is <b>not needing v2 often</b>:</p><ul><li><b>adding</b> fields is safe; removing or renaming fields breaks clients,</li><li>for a rename, add the new field, keep the old one, mark it deprecated, and remove it after clients move,</li><li>announce deprecation dates and log which clients still use old fields.</li></ul>
             
@@ -217,6 +221,7 @@ POST   /api/v1/leaves/7/approve                 <span class="cm"># an action tha
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Rate limiting is a counter per user: after too many requests in a minute, reply 'slow down' (429).</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A ration shop that gives each card only 10 kg a month. Ask for more and the shopkeeper says "come back next month" (429).</p></div>
             
             <p>Rate limiting protects the API from abuse and accidents: login brute force, OTP spam, a buggy client looping.</p><ul><li>In NestJS, <code>@nestjs/throttler</code> gives per-route limits (like 5 OTP requests per minute per phone).</li><li>With <b>multiple servers</b>, keep the counters in <b>Redis</b> so all instances share them.</li><li>Common algorithms: fixed window, sliding window, and token bucket (allows short bursts).</li><li>Return <b>429</b> with a <code>Retry-After</code> header. Also limit at the gateway or WAF (Nginx, API Gateway, Cloudflare).</li></ul>
             
@@ -231,6 +236,7 @@ POST   /api/v1/leaves/7/approve                 <span class="cm"># an action tha
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> REST for most APIs, GraphQL when many screens need different data shapes, gRPC for fast talk between your own services.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> REST = a fixed thali (most places). GraphQL = a buffet where each person picks exactly what they want. gRPC = the kitchen's internal intercom between chefs (fast, for your own services).</p></div>
             
             <ul><li><b>REST</b>: simple, cacheable, works everywhere. The default for public and most internal APIs.</li><li><b>GraphQL</b>: the client asks for exactly the fields it needs from one endpoint. Good when many different screens or mobile apps need different shapes. Costs: caching and N+1 problems are harder, and you need query cost limits.</li><li><b>gRPC</b>: binary (Protocol Buffers) over HTTP/2, fast and strongly typed. Good for <b>service-to-service</b> calls inside a microservice system; not ideal for browsers directly.</li></ul>
             

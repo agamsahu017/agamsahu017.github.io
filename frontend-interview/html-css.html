@@ -132,6 +132,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Flexbox lines things up in one row or one column. Grid places things in rows and columns together.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Flexbox = people standing in one queue. Grid = seats in a cinema hall, arranged in rows and columns together.</p></div>
             
             <p><b>Flexbox</b> is for <b>one direction</b>: a row or a column, like a navbar or a row of buttons. <b>Grid</b> is for <b>two directions</b>: rows and columns together, like a page layout or a card gallery.</p><p>Centering is easiest with either one.</p>
             
@@ -150,6 +151,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> When two CSS rules fight, the more specific one wins: inline style beats id, id beats class, class beats tag.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Instructions from different people: the principal (inline/id) beats the class teacher (class), who beats a general notice (tag).</p></div>
             
             <p>When two rules style the same element, the more <b>specific</b> selector wins. The order from weak to strong:</p><ul><li>element (<code>p</code>) &lt; class / attribute / pseudo-class (<code>.btn</code>, <code>:hover</code>) &lt; id (<code>#save</code>) &lt; inline style</li><li><code>!important</code> beats all of them, which is why it should be rare.</li></ul><p>If specificity is equal, the rule written <b>later</b> wins.</p>
             
@@ -164,6 +166,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Position decides what an element is placed against: its normal spot, its parent, or the screen.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> relative = moving a chair a little from its own spot. absolute = placing a chair at a fixed spot inside a room (its parent). fixed = a sign stuck to your car window that stays while the road moves. sticky = a bus conductor who walks with you, then stops at the door.</p></div>
             
             <ul><li><code>static</code>: the default, normal flow.</li><li><code>relative</code>: stays in the flow, but you can nudge it. It also becomes the <b>anchor</b> for absolute children.</li><li><code>absolute</code>: taken out of the flow, placed relative to the nearest positioned parent.</li><li><code>fixed</code>: placed relative to the screen and stays during scroll, like a WhatsApp chat button.</li><li><code>sticky</code>: normal until you scroll to a point, then it sticks, like a table header.</li></ul>
             
@@ -178,6 +181,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> rem is relative to the page's base font size. Responsive means the layout bends to fit any screen, starting with mobile.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> rem is like measuring everything in "hand spans" of one fixed person, so the whole drawing scales together. Responsive = clothes with elastic: they fit kids and adults.</p></div>
             
             <ul><li><code>px</code>: fixed size.</li><li><code>rem</code>: relative to the <b>root</b> font size (usually 16px). Best for font sizes and spacing.</li><li><code>em</code>: relative to the <b>parent's</b> font size, which can multiply when nested.</li><li><code>%</code>, <code>vw</code>, <code>vh</code>: relative to the parent or the screen.</li></ul><p>Responsive design means: start <b>mobile-first</b>, use flex/grid with wrapping, use <code>max-width</code> instead of a fixed width, add media queries at breakpoints, and include the viewport meta tag.</p>
             
@@ -197,6 +201,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Use tags that say what things are (button, nav, label). Screen readers, Google and keyboards understand them for free.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Labelled jars in a kitchen ("Sugar", "Salt") vs plain unmarked jars. A blind cook (screen reader) and a new helper (Google) can only use the labelled ones easily.</p></div>
             
             <p>Semantic HTML uses tags that describe meaning: <code>header</code>, <code>nav</code>, <code>main</code>, <code>article</code>, <code>button</code>, <code>label</code>, instead of <code>div</code> everywhere.</p><p>It helps <b>screen readers</b> (accessibility), <b>SEO</b>, and gives keyboard support for free. For example, a real <code>button</code> works with Enter and Space, but a <code>div</code> with <code>onClick</code> doesn't.</p>
             
@@ -211,6 +216,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> localStorage keeps data in the browser, sessionStorage keeps it until the tab closes, and cookies travel to the server with every request.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> localStorage = a diary at home (stays until you clear it). sessionStorage = a notepad you throw away when you leave the room. Cookie = an ID card you show at the gate every time you enter (sent to the server).</p></div>
             
             <ul><li><b>localStorage</b>: about 5 MB, stays until cleared, readable by any JavaScript on the page.</li><li><b>sessionStorage</b>: same, but cleared when the tab closes.</li><li><b>Cookies</b>: small (about 4 KB), <b>sent to the server with every request</b>, and can be <code>HttpOnly</code> (hidden from JavaScript), <code>Secure</code> and <code>SameSite</code>.</li></ul><p>For auth tokens, an <code>HttpOnly</code> cookie is safer than localStorage, because an XSS attack can read localStorage.</p>
             
@@ -225,6 +231,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> The browser reads HTML and CSS, works out what's visible, calculates positions, then paints pixels.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Building a house: read the plan (HTML), choose colours (CSS), decide what goes where (layout), then paint the walls (paint).</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;The browser reads the HTML and builds the DOM: a tree of all elements.&quot;,&quot;It reads the CSS and builds the CSSOM: a tree of all styles.&quot;,&quot;It combines both into the render tree, keeping only the things that are visible.&quot;,&quot;Layout: it calculates the exact size and position of every box.&quot;,&quot;Paint: it fills in the pixels. Now you see the page.&quot;]"><div class="flow-row"><div class="node">HTML → DOM</div><div class="arrow" aria-hidden="true">→</div><div class="node">CSS → CSSOM</div><div class="arrow" aria-hidden="true">→</div><div class="node">Render tree</div><div class="arrow" aria-hidden="true">→</div><div class="node">Layout</div><div class="arrow" aria-hidden="true">→</div><div class="node">Paint</div></div><figcaption><span class="en">The critical rendering path. Blocking scripts and big CSS slow down the first steps.</span><span class="hi">The critical rendering path. Blocking scripts and big CSS slow down the first steps.</span></figcaption></figure>
             <p>This is the <b>critical rendering path</b>:</p><ul><li>Parse HTML into the <b>DOM</b> and CSS into the <b>CSSOM</b>.</li><li>Combine them into the <b>render tree</b> (only visible elements).</li><li><b>Layout</b>: calculate size and position.</li><li><b>Paint</b>: fill pixels, then <b>composite</b> layers.</li></ul><p>A <code>&lt;script&gt;</code> without <code>defer</code> blocks parsing, and CSS blocks rendering. That is why we use <code>defer</code>, load less CSS up front, and lazy-load images.</p>
             

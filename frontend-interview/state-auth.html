@@ -118,6 +118,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Context is a shared notice board: any component below the provider can read it without passing props.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> A society notice board: anyone in the building can read it, so you don't have to tell each flat personally (no prop passing).</p></div>
             
             <p>Context lets you share a value with <b>any component below a provider</b> without passing props through every level.</p><p>Good for values that <b>many components read and that change rarely</b>: the logged-in user, roles and permissions, theme, language. It is not a full state manager, and it is not good for values that change many times per second.</p>
             
@@ -144,6 +145,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> When the notice board changes, everyone reading it redraws. So keep it small and split it.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> If one notice board shows both water timings and cricket scores, everyone reads the whole board on every score change. Use two boards.</p></div>
             
             <p>When the provider's <code>value</code> changes, <b>every component that uses that context re-renders</b>, even if it only needed one field.</p><p>Fixes:</p><ul><li><b>memoise</b> the value with <code>useMemo</code>, so it doesn't change on every provider render,</li><li><b>split</b> contexts: <code>AuthContext</code> separate from <code>ThemeContext</code>, or state separate from actions,</li><li>keep fast-changing state (form input, filters) <b>local</b>, not in context,</li><li>for heavy shared state, use a store with selectors (Zustand, Redux Toolkit).</li></ul>
             
@@ -158,6 +160,7 @@
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> API data goes to React Query. Small app-wide things (user, theme) go to Context. Only big shared client state needs Zustand or Redux.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Groceries from the shop = React Query (server data). The family's TV remote = Context (small shared thing). A big shared calendar for a large joint family = Zustand/Redux.</p></div>
             
             <p>First separate two kinds of state:</p><ul><li><b>Server state</b> (employees, orders from the API): use <b>TanStack Query</b>. It gives caching, refetching and loading states. This is usually 80% of the "state".</li><li><b>Client state</b> (sidebar open, selected tab, the logged-in user):</li><li>small and rarely changing → <b>Context</b></li><li>large, shared and frequently changing → <b>Zustand</b> (simple) or <b>Redux Toolkit</b> (strict structure, great dev tools, common in older big projects).</li></ul><p>A strong answer: "In my project we use React Query for API data and Context for auth and RBAC, so we didn't need Redux."</p>
             
@@ -195,6 +198,7 @@ api.defaults.headers.Authorization = <span class="st">`Bearer ${keycloak.token}`
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> Check permissions in one place and hide what the user can't use. But the backend must still block it, because hiding a button isn't security.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Hiding the staff-room door behind a curtain helps, but the door still needs a lock (the backend check).</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;After login, the app gets the list of things this user is allowed to do.&quot;,&quot;The app uses that list in three places: the menu shows only allowed items, guarded routes block pages, and the Can component hides buttons.&quot;,&quot;The backend checks the same permissions again on every API call. That is the real lock.&quot;]"><div class="flow-row"><div class="node">Login → user permissions</div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node">Menu: filter items</div><div class="node">Routes: guard pages</div><div class="node">Buttons: Can component</div></div><div class="arrow" aria-hidden="true">→</div><div class="node">Backend checks again</div></div><figcaption><span class="en">Frontend RBAC is for a nicer screen; backend RBAC is the real lock.</span><span class="hi">Frontend RBAC is for a nicer screen; backend RBAC is the real lock.</span></figcaption></figure>
             <p>Keep permissions in one place (the AuthContext), and build small helpers on top:</p><ul><li>a <code>usePermission("leave:approve")</code> hook,</li><li>a <code>&lt;Can permission="..."&gt;</code> component that shows or hides buttons,</li><li>a route guard that blocks whole pages,</li><li>a menu built from config, filtered by permission.</li></ul><p>Check <b>permissions</b>, not role names, inside components. Then a new role only needs config changes, not code changes.</p><p>Most important: <b>frontend RBAC is only for user experience</b>. Anyone can call the API with Postman, so the <b>backend must check permissions on every request</b>.</p>
             
@@ -219,6 +223,7 @@ api.defaults.headers.Authorization = <span class="st">`Bearer ${keycloak.token}`
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> localStorage is easy but readable by bad scripts. HttpOnly cookies or memory are safer.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> localStorage = keeping your house key under the doormat (easy, but anyone can find it). HttpOnly cookie = a key only the guard can see and use.</p></div>
             
             <ul><li><b>localStorage</b>: easy and survives refresh, but any XSS script can steal it.</li><li><b>Memory</b> (a JavaScript variable or context): safer from XSS stealing it later, but lost on refresh, so you need a silent refresh.</li><li><b>HttpOnly cookie</b>: JavaScript can't read it at all, which is the safest against XSS. It needs <code>SameSite</code> and CSRF protection, and the backend must be built for it.</li></ul><p>A balanced answer: "Access token in memory, short expiry; refresh via an HttpOnly cookie or the Keycloak session. And we prevent XSS in the first place."</p>
             
@@ -233,6 +238,7 @@ api.defaults.headers.Authorization = <span class="st">`Bearer ${keycloak.token}`
           
           <details><summary>Show answer</summary><div class="ans en">
             <div class="simple"><p>🟢 <b>In simple words:</b> When the token expires, refresh it once, retry the request, and log out only if refreshing fails.</p></div>
+            <div class="ex"><p>💡 <b>Easy example:</b> Your gym pass expires mid-workout. The counter renews it once and lets you continue; only if renewing fails are you asked to leave.</p></div>
             <p class="pic-title">🖼️ <b>Picture it</b></p><figure class="flow" data-steps="[&quot;An API call comes back with 401: the access token has expired.&quot;,&quot;The app asks for a new token once. Other failed calls wait for this same refresh instead of starting their own.&quot;,&quot;If the refresh works, the original requests are retried and the user notices nothing. If it fails, the user goes to the login page.&quot;]"><div class="flow-row"><div class="node">API returns 401</div><div class="arrow" aria-hidden="true">→</div><div class="node">Refresh token once (others wait)</div><div class="arrow" aria-hidden="true">→</div><div class="node-group"><div class="node">Success → retry request</div><div class="node">Fail → go to login</div></div></div><figcaption><span class="en">One shared refresh, even if 5 requests failed together.</span><span class="hi">One shared refresh, even if 5 requests failed together.</span></figcaption></figure>
             <p>Use an <b>axios interceptor</b> (or a fetch wrapper):</p><ul><li>On a 401, try <b>one</b> token refresh.</li><li>If several requests fail at the same time, make them wait for the <b>same</b> refresh promise instead of refreshing 5 times.</li><li>Retry the original request with the new token.</li><li>If the refresh fails, clear the auth state and send the user to login, remembering the page they were on.</li></ul>
             
