@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Basics Check | Kodivo Academy</title>
+  <meta name="description" content="A 4-minute AI basics check before the free Kodivo AI workshop. 12 simple questions, no negative marks. See your level and the right answers at the end." />
+  <meta name="robots" content="noindex" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Kodivo" />
+  <meta property="og:url" content="https://agamsahu017.github.io/ai-quiz.html" />
+  <meta property="og:title" content="AI Basics Check: 12 questions, 4 minutes | Kodivo Academy" />
+  <meta property="og:description" content="Before the free AI workshop: check your level and see the right answers at the end." />
+  <meta property="og:image" content="https://agamsahu017.github.io/assets/og-image.jpg?v=4" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .quiz-wrap { max-width: 780px; margin: 0 auto; }
+    .quiz-card { margin-top: 20px; }
+    .quiz-card:hover { transform: none; }
+    .quiz-meta { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
+    .q { margin-top: 18px; padding: 18px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); }
+    .q h3 { font-size: 1.02rem; line-height: 1.45; margin: 0 0 10px; }
+    .q h3 span { color: var(--primary); margin-right: 6px; }
+    .opt { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); margin-top: 8px; cursor: pointer; font-size: 0.95rem; line-height: 1.4; }
+    .opt:hover { border-color: var(--primary); }
+    .opt input { margin-top: 3px; accent-color: var(--primary); flex: none; }
+    .opt.right { border-color: #16a34a; background: color-mix(in srgb, #16a34a 12%, var(--surface)); }
+    .opt.wrong { border-color: #dc2626; background: color-mix(in srgb, #dc2626 10%, var(--surface)); }
+    .q.missed { border-color: #dc2626; }
+    .why { display: none; margin: 10px 0 0; font-size: 0.88rem; color: var(--muted); }
+    .done .why { display: block; }
+    .done .opt { cursor: default; }
+    .progress { position: sticky; top: 64px; z-index: 5; margin-top: 18px; padding: 10px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); font-size: 0.9rem; display: flex; align-items: center; gap: 12px; }
+    .bar { flex: 1; height: 8px; border-radius: 99px; background: var(--bg-alt); overflow: hidden; }
+    .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--primary), var(--primary-2)); transition: width .2s; }
+    .result { text-align: center; }
+    .result:hover { transform: none; }
+    .result .big { font-size: 3rem; font-weight: 800; color: var(--primary); line-height: 1; margin: 10px 0 4px; }
+    .result .lvl { display: inline-block; font-weight: 700; padding: 6px 14px; border-radius: 999px; background: var(--bg-alt); margin: 6px 0 10px; }
+    .quiz-page [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo"><span class="logo-badge">K</span> Kodivo <span class="logo-sub">Academy</span></a>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <a class="btn btn-outline btn-sm" href="academy.html">← Back</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section quiz-page">
+    <div class="container quiz-wrap">
+      <div class="section-head">
+        <span class="eyebrow">Free AI Workshop · Sun, 22 Nov · 2–3 PM IST</span>
+        <h1>AI Basics Check 🧠</h1>
+        <p>12 simple questions, about 4 minutes. This is not an exam: there are no negative marks. It helps us teach at your level. You'll see your score and the right answers at the end.</p>
+        <div class="quiz-meta"><span class="pill">✅ 12 questions</span><span class="pill">⏱️ ~4 minutes</span><span class="pill">🚫 No negative marks</span></div>
+      </div>
+
+      <div class="card quiz-card result" id="result" hidden>
+        <h2 id="resTitle">Your result</h2>
+        <div class="big" id="resScore">0/12</div>
+        <div class="lvl" id="resLevel"></div>
+        <p id="resText"></p>
+        <a class="btn btn-wa btn-block" id="resWa" target="_blank" rel="noopener">💬 Confirm my workshop seat on WhatsApp</a>
+        <p class="muted" style="margin-top:12px">Scroll down to see the right answer for every question.</p>
+      </div>
+
+      <form id="quizForm" novalidate>
+        <div class="card quiz-card">
+          <h3>👤 About you</h3>
+          <div class="form-grid">
+            <div class="field"><label for="q-name">Your name</label><input id="q-name" name="name" type="text" maxlength="80" autocomplete="name" required /></div>
+            <div class="field"><label for="q-phone">WhatsApp number</label><input id="q-phone" name="phone" type="tel" inputmode="numeric" maxlength="16" autocomplete="tel" placeholder="98765 43210" required /></div>
+            <div class="field"><label for="q-profile">You are</label>
+              <select id="q-profile" name="profile"><option value="School student">School student</option><option value="College student">College student</option><option value="Job-seeker">Job-seeker</option><option value="Working professional">Working professional</option><option value="Other">Other</option></select></div>
+            <div class="field"><label for="q-used">How often do you use AI tools (like ChatGPT)?</label>
+              <select id="q-used" name="used_ai"><option value="Never">Never</option><option value="A few times">A few times</option><option value="Every week">Every week</option><option value="Every day">Every day</option></select></div>
+            <div class="field full"><label for="q-goal">What do you most want to learn in the workshop? (optional)</label><input id="q-goal" name="goal" type="text" maxlength="200" placeholder="e.g. use AI for notes and exam prep" /></div>
+          </div>
+        </div>
+
+        <div class="progress" aria-live="polite"><span id="progText">0 / 12 answered</span><div class="bar"><i id="progBar"></i></div></div>
+        <div id="questions"></div>
+
+        <div class="card quiz-card">
+          <div class="hp" aria-hidden="true"><label for="q-website">Leave this empty</label><input id="q-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+          <div class="consent-row"><input id="q-consent" name="consent" type="checkbox" required /><label for="q-consent">I agree to receive workshop details and my result on WhatsApp.</label></div>
+          <button class="btn btn-primary btn-block" type="submit" id="quizSubmit">See my result</button>
+          <p class="form-status" id="quizStatus" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-links"><a href="academy.html">Kodivo Academy</a> · <a href="ai/index.html">Free AI course</a> · <a href="demo.html">AI Chatbot demo</a></div>
+    <div class="container footer-address">📍 <a href="https://www.google.com/maps/search/?api=1&amp;query=Plot+No.+33%2C+Vigyan+Khand%2C+Gomti+Nagar%2C+Lucknow+226010" target="_blank" rel="noopener">Plot No. 33, Vigyan Khand, Gomti Nagar, Lucknow, Uttar Pradesh 226010</a></div>
+    <div class="container">© <span id="year"></span> Kodivo Academy · <a href="index.html">Kodivo</a> · <a href="privacy.html">Privacy</a></div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="quiz.js"></script>
+  <script src="counter.js" defer></script>
+</body>
+</html>
